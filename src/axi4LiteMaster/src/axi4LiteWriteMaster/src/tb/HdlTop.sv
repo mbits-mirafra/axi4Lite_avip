@@ -5,6 +5,7 @@ module HdlTop;
 
   import uvm_pkg::*;
   `include "uvm_macros.svh"
+  import axi4LiteWriteMasterGlobalPkg::*;
 
   bit aclk;
   bit aresetn;

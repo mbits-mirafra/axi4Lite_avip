@@ -6,7 +6,7 @@ package Axi4LiteMasterWritePkg;
   `include "uvm_macros.svh"
   import uvm_pkg::*;
  
-  import Axi4LiteGlobalsPkg::*;
+  import axi4LiteWriteMasterGlobalPkg::*;
 
   `include "Axi4LiteMasterWriteAgentConfig.sv"
   `include "Axi4LiteMasterWriteTransaction.sv"

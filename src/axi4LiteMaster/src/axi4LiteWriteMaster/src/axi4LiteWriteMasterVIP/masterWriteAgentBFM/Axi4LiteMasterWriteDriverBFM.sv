@@ -15,6 +15,7 @@ interface Axi4LiteMasterWriteDriverBFM(input bit  aclk,
                                       );  
   
   import uvm_pkg::*;
+  import axi4LiteWriteMasterGlobalPkg::*;
   `include "uvm_macros.svh" 
 
 import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy; 

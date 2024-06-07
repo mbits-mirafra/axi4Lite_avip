@@ -5,6 +5,7 @@ package Axi4LiteWriteMasterTestPkg;
   
   `include "uvm_macros.svh"
   import uvm_pkg::*;
+  import axi4LiteWriteMasterGlobalPkg::*;
   import Axi4LiteMasterWritePkg::*;
   import Axi4LiteWriteMasterEnvPkg::*;
 

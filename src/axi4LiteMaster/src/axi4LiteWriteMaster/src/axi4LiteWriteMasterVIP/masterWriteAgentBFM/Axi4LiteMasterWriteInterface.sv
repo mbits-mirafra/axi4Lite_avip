@@ -1,6 +1,7 @@
 `ifndef AXI4LITEMASTERWRITEINTERFACE_INCLUDED_
 `define AXI4LITEMASTERWRITEINTERFACE_INCLUDED_
 
+import axi4LiteWriteMasterGlobalPkg::*;
 interface Axi4LiteMasterWriteInterface(input aclk, input aresetn);
 
   logic  awvalid;

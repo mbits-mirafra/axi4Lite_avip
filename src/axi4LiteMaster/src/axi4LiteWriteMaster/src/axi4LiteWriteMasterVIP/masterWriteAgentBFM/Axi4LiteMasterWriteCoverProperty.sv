@@ -15,6 +15,7 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
                                         );  
 
   import uvm_pkg::*;
+  import axi4LiteWriteMasterGlobalPkg::*;
   `include "uvm_macros.svh";
 
   initial begin
