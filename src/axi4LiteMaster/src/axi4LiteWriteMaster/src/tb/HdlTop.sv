@@ -5,7 +5,7 @@ module HdlTop;
 
   import uvm_pkg::*;
   `include "uvm_macros.svh"
-  import axi4LiteWriteMasterGlobalPkg::*;
+  import Axi4LiteWriteMasterGlobalPkg::*;
 
   bit aclk;
   bit aresetn;
@@ -31,6 +31,21 @@ module HdlTop;
 
   Axi4LiteMasterWriteInterface axi4LiteMasterWriteInterface(.aclk(aclk),
                                                             .aresetn(aresetn));
+
+  genvar i;
+  generate
+    for (i=0; i<NO_OF_MASTERS; i++) begin : Axi4LiteMasterWriteAgentBFM
+      Axi4LiteMasterWriteAgentBFM #() axi4LiteMasterWriteAgentBFM(.aclk(axi4LiteMasterWriteInterface.aclk),
+                                                                  .aresetn(axi4LiteMasterWriteInterface.aresetn),
+                                                                  .awvalid(axi4LiteMasterWriteInterface.awvalid),
+                                                                  .awready(axi4LiteMasterWriteInterface.awready),
+                                                                  .wvalid(axi4LiteMasterWriteInterface.wvalid),
+                                                                  .wready(axi4LiteMasterWriteInterface.wready),
+                                                                  .bvalid(axi4LiteMasterWriteInterface.bvalid),
+                                                                  .bready(axi4LiteMasterWriteInterface.bready)
+                                                                 );
+    end
+  endgenerate
 
 endmodule : HdlTop
 

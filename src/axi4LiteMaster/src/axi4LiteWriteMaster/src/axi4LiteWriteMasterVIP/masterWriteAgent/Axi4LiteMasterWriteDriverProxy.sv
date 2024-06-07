@@ -56,8 +56,8 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
   
   forever begin
     Axi4LiteMasterWriteTransaction  masterWriteTx;
-    axi4LiteWriteTransferConfigStruct  masterWriteConfigStruct;
-    axi4LiteWriteTransferPacketStruct masterWritePacketStruct;
+    axi4LiteWriteMasterTransferCfgStruct  masterWriteConfigStruct;
+    axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
     axi4LiteMasterWriteSeqItemPort.get_next_item(reqWrite);
     `uvm_info(get_type_name(), $sformatf(
@@ -69,7 +69,7 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
     fork
       begin : MASTER_WRITE_ADDRESS_CHANNEL
         Axi4LiteMasterWriteTransaction  masterWriteAddressTx;
-        axi4LiteWriteTransferPacketStruct masterWritePacketStruct;
+        axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_ADDRESS_THREAD::Checking write address struct packet = %p",
                                                masterWritePacketStruct),UVM_MEDIUM); 
@@ -82,7 +82,7 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
 
       begin : MASTER_WRITE_DATA_CHANNEL
         Axi4LiteMasterWriteTransaction  masterWriteDataTx;
-        axi4LiteWriteTransferPacketStruct masterWritePacketStruct;
+        axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_DATA_THREAD::Checking write data struct packet = %p",
                                                masterWritePacketStruct),UVM_MEDIUM); 
@@ -95,7 +95,7 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
 
       begin : MASTER_WRITE_RESPONSE_CHANNEL
         Axi4LiteMasterWriteTransaction  masterWriteResponseTx;
-        axi4LiteWriteTransferPacketStruct masterWritePacketStruct;
+        axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_RESPONSE_THREAD::Checking write response struct packet = %p",
                                                masterWritePacketStruct),UVM_MEDIUM); 

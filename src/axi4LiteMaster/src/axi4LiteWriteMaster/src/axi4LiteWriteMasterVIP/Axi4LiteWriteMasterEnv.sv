@@ -49,10 +49,6 @@ function void Axi4LiteWriteMasterEnv::build_phase(uvm_phase phase);
     axi4LiteMasterWriteAgent[i]=Axi4LiteMasterWriteAgent::type_id::create($sformatf("axi4LiteMasterWriteAgent[%0d]",i),this);
   end
 
-  if(axi4LiteWriteMasterEnvConfig.hasMasterWriteSequencer) begin
-    axi4LiteMasterWriteSequencer = Axi4LiteMasterWriteSequencer::type_id::create("axi4LiteWriteMasterSequencer",this);
-  end
-
   foreach(axi4LiteMasterWriteAgent[i]) begin
     axi4LiteMasterWriteAgent[i].axi4LiteMasterWriteAgentConfig = axi4LiteMasterWriteAgentConfig[i];
   end
@@ -62,12 +58,6 @@ endfunction : build_phase
 
 function void Axi4LiteWriteMasterEnv::connect_phase(uvm_phase phase);
   super.connect_phase(phase);
-
-  if(axi4LiteWriteMasterEnvConfig.hasMasterWriteSequencer) begin
-    foreach(axi4LiteMasterWriteAgent[i]) begin
-      axi4LiteMasterWriteSequencer.axi4LiteMasterWriteSequencer = axi4LiteMasterWriteAgent[i].axi4LiteMasterWriteSequencer;
-    end
-  end
 
   foreach(axi4LiteMasterWriteAgent[i]) begin
     axi4LiteMasterWriteAgent[i].axi4LiteMasterWriteAgentAddressAnalysisPort.connect(axi4LiteMasterWriteEnvAddressAnalysisPort);

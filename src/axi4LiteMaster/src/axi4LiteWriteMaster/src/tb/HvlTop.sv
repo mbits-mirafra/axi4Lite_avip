@@ -3,7 +3,7 @@
 
 module HvlTop;
 
-  import axi4LiteWriteMasterGlobalPkg::*;
+  import Axi4LiteWriteMasterGlobalPkg::*;
   import Axi4LiteWriteMasterTestPkg::*;
   import uvm_pkg::*;
 

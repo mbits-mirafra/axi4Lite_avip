@@ -74,8 +74,8 @@ endtask : run_phase
 task Axi4LiteMasterWriteMonitorProxy::writeAddressSampleTask();
   forever begin
    Axi4LiteMasterWriteTransaction masterWriteTx;
-   axi4LiteWriteTransferConfigStruct masterWriteConfigStruct;
-   axi4LiteWriteTransferPacketStruct masterWritePacketStruct;
+   axi4LiteWriteMasterTransferCfgStruct masterWriteConfigStruct;
+   axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
    Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteConfigStruct);
 
@@ -94,8 +94,8 @@ endtask : writeAddressSampleTask
 task Axi4LiteMasterWriteMonitorProxy::writeDataSampleTask();
   forever begin
    Axi4LiteMasterWriteTransaction masterWriteTx;
-   axi4LiteWriteTransferConfigStruct masterWriteConfigStruct;
-   axi4LiteWriteTransferPacketStruct masterWritePacketStruct;
+   axi4LiteWriteMasterTransferCfgStruct masterWriteConfigStruct;
+   axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
    Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteConfigStruct);
 
@@ -114,8 +114,8 @@ endtask : writeDataSampleTask
 task Axi4LiteMasterWriteMonitorProxy::writeResponseSampleTask();
   forever begin
    Axi4LiteMasterWriteTransaction masterWriteTx;
-   axi4LiteWriteTransferConfigStruct masterWriteConfigStruct;
-   axi4LiteWriteTransferPacketStruct masterWritePacketStruct;
+   axi4LiteWriteMasterTransferCfgStruct masterWriteConfigStruct;
+   axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
    Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteConfigStruct);
 

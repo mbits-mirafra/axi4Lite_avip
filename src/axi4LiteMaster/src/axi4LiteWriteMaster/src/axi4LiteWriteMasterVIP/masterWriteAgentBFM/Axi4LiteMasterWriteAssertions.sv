@@ -1,6 +1,8 @@
 `ifndef AXI4LITEMASTERWRITEASSERTIONS_INCLUDED_
 `define AXI4LITEMASTERWRITEASSERTIONS_INCLUDED_
 
+import Axi4LiteWriteMasterGlobalPkg::*;
+
 interface Axi4LiteMasterWriteAssertions (input  aclk,
                                          input  aresetn,
                                          //Write Address Channel Signals
@@ -16,10 +18,6 @@ interface Axi4LiteMasterWriteAssertions (input  aclk,
 
   import uvm_pkg::*;
   `include "uvm_macros.svh";
-
-  Axi4LiteAssertions axi4LiteAssertions(.aclk(aclk),
-                                        .aresetn(aresetn)
-                                       );
 
   initial begin
     `uvm_info("Axi4LiteMasterWriteAssertions","Axi4LiteMasterWriteAssertions",UVM_LOW);

@@ -39,7 +39,7 @@ function bit Axi4LiteMasterWriteTransaction::do_compare (uvm_object rhs, uvm_com
     return 0;
   end
   
-  return super.do_compare(axi4LiteMasterWriteTxCompareObj, comparer) &&
+  return super.do_compare(axi4LiteMasterWriteTxCompareObj, comparer); 
 
 endfunction : do_compare
 

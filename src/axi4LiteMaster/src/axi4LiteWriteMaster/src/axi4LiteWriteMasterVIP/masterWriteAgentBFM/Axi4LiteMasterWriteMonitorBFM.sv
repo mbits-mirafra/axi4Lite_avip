@@ -15,7 +15,7 @@ interface Axi4LiteMasterWriteMonitorBFM(input bit aclk,
                                       );  
 
   import uvm_pkg::*;
-  import axi4LiteWriteMasterGlobalPkg::*;
+  import Axi4LiteWriteMasterGlobalPkg::*;
   `include "uvm_macros.svh" 
   
   import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteMonitorProxy;  
@@ -29,23 +29,23 @@ interface Axi4LiteMasterWriteMonitorBFM(input bit aclk,
     `uvm_info("FROM MASTER MON BFM",$sformatf("SYSTEM RESET DEACTIVATED"),UVM_HIGH)
   endtask : waitForAresetn
 
-  task writeAddressChannelSampleTask(input axi4LiteWriteTransferConfigStruct masterWriteConfigStruct,
-                                     output axi4LiteWriteTransferPacketStruct masterWritePacketStruct
+  task writeAddressChannelSampleTask(input axi4LiteWriteMasterTransferCfgStruct masterWriteConfigStruct,
+                                     output axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct
                                     );
     `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("from axi4Lite master write address sample task"),UVM_HIGH)
 
     `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("after awvalid & awready asserted from master write address channel task masterWritePacketStruct=%p ",masterWritePacketStruct),UVM_HIGH)
   endtask : writeAddressChannelSampleTask
 
-  task writeDataChannelSampleTask(input axi4LiteWriteTransferConfigStruct masterWriteConfigStruct,
-                                     output axi4LiteWriteTransferPacketStruct masterWritePacketStruct
+  task writeDataChannelSampleTask(input axi4LiteWriteMasterTransferCfgStruct masterWriteConfigStruct,
+                                     output axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct
                                     );
     `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("from axi4Lite master write data sample task"),UVM_HIGH)
     `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("after wvalid & wready asserted from master write data channel task masterWritePacketStruct=%p ",masterWritePacketStruct),UVM_HIGH)
   endtask : writeDataChannelSampleTask
 
-  task writeResponseChannelSampleTask(input axi4LiteWriteTransferConfigStruct masterWriteConfigStruct,
-                                      output axi4LiteWriteTransferPacketStruct masterWritePacketStruct
+  task writeResponseChannelSampleTask(input axi4LiteWriteMasterTransferCfgStruct masterWriteConfigStruct,
+                                      output axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct
                                      );
     `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("from axi4Lite master write response sample task"),UVM_HIGH)
 

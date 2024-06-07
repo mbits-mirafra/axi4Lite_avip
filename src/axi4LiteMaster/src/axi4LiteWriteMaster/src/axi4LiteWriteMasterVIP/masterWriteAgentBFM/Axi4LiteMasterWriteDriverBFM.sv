@@ -15,7 +15,7 @@ interface Axi4LiteMasterWriteDriverBFM(input bit  aclk,
                                       );  
   
   import uvm_pkg::*;
-  import axi4LiteWriteMasterGlobalPkg::*;
+  import Axi4LiteWriteMasterGlobalPkg::*;
   `include "uvm_macros.svh" 
 
 import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy; 
@@ -32,22 +32,22 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
 
   endtask : waitForAresetn
 
-  task writeAddressChannelTask(input axi4LiteWriteTransferConfigStruct masterWriteConfigStruct, 
-                               inout axi4LiteWriteTransferPacketStruct masterWritePacketStruct
+  task writeAddressChannelTask(input axi4LiteWriteMasterTransferCfgStruct masterWriteConfigStruct, 
+                               inout axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct
                               );
     `uvm_info(name,$sformatf("WRITE_ADDRESS_CHANNEL_TASK_STARTED"),UVM_HIGH)
     `uvm_info(name,$sformatf("WRITE_ADDRESS_CHANNEL_TASK_ENDED"),UVM_HIGH)
   endtask : writeAddressChannelTask
 
-  task writeDataChannelTask(input axi4LiteWriteTransferConfigStruct masterWriteConfigStruct, 
-                            inout axi4LiteWriteTransferPacketStruct masterWritePacketStruct
+  task writeDataChannelTask(input axi4LiteWriteMasterTransferCfgStruct masterWriteConfigStruct, 
+                            inout axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct
                            );
     `uvm_info(name,$sformatf("WRITE_DATA_CHANNEL_TASK_STARTED"),UVM_HIGH)
     `uvm_info(name,$sformatf("WRITE_DATA_CHANNEL_TASK_ENDED"),UVM_HIGH)
   endtask : writeDataChannelTask
 
-  task writeResponseChannelTask(input axi4LiteWriteTransferConfigStruct masterWriteConfigStruct, 
-                                inout axi4LiteWriteTransferPacketStruct masterWritePacketStruct
+  task writeResponseChannelTask(input axi4LiteWriteMasterTransferCfgStruct masterWriteConfigStruct, 
+                                inout axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct
                                );
     `uvm_info(name,$sformatf("WRITE_RESPONSE_CHANNEL_TASK_STARTED"),UVM_HIGH)
     `uvm_info(name,$sformatf("WRITE_RESPONSE_CHANNEL_TASK_ENDED"),UVM_HIGH)
