@@ -8,8 +8,6 @@ class Axi4LiteWriteMasterEnv extends uvm_env;
 
   Axi4LiteMasterWriteAgent axi4LiteMasterWriteAgent[];
 
-  Axi4LiteMasterWriteSequencer axi4LiteMasterWriteSequencer;
-
   Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfig[];
 
   uvm_analysis_port#(Axi4LiteMasterWriteTransaction) axi4LiteMasterWriteEnvAddressAnalysisPort;
@@ -34,12 +32,12 @@ function void Axi4LiteWriteMasterEnv::build_phase(uvm_phase phase);
  axi4LiteWriteMasterEnvConfig = Axi4LiteWriteMasterEnvConfig::type_id::create("axi4LiteWriteMasterEnvConfig"); 
   
   if(!uvm_config_db #(Axi4LiteWriteMasterEnvConfig)::get(this,"","Axi4LiteWriteMasterEnvConfig",axi4LiteWriteMasterEnvConfig)) begin
-    `uvm_fatal("FATAL_MASTER_ENV_AGENT_CONFIG", $sformatf("Couldn't get the master_env_agent_config from config_db"))
+    `uvm_fatal("FATAL_WRITE_MASTER_ENV_AGENT_CONFIG", $sformatf("Couldn't get the writeMasterEnvAgentConfig from config_db"))
   end
 
  axi4LiteMasterWriteAgentConfig = new[axi4LiteWriteMasterEnvConfig.no_of_masters];
   foreach(axi4LiteMasterWriteAgentConfig[i]) begin
-    if(!uvm_config_db#(Axi4LiteMasterWriteAgentConfig)::get(this,"",$sformatf("Axi4LiteMasterWriteAgentConfig[%0d]",i),axi4LiteMasterWriteAgentConfig[i])) begin
+    if(!uvm_config_db #(Axi4LiteMasterWriteAgentConfig)::get(this,"",$sformatf("Axi4LiteMasterWriteAgentConfig[%0d]",i),axi4LiteMasterWriteAgentConfig[i])) begin
       `uvm_fatal("FATAL_MASTER_WRITE_AGENT_CONFIG", $sformatf("Couldn't get the Axi4LiteMasterWriteAgentConfig[%0d] from config_db",i))
     end
   end
