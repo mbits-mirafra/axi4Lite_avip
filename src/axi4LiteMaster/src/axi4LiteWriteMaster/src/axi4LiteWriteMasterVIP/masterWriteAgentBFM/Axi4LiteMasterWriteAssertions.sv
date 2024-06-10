@@ -22,8 +22,6 @@ interface Axi4LiteMasterWriteAssertions (input  aclk,
   initial begin
     `uvm_info("Axi4LiteMasterWriteAssertions","Axi4LiteMasterWriteAssertions",UVM_LOW);
   end
-
-
 endinterface : Axi4LiteMasterWriteAssertions
 
 `endif
