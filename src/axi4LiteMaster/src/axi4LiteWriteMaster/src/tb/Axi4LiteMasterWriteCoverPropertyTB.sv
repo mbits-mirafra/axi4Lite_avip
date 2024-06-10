@@ -64,7 +64,7 @@ module Axi4LiteMasterWriteCoverPropertyTB;
   endtask
 
   task When_wvalidIsAsserted_Then_wdataIsNotUnknown();
-    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awaddrIsNotUnknown Task started"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wdataIsNotUnknown Task started"),UVM_NONE);
       wvalid <= 1'b0;
       wdata <= 32'bx;
       repeat(2) begin
