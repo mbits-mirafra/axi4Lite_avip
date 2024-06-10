@@ -83,7 +83,7 @@ compile:
 
 # Setting a default test as base_test
 ifndef test
-override test = Axi4LiteMasterWriteCoverPropertyTB
+override test = Axi4LiteMasterWriteAssertPropertyTB
 endif
 
 # Setting the default uvm_verbosity to UVM_MEDIUM
@@ -102,7 +102,7 @@ simulate:
 	# Use -novopt for no optimization - Makes the simulation slower
 	# vsim -pli finesim.so -coverage top
 	vsim -vopt \
-	work.Axi4LiteMasterWriteCoverPropertyTB \
+	work.$(test) \
 	-voptargs=+acc=npr \
 	-assertdebug \
 	+UVM_TESTNAME=$(test) \

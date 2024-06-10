@@ -1,5 +1,5 @@
-`ifndef AXI4LITEASSERTIONTB_INCLUDED_
-`define AXI4LITEASSERTIONTB_INCLUDED_
+`ifndef AXI4LITEMASTERWRITECOVERPROPERTYTB_INCLUDED_
+`define AXI4LITEMASTERWRITECOVERPROPERTYTB_INCLUDED_
 
 `include "uvm_macros.svh"
 import uvm_pkg::*;
@@ -35,7 +35,7 @@ module Axi4LiteMasterWriteCoverPropertyTB;
                                                                     .awaddr(awaddr),
                                                                     .wvalid(wvalid),
                                                                     .wdata(wdata),
-                                                                    .wwready(wready),
+                                                                    .wready(wready),
                                                                     .bvalid(bvalid),
                                                                     .bready(bready));
 
@@ -45,19 +45,60 @@ module Axi4LiteMasterWriteCoverPropertyTB;
   end
 
   initial begin
-    When_AWVALIDIsAsserted_Then_AWADDRESIsNotUnknown();
+    When_awvalidIsAsserted_Then_awaddrIsNotUnknown();
+    When_wvalidIsAsserted_Then_wdataIsNotUnknown();
+    When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious2ClkAwaddrIsUnknown();
+    When_wvalidIsAsserted_Then_wdataIsNotUnknownAndPrevious2ClkWdataIsUnknown();
   end
 
-  task When_AWVALIDIsAsserted_Then_AWADDRESIsNotUnknown();
-    `uvm_info(name,$sformatf("When_AWVALIDIsAsserted_ThenAWADDR_IS_NOT_UNKNOWN Task started"),UVM_NONE);
+  task When_awvalidIsAsserted_Then_awaddrIsNotUnknown();
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awaddrIsNotUnknown Task started"),UVM_NONE);
       awvalid <= 1'b0;
       awaddr <= 32'bx;
       repeat(2) begin
       @(posedge aclk);
       end
-      awvalid <= 1'b1; 
-    `uvm_info(name,$sformatf("When_AWVALIDIsAsserted_ThenAWADDR_IS_NOT_UNKNOWN Task Ended"),UVM_NONE);
+      awvalid <= 1'b1;
+      awaddr <= 32'h1122_3344;
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awaddrIsNotUnknown Task Ended"),UVM_NONE);
   endtask
+
+  task When_wvalidIsAsserted_Then_wdataIsNotUnknown();
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awaddrIsNotUnknown Task started"),UVM_NONE);
+      wvalid <= 1'b0;
+      wdata <= 32'bx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      wvalid <= 1'b1;
+      wdata <= 32'h2222_3333;
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wdataIsNotUnknown Task Ended"),UVM_NONE);
+  endtask
+
+  task When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious2ClkAwaddrIsUnknown();
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious2ClkAwaddrIsUnknown Task started"),UVM_NONE);
+      awvalid <= 1'b0;
+      awaddr <= 32'bx;
+      repeat(3) begin
+      @(posedge aclk);
+      end
+      awvalid <= 1'b1;
+      awaddr <= 32'h1122_3344;
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious2ClkAwaddrIsUnknown Task Ended"),UVM_NONE);
+  endtask
+
+  task When_wvalidIsAsserted_Then_wdataIsNotUnknownAndPrevious2ClkWdataIsUnknown();
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wdataIsNotUnknownAndPrevious2ClkWdataIsUnknown Task started"),UVM_NONE);
+      wvalid <= 1'b0;
+      wdata <= 32'bx;
+      repeat(3) begin
+      @(posedge aclk);
+      end
+      wvalid <= 1'b1;
+      wdata <= 32'h2222_3333;
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wdataIsNotUnknownAndPrevious2ClkWdataIsUnknown Task Ended"),UVM_NONE);
+  endtask
+
   endmodule : Axi4LiteMasterWriteCoverPropertyTB
 
 `endif
