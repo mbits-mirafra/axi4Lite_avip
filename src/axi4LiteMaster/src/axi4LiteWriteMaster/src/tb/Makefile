@@ -81,6 +81,11 @@ compile:
 	# or use .SILENT
 	make compile_war_err
 
+# Setting a default test as base_test
+ifndef test
+override test = Axi4LiteMasterWriteCoverPropertyTB
+endif
+
 # Setting the default uvm_verbosity to UVM_MEDIUM
 ifndef uvm_verbosity
 override uvm_verbosity = UVM_MEDIUM
@@ -88,7 +93,7 @@ endif
 
 # Setting the default test folder to test name 
 ifndef test_folder
-override test_folder = $(Axi4LiteMasterWriteCoverPropertyTB)
+override test_folder = $(test)
 endif
 
 simulate:
@@ -100,11 +105,12 @@ simulate:
 	work.Axi4LiteMasterWriteCoverPropertyTB \
 	-voptargs=+acc=npr \
 	-assertdebug \
+	+UVM_TESTNAME=$(test) \
 	+UVM_VERBOSITY=$(uvm_verbosity) \
-	-l $(test_folder)/$(Axi4LiteMasterWriteCoverPropertyTB).log \
+	-l $(test_folder)/$(test).log \
 	-sva \
   -coverage \
-	-c -do "log -r /*; add wave -r /*; coverage save -onexit -assert -directive -cvg -codeAll $(test_folder)/$(Axi4LiteMasterWriteCoverPropertyTB)_coverage.ucdb; run -all; exit" \
+	-c -do "log -r /*; add wave -r /*; coverage save -onexit -assert -directive -cvg -codeAll $(test_folder)/$(test)_coverage.ucdb; run -all; exit" \
 	-wlf $(test_folder)/waveform.wlf
 
 
@@ -118,7 +124,7 @@ simulate:
 	# vcover report -file  -byfile -detail -noannotate -option -cvg
 
 	# For coverage report in HTML format 
-	vcover report -html $(test_folder)/$(Axi4LiteMasterWriteCoverPropertyTB)_coverage.ucdb -htmldir $(test_folder)/html_cov_report -details
+	vcover report -html $(test_folder)/$(test)_coverage.ucdb -htmldir $(test_folder)/html_cov_report -details
 
 	# To open the html coverage report
 	# firefox test_folder/html_cov_report/index.html &
@@ -176,20 +182,20 @@ simulate_war_err:
 	echo "-------------------- Simulation Report --------------------------";
 	echo "";
 	echo "Simulator Errors";
-	grep "Error" $(test_folder)/Axi4LiteMasterWriteCoverPropertyTB.log;
+	grep "Error" $(test_folder)/$(test).log;
 	echo "";
 	echo "UVM Fatal";
-	grep "UVM_FATAL" $(test_folder)/Axi4LiteMasterWriteCoverPropertyTB.log;
+	grep "UVM_FATAL" $(test_folder)/$(test).log;
 	echo "";
 	echo "UVM Errors";
-	grep "UVM_ERROR" $(test_folder)/Axi4LiteMasterWriteCoverPropertyTB.log;
+	grep "UVM_ERROR" $(test_folder)/$(test).log;
 	echo "";
 	echo "UVM Warnings";
-	grep "UVM_WARNING" $(test_folder)/Axi4LiteMasterWriteCoverPropertyTB.log;
+	grep "UVM_WARNING" $(test_folder)/$(test).log;
 	echo "";
-	echo "Testname: Axi4LiteMasterWriteCoverPropertyTB"
+	echo "Testname: $(test)"
 	echo "";
-	echo "Log file path: $(test_folder)/Axi4LiteMasterWriteCoverPropertyTB.log"
+	echo "Log file path: $(test_folder)/$(test).log"
 	echo "";
 	echo "Waveform: vsim -view $(test_folder)/waveform.wlf &"
 	echo "";
