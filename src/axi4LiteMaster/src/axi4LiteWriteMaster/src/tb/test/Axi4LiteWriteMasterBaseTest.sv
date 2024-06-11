@@ -30,7 +30,7 @@ endfunction : build_phase
 
 function void Axi4LiteWriteMasterBaseTest::setupAxi4LiteWriteMasterEnvConfig();
  axi4LiteWriteMasterEnvConfig = Axi4LiteWriteMasterEnvConfig::type_id::create("axi4LiteWriteMasterEnvConfig",this);
- axi4LiteWriteMasterEnvConfig.no_of_masters = NO_OF_MASTERS;
+ axi4LiteWriteMasterEnvConfig.no_of_masters = NO_OF_WRITEMASTERS;
  setupAxi4LiteMasterWriteAgentConfig();
 
  uvm_config_db#(Axi4LiteWriteMasterEnvConfig)::set(this, "*", "Axi4LiteWriteMasterEnvConfig",

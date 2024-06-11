@@ -16,5 +16,5 @@
 ../../src/axi4LiteWriteMasterVIP/masterWriteAgentBFM/Axi4LiteMasterWriteDriverBFM.sv
 ../../src/axi4LiteWriteMasterVIP/masterWriteAgentBFM/Axi4LiteMasterWriteMonitorBFM.sv
 ../../src/axi4LiteWriteMasterVIP/masterWriteAgentBFM/Axi4LiteMasterWriteAgentBFM.sv
-../../src/tb/axi4LiteMasterWriteHdlTop.sv
-../../src/tb/axi4LiteMasterWriteHvlTop.sv
+../../src/tb/Axi4LiteMasterWriteHdlTop.sv
+../../src/tb/Axi4LiteMasterWriteHvlTop.sv

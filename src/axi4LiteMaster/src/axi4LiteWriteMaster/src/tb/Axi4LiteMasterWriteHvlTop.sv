@@ -1,7 +1,7 @@
-`ifndef HVLTOP_INCLUDED_
-`define HVLTOP_INCLUDED_
+`ifndef AXI4LITEMASTERWRITEHVLTOP_INCLUDED_
+`define AXI4LITEMASTERWRITEHVLTOP_INCLUDED_
 
-module HvlTop;
+module Axi4LiteMasterWriteHvlTop;
 
   import Axi4LiteWriteMasterGlobalPkg::*;
   import Axi4LiteWriteMasterTestPkg::*;
@@ -13,6 +13,6 @@ module HvlTop;
 
   end
 
-endmodule : HvlTop
+endmodule : Axi4LiteMasterWriteHvlTop
 
 `endif

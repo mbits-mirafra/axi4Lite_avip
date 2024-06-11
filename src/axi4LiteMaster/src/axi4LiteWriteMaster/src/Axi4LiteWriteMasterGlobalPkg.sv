@@ -5,7 +5,7 @@ package Axi4LiteWriteMasterGlobalPkg;
 
   parameter bit MASTER_AGENT_ACTIVE = 1;
 
-  parameter int NO_OF_MASTERS = 1;
+  parameter int NO_OF_WRITEMASTERS = 1;
 
   parameter int ADDRESS_WIDTH = 32;
 

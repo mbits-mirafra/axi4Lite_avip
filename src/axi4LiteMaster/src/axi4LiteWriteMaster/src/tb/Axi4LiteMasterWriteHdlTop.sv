@@ -1,7 +1,7 @@
-`ifndef HDLTOP_INCLUDED_
-`define HDLTOP_INCLUDED_
+`ifndef AXI4LITEMASTERWRITEHDLTOP_INCLUDED_
+`define AXI4LITEMASTERWRITEHDLTOP_INCLUDED_
 
-module HdlTop;
+module Axi4LiteMasterWriteHdlTop;
 
   import uvm_pkg::*;
   `include "uvm_macros.svh"
@@ -34,7 +34,7 @@ module HdlTop;
 
   genvar i;
   generate
-    for (i=0; i<NO_OF_MASTERS; i++) begin : Axi4LiteMasterWriteAgentBFM
+    for (i=0; i<NO_OF_WRITEMASTERS; i++) begin : Axi4LiteMasterWriteAgentBFM
       Axi4LiteMasterWriteAgentBFM #() axi4LiteMasterWriteAgentBFM(.aclk(axi4LiteMasterWriteInterface.aclk),
                                                                   .aresetn(axi4LiteMasterWriteInterface.aresetn),
                                                                   .awvalid(axi4LiteMasterWriteInterface.awvalid),
@@ -47,7 +47,7 @@ module HdlTop;
     end
   endgenerate
 
-endmodule : HdlTop
+endmodule : Axi4LiteMasterWriteHdlTop
 
 `endif
 
