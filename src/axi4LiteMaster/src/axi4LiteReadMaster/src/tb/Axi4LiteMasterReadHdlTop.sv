@@ -1,7 +1,7 @@
-`ifndef HDLTOP_INCLUDED_
-`define HDLTOP_INCLUDED_
+`ifndef AXI4LITEMASTERREADHDLTOP_INCLUDED_
+`define AXI4LITEMASTERREADHDLTOP_INCLUDED_
 
-module HdlTop;
+module Axi4LiteMasterReadHdlTop;
 
   import uvm_pkg::*;
   `include "uvm_macros.svh"
@@ -34,7 +34,7 @@ module HdlTop;
 
   genvar i;
   generate
-    for (i=0; i<NO_OF_MASTERS; i++) begin : Axi4LiteMasterReadAgentBFM
+    for (i=0; i<NO_OF_READMASTERS; i++) begin : Axi4LiteMasterReadAgentBFM
       Axi4LiteMasterReadAgentBFM #() axi4LiteMasterReadAgentBFM(.aclk(axi4LiteMasterReadInterface.aclk),
                                                                   .aresetn(axi4LiteMasterReadInterface.aresetn),
                                                                   .arvalid(axi4LiteMasterReadInterface.arvalid),
@@ -44,7 +44,7 @@ module HdlTop;
     end
   endgenerate
 
-endmodule : HdlTop
+endmodule : Axi4LiteMasterReadHdlTop
 
 `endif
 

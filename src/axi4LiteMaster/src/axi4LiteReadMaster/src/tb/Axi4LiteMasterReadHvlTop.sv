@@ -1,7 +1,7 @@
-`ifndef HVLTOP_INCLUDED_
-`define HVLTOP_INCLUDED_
+`ifndef AXI4LITEMASTERREADHVLTOP_INCLUDED_
+`define AXI4LITEMASTERREADHVLTOP_INCLUDED_
 
-module HvlTop;
+module Axi4LiteMasterReadHvlTop;
 
   import Axi4LiteReadMasterGlobalPkg::*;
   import Axi4LiteReadMasterTestPkg::*;
@@ -13,6 +13,6 @@ module HvlTop;
 
   end
 
-endmodule : HvlTop
+endmodule : Axi4LiteMasterReadHvlTop
 
 `endif

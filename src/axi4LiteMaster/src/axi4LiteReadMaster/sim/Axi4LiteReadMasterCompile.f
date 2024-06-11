@@ -16,5 +16,5 @@
 ../../src/axi4LiteReadMasterVIP/masterReadAgentBFM/Axi4LiteMasterReadDriverBFM.sv
 ../../src/axi4LiteReadMasterVIP/masterReadAgentBFM/Axi4LiteMasterReadMonitorBFM.sv
 ../../src/axi4LiteReadMasterVIP/masterReadAgentBFM/Axi4LiteMasterReadAgentBFM.sv
-../../src/tb/axi4LiteMasterReadHdlTop.sv
-../../src/tb/axi4LiteMasterReadHvlTop.sv
+../../src/tb/Axi4LiteMasterReadHdlTop.sv
+../../src/tb/Axi4LiteMasterReadHvlTop.sv

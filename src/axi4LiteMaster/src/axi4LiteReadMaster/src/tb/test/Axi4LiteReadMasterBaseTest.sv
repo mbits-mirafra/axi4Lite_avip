@@ -30,7 +30,7 @@ endfunction : build_phase
 
 function void Axi4LiteReadMasterBaseTest::setupAxi4LiteReadMasterEnvConfig();
  axi4LiteReadMasterEnvConfig = Axi4LiteReadMasterEnvConfig::type_id::create("axi4LiteReadMasterEnvConfig",this);
- axi4LiteReadMasterEnvConfig.no_of_masters = NO_OF_MASTERS;
+ axi4LiteReadMasterEnvConfig.no_of_masters = NO_OF_READMASTERS;
  setupAxi4LiteMasterReadAgentConfig();
 
  uvm_config_db#(Axi4LiteReadMasterEnvConfig)::set(this, "*", "Axi4LiteReadMasterEnvConfig",

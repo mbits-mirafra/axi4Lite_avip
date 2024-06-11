@@ -5,7 +5,7 @@ package Axi4LiteReadMasterGlobalPkg;
 
   parameter bit MASTER_AGENT_ACTIVE = 1;
 
-  parameter int NO_OF_MASTERS = 1;
+  parameter int NO_OF_READMASTERS = 1;
 
   parameter int ADDRESS_WIDTH = 32;
 
