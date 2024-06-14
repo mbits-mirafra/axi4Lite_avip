@@ -41,7 +41,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
                                                              );
 
   initial begin
-    #1000;
+    #3000;
     $finish;
   end
 
@@ -71,8 +71,8 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
       repeat(2) begin
        @(posedge aclk);
-        awvalid <= 1'b0;
       end
+      awvalid <= 1'b0;
     `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwaddrIsNotUnknown_Expect_AssertionPass Task Ended"),UVM_NONE);
   endtask
 
@@ -88,8 +88,8 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
       repeat(2) begin
        @(posedge aclk);
-        wvalid <= 1'b0;
       end
+      wvalid <= 1'b0;
     `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWdataIsNotUnknown_Expect_AssertionPass Task Ended"),UVM_NONE);
   endtask
 
@@ -101,11 +101,12 @@ module Axi4LiteMasterWriteAssertPropertyTB;
       @(posedge aclk);
       end
       awvalid <= 1'b1;
+      awaddr <= 32'h1122_3344;
 
       repeat(8) begin
        @(posedge aclk);
-       awready <= 1'b1;
       end
+      awready <= 1'b1;
       @(posedge aclk);
       awvalid <= 1'b0;
       awready <= 1'b0;
@@ -120,11 +121,12 @@ module Axi4LiteMasterWriteAssertPropertyTB;
       @(posedge aclk);
       end
       wvalid <= 1'b1;
+      wdata <= 32'h1111_3333;
 
       repeat(8) begin
        @(posedge aclk);
-       wready <= 1'b1;
       end
+      wready <= 1'b1;
       @(posedge aclk);
       wvalid <= 1'b0;
       wready <= 1'b0;
@@ -142,8 +144,8 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
       repeat(8) begin
        @(posedge aclk);
-       bready <= 1'b1;
       end
+      bready <= 1'b1;
       @(posedge aclk);
       bvalid <= 1'b0;
       bready <= 1'b0;
@@ -158,11 +160,12 @@ module Axi4LiteMasterWriteAssertPropertyTB;
       @(posedge aclk);
       end
       awvalid <= 1'b1;
+      awaddr <= 32'h1122_3344;
 
       repeat(18) begin
        @(posedge aclk);
-       awready <= 1'b1;
       end
+      awready <= 1'b1;
       @(posedge aclk);
       awvalid <= 1'b0;
       awready <= 1'b0;
@@ -177,11 +180,12 @@ module Axi4LiteMasterWriteAssertPropertyTB;
       @(posedge aclk);
       end
       wvalid <= 1'b1;
+      wdata <= 32'h1111_3333;
 
       repeat(18) begin
        @(posedge aclk);
-       wready <= 1'b1;
       end
+      wready <= 1'b1;
       @(posedge aclk);
       wvalid <= 1'b0;
       wready <= 1'b0;
@@ -199,8 +203,8 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
       repeat(18) begin
        @(posedge aclk);
-       bready <= 1'b1;
       end
+      bready <= 1'b1;
       @(posedge aclk);
       bvalid <= 1'b0;
       bready <= 1'b0;
@@ -215,6 +219,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
       @(posedge aclk);
       end
       awvalid <= 1'b1;
+      awaddr <= 32'h1122_3344;
       awready <= 1'b1;
       @(posedge aclk);
       awvalid <= 1'b0;
@@ -231,6 +236,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
       @(posedge aclk);
       end
       wvalid <= 1'b1;
+      wdata <= 32'h1111_3333;
       wready <= 1'b1;
       @(posedge aclk);
       wvalid <= 1'b0;
