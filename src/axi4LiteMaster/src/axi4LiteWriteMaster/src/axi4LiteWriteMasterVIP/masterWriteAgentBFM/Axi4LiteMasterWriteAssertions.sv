@@ -40,6 +40,46 @@ IFWVALIDASSERTED_THEN_WDATA_NOTUNKNOWN: assert property (ifValidHighThenInformat
   else
     $error("IFWVALIDASSERTED_THEN_WDATA_NOTUNKNOWN : NOT ASSERTED");
 
+    property WhenValidAssertedThenValidHighAndWithin0To15ClkReadyAsserted(logic valid, logic ready);
+      @(posedge aclk)
+        ($rose(valid) && !ready) |=> ($stable(valid) throughout (##[0:15] $rose(ready)));  //TODO add maxDelayForReday config value
+    endproperty
+
+IFAWVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_AWREADYASSERTED: assert property (WhenValidAssertedThenValidHighAndWithin0To15ClkReadyAsserted(awvalid, awready))
+  $info("IFAWVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_AWREADYASSERTED : ASSERTED");
+  else
+    $error("IFAWVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_AWREADYASSERTED : NOT ASSERTED");
+
+IFWVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_WREADYASSERTED: assert property (WhenValidAssertedThenValidHighAndWithin0To15ClkReadyAsserted(wvalid, wready))
+  $info("IFWVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_WREADYASSERTED : ASSERTED");
+  else
+    $error("IFWVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_WREADYASSERTED : NOT ASSERTED");
+
+IFBVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_BREADYASSERTED: assert property (WhenValidAssertedThenValidHighAndWithin0To15ClkReadyAsserted(bvalid, bready))
+  $info("IFBVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_BREADYASSERTED : ASSERTED");
+  else
+    $error("IFBVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_BREADYASSERTED : NOT ASSERTED");
+
+    property WhenValidAssertedThenWithin0To15ClkReadyAsserted(logic valid, logic ready);
+      @(posedge aclk)
+        $rose(valid) |-> ##[0:15] ready;  //TODO add maxDelayForReday config value
+    endproperty
+
+IFAWVALIDASSERTED_THENWITHIN16CLK_AWREADYASSERTED: assert property (WhenValidAssertedThenWithin0To15ClkReadyAsserted(awvalid, awready)) 
+  $info("IFAWVALIDASSERTED_THENWITHIN16CLK_AWREADYASSERTED : ASSERTED");
+  else
+    $error("IFAWVALIDASSERTED_THENWITHIN16CLK_AWREADYASSERTED : NOT ASSERTED");
+
+IFWVALIDASSERTED_THENWITHIN16CLK_WREADYASSERTED: assert property (WhenValidAssertedThenWithin0To15ClkReadyAsserted(wvalid, wready)) 
+  $info("IFWVALIDASSERTED_THENWITHIN16CLK_WREADYASSERTED : ASSERTED");
+  else
+    $error("IFWVALIDASSERTED_THENWITHIN16CLK_WREADYASSERTED : NOT ASSERTED");
+
+IFBVALIDASSERTED_THENWITHIN16CLK_BREADYASSERTED: assert property (WhenValidAssertedThenWithin0To15ClkReadyAsserted(bvalid, bready)) 
+  $info("IFBVALIDASSERTED_THENWITHIN16CLK_BREADYASSERTED : ASSERTED");
+  else
+    $error("IFBVALIDASSERTED_THENWITHIN16CLK_BREADYASSERTED : NOT ASSERTED");
+
 endinterface : Axi4LiteMasterWriteAssertions
 
 `endif
