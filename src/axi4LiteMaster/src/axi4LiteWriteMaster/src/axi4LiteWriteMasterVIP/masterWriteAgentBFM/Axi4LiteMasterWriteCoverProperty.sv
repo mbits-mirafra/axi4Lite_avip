@@ -16,10 +16,12 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
                                          input  wready,
                                          //Write Response Channel
                                          input  bvalid,
-                                         input  bready
+                                         input  bready,
+                                         input  bresp
                                         );  
 
   initial begin
+    
     `uvm_info("Axi4LiteMasterWriteCoverProperty","Axi4LiteMasterWriteCoverProperty",UVM_LOW);
   end
   
@@ -38,7 +40,7 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
 
   property WhenValidAssertedThenInformationNotUnknownAndPrevious2ClkInformationUnknwon(logic valid, logic information);
 	 @(posedge aclk) 
-     valid |-> !($isunknown(information)) && ($past(information,2) == 1'bx); 
+     valid |-> !($isunknown(information)) && ($past(information,2) === 1'bx); 
  endproperty 
 
   IFAWVALIDASSERTED_THEN_AWADDR_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_AWADDR_IS_UNKNOWN: cover property  
@@ -52,7 +54,8 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
   property WhenReadyLowAndValidAssertedAfter3Clk(logic valid, logic ready);
    @(posedge aclk)
     !ready |-> ##3 (valid && !ready);
- endproperty
+
+  endproperty
 
   IFAWREADYLOW_THEN_AFTER3CLK_AWVALIDASSERTED: cover property
   (WhenReadyLowAndValidAssertedAfter3Clk(awvalid, awready))
@@ -117,7 +120,7 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
    (WhenValidAssertedThenValidHighAndNextClkReadyAsserted(bvalid, bready))
    $info("IFBVALIDISASSERTED_THEN_REMAINSHIGH_NEXTCLK_BREADYISASSERTED : COVERED");
 
-  property  WhenValidAssertedThenValidHighAndWithin1To16ClkReadyAsserted(logic valid, logic ready);
+  property WhenValidAssertedThenValidHighAndWithin1To16ClkReadyAsserted(logic valid, logic ready);
    @(posedge aclk) 
     $rose(valid) |=> ($stable(valid) throughout (##[1:16] $rose(ready))); 
   endproperty  
@@ -205,7 +208,7 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
 
   property WhenBackToBackValidAndReadyAssertedWithMoreThan16ClkDelayInbetween2Transfer(logic valid, logic ready);
    @(posedge aclk)
-   (valid && ready) |=> ##[17:$] (valid && ready);
+   (valid && ready) |=> ##[16:$] (valid && ready);
   endproperty
 
   IFBACKTOBACK_AWVALIDANDAWREADYASSERTED_WITHMORETHAN16CLKDELAY_INBETWEEN2TRANSFER: cover property
@@ -220,7 +223,235 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
   (WhenBackToBackValidAndReadyAssertedWithMoreThan16ClkDelayInbetween2Transfer(bvalid, bready))
   $info("IFBACKTOBACK_BVALIDANDBREADYASSERTED_WITHMORETHAN16CLKDELAY_INBETWEEN2TRANSFER : COVERED");
 
-endinterface : Axi4LiteMasterWriteCoverProperty
+  property readyAssertAtleastOnce(logic ready); 
+  @(posedge aclk) ready; 
+  endproperty 
+
+  IFAWREADY_NEEDTOASSERTED_ATLEASTONCE: cover property
+  (readyAssertAtleastOnce(awready)) 
+  $info("IFAWREADY_NEEDTOASSERTED_ATLEASTONCE : COVERED");
+  
+  IFWREADY_NEEDTOASSERTED_ATLEASTONCE: cover property
+  (readyAssertAtleastOnce(wready)) 
+  $info("IFWREADY_NEEDTOASSERTED_ATLEASTONCE : COVERED");
+ 
+  IFBREADY_NEEDTOASSERTED_ATLEASTONCE: cover property
+  (readyAssertAtleastOnce(bready))
+  $info("IFBREADY_NEEDTOASSERTED_ATLEASTONCE : COVERED");
+
+
+  property WhenValidAssertedThenReadyAssertedNextClk(logic valid, logic ready);
+  @(posedge aclk) valid |-> !ready ##1 (valid && ready);
+  endproperty
+
+  IFAWVALIDASSERTED_THEN_NEXTCLK_AWREADYASSERTED: cover property 
+  (WhenValidAssertedThenReadyAssertedNextClk(awvalid, awready))
+  $info("IFAWVALIDASSERTED_THEN_NEXTCLK_AWREADYASSERTED : COVERED");
+
+  IFWVALIDASSERTED_THEN_NEXTCLK_WREADYASSERTED: cover property 
+  (WhenValidAssertedThenReadyAssertedNextClk(wvalid,wready))
+  $info("IFWVALIDASSERTED_THEN_NEXTCLK_WREADYASSERTED : COVERED");
+
+  IFBVALIDASSERTED_THEN_NEXTCLK_BREADYASSERTED: cover property 
+  (WhenValidAssertedThenReadyAssertedNextClk(bvalid, bready))
+  $info("IFBVALIDASSERTED_THEN_NEXTCLK_BREADYASSERTED : COVERED");
+
+  property WhenValidAssertedThenInbetween2To5ClkReadyAsserted(logic valid, logic ready);
+  @(posedge aclk) valid |-> ##[2:5] ready; 
+  endproperty  
+
+   IFAWVALIDASSERTED_THEN_INBETWEEN2TO5CLK_AWREADYASSERTED: cover property 
+   (WhenValidAssertedThenInbetween2To5ClkReadyAsserted(awvalid, awready)) 
+   $info("IFAWVALIDASSERTED_THEN_INBETWEEN2TO5CLK_AWREADYASSERTED : COVERED");
+
+   IFWVALIDASSERTED_THEN_INBETWEEN2TO5CLK_WREADYASSERTED: cover property 
+   (WhenValidAssertedThenInbetween2To5ClkReadyAsserted(wvalid, wready))
+   $info("IFWVALIDASSERTED_THEN_INBETWEEN2TO5CLK_WREADYASSERTED : COVERED");
+
+   IFBVALIDASSERTED_THEN_INBETWEEN2TO5CLK_BREADYASSERTED: cover property 
+   (WhenValidAssertedThenInbetween2To5ClkReadyAsserted(bvalid, bready))
+   $info("IFBVALIDASSERTED_THEN_INBETWEEN2TO5CLK_BREADYASSERTED : COVERED");
+
+   property WhenValidAssertedThenWithin16ClkReadyAsserted(logic valid, logic ready);
+   @(posedge aclk) valid |-> ##[0:16] ready;
+   endproperty
+
+   IFAWVALIDASSERTED_THEN_WITH16CLK_AWREADYASSERTED: cover property 
+   (WhenValidAssertedThenWithin16ClkReadyAsserted(awvalid, awready)) 
+   $info("IFAWVALIDASSERTED_THEN_WITH16CLK_AWREADYASSERTED : COVERED");
+
+   IFWVALIDASSERTED_THEN_WITH16CLK_WREADYASSERTED: cover property 
+   (WhenValidAssertedThenWithin16ClkReadyAsserted(wvalid, wready)) 
+   $info("IFWVALIDASSERTED_THEN_WITH16CLK_WREADYASSERTED : COVERED");
+
+   IFBVALIDASSERTED_THEN_WITH16CLK_BREADYASSERTED: cover property 
+   (WhenValidAssertedThenWithin16ClkReadyAsserted(bvalid, bready)) 
+   $info("IFBVALIDASSERTED_THEN_WITH16CLK_BREADYASSERTED : COVERED");
+
+    property WhenReadyAssertedAndDeassertedThenNextClkValidAsserted(logic valid, logic ready);
+     @(posedge aclk) $fell(ready) |-> !valid ##1 valid;
+    endproperty
+
+    IFAWREADYASSERTED_DEASSERTED_THEN_NEXTCLK_AWVALIDASSERTED: cover property
+    (WhenReadyAssertedAndDeassertedThenNextClkValidAsserted(awvalid , awready))
+    $info("IFAWREADYASSERTED_DEASSERTED_THEN_NEXTCLK_AWVALIDASSERTED: COVERED");
+
+    IFWREADYASSERTED_DEASSERTED_THEN_NEXTCLK_WVALIDASSERTED: cover property
+    (WhenReadyAssertedAndDeassertedThenNextClkValidAsserted(wvalid , wready))
+    $info("IFWREADYASSERTED_DEASSERTED_THEN_NEXTCLK_WVALIDASSERTED: COVERED");
+
+    IFBREADYASSERTED_DEASSERTED_THEN_NEXTCLK_BVALIDASSERTED: cover property
+    (WhenReadyAssertedAndDeassertedThenNextClkValidAsserted(bvalid , bready))
+    $info("IFBREADYASSERTED_DEASSERTED_THEN_NEXTCLK_BVALIDASSERTED: COVERED");
+
+    property WhenReadyAssertedAndDeasserted3TimesThenNextClkValidAsserted(logic valid, logic ready);
+    @(posedge aclk) (ready && !valid) |-> !valid s_until_with $fell(ready)[->3] ##1 $rose(valid);
+    endproperty
+
+    IFAWREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_AWVALIDASSERTED: cover property
+    (WhenReadyAssertedAndDeasserted3TimesThenNextClkValidAsserted(awvalid , awready))
+    $info("IFAWREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_AWVALIDASSERTED : COVERED");
+
+    IFWREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_WVALIDASSERTED: cover property
+    (WhenReadyAssertedAndDeasserted3TimesThenNextClkValidAsserted(wvalid , wready))
+    $info("IFWREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_WVALIDASSERTED : COVERED");
+
+    IFBREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_BVALIDASSERTED: cover property
+    (WhenReadyAssertedAndDeasserted3TimesThenNextClkValidAsserted(bvalid , bready))
+    $info("IFBREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_BVALIDASSERTED : COVERED");
+
+
+
+    property WhenReadyAssertedThenNextClkValidAsserted(logic valid, logic ready);
+     @(posedge aclk) ready |-> !valid ##1 valid;
+    endproperty
+
+    IFAWREADYASSERTED_THEN_NEXTCLK_AWVALIDASSERTED: cover property
+    (WhenReadyAssertedThenNextClkValidAsserted(awvalid,awready))
+    $info("IFAWREADYASSERTED_THEN_NEXTCLK_AWVALIDASSERTED: COVERED");
+
+    IFWREADYASSERTED_THEN_NEXTCLK_WVALIDASSERTED: cover property
+    (WhenReadyAssertedThenNextClkValidAsserted(wvalid,wready))
+    $info("IFWREADYASSERTED_THEN_NEXTCLK_WVALIDASSERTED: COVERED");
+
+    IFBREADYASSERTED_THEN_NEXTCLK_BVALIDASSERTED: cover property
+    (WhenReadyAssertedThenNextClkValidAsserted(bvalid,bready))
+    $info("IFBREADYASSERTED_THEN_NEXTCLK_BVALIDASSERTED: COVERED");
+
+    
+    property WhenReadyAssertedThenInbetween2To5ClkValidAsserted(logic valid, logic ready);
+     @(posedge aclk) ready |-> !valid ##[2:5] valid;
+    endproperty
+
+    IFAWREADYASSERTED_THEN_INBETWEEN2TO5CLK_AWVALIDASSERTED: cover property
+    (WhenReadyAssertedThenInbetween2To5ClkValidAsserted(awvalid,awready))
+    $info("IFAWREADYASSERTED_THEN_INBETWEEN2TO5CLK_AWVALIDASSERTED: COVERED");
+
+    IFWREADYASSERTED_THEN_INBETWEEN2TO5CLK_WVALIDASSERTED: cover property
+    (WhenReadyAssertedThenInbetween2To5ClkValidAsserted(wvalid,wready))
+    $info("IFWREADYASSERTED_THEN_INBETWEEN2TO5CLK_WVALIDASSERTED: COVERED");
+
+    IFBREADYASSERTED_THEN_INBETWEEN2TO5CLK_BVALIDASSERTED: cover property
+    (WhenReadyAssertedThenInbetween2To5ClkValidAsserted(bvalid,bready))
+    $info("IFBREADYASSERTED_THEN_INBETWEEN2TO5CLK_BVALIDASSERTED: COVERED");
+
+    property WhenReadyAssertedThenAnyClkValidAsserted(logic valid, logic ready);
+     @(posedge aclk) ready |-> !valid ##[0:$] valid;
+    endproperty
+
+    IFAWREADYASSERTED_THEN_ANYCLK_AWVALIDASSERTED: cover property
+    (WhenReadyAssertedThenAnyClkValidAsserted(awvalid,awready))
+    $info("IFAWREADYASSERTED_THEN_ANYCLK_AWVALIDASSERTED : COVERED");
+
+    IFWREADYASSERTED_THEN_ANYCLK_WVALIDASSERTED: cover property
+    (WhenReadyAssertedThenAnyClkValidAsserted(wvalid,wready))
+    $info("IFWREADYASSERTED_THEN_ANYCLK_WVALIDASSERTED : COVERED");
+
+    IFBREADYASSERTED_THEN_ANYCLK_BVALIDASSERTED: cover property
+    (WhenReadyAssertedThenAnyClkValidAsserted(bvalid,bready))
+    $info("IFBREADYASSERTED_THEN_ANYCLK_BVALIDASSERTED : COVERED");
+
+    property WhenREADYDefaultValueIs1AndTransferOccurThenSameClkREADYValueWillGoDefaultState(logic valid, logic ready); 
+     @(posedge aclk) disable iff (aresetn)
+         (ready && valid) |=> ready;
+    endproperty  
+
+    IFAWREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_AWREADY_WILLGODEFAULTSTATE: cover property  
+    (WhenREADYDefaultValueIs1AndTransferOccurThenSameClkREADYValueWillGoDefaultState(awvalid, awready))
+    $info("IFAWREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_AWREADY_WILLGODEFAULTSTATE : COVERED");
+
+    IFWREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_WREADY_WILLGODEFAULTSTATE: cover property  
+    (WhenREADYDefaultValueIs1AndTransferOccurThenSameClkREADYValueWillGoDefaultState(wvalid, wready))
+    $info("IFWREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_WREADY_WILLGODEFAULTSTATE : COVERED");
+
+    IFBREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_BREADY_WILLGODEFAULTSTATE: cover property  
+    (WhenREADYDefaultValueIs1AndTransferOccurThenSameClkREADYValueWillGoDefaultState(bvalid, bready))
+    $info("IFBREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_BREADY_WILLGODEFAULTSTATE : COVERED");
+
+     property WhenREADYDefaultValueIs0AndTransferOccurThenSameClkREADYValueWillGoDefaultState(logic valid, logic ready); 
+     @(posedge aclk) disable iff (aresetn)
+         (ready && valid) |=> (!ready);
+    endproperty  
+
+    IFAWREADYDEFAULTVALUEISLOW_ANDTRANSFEROCCUR_THEN_AWREADY_WILLGODEFAULTSTATE: cover property  
+    (WhenREADYDefaultValueIs0AndTransferOccurThenSameClkREADYValueWillGoDefaultState(awvalid, awready))
+    $info("IFAWREADYDEFAULTVALUEISLOW_ANDTRANSFEROCCUR_THEN_AWREADY_WILLGODEFAULTSTATE : COVERED");
+
+    IFWREADYDEFAULTVALUEISLOW_ANDTRANSFEROCCUR_THEN_WREADY_WILLGODEFAULTSTATE: cover property  
+    (WhenREADYDefaultValueIs0AndTransferOccurThenSameClkREADYValueWillGoDefaultState(wvalid, wready))
+    $info("IFWREADYDEFAULTVALUEISLOW_ANDTRANSFEROCCUR_THEN_WREADY_WILLGODEFAULTSTATE : COVERED");
+
+    IFBREADYDEFAULTVALUEISLOW_ANDTRANSFEROCCUR_THEN_BREADY_WILLGODEFAULTSTATE: cover property  
+    (WhenREADYDefaultValueIs0AndTransferOccurThenSameClkREADYValueWillGoDefaultState(bvalid, bready))
+    $info("IFBREADYDEFAULTVALUEISLOW_ANDTRANSFEROCCUR_THEN_BREADY_WILLGODEFAULTSTATE : COVERED");
+
+    property WhenAwreadyHighAndWritingValidAddressAndDataOnSlaveLocationThenSlaveWillGiveOkayResponse; 
+     @(posedge aclk) disable iff (aresetn)
+         (awvalid && awready && !($isunknown(awaddr))) |->  ##[0:$] (wvalid && wready && !($isunknown(wdata)))  ##[0:$] (bvalid &&       bready  && (bresp != 2'b10));
+    endproperty  
+
+    IFAWREADYHIGH_THEN_WRITINGTHEVALID_AWADDRANDWDATA_ONSLAVELOCATION_THEN_SLAVEWILLGIVEOKAYRESPONSE: cover property 
+    (WhenAwreadyHighAndWritingValidAddressAndDataOnSlaveLocationThenSlaveWillGiveOkayResponse) 
+    $info("IFAWREADYHIGH_THEN_WRITINGTHEVALID_AWADDRANDWDATA_ONSLAVELOCATION_THEN_SLAVEWILLGIVEOKAYRESPONSE : COVERED");
+
+   property WhenAwvalidAwreadyWvalidAndWreadyAreAssertedSameClkThenNextClkBvalidAsserted; 
+   @(posedge aclk) disable iff (aresetn)
+   (awvalid && awready && wvalid && wready && !bvalid) |=> bvalid; 
+   endproperty  
+
+   AWVALIDANDAWREADY_WVALIDANDWREADY_ASSERTEDATSAMECLK_THEN_BVALIDASSERTEDNEXTCLK: cover property  
+   (WhenAwvalidAwreadyWvalidAndWreadyAreAssertedSameClkThenNextClkBvalidAsserted); 
+   $info("AWVALIDANDAWREADY_WVALIDANDWREADY_ASSERTEDATSAMECLK_THEN_BVALIDASSERTEDNEXTCLK :COVERED");
+
+   property WhenAwvalidAwreadyAssertedThenNextClkWvalidWreadyAssertedThenNextClkBValidAsserted;
+   @(posedge aclk) disable iff (aresetn)
+   (awvalid && awready && !bvalid) |=> (wvalid && wready && !bvalid) ##1 bvalid;
+   endproperty
+
+   AWVALIDANDAWREADY_THEN_NEXTCLK_WVALIDANDWREADYASSERTED_THEN_NEXTCLK_BVALIDASSERTED: cover property
+   (WhenAwvalidAwreadyAssertedThenNextClkWvalidWreadyAssertedThenNextClkBValidAsserted)
+   $info("AWVALIDANDAWREADY_THEN_NEXTCLK_WVALIDANDWREADYASSERTED_THEN_NEXTCLK_BVALIDASSERTED :COVERED");
+
+   property WhenAwvalidAwreadyAssertedThenNextClkWvalidWreadyAssertedThenInbetween1To16ClkBValidAsserted;
+   @(posedge aclk) disable iff (aresetn)
+   (awvalid && awready && !bvalid) |=> (wvalid && wready && !bvalid) ##[1:16] bvalid;
+   endproperty
+
+   AWVALIDANDAWREADY_THEN_NEXTCLK_WVALIDANDWREADYASSERTED_THEN_INBETWEEN1TO16CLK_BVALIDASSERTED: cover property
+   (WhenAwvalidAwreadyAssertedThenNextClkWvalidWreadyAssertedThenInbetween1To16ClkBValidAsserted)
+   $info("AWVALIDANDAWREADY_THEN_NEXTCLK_WVALIDANDWREADYASSERTED_THEN_INBETWEEN1TO16CLK_BVALIDASSERTED :COVERED");
+
+   property WhenAwvalidAwreadyAssertedThenAnyClkWvalidWreadyAssertedThenAnyClkBValidAsserted;
+   @(posedge aclk) disable iff (aresetn)
+   (awvalid && awready && !bvalid) |-> ##[0:$] (wvalid && wready && !bvalid) ##[1:$] bvalid;
+   endproperty
+
+   AWVALIDANDAWREADY_THEN_ANYCLK_WVALIDANDWREADYASSERTED_THEN_ANYCLK_BVALIDASSERTED: cover property
+   (WhenAwvalidAwreadyAssertedThenAnyClkWvalidWreadyAssertedThenAnyClkBValidAsserted)
+   $info("AWVALIDANDAWREADY_THEN_ANYCLK_WVALIDANDWREADYASSERTED_THEN_ANYCLK_BVALIDASSERTED :COVERED");
+
+
+ endinterface : Axi4LiteMasterWriteCoverProperty
 
 `endif
 
