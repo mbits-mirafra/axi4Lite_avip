@@ -2,6 +2,7 @@
 `define AXI4LITEMASTERWRITEASSERTIONS_INCLUDED_
 
 import Axi4LiteWriteMasterGlobalPkg::*;
+import Axi4LiteMasterWriteAssertCoverParameter::*;
 
 interface Axi4LiteMasterWriteAssertions (input  aclk,
                                          input  aresetn,
@@ -45,7 +46,7 @@ IFWVALIDASSERTED_THEN_WDATA_NOTUNKNOWN: assert property (ifValidHighThenInformat
 
     property validAssertedAndStableWithin16ClkReadyAsserted(logic valid, logic ready);
       @(posedge aclk) disable iff (!aresetn)
-        ($rose(valid) && !ready) |=> ($stable(valid) throughout (##[0:15] $rose(ready)));  //TODO add maxDelayForReday config value
+        ($rose(valid) && !ready) |=> ($stable(valid) throughout (##[0:MAX_DELAY_READY] $rose(ready)));
     endproperty
 
 IFAWVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_AWREADYASSERTED: assert property (validAssertedAndStableWithin16ClkReadyAsserted(awvalid, awready))
@@ -65,7 +66,7 @@ IFBVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_BREADYASSERTED: assert property (
 
     property validAssertedThenWithin16ClkReadyAsserted(logic valid, logic ready);
       @(posedge aclk) disable iff (!aresetn)
-        $rose(valid) |-> ##[0:16] ready;  //TODO add maxDelayForReday config value
+        $rose(valid) |-> ##[0:MAX_DELAY_READY] ready;  //TODO add maxDelayForReday config value
     endproperty
 
 IFAWVALIDASSERTED_THENWITHIN16CLK_AWREADYASSERTED: assert property (validAssertedThenWithin16ClkReadyAsserted(awvalid, awready)) 
@@ -84,86 +85,45 @@ IFBVALIDASSERTED_THENWITHIN16CLK_BREADYASSERTED: assert property (validAssertedT
     $error("IFBVALIDASSERTED_THENWITHIN16CLK_BREADYASSERTED : NOT ASSERTED");
 
 
-/*    property WhenResetAssertedThenReadyWillGoDefaultState1(logic ready);
+    property WhenResetAssertedThenReadyWillGoDefaultState(logic ready);
      @(negedge aresetn) disable iff (aresetn === 1)
-         1 |-> (ready===1);
+         1 |-> (ready===DEFAULT_READY);
     endproperty
 
-IFAWREADYDEFAULTVALUEHIGH_ANDRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState1(awready))
-  $info("IFAWREADYDEFAULTVALUEHIGH_ANDRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE : ASSERTED");
+IFRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState(awready))
+  $info("IFRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE : ASSERTED");
   else
-    $error("IFAWREADYDEFAULTVALUEHIGH_ANDRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
+    $error("IFRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
 
-IFWREADYDEFAULTVALUEHIGH_ANDRESETASSERTED_THENWREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState1(wready))
-  $info("IFWREADYDEFAULTVALUEHIGH_ANDRESETASSERTED_THENWREADY_WILLGODEFAULTSTATE : ASSERTED");
+IFRESETASSERTED_THENWREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState(wready))
+  $info("IFRESETASSERTED_THENWREADY_WILLGODEFAULTSTATE : ASSERTED");
   else
-    $error("IFWREADYDEFAULTVALUEHIGH_ANDRESETASSERTED_THENWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
+    $error("IFRESETASSERTED_THENWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
 
-IFBREADYDEFAULTVALUEHIGH_ANDRESETASSERTED_THENBREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState1(bready))
-  $info("IFBREADYDEFAULTVALUEHIGH_ANDRESETASSERTED_THENBREADY_WILLGODEFAULTSTATE : ASSERTED");
+IFRESETASSERTED_THENBREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState(bready))
+  $info("IFRESETASSERTED_THENBREADY_WILLGODEFAULTSTATE : ASSERTED");
   else
-    $error("IFBREADYDEFAULTVALUEHIGH_ANDRESETASSERTED_THENBREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
+    $error("IFRESETASSERTED_THENBREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
 
-    property WhenResetAssertedThenReadyWillGoDefaultState0(logic ready); 
-     @(negedge aresetn) disable iff (aresetn === 1)
-         1 |-> (ready===0);
-    endproperty  
-
-IFAWREADYDEFAULTVALUELOW_ANDRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState0(awready)) 
-  $info("IFAWREADYDEFAULTVALUELOW_ANDRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE : ASSERTED");
-  else
-    $error("IFAWREADYDEFAULTVALUELOW_ANDRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
-
-IFWREADYDEFAULTVALUELOW_ANDRESETASSERTED_THENWREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState0(wready)) 
-  $info("IFWREADYDEFAULTVALUELOW_ANDRESETASSERTED_THENWREADY_WILLGODEFAULTSTATE : ASSERTED");
-  else
-    $error("IFWREADYDEFAULTVALUELOW_ANDRESETASSERTED_THENWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
-
-IFBREADYDEFAULTVALUELOW_ANDRESETASSERTED_THENBREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState0(bready)) 
-  $info("IFBREADYDEFAULTVALUELOW_ANDRESETASSERTED_THENBREADY_WILLGODEFAULTSTATE : ASSERTED");
-  else
-    $error("IFBREADYDEFAULTVALUELOW_ANDRESETASSERTED_THENBREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
-*/
-    property  WhenTransferOccurThenNextCLKReadyWillGoDefaultStateHigh(logic valid, logic ready);
+    property WhenTransferOccurThenNextCLKReadyWillGoDefaultState(logic valid, logic ready);
      @(posedge aclk) disable iff (!aresetn)
-         (ready && valid) |=> (ready == 1);
+         (ready && valid) |=> (ready == DEFAULT_READY);
     endproperty
 
-IFAWREADYDEFAULTVALUEHIGH_ANDTRANSFEROCCUR_THENAWREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultStateHigh(awvalid,awready))
-  $info("IFAWREADYDEFAULTVALUEHIGH_ANDTRANSFEROCCUR_THENAWREADY_WILLGODEFAULTSTATE : ASSERTED");
+IFTRANSFEROCCUR_THENAWREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultState(awvalid,awready))
+  $info("IFTRANSFEROCCUR_THENAWREADY_WILLGODEFAULTSTATE : ASSERTED");
   else
-    $error("IFAWREADYDEFAULTVALUEHIGH_ANDTRANSFEROCCUR_THENAWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
+    $error("IFTRANSFEROCCUR_THENAWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
 
-IFWREADYDEFAULTVALUEHIGH_ANDTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultStateHigh(wvalid,wready))
-  $info("IFWREADYDEFAULTVALUEHIGH_ANDTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE : ASSERTED");
+IFTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultState(wvalid,wready))
+  $info("IFTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE : ASSERTED");
   else
-    $error("IFWREADYDEFAULTVALUEHIGH_ANDTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
+    $error("IFTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
 
-IFBREADYDEFAULTVALUEHIGH_ANDTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultStateHigh(bvalid,bready))
-  $info("IFBREADYDEFAULTVALUEHIGH_ANDTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE : ASSERTED");
+IFTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultState(bvalid,bready))
+  $info("IFTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE : ASSERTED");
   else
-    $error("IFBREADYDEFAULTVALUEHIGH_ANDTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
-/*
-    property  WhenTransferOccurThenNextCLKReadyWillGoDefaultStateLow(logic valid, logic ready);
-     @(posedge aclk) disable iff (!aresetn)
-         (ready && valid) |=> (ready !== 1);
-    endproperty  
-
-IFAWREADYDEFAULTVALUELOW_ANDTRANSFEROCCUR_THENAWREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultStateLow(awvalid,awready))
-  $info("IFAWREADYDEFAULTVALUELOW_ANDTRANSFEROCCUR_THENAWREADY_WILLGODEFAULTSTATE : ASSERTED");
-  else
-    $error("IFAWREADYDEFAULTVALUELOW_ANDTRANSFEROCCUR_THENAWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
-
-IFWREADYDEFAULTVALUELOW_ANDTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultStateLow(wvalid,wready))
-  $info("IFWREADYDEFAULTVALUELOW_ANDTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE : ASSERTED");
-  else
-    $error("IFWREADYDEFAULTVALUELOW_ANDTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
-
-IFBREADYDEFAULTVALUELOW_ANDTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultStateLow(bvalid,bready))
-  $info("IFBREADYDEFAULTVALUELOW_ANDTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE : ASSERTED");
-  else
-    $error("IFBREADYDEFAULTVALUELOW_ANDTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
-*/
+    $error("IFTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
 
   
     property awvalidIsHighThenInformationStableUntilTransferOccur(logic awvalid, logic awready, logic awaddr, logic awprot);
@@ -231,7 +191,7 @@ IFBVALIDANDBREADYASSERTED_THEN_INFORMATIONNOTUNKNOWN_THENTRANSFEROCCUR : assert 
 
     property awvalidAwreadyAndWvalidWreadyAssertedThenBValidAsserted;
      @(posedge aclk) disable iff (!aresetn)
-        (awvalid && awready && !bvalid) |-> ##[0:10] (wvalid && !bvalid) ##[0:16] (wready && !bvalid) ##[1:12] bvalid;
+        (awvalid && awready && !bvalid) |-> ##[0:MAX_DELAY_WVALID] (wvalid && !bvalid) ##[0:MAX_DELAY_READY] (wready && !bvalid) ##[1:MAX_DELAY_BVALID] bvalid;
     endproperty
 
 AWVALIDAWREADYHIGH_THENWITHIN10CLK_WVALIDANDWREADYASSERTED_THENWHITHIN12CLK_BVALIDASSERTED: assert property(awvalidAwreadyAndWvalidWreadyAssertedThenBValidAsserted)
@@ -241,7 +201,7 @@ AWVALIDAWREADYHIGH_THENWITHIN10CLK_WVALIDANDWREADYASSERTED_THENWHITHIN12CLK_BVAL
 
    property wvalidWreadyAssertedThenWithin12ClkBValidAsserted;
      @(posedge aclk) disable iff (!aresetn)
-       (wvalid && wready && !bvalid) |-> ##[1:12] bvalid;
+       (wvalid && wready && !bvalid) |-> ##[1:MAX_DELAY_BVALID] bvalid;
    endproperty
 
 WVALIDANDWREADYASSERTED_THENWITHIN12CLK_BVALIDASSERTED: assert property(wvalidWreadyAssertedThenWithin12ClkBValidAsserted)
@@ -251,7 +211,7 @@ WVALIDANDWREADYASSERTED_THENWITHIN12CLK_BVALIDASSERTED: assert property(wvalidWr
 
     property awvalidIsAssertedThenWithin10ClkWValidIsAsserted;
      @(posedge aclk) disable iff (!aresetn)
-        awvalid |-> ##[0:10] (wvalid);
+        awvalid |-> ##[0:MAX_DELAY_WVALID] (wvalid);
     endproperty
 
 IFAWVALIDISASSERTED_THEN_WITHIN10CLK_WVALIDWILLASSERT: assert property(awvalidIsAssertedThenWithin10ClkWValidIsAsserted) 
