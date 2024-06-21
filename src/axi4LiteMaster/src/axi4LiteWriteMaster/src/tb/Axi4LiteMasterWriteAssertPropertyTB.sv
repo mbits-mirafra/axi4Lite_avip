@@ -103,6 +103,14 @@ module Axi4LiteMasterWriteAssertPropertyTB;
     When_awvalidAndAwreadyAsserted_Then_awaddrAndAwprotUnknown_Expect_AssertionFail();
     When_wvalidAndWreadyAsserted_Then_wdataAndWstrbUnknown_Expect_AssertionFail();
     When_bvalidAndBreadyAsserted_Then_brespUnknown_Expect_AssertionFail();
+
+    When_awvalidAwreadyHighAndWithin10ClkWvalidHighAndWreadyAsserted_Then_wthin12ClkBValidAsserted_Expect_AssertionPass();
+    When_awvalidAwreadyHighSameClkBvalidHighAndWithin10ClkWvalidHighAndWreadyAsserted_Expect_AssertionFail();
+    When_wvalidWreadyAsserted_Then_within12ClkKBValidAsserted_Expect_AssertionPass();
+    When_wvalidWreadyAsserted_Then_after12ClkBValidAsserted_Expect_AssertionFail();
+
+    When_awvalidIsAsserted_Then_within10ClkWValidIsAsserted_Expect_AssertionPass();
+    When_awvalidIsAsserted_Then_after10ClkWValidIsAsserted_Expect_AssertionFail();
   end
 
   task When_awvalidIsAsserted_Then_sameClkAwaddrIsNotUnknown_Expect_AssertionPass();
@@ -855,6 +863,185 @@ module Axi4LiteMasterWriteAssertPropertyTB;
       bvalid <= 1'b0;
 
     `uvm_info(name,$sformatf("When_bvalidAndBreadyAsserted_Then_brespUnknown_Expect_AssertionFail Task Ended"),UVM_NONE);
+  endtask
+
+  task When_awvalidAwreadyHighAndWithin10ClkWvalidHighAndWreadyAsserted_Then_wthin12ClkBValidAsserted_Expect_AssertionPass();
+    `uvm_info(name,$sformatf("When_awvalidAwreadyHighAndWithin10ClkWvalidHighAndWreadyAsserted_Then_wthin12ClkBValidAsserted_Expect_AssertionPass Task started"),UVM_NONE);
+      awvalid <= 1'b0;
+      awready <= 1'b0;
+      wvalid <= 1'b0;
+      wready <= 1'b0;
+      bvalid <= 1'b0;
+      aresetn <= 1'b1;
+      @(posedge aclk);
+      awvalid <= 1'b1;
+      awready <= 1'b1;
+      awaddr <= 32'h1111_2222;
+      awprot <= 3'b000;
+      repeat(5) begin
+        @(posedge aclk);
+      end
+      wvalid <= 1'b1;
+      wready <= 1'b1;
+      wdata <= 32'haabb_1234;
+      wstrb <= 4'hf;
+      repeat(6) begin
+        @(posedge aclk);
+      end
+      bvalid <= 1'b1;
+      bresp <= 2'b00;
+      @(posedge aclk);
+      awvalid <= 1'b0;
+      awready <= 1'b0;
+      wvalid <= 1'b0;
+      wready <= 1'b0;
+      bvalid <= 1'b0;
+
+    `uvm_info(name,$sformatf("When_awvalidAwreadyHighAndWithin10ClkWvalidHighAndWreadyAsserted_Then_wthin12ClkBValidAsserted_Expect_AssertionPass Task Ended"),UVM_NONE);
+  endtask
+
+  task When_awvalidAwreadyHighSameClkBvalidHighAndWithin10ClkWvalidHighAndWreadyAsserted_Expect_AssertionFail();
+    `uvm_info(name,$sformatf("When_awvalidAwreadyHighSameClkBvalidHighAndWithin10ClkWvalidHighAndWreadyAsserted_Expect_AssertionFail Task started"),UVM_NONE);
+      awvalid <= 1'b0;
+      awready <= 1'b0;
+      wvalid <= 1'b0;
+      wready <= 1'b0;
+      bvalid <= 1'b0;
+      aresetn <= 1'b1;
+      @(posedge aclk);
+      awvalid <= 1'b1;
+      awready <= 1'b1;
+      awaddr <= 32'h1111_2222;
+      awprot <= 3'b000;
+      bvalid <= 1'b1;
+      repeat(5) begin
+        @(posedge aclk);
+      end
+      wvalid <= 1'b1;
+      wready <= 1'b1;
+      wdata <= 32'haabb_1234;
+      wstrb <= 4'hf;
+      @(posedge aclk);
+      awvalid <= 1'b0;
+      awready <= 1'b0;
+      wvalid <= 1'b0;
+      wready <= 1'b0;
+      bvalid <= 1'b0;
+
+    `uvm_info(name,$sformatf("When_awvalidAwreadyHighSameClkBvalidHighAndWithin10ClkWvalidHighAndWreadyAsserted_Expect_AssertionFail Task Ended"),UVM_NONE);
+  endtask
+
+  task When_wvalidWreadyAsserted_Then_within12ClkKBValidAsserted_Expect_AssertionPass();
+    `uvm_info(name,$sformatf("When_wvalidWreadyAsserted_Then_within12ClkKBValidAsserted_Expect_AssertionPass Task started"),UVM_NONE);
+      aresetn <= 1'b1;
+      wvalid <= 1'b0;
+      wready <= 1'b0;
+      bvalid <= 1'b0;
+      @(posedge aclk);
+      wvalid <= 1'b1;
+      wready <= 1'b1;
+      wdata <= 32'haabb_1234;
+      wstrb <= 4'hf;
+      repeat(8) begin
+        @(posedge aclk);
+      end
+      bvalid <= 1'b1;
+      bresp <= 2'b00;
+      @(posedge aclk);
+      wvalid <= 1'b0;
+      wready <= 1'b0;
+      bvalid <= 1'b0;
+
+    `uvm_info(name,$sformatf("When_wvalidWreadyAsserted_Then_within12ClkKBValidAsserted_Expect_AssertionPass Task Ended"),UVM_NONE);
+  endtask
+
+  task When_wvalidWreadyAsserted_Then_after12ClkBValidAsserted_Expect_AssertionFail();
+    `uvm_info(name,$sformatf("When_wvalidWreadyAsserted_Then_after12ClkBValidAsserted_Expect_AssertionFail Task started"),UVM_NONE);
+      aresetn <= 1'b1;
+      wvalid <= 1'b0;
+      wready <= 1'b0;
+      bvalid <= 1'b0;
+      @(posedge aclk);
+      wvalid <= 1'b1;
+      wready <= 1'b1;
+      wdata <= 32'haabb_1234;
+      wstrb <= 4'hf;
+      repeat(14) begin
+        @(posedge aclk);
+      end
+      bvalid <= 1'b1;
+      @(posedge aclk);
+      wvalid <= 1'b0;
+      wready <= 1'b0;
+      bvalid <= 1'b0;
+
+    `uvm_info(name,$sformatf("When_wvalidWreadyAsserted_Then_after12ClkBValidAsserted_Expect_AssertionFail Task Ended"),UVM_NONE);
+  endtask
+
+  task When_awvalidIsAsserted_Then_within10ClkWValidIsAsserted_Expect_AssertionPass();
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_within10ClkWValidIsAsserted_Expect_AssertionPass Task started"),UVM_NONE);
+      awvalid <= 1'b0;
+      awready <= 1'b0;
+      wvalid <= 1'b0;
+      wready <= 1'b0;
+      bvalid <= 1'b0;
+      aresetn <= 1'b1;
+      @(posedge aclk);
+      awvalid <= 1'b1;
+      awready <= 1'b1;
+      awaddr <= 32'h1111_2222;
+      awprot <= 3'b000;
+      repeat(7) begin
+        @(posedge aclk);
+      end
+      wvalid <= 1'b1;
+      wready <= 1'b1;
+      wdata <= 32'haabb_1234;
+      wstrb <= 4'hf;
+      @(posedge aclk);
+      bvalid <= 1'b1;
+      bresp <= 2'b00;
+      @(posedge aclk);
+      awvalid <= 1'b0;
+      awready <= 1'b0;
+      wvalid <= 1'b0;
+      wready <= 1'b0;
+      bvalid <= 1'b0;
+
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_within10ClkWValidIsAsserted_Expect_AssertionPass Task Ended"),UVM_NONE);
+  endtask
+
+  task When_awvalidIsAsserted_Then_after10ClkWValidIsAsserted_Expect_AssertionFail();
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_after10ClkWValidIsAsserted_Expect_AssertionFail Task started"),UVM_NONE);
+      awvalid <= 1'b0;
+      awready <= 1'b0;
+      wvalid <= 1'b0;
+      wready <= 1'b0;
+      bvalid <= 1'b0;
+      aresetn <= 1'b1;
+      @(posedge aclk);
+      awvalid <= 1'b1;
+      awready <= 1'b1;
+      awaddr <= 32'h1111_2222;
+      awprot <= 3'b000;
+      repeat(12) begin
+        @(posedge aclk);
+      end
+      wvalid <= 1'b1;
+      wready <= 1'b1;
+      wdata <= 32'haabb_1234;
+      wstrb <= 4'hf;
+      @(posedge aclk);
+      bvalid <= 1'b1;
+      bresp <= 2'b00;
+      @(posedge aclk);
+      awvalid <= 1'b0;
+      awready <= 1'b0;
+      wvalid <= 1'b0;
+      wready <= 1'b0;
+      bvalid <= 1'b0;
+
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_after10ClkWValidIsAsserted_Expect_AssertionFail Task Ended"),UVM_NONE);
   endtask
 
 endmodule : Axi4LiteMasterWriteAssertPropertyTB

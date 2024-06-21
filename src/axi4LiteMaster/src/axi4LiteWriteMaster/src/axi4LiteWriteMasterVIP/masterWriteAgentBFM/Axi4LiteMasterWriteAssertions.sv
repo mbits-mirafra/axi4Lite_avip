@@ -229,6 +229,36 @@ IFBVALIDANDBREADYASSERTED_THEN_INFORMATIONNOTUNKNOWN_THENTRANSFEROCCUR : assert 
   else
     $error("IFBVALIDANDBREADYASSERTED_THEN_INFORMATIONNOTUNKNOWN_THENTRANSFEROCCUR : NOT ASSERTED");
 
+    property awvalidAwreadyAndWvalidWreadyAssertedThenBValidAsserted;
+     @(posedge aclk) disable iff (!aresetn)
+        (awvalid && awready && !bvalid) |-> ##[0:10] (wvalid && !bvalid) ##[0:16] (wready && !bvalid) ##[1:12] bvalid;
+    endproperty
+
+AWVALIDAWREADYHIGH_THENWITHIN10CLK_WVALIDANDWREADYASSERTED_THENWHITHIN12CLK_BVALIDASSERTED: assert property(awvalidAwreadyAndWvalidWreadyAssertedThenBValidAsserted)
+  $info("AWVALIDAWREADYHIGH_THENWITHIN10CLK_WVALIDANDWREADYASSERTED_THENWHITHIN12CLK_BVALIDASSERTED : ASSERTED");
+  else
+    $error("AWVALIDAWREADYHIGH_THENWITHIN10CLK_WVALIDANDWREADYASSERTED_THENWHITHIN12CLK_BVALIDASSERTED : NOT ASSERTED");
+
+   property wvalidWreadyAssertedThenWithin12ClkBValidAsserted;
+     @(posedge aclk) disable iff (!aresetn)
+       (wvalid && wready && !bvalid) |-> ##[1:12] bvalid;
+   endproperty
+
+WVALIDANDWREADYASSERTED_THENWITHIN12CLK_BVALIDASSERTED: assert property(wvalidWreadyAssertedThenWithin12ClkBValidAsserted)
+  $info("WVALIDANDWREADYASSERTED_THENWITHIN12CLK_BVALIDASSERTED : ASSERTED");
+  else
+    $error("WVALIDANDWREADYASSERTED_THENWITHIN12CLK_BVALIDASSERTED : NOT ASSERTED");
+
+    property awvalidIsAssertedThenWithin10ClkWValidIsAsserted;
+     @(posedge aclk) disable iff (!aresetn)
+        awvalid |-> ##[0:10] (wvalid);
+    endproperty
+
+IFAWVALIDISASSERTED_THEN_WITHIN10CLK_WVALIDWILLASSERT: assert property(awvalidIsAssertedThenWithin10ClkWValidIsAsserted) 
+  $info("IFAWVALIDISASSERTED_THEN_WITHIN10CLK_WVALIDWILLASSERT : ASSERTED");
+  else
+    $error("IFAWVALIDISASSERTED_THEN_WITHIN10CLK_WVALIDWILLASSERT : NOT ASSERTED");
+
 endinterface : Axi4LiteMasterWriteAssertions
 
 `endif
