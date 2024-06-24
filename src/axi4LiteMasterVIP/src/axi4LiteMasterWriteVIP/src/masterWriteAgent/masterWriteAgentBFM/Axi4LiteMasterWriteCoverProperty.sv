@@ -2,7 +2,9 @@
 `define AXI4LITEMASTERWRITECOVERPROPERTY_INCLUDED_
   import uvm_pkg::*;
   import Axi4LiteWriteMasterGlobalPkg::*;
+  import Axi4LiteMasterWriteAssertCoverParameter::*;
   `include "uvm_macros.svh";
+
 
 interface Axi4LiteMasterWriteCoverProperty (input  aclk,
                                          input  aresetn,
@@ -71,7 +73,7 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
 
   property WhenReadyLowAndValidAssertedAfterAnyClkThenReadyWillAssertedAnyClk(logic valid, logic ready);
    @(posedge aclk)
-   !ready |-> ##[1:$] (valid && !ready);
+   !ready |-> ##[1:MAX_DELAY_VALID] (valid && !ready);
   endproperty
   
   IFAWREADYLOW_THEN_AFTERANYCLK_AWVALIDASSERTED_THENAWREADYWILLASSERTEDANYCLK: cover property
@@ -122,7 +124,7 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
 
   property WhenValidAssertedThenValidHighAndWithin1To16ClkReadyAsserted(logic valid, logic ready);
    @(posedge aclk) 
-    $rose(valid) |=> ($stable(valid) throughout (##[1:16] $rose(ready))); 
+    $rose(valid) |=> ($stable(valid) throughout (##[1:MAX_DELAY_READY] $rose(ready))); 
   endproperty  
 
   IFAWVALIDASSERTED_ANDREMAINHIGH_THENWITHIN1TO16CLK_AWREADYASSERTED: cover property 
@@ -191,7 +193,7 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
 
   property WhenBackToBackValidAndReadyAssertedWithin3To16ClkDelayInbetween2Transfer(logic valid, logic ready);
    @(posedge aclk)
-    (valid && ready) |=> ##[3:16] (valid && ready);
+    (valid && ready) |=> ##[3:DELAY_FOR_SECOND_TRANSFER] (valid && ready);
   endproperty
 
   IFBACKTOBACK_AWVALIDANDAWREADYASSERTED_WITHIN3TO16CLKDELAY_INBETWEEN2TRANSFER: cover property
@@ -208,7 +210,7 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
 
   property WhenBackToBackValidAndReadyAssertedWithMoreThan16ClkDelayInbetween2Transfer(logic valid, logic ready);
    @(posedge aclk)
-   (valid && ready) |=> ##[16:$] (valid && ready);
+   (valid && ready) |=> ##[DELAY_FOR_SECOND_TRANSFER :$] (valid && ready);
   endproperty
 
   IFBACKTOBACK_AWVALIDANDAWREADYASSERTED_WITHMORETHAN16CLKDELAY_INBETWEEN2TRANSFER: cover property
@@ -273,7 +275,7 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
    $info("IFBVALIDASSERTED_THEN_INBETWEEN2TO5CLK_BREADYASSERTED : COVERED");
 
    property WhenValidAssertedThenWithin16ClkReadyAsserted(logic valid, logic ready);
-   @(posedge aclk) valid |-> ##[0:16] ready;
+   @(posedge aclk) valid |-> ##[0:MAX_DELAY_READY] ready;
    endproperty
 
    IFAWVALIDASSERTED_THEN_WITH16CLK_AWREADYASSERTED: cover property 
@@ -432,7 +434,7 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
 
    property WhenAwvalidAwreadyAssertedThenNextClkWvalidWreadyAssertedThenInbetween1To16ClkBValidAsserted;
    @(posedge aclk) disable iff (aresetn)
-   (awvalid && awready && !bvalid) |=> (wvalid && wready && !bvalid) ##[1:16] bvalid;
+   (awvalid && awready && !bvalid) |=> (wvalid && wready && !bvalid) ##[1:MAX_DELAY_BVALID] bvalid;
    endproperty
 
    AWVALIDANDAWREADY_THEN_NEXTCLK_WVALIDANDWREADYASSERTED_THEN_INBETWEEN1TO16CLK_BVALIDASSERTED: cover property
@@ -468,7 +470,7 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
 
    property WhenAwaddressIsGeneratedThenInbetween1To10ClkWdataWillBeGenerated; 
     @(posedge aclk) disable iff (aresetn)
-   (awvalid && awready && awaddr) |-> ##[1:10] (wvalid && wready && wdata)
+   (awvalid && awready && awaddr) |-> ##[1:MAX_DELAY_WVALID] (wvalid && wready && wdata)
    endproperty  
    
    IFAWADDRESISASSERTED_THEN_INBETWEEN1TO10CLKWDATAWILLBEASSERTED: cover property
@@ -495,7 +497,7 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
 
    property WhenWdataIsGeneratedThenInbetween1To10ClkAwaddressillBeGenerated;
    @(posedge aclk) disable iff (aresetn)
-   (wvalid && wready && wdata) |-> ##[1:10] (awvalid && awready && awaddr)
+   (wvalid && wready && wdata) |-> ##[1:MAX_DELAY_AWADDR] (awvalid && awready && awaddr)
    endproperty
 
    IFWDATAISASSERTED_THEN_INBETWEEN1TO10CLK_AWADDRWILLBEASSERTED: cover property
