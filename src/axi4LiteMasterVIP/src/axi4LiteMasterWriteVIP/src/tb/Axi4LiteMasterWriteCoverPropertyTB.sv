@@ -117,12 +117,12 @@ module Axi4LiteMasterWriteCoverPropertyTB;
     When_awreadyIsAsserted_Then_anyClkAwvalidIsAsserted();
     When_wreadyIsAsserted_Then_anyClkWvalidIsAsserted();
     When_breadyIsAsserted_Then_anyClkBvalidIsAsserted();
-    When_awreadyDefaultValueIs1AndTransferOccur_Then_SameClkAwreadyValueWillGoDefaultState();
-    When_wreadyDefaultValueIs1AndTransferOccur_Then_SameClkWreadyValueWillGoDefaultState();
-    When_breadyDefaultValueIs1AndTransferOccur_Then_SameClkBreadyValueWillGoDefaultState();
-    When_awreadyDefaultValueIs0AndTransferOccur_Then_SameClkAwreadyValueWillGoDefaultState();
-    When_wreadyDefaultValueIs0AndTransferOccur_Then_SameClkWreadyValueWillGoDefaultState();
-    When_breadyDefaultValueIs0AndTransferOccur_Then_SameClkBreadyValueWillGoDefaultState();
+    When_awreadyDefaultValueIs1AndTransferOccur_Then_nextClkAwreadyValueWillGoDefaultState();
+    When_wreadyDefaultValueIs1AndTransferOccur_Then_nextClkWreadyValueWillGoDefaultState();
+    When_breadyDefaultValueIs1AndTransferOccur_Then_nextClkBreadyValueWillGoDefaultState();
+    When_awreadyDefaultValueIs0AndTransferOccur_Then_nextClkAwreadyValueWillGoDefaultState();
+    When_wreadyDefaultValueIs0AndTransferOccur_Then_nextClkWreadyValueWillGoDefaultState();
+    When_breadyDefaultValueIs0AndTransferOccur_Then_nextClkBreadyValueWillGoDefaultState();
     When_awreadyIsHighAndWritingValidAwaddrAndWdataOnSlaveLocation_Then_brespWillGiveOkayResponse();
     When_awvalidAwreadyWvalidWreadyAreAssertedSameClk_Then_NextClkBvalidIsAsserted();
     When_awvalidAwreadyAreAsserted_Then_nextClkWvalidWreadyAreAsserted_Then_nextClkBvalidIsAsserted();
@@ -1081,8 +1081,8 @@ end
 
    
 
-  task When_awreadyDefaultValueIs1AndTransferOccur_Then_SameClkAwreadyValueWillGoDefaultState();
-   `uvm_info(name,$sformatf("When_awreadyDefaultValueIs1AndTransferOccur_Then_SameClkAwreadyValueWillGoDefaultState"),UVM_NONE);
+  task When_awreadyDefaultValueIs1AndTransferOccur_Then_nextClkAwreadyValueWillGoDefaultState();
+   `uvm_info(name,$sformatf("When_awreadyDefaultValueIs1AndTransferOccur_Then_nextClkAwreadyValueWillGoDefaultState"),UVM_NONE);
       awvalid <= 1'b0;
       awready <= 1'b1;
       @(posedge aclk);
@@ -1092,11 +1092,11 @@ end
       awvalid <= 1'b1;
       @(posedge aclk);
       awvalid <= 1'b0;
-    `uvm_info(name,$sformatf("When_awreadyIsAsserted_Then_anyClkAwvalidIsAsserted task ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_awreadyDefaultValueIs1AndTransferOccur_Then_nextClkAwreadyValueWillGoDefaultState Task ended"),UVM_NONE);
   endtask
 
-  task When_wreadyDefaultValueIs1AndTransferOccur_Then_SameClkWreadyValueWillGoDefaultState();
-   `uvm_info(name,$sformatf("When_wreadyDefaultValueIs1AndTransferOccur_Then_SameClkWreadyValueWillGoDefaultState task started"),UVM_NONE);
+  task When_wreadyDefaultValueIs1AndTransferOccur_Then_nextClkWreadyValueWillGoDefaultState();
+   `uvm_info(name,$sformatf("When_wreadyDefaultValueIs1AndTransferOccur_Then_nextClkWreadyValueWillGoDefaultState task started"),UVM_NONE);
       wvalid <= 1'b0;
       wready <= 1'b1;
       @(posedge aclk);
@@ -1106,11 +1106,11 @@ end
       wvalid <= 1'b1;
       @(posedge aclk);
       wvalid <= 1'b0;
-    `uvm_info(name,$sformatf("When_wreadyDefaultValueIs1AndTransferOccur_Then_SameClkWreadyValueWillGoDefaultState task ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_wreadyDefaultValueIs1AndTransferOccur_Then_nextClkWreadyValueWillGoDefaultState task ended"),UVM_NONE);
   endtask
 
-  task When_breadyDefaultValueIs1AndTransferOccur_Then_SameClkBreadyValueWillGoDefaultState();
-   `uvm_info(name,$sformatf("When_breadyDefaultValueIs1AndTransferOccur_Then_SameClkBreadyValueWillGoDefaultState task started"),UVM_NONE);
+  task When_breadyDefaultValueIs1AndTransferOccur_Then_nextClkBreadyValueWillGoDefaultState();
+   `uvm_info(name,$sformatf("When_breadyDefaultValueIs1AndTransferOccur_Then_nextClkBreadyValueWillGoDefaultState task started"),UVM_NONE);
       bvalid <= 1'b0;
       bready <= 1'b1;
       @(posedge aclk);
@@ -1120,43 +1120,43 @@ end
       bvalid <= 1'b1;
       @(posedge aclk);
       bvalid <= 1'b0;
-    `uvm_info(name,$sformatf("When_breadyDefaultValueIs1AndTransferOccur_Then_SameClkBreadyValueWillGoDefaultState task ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_breadyDefaultValueIs1AndTransferOccur_Then_nextClkBreadyValueWillGoDefaultState task ended"),UVM_NONE);
   endtask
 
-  task When_awreadyDefaultValueIs0AndTransferOccur_Then_SameClkAwreadyValueWillGoDefaultState();
-   `uvm_info(name,$sformatf("When_awreadyDefaultValueIs0AndTransferOccur_Then_SameClkAwreadyValueWillGoDefaultState task started"),UVM_NONE);
+  task When_awreadyDefaultValueIs0AndTransferOccur_Then_nextClkAwreadyValueWillGoDefaultState();
+   `uvm_info(name,$sformatf("When_awreadyDefaultValueIs0AndTransferOccur_Then_nextClkAwreadyValueWillGoDefaultState task started"),UVM_NONE);
       awvalid <= 1'b0;
       awready <= 1'b0;
       @(posedge aclk);
       awready <= 1'b1;
       awvalid <= 1'b1;
       @(posedge aclk);
-      awvalid <= 1'b0;
-    `uvm_info(name,$sformatf("When_awreadyDefaultValueIs0AndTransferOccur_Then_SameClkAwreadyValueWillGoDefaultState task ended"),UVM_NONE);
+      awready <= 1'b0;
+    `uvm_info(name,$sformatf("When_awreadyDefaultValueIs0AndTransferOccur_Then_nextClkAwreadyValueWillGoDefaultState task ended"),UVM_NONE);
   endtask
 
-  task When_wreadyDefaultValueIs0AndTransferOccur_Then_SameClkWreadyValueWillGoDefaultState();
-   `uvm_info(name,$sformatf("When_wreadyDefaultValueIs0AndTransferOccur_Then_SameClkWreadyValueWillGoDefaultState task started"),UVM_NONE);
+  task When_wreadyDefaultValueIs0AndTransferOccur_Then_nextClkWreadyValueWillGoDefaultState();
+   `uvm_info(name,$sformatf("When_wreadyDefaultValueIs0AndTransferOccur_Then_nextClkWreadyValueWillGoDefaultState task started"),UVM_NONE);
       wvalid <= 1'b0;
       wready <= 1'b0;
       @(posedge aclk);
       wready <= 1'b1;
       wvalid <= 1'b1;
       @(posedge aclk);
-      wvalid <= 1'b0;
-    `uvm_info(name,$sformatf("When_wreadyDefaultValueIs0AndTransferOccur_Then_SameClkWreadyValueWillGoDefaultState task ended"),UVM_NONE);
+      wready <= 1'b0;
+    `uvm_info(name,$sformatf("When_wreadyDefaultValueIs0AndTransferOccur_Then_nextClkWreadyValueWillGoDefaultState task ended"),UVM_NONE);
   endtask
 
-  task When_breadyDefaultValueIs0AndTransferOccur_Then_SameClkBreadyValueWillGoDefaultState();
-   `uvm_info(name,$sformatf("When_breadyDefaultValueIs0AndTransferOccur_Then_SameClkBreadyValueWillGoDefaultState task started"),UVM_NONE);
+  task When_breadyDefaultValueIs0AndTransferOccur_Then_nextClkBreadyValueWillGoDefaultState();
+   `uvm_info(name,$sformatf("When_breadyDefaultValueIs0AndTransferOccur_Then_nextClkBreadyValueWillGoDefaultState task started"),UVM_NONE);
       bvalid <= 1'b0;
       bready <= 1'b0;
       @(posedge aclk);
       bready <= 1'b1;
       bvalid <= 1'b1;
       @(posedge aclk);
-      bvalid <= 1'b0;
-    `uvm_info(name,$sformatf("When_breadyDefaultValueIs0AndTransferOccur_Then_SameClkBreadyValueWillGoDefaultState task ended"),UVM_NONE);
+      bready  <= 1'b0;
+    `uvm_info(name,$sformatf("When_breadyDefaultValueIs0AndTransferOccur_Then_nextClkBreadyValueWillGoDefaultState task ended"),UVM_NONE);
   endtask
 
  task When_awreadyIsHighAndWritingValidAwaddrAndWdataOnSlaveLocation_Then_brespWillGiveOkayResponse();
