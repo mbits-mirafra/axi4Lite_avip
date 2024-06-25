@@ -10,11 +10,13 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
                                          //Read Data Channel Signals
                                          input  rvalid,
                                          input  rdata,
-                                         input  rready
+                                         input  rready,
+                                         input  rresp
                                          );  
 
   import uvm_pkg::*;
   import Axi4LiteReadMasterGlobalPkg::*;
+  import Axi4LiteMasterReadAssertCoverParameter::*; 
   `include "uvm_macros.svh";
 
   initial begin
@@ -101,7 +103,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
 
    property WhenValidAssertedThenValidHighAndWithin1To16ClkReadyAsserted(logic valid, logic ready);
    @(posedge aclk) 
-    $rose(valid) |=> ($stable(valid) throughout (##[1:16] $rose(ready))); 
+    $rose(valid) |=> ($stable(valid) throughout (##[1:MAX_DELAY_READY] $rose(ready))); 
   endproperty  
 
   IFARVALIDASSERTED_ANDREMAINHIGH_THENWITHIN1TO16CLK_ARREADYASSERTED: cover property 
@@ -153,7 +155,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
  
   property WhenBackToBackValidAndReadyAssertedWithin3To16ClkDelayInbetween2Transfer(logic valid, logic ready);
    @(posedge aclk)
-    (valid && ready) |=> ##[3:16] (valid && ready);
+    (valid && ready) |=> ##[3:DELAY_FOR_SECOND_TRANSFER] (valid && ready);
   endproperty
 
   IFBACKTOBACK_ARVALIDANDARREADYASSERTED_WITHIN3TO16CLKDELAY_INBETWEEN2TRANSFER: cover property
@@ -166,7 +168,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
 
   property WhenBackToBackValidAndReadyAssertedWithMoreThan16ClkDelayInbetween2Transfer(logic valid, logic ready);
    @(posedge aclk)
-   (valid && ready) |=> ##[16:$] (valid && ready);
+   (valid && ready) |=> ##[DELAY_FOR_SECOND_TRANSFER:$] (valid && ready);
   endproperty
 
   IFBACKTOBACK_ARVALIDANDARREADYASSERTED_WITHMORETHAN16CLKDELAY_INBETWEEN2TRANSFER: cover property
@@ -285,10 +287,72 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     (WhenReadyAssertedThenAnyClkValidAsserted(rvalid,rready))
     $info("IFRREADYASSERTED_THEN_ANYCLK_RVALIDASSERTED : COVERED");
 
+    property WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(logic valid, logic ready); 
+     @(posedge aclk) disable iff (aresetn)
+         (ready && valid) |=> (ready== DEFAULT_READY);
+    endproperty  
 
+    IFARREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_ARREADY_WILLGODEFAULTSTATE: cover property  
+    (WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(arvalid, arready))
+    $info("IFARREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_ARREADY_WILLGODEFAULTSTATE : COVERED");
 
+    IFRREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_RREADY_WILLGODEFAULTSTATE: cover property  
+    (WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(rvalid, rready))
+    $info("IFRREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_RREADY_WILLGODEFAULTSTATE : COVERED");
 
+    property WhenArreadyHighAndSendingValidAddressAndRedaingDataOnSlaveLocationThenSlaveWillGiveOkayResponse; 
+      @(posedge aclk) disable iff (aresetn)
+      (arvalid && arready && !($isunknown(araddr))) |-> ##[0:$] (rvalid && rready && !($isunknown(rdata)) && (rresp != 2'b10));
+    endproperty  
 
+    IFARREADYHIGH_THEN_READINGDATAONSLAVEADDRESS_ANDIFSLAVEACCEPTVALIDADDRESS_THENNOSLAVEERROR: cover property  
+    (WhenArreadyHighAndSendingValidAddressAndRedaingDataOnSlaveLocationThenSlaveWillGiveOkayResponse)
+    $info(" IFARREADYHIGH_THEN_READINGDATAONSLAVEADDRESS_ANDIFSLAVEACCEPTVALIDADDRESS_THENNOSLAVEERROR : COVERED");
+
+    property WhenArvalidAndArreadyAreAssertedThenNextClkRvalidWillBeAssert;
+     @(posedge aclk) disable iff (aresetn)
+     (arvalid && arready && !rvalid) |=> rvalid;
+    endproperty
+
+    IFARVALIDANDARREADYBOTHAREASSERTED_THEN_NEXTCLK_RVALIDWILLBEASSERT: cover property
+    (WhenArvalidAndArreadyAreAssertedThenNextClkRvalidWillBeAssert)
+    $info("IFARVALIDANDARREADYBOTHAREASSERTED_THEN_NEXTCLK_RVALIDWILLBEASSERT :  COVERED");
+
+    property WhenArvalidAndArreadyAreAssertedThenAt3ClkRvalidWillBeAsserted;
+     @(posedge aclk) disable iff (aresetn)
+     (arvalid && arready && !rvalid) |-> ##3 rvalid;
+    endproperty
+
+    IFARVALIDANDARREADYBOTHAREASSERTED_THEN_AT3CLK_RVALIDWILLBEASSERT: cover property
+    (WhenArvalidAndArreadyAreAssertedThenAt3ClkRvalidWillBeAsserted)
+    $info("IFARVALIDANDARREADYBOTHAREASSERTED_THEN_AT3CLK_RVALIDWILLBEASSERT :  COVERED");
+
+     property WhenArvalidAndArreadyAreAssertedThenInbetween1To10ClkRvalidWillBeAsserted;
+     @(posedge aclk) disable iff (aresetn)
+     (arvalid && arready && !rvalid) |-> ##[1:MAX_DELAY_RVALID] rvalid;
+    endproperty
+
+    IFARVALIDANDARREADYBOTHAREASSERTED_THEN_INBETWEEN1TO10CLK_RVALIDWILLBEASSERT: cover property
+    (WhenArvalidAndArreadyAreAssertedThenInbetween1To10ClkRvalidWillBeAsserted)
+    $info("IFARVALIDANDARREADYBOTHAREASSERTED_THEN_INBETWEEN1TO10CLK_RVALIDWILLBEASSERT :  COVERED");
+
+    property WhenArvalidAndArreadyAreAssertedThenAnyClkRvalidWillBeAssert;
+     @(posedge aclk) disable iff (aresetn)
+     (arvalid && arready && !rvalid) |-> ##[1:$] rvalid;
+    endproperty
+
+    IFARVALIDANDARREADYBOTHAREASSERTED_THEN_ANYCLK_RVALIDWILLBEASSERT: cover property
+    (WhenArvalidAndArreadyAreAssertedThenAnyClkRvalidWillBeAssert)
+    $info("IFARVALIDANDARREADYBOTHAREASSERTED_THEN_ANYCLK_RVALIDWILLBEASSERT :  COVERED");
+
+    property WhenArvalidAndArreadyAreAssertedThenAnyClkRvalidIsAssertedAndRdataIsNotUnknown();
+      @(posedge aclk) disable iff (aresetn)
+      (arvalid && arready && !rvalid) |-> ##[1:$] (rvalid  && !($isunknown(rdata)));
+    endproperty
+
+    IFARVALIDANDARREADYBOTHAREASSERTED_THEN_ANYCLK_RVALIDASSERTEDANDRDATAISNOTUNKNOWN: cover property
+    (WhenArvalidAndArreadyAreAssertedThenAnyClkRvalidIsAssertedAndRdataIsNotUnknown)
+    $info("IFARVALIDANDARREADYBOTHAREASSERTED_THEN_ANYCLK_RVALIDASSERTEDANDRDATAISNOTUNKNOWN :  COVERED");
 
 endinterface : Axi4LiteMasterReadCoverProperty
 
