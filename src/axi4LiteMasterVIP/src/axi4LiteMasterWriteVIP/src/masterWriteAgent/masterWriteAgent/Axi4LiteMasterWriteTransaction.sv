@@ -6,6 +6,8 @@ class Axi4LiteMasterWriteTransaction extends uvm_sequence_item;
 
   Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfig; 
 
+  rand bit [DATA_WIDTH-1:0] awaddr;
+  brespEnum bresp;
   extern function new (string name = "Axi4LiteMasterWriteTransaction");
   extern function void do_copy(uvm_object rhs);
   extern function void post_randomize();
@@ -28,6 +30,8 @@ function void Axi4LiteMasterWriteTransaction::do_copy(uvm_object rhs);
     `uvm_fatal("do_copy","cast of the rhs object failed")
   end
   super.do_copy(rhs);
+  awaddr = axi4LiteMasterWriteTxCopyObj.awaddr;
+  bresp  = axi4LiteMasterWriteTxCopyObj.bresp;
 
 endfunction : do_copy
 
@@ -39,11 +43,16 @@ function bit Axi4LiteMasterWriteTransaction::do_compare (uvm_object rhs, uvm_com
     return 0;
   end
   
-  return super.do_compare(axi4LiteMasterWriteTxCompareObj, comparer); 
+  return super.do_compare(axi4LiteMasterWriteTxCompareObj, comparer) && 
+  awaddr  == axi4LiteMasterWriteTxCompareObj.awaddr  &&
+  bresp   == axi4LiteMasterWriteTxCompareObj.bresp; 
 
 endfunction : do_compare
 
 function void Axi4LiteMasterWriteTransaction::do_print(uvm_printer printer);
+
+   printer.print_field("awaddr",awaddr,$bits(awaddr),UVM_HEX);
+   printer.print_string("bresp",bresp.name());
 
 endfunction : do_print
 
