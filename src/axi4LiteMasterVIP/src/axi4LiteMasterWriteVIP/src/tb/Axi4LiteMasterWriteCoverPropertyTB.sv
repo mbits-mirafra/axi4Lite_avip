@@ -12,6 +12,7 @@ module Axi4LiteMasterWriteCoverPropertyTB;
   logic awvalid;
   logic [ADDRESS_WIDTH-1:0] awaddr;
   logic awready;
+  logic [2:0] awprot;
   //Write Data Channel Signals
   logic wvalid;
   logic [(DATA_WIDTH/8)-1:0] wstrb;
@@ -20,8 +21,7 @@ module Axi4LiteMasterWriteCoverPropertyTB;
   //Write Response Channel
   logic bvalid;
   logic bready;
-  logic bresp;
-
+  logic [1:0] bresp;
   
   string name = "AXI4LITE_COVERPROPERTY_TB";
 
@@ -31,16 +31,19 @@ module Axi4LiteMasterWriteCoverPropertyTB;
   always #10 aclk = ~aclk;
 
   Axi4LiteMasterWriteCoverProperty Axi4LiteMasterWriteCoverPropertys(.aclk(aclk),
-                                                                    .aresetn(aresetn),
-                                                                    .awvalid(awvalid),
-                                                                    .awready(awready),
-                                                                    .awaddr(awaddr),
-                                                                    .wvalid(wvalid),
-                                                                    .wdata(wdata),
-                                                                    .wready(wready),
-                                                                    .bvalid(bvalid),
-                                                                    .bready(bready),
-                                                                    .bresp(bresp));
+                                                                     .aresetn(aresetn),
+                                                                     .awvalid(awvalid),
+                                                                     .awready(awready),
+                                                                     .awaddr(awaddr),
+                                                                     .awprot(awprot),
+                                                                     .wvalid(wvalid),
+                                                                     .wdata(wdata),
+                                                                     .wstrb(wstrb),
+                                                                     .wready(wready),
+                                                                     .bvalid(bvalid),
+                                                                     .bready(bready),
+                                                                     .bresp(bresp)
+                                                                    );
 
   initial begin
     #14000;
@@ -1783,7 +1786,13 @@ end
       wvalid  <= 1'b1;
       wready  <= 1'b1;
       wstrb   <= 4'b1100;
-      wdata[31:16]   <= 16'b1;
+      wdata[15:0]   <= 16'h0000;
+      wdata[31:16]   <= 16'hffff;
+      @(posedge aclk);
+      wvalid  <= 1'b0;
+      wready  <= 1'b0;
+      wstrb   <= 4'b0000;
+      wdata   <= 32'h0000_0000;
       `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wstrbOfL3AndL2AreAsserted Task  ended"),UVM_NONE);
   endtask
 
@@ -1799,6 +1808,11 @@ end
       wstrb   <= 4'b0011;
       wdata[31:16]   <= 16'h0000;
       wdata[15:0]   <= 16'h1234;
+      @(posedge aclk);
+      wvalid  <= 1'b0;
+      wready  <= 1'b0;
+      wstrb   <= 4'b0000;
+      wdata   <= 32'h0000_0000;
       `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wstrbOfL1AndL0AreAsserted Task  ended"),UVM_NONE);
   endtask
 

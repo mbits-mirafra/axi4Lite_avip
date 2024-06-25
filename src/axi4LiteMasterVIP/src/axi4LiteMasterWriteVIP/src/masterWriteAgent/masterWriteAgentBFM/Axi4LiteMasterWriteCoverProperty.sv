@@ -7,21 +7,22 @@
 
 
 interface Axi4LiteMasterWriteCoverProperty (input  aclk,
-                                         input  aresetn,
-                                         //Write Address Channel Signals
-                                         input  awvalid,
-                                         input [ADDRESS_WIDTH-1:0] awaddr,
-                                         input  awready,
-                                         //Write Data Channel Signals
-                                         input  wvalid,
-                                         input [DATA_WIDTH-1:0] wdata,
-                                         input [(DATA_WIDTH/8)-1:0] wstrb,
-                                         input  wready,
-                                         //Write Response Channel
-                                         input  bvalid,
-                                         input  bready,
-                                         input  bresp
-                                        );  
+                                            input  aresetn,
+                                            //Write Address Channel Signals
+                                            input  awvalid,
+                                            input  [ADDRESS_WIDTH-1:0] awaddr,
+                                            input  awready,
+                                            input  [2:0] awprot,
+                                            //Write Data Channel Signals
+                                            input  wvalid,
+                                            input  [DATA_WIDTH-1:0] wdata,
+                                            input  [(DATA_WIDTH/8)-1:0] wstrb,
+                                            input  wready,
+                                            //Write Response Channel
+                                            input  bvalid,
+                                            input  bready,
+                                            input  [1:0] bresp
+                                           );  
 
   initial begin
     
@@ -683,7 +684,7 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
 
    property WhenWvalidIsAssertedAndWstrbOfHigherLanesOfWdataIsValidData;
    @(posedge aclk) disable iff (aresetn)
-    (wvalid && wready) |-> ((wstrb == 4'b1100) && (wdata[15:0] == 16'b0));
+    (wvalid && wready) |-> ((wstrb === 4'b1100) && (wdata[15:0] === 16'b0));
    endproperty
 
    IFWVALIDISASSERTED_THEN_WSTRBOFHIGHERLANESAREASSERTED_THEN_L3ANDL2OFWDATAISVALIDDATA: cover property

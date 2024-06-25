@@ -9,17 +9,17 @@ interface Axi4LiteMasterWriteAssertions (input  aclk,
                                          //Write Address Channel Signals
                                          input  awvalid,
                                          input  awready,
-                                         input  awaddr,
-                                         input  awprot,
+                                         input  [ADDRESS_WIDTH-1:0] awaddr,
+                                         input  [2:0] awprot,
                                          //Write Data Channel Signals
                                          input  wvalid,
                                          input  wready,
-                                         input  wdata,
-                                         input  wstrb,
+                                         input  [DATA_WIDTH-1:0] wdata,
+                                         input  [(DATA_WIDTH/8)-1:0] wstrb,
                                          //Write Response Channel
                                          input  bvalid,
                                          input  bready,
-                                         input  bresp
+                                         input  [1:0] bresp
                                         );  
 
   import uvm_pkg::*;
