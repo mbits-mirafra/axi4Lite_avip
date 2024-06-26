@@ -9,8 +9,12 @@ class Axi4LiteMasterWriteAgentConfig extends uvm_object;
   
   //Used for enabling the master agent coverage
   bit hasCoverage;
-  int maxAddressRange;
-  int minAddressRange;
+  bit [ADDRESS_WIDTH-1:0] maxAddressRange;
+  bit [ADDRESS_WIDTH-1:0] minAddressRange;
+
+  int maxDelayForAwready;
+  int maxDelayForWready;
+  int maxDelayForBvalid;
 
   extern function new(string name = "Axi4LiteMasterWriteAgentConfig");
   extern function void do_print(uvm_printer printer);
@@ -27,6 +31,9 @@ function void Axi4LiteMasterWriteAgentConfig::do_print(uvm_printer printer);
   printer.print_field ("hasCoverage",  hasCoverage, $bits(hasCoverage),  UVM_DEC);
   printer.print_field ("maxAddressRange", maxAddressRange, 32, UVM_DEC);
   printer.print_field ("minAddressRange", minAddressRange, 32, UVM_DEC);
+  printer.print_field ("maxDelayForAwready", maxDelayForAwready, 32, UVM_DEC);
+  printer.print_field ("maxDelayForWready", maxDelayForWready, 32, UVM_DEC);
+  printer.print_field ("maxDelayForBvalid", maxDelayForBvalid, 32, UVM_DEC);
 endfunction : do_print
 
 `endif

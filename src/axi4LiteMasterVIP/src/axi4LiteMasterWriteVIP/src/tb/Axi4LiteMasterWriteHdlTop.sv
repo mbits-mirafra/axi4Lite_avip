@@ -30,7 +30,24 @@ module Axi4LiteMasterWriteHdlTop;
   end
 
   Axi4LiteMasterWriteInterface axi4LiteMasterWriteInterface(.aclk(aclk),
-                                                            .aresetn(aresetn));
+                                                            .aresetn(aresetn)
+                                                          );
+                                                          
+/*  Axi4LiteMasterWriteInterface axi4LiteMasterWriteInterface(.aclk(aclk),
+                                                            .aresetn(aresetn),
+                                                            .awready(1'b1),
+                                                            .wready(1'b1),
+                                                            .bvalid(1'b1),
+                                                            .bresp(2'b00)
+                                                          );
+*/
+
+  initial begin
+    axi4LiteMasterWriteInterface.awready = 1'b1;  
+    axi4LiteMasterWriteInterface.wready  = 1'b1;
+    axi4LiteMasterWriteInterface.bvalid  = 1'b1;
+    axi4LiteMasterWriteInterface.bresp   = 2'b00;
+  end
 
   genvar i;
   generate
@@ -39,10 +56,15 @@ module Axi4LiteMasterWriteHdlTop;
                                                                   .aresetn(axi4LiteMasterWriteInterface.aresetn),
                                                                   .awvalid(axi4LiteMasterWriteInterface.awvalid),
                                                                   .awready(axi4LiteMasterWriteInterface.awready),
+                                                                  .awaddr(axi4LiteMasterWriteInterface.awaddr),
+                                                                  .awprot(axi4LiteMasterWriteInterface.awprot),
                                                                   .wvalid(axi4LiteMasterWriteInterface.wvalid),
                                                                   .wready(axi4LiteMasterWriteInterface.wready),
+                                                                  .wdata(axi4LiteMasterWriteInterface.wdata),
+                                                                  .wstrb(axi4LiteMasterWriteInterface.wstrb),
                                                                   .bvalid(axi4LiteMasterWriteInterface.bvalid),
-                                                                  .bready(axi4LiteMasterWriteInterface.bready)
+                                                                  .bready(axi4LiteMasterWriteInterface.bready),
+                                                                  .bresp(axi4LiteMasterWriteInterface.bresp)
                                                                  );
     end
   endgenerate

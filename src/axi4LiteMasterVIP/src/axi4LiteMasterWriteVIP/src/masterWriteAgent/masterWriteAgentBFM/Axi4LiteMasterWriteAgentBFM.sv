@@ -1,6 +1,8 @@
 `ifndef AXI4LITEMASTERWRITEAGENTBFM_INCLUDED_
 `define AXI4LITEMASTERWRITEAGENTBFM_INCLUDED_
 
+ import Axi4LiteWriteMasterGlobalPkg::*;
+
 module Axi4LiteMasterWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
                                      parameter int DATA_WIDTH = 32
                                     )
@@ -8,10 +10,15 @@ module Axi4LiteMasterWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
                                      input  aresetn,
                                      output awvalid,
                                      input  awready,
+                                     output [ADDRESS_WIDTH-1:0] awaddr,
+                                     output [2:0] awprot,
                                      output wvalid,
+                                     output [DATA_WIDTH-1:0] wdata,
+                                     output [(DATA_WIDTH/8)-1:0] wstrb,
                                      input  wready,
                                      input  bvalid,
-                                     output bready
+                                     output bready,
+                                     input  [1:0] bresp
                                      );
    
   import uvm_pkg::*;
@@ -25,20 +32,30 @@ module Axi4LiteMasterWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
                                                              .aresetn(axi4LiteMasterWriteInterface.aresetn),
                                                              .awvalid(axi4LiteMasterWriteInterface.awvalid),
                                                              .awready(axi4LiteMasterWriteInterface.awready),
+                                                             .awaddr(axi4LiteMasterWriteInterface.awaddr),
+                                                             .awprot(axi4LiteMasterWriteInterface.awprot),
                                                              .wvalid(axi4LiteMasterWriteInterface.wvalid),
                                                              .wready(axi4LiteMasterWriteInterface.wready),
+                                                             .wdata(axi4LiteMasterWriteInterface.wdata),
+                                                             .wstrb(axi4LiteMasterWriteInterface.wstrb),
                                                              .bvalid(axi4LiteMasterWriteInterface.bvalid),
-                                                             .bready(axi4LiteMasterWriteInterface.bready)
+                                                             .bready(axi4LiteMasterWriteInterface.bready),
+                                                             .bresp(axi4LiteMasterWriteInterface.bresp)
                                                             );
 
   Axi4LiteMasterWriteMonitorBFM axi4LiteMasterWriteMonitorBFM (.aclk(axi4LiteMasterWriteInterface.aclk),
                                                                .aresetn(axi4LiteMasterWriteInterface.aresetn),
                                                                .awvalid(axi4LiteMasterWriteInterface.awvalid),
                                                                .awready(axi4LiteMasterWriteInterface.awready),
+                                                               .awaddr(axi4LiteMasterWriteInterface.awaddr),
+                                                               .awprot(axi4LiteMasterWriteInterface.awprot),
                                                                .wvalid(axi4LiteMasterWriteInterface.wvalid),
                                                                .wready(axi4LiteMasterWriteInterface.wready),
+                                                               .wdata(axi4LiteMasterWriteInterface.wdata),
+                                                               .wstrb(axi4LiteMasterWriteInterface.wstrb),
                                                                .bvalid(axi4LiteMasterWriteInterface.bvalid),
-                                                               .bready(axi4LiteMasterWriteInterface.bready)
+                                                               .bready(axi4LiteMasterWriteInterface.bready),
+                                                               .bresp(axi4LiteMasterWriteInterface.bresp)
                                                                );
 
   assign awvalid = axi4LiteMasterWriteInterface.awvalid;
@@ -61,10 +78,15 @@ module Axi4LiteMasterWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
                                                                         .aresetn(aresetn),
                                                                         .awvalid(awvalid),
                                                                         .awready(awready),
+                                                                        .awaddr(awaddr),
+                                                                        .awprot(awprot),
                                                                         .wvalid(wvalid),
                                                                         .wready(wready),
+                                                                        .wdata(wdata),
+                                                                        .wstrb(wstrb),
                                                                         .bvalid(bvalid),
-                                                                        .bready(bready)
+                                                                        .bready(bready),
+                                                                        .bresp(bresp)
                                                                        );
 
 

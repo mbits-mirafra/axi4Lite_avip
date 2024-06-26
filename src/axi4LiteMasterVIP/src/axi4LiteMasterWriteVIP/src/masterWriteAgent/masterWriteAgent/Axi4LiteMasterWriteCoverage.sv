@@ -8,7 +8,7 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
 
   covergroup axi4LiteMasterWriteCovergroup with function sample (Axi4LiteMasterWriteAgentConfig cfg, Axi4LiteMasterWriteTransaction packet);
     option.per_instance = 1;
-
+/*
     MAXADDR_CP : coverpoint cfg.maxAddressRange {
     option.comment            = "maxAddress value";
     bins MAXADDR1             = {MAX_ADDRESS};
@@ -18,7 +18,7 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
     option.comment            = "minAddress value";
     bins MINADDR1             = {MIN_ADDRESS};
     }
-    
+  */  
     WRITEADDR_CP : coverpoint packet.awaddr {
     option.comment            = "writeAddress value";
     bins WRITEADDRRANGE                 = {[MIN_ADDRESS:MAX_ADDRESS]}; 

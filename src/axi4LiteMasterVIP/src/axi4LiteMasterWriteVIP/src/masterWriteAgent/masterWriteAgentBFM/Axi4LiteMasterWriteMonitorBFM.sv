@@ -1,21 +1,27 @@
 `ifndef AXI4LITEMASTERWRITEMONITORBFM_INCLUDED_
 `define AXI4LITEMASTERWRITEMONITORBFM_INCLUDED_
 
+ import Axi4LiteWriteMasterGlobalPkg::*;
+
 interface Axi4LiteMasterWriteMonitorBFM(input bit aclk, 
                                         input bit aresetn,
                                         //Write Address Channel Signals
-                                        input  awvalid,
-                                        input  awready,
+                                        input                      awvalid,
+                                        input                      awready,
+                                       	input  [ADDRESS_WIDTH-1:0] awaddr,
+                                       	input                [2:0] awprot,
                                         //Write Data Channel Signals
-                                        input  wvalid,
-                                        input  wready,
+                                        input                      wvalid,
+                                        input                      wready,
+                                        input     [DATA_WIDTH-1:0] wdata,
+                                        input [(DATA_WIDTH/8)-1:0] wstrb,
                                         //Write Response Channel Signals
-                                        input  bvalid,
-                                        input  bready
-                                      );  
+                                        input                      bvalid,
+                                        input                      bready,
+                                        input                [1:0] bresp
+                                       );  
 
   import uvm_pkg::*;
-  import Axi4LiteWriteMasterGlobalPkg::*;
   `include "uvm_macros.svh" 
   
   import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteMonitorProxy;  
