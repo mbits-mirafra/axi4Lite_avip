@@ -71,8 +71,7 @@ task Axi4LiteWriteMasterBaseTest::run_phase(uvm_phase phase);
   `uvm_info(get_type_name(), $sformatf("Inside BASE_TEST"), UVM_NONE);
    super.run_phase(phase);
   
-//   axi4LiteMasterWriteBaseSeq.start(axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent.axi4LiteMasterWriteSequencer);
-   axi4LiteMasterWriteBaseSeq.start(axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent.sequencer);
+   axi4LiteMasterWriteBaseSeq.start(axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent[0].axi4LiteMasterWriteSequencer);
   #10;
   `uvm_info(get_type_name(), $sformatf("Done BASE_TEST"), UVM_NONE);
   phase.drop_objection(this);

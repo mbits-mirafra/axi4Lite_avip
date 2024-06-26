@@ -27,8 +27,8 @@ task Axi4LiteMasterWriteRandomAddressTransferTest::run_phase(uvm_phase phase);
 
   phase.raise_objection(this);
 
-  //axi4LiteMasterWriteRandomAddressTransferSeq.start(axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent.axi4LiteMasterWriteSequencer); 
-  #20;
+  axi4LiteMasterWriteRandomAddressTransferSeq.start(axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent[0].axi4LiteMasterWriteSequencer); 
+  #10;
 
   phase.drop_objection(this);
 
