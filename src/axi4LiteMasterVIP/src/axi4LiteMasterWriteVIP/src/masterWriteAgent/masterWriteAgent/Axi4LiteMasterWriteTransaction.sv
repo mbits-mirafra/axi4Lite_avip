@@ -6,7 +6,7 @@ class Axi4LiteMasterWriteTransaction extends uvm_sequence_item;
 
   Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfig; 
 
-  rand bit [DATA_WIDTH-1:0] awaddr;
+  rand bit [ADDRESS_WIDTH-1:0] awaddr;
   brespEnum bresp;
   extern function new (string name = "Axi4LiteMasterWriteTransaction");
   extern function void do_copy(uvm_object rhs);

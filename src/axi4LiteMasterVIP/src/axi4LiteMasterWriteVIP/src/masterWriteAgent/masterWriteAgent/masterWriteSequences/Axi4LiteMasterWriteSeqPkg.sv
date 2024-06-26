@@ -9,6 +9,7 @@ package Axi4LiteMasterWriteSeqPkg;
 //  import Axi4LiteMasterWriteBFMPkg::*;
  
   `include "Axi4LiteMasterWriteBaseSeq.sv"
+  `include "Axi4LiteMasterWriteRandomAddressTransferSeq.sv"
 
 endpackage : Axi4LiteMasterWriteSeqPkg
 `endif

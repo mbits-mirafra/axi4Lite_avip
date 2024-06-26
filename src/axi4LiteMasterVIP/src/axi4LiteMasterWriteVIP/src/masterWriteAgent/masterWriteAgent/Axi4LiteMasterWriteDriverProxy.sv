@@ -34,7 +34,7 @@ endfunction : new
 function void Axi4LiteMasterWriteDriverProxy::build_phase(uvm_phase phase);
   super.build_phase(phase);
   if (!uvm_config_db#(virtual Axi4LiteMasterWriteDriverBFM)::get(
-          this, "", "Axi4LiteMasterWriteDriverBFM", axi4LiteMasterWriteDriverBFM
+          this, "*", "Axi4LiteMasterWriteDriverBFM", axi4LiteMasterWriteDriverBFM
       )) begin
     `uvm_fatal("FATAL_MDP_CANNOT_GET_Axi4LiteMasterWriteDriverBFM",
                "cannot get() axi4LiteMasterWriteDriverBFM");

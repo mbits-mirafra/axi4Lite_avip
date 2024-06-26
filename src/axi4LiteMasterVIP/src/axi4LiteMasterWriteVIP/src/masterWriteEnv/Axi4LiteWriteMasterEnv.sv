@@ -37,7 +37,7 @@ function void Axi4LiteWriteMasterEnv::build_phase(uvm_phase phase);
 
  axi4LiteMasterWriteAgentConfig = new[axi4LiteWriteMasterEnvConfig.no_of_masters];
   foreach(axi4LiteMasterWriteAgentConfig[i]) begin
-    if(!uvm_config_db #(Axi4LiteMasterWriteAgentConfig)::get(this,"",$sformatf("Axi4LiteMasterWriteAgentConfig[%0d]",i),axi4LiteMasterWriteAgentConfig[i])) begin
+    if(!uvm_config_db #(Axi4LiteMasterWriteAgentConfig)::get(this,"*",$sformatf("Axi4LiteMasterWriteAgentConfig[%0d]",i),axi4LiteMasterWriteAgentConfig[i])) begin
       `uvm_fatal("FATAL_MASTER_WRITE_AGENT_CONFIG", $sformatf("Couldn't get the Axi4LiteMasterWriteAgentConfig[%0d] from config_db",i))
     end
   end

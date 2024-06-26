@@ -13,6 +13,7 @@ package Axi4LiteWriteMasterTestPkg;
 
   //including base_test for testing
   `include "Axi4LiteWriteMasterBaseTest.sv"
+  `include "Axi4LiteMasterWriteRandomAddressTransferTest.sv"
 
 endpackage : Axi4LiteWriteMasterTestPkg
 

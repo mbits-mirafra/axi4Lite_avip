@@ -37,6 +37,7 @@ function void Axi4LiteMasterWriteAgent::build_phase(uvm_phase phase);
     axi4LiteMasterWriteDriverProxy=Axi4LiteMasterWriteDriverProxy::type_id::create("axi4LiteMasterWriteDriverProxy",this);
     axi4LiteMasterWriteSequencer=Axi4LiteMasterWriteSequencer::type_id::create("axi4LiteMasterWriteSequencer",this);
   end
+
   
   axi4LiteMasterWriteMonitorProxy=Axi4LiteMasterWriteMonitorProxy::type_id::create("axi4LiteMasterWriteMonitorProxy",this);
   

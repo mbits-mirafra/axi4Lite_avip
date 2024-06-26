@@ -47,6 +47,8 @@ function void Axi4LiteWriteMasterBaseTest::setupAxi4LiteMasterWriteAgentConfig()
 
   axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
   axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].hasCoverage = 1;
+  axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].minAddressRange = MIN_ADDRESS;
+  axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].maxAddressRange = MAX_ADDRESS;
 
    uvm_config_db#(Axi4LiteMasterWriteAgentConfig)::set( this, "*", $sformatf("Axi4LiteMasterWriteAgentConfig[%0d]", i),
           axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i]);
@@ -68,7 +70,9 @@ task Axi4LiteWriteMasterBaseTest::run_phase(uvm_phase phase);
 
   `uvm_info(get_type_name(), $sformatf("Inside BASE_TEST"), UVM_NONE);
    super.run_phase(phase);
-   //axi4LiteMasterWriteBaseSeq.start(axi4LiteWriteMasterEnv.axi4LiteWriteMasterAgent.axi4LiteMasterWriteSequencer);
+  
+//   axi4LiteMasterWriteBaseSeq.start(axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent.axi4LiteMasterWriteSequencer);
+   axi4LiteMasterWriteBaseSeq.start(axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent.sequencer);
   #10;
   `uvm_info(get_type_name(), $sformatf("Done BASE_TEST"), UVM_NONE);
   phase.drop_objection(this);

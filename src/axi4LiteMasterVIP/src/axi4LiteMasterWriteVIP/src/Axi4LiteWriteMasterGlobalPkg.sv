@@ -11,6 +11,9 @@ package Axi4LiteWriteMasterGlobalPkg;
 
   parameter int DATA_WIDTH = 32;
 
+  parameter int MIN_ADDRESS = 00;
+  parameter int MAX_ADDRESS = 8'hff;
+
   typedef enum bit {
     BIG_ENDIAN    = 1'b0,
     LITTLE_ENDIAN = 1'b1
