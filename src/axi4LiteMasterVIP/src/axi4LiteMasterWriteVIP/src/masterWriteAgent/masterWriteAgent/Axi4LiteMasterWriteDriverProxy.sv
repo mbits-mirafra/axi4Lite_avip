@@ -4,7 +4,7 @@
 class Axi4LiteMasterWriteDriverProxy extends uvm_driver #(Axi4LiteMasterWriteTransaction);
   `uvm_component_utils(Axi4LiteMasterWriteDriverProxy)
 
-  uvm_seq_item_pull_port #(REQ, RSP) axi4LiteMasterWriteSeqItemPort;
+  uvm_seq_item_pull_port #(REQ,RSP) axi4LiteMasterWriteSeqItemPort;
   uvm_analysis_port #(RSP) axi4LiteMasterWriteRspPort;
   uvm_tlm_analysis_fifo #(Axi4LiteMasterWriteTransaction) axi4LiteMasterWriteFIFO;
 
@@ -47,8 +47,11 @@ function void Axi4LiteMasterWriteDriverProxy::end_of_elaboration_phase(uvm_phase
 endfunction : end_of_elaboration_phase
 
 task Axi4LiteMasterWriteDriverProxy::run_phase(uvm_phase phase);
+  `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteMasterWriteDriverProxy"),UVM_LOW);
   axi4LiteMasterWriteDriverBFM.waitForAresetn();
+  `uvm_info(get_type_name(),$sformatf("Inside run_phase after waitForAresetn Axi4LiteMasterWriteDriverProxy"),UVM_LOW);
   writeTransferTask();
+  `uvm_info(get_type_name(),$sformatf("Inside run_phase after writeTransferTask Axi4LiteMasterWriteDriverProxy"),UVM_LOW);
 endtask : run_phase
 
 
@@ -59,12 +62,16 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
     axi4LiteWriteMasterTransferCfgStruct  masterWriteConfigStruct;
     axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
+  `uvm_info(get_type_name(),$sformatf("Inside writeTransferTask before get_next_item Axi4LiteMasterWriteDriverProxy"),UVM_LOW);
     axi4LiteMasterWriteSeqItemPort.get_next_item(reqWrite);
+  `uvm_info(get_type_name(),$sformatf("Inside writeTransferTask after get_next_item Axi4LiteMasterWriteDriverProxy"),UVM_LOW);
     `uvm_info(get_type_name(), $sformatf(
               "MASTER_WRITE_TASK::Before Sending_Req_Write_Packet = \n%s", reqWrite.sprint()),
               UVM_HIGH);
 
+  `uvm_info(get_type_name(),$sformatf("Inside writeTransferTask before fromClass Axi4LiteMasterWriteDriverProxy"),UVM_LOW);
     Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteConfigStruct);
+  `uvm_info(get_type_name(),$sformatf("Inside writeTransferTask after fromClass Axi4LiteMasterWriteDriverProxy"),UVM_LOW);
 
     fork
       begin : MASTER_WRITE_ADDRESS_CHANNEL

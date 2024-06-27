@@ -25,11 +25,11 @@ endfunction : new
 function void Axi4LiteWriteMasterBaseTest::build_phase(uvm_phase phase);
   super.build_phase(phase);
   axi4LiteWriteMasterEnv = Axi4LiteWriteMasterEnv::type_id::create("axi4LiteWriteMasterEnv",this);
+  axi4LiteWriteMasterEnvConfig = Axi4LiteWriteMasterEnvConfig::type_id::create("axi4LiteWriteMasterEnvConfig",this);
   setupAxi4LiteWriteMasterEnvConfig();
 endfunction : build_phase
 
 function void Axi4LiteWriteMasterBaseTest::setupAxi4LiteWriteMasterEnvConfig();
- axi4LiteWriteMasterEnvConfig = Axi4LiteWriteMasterEnvConfig::type_id::create("axi4LiteWriteMasterEnvConfig",this);
  axi4LiteWriteMasterEnvConfig.no_of_masters = NO_OF_WRITEMASTERS;
  setupAxi4LiteMasterWriteAgentConfig();
 
@@ -60,9 +60,8 @@ endfunction
 
 function void Axi4LiteWriteMasterBaseTest::end_of_elaboration_phase(uvm_phase phase);
   uvm_top.print_topology();
-  uvm_test_done.set_drain_time(this,10ns);
+  uvm_test_done.set_drain_time(this,1000ns);
 endfunction : end_of_elaboration_phase
-
 
 task Axi4LiteWriteMasterBaseTest::run_phase(uvm_phase phase);
   axi4LiteMasterWriteBaseSeq = Axi4LiteMasterWriteBaseSeq::type_id::create("axi4LiteMasterWriteBaseSeq",this);

@@ -24,13 +24,18 @@ task Axi4LiteMasterWriteRandomAddressTransferTest::run_phase(uvm_phase phase);
 
   axi4LiteMasterWriteRandomAddressTransferSeq = Axi4LiteMasterWriteRandomAddressTransferSeq ::type_id::create("axi4LiteMasterWriteRandomAddressTransferSeq");
 
+  `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteMasterWriteRandomAddressTransferTest"),UVM_LOW);
 
   phase.raise_objection(this);
+   super.run_phase(phase);
+  `uvm_info(get_type_name(),$sformatf("After raise_objection Axi4LiteMasterWriteRandomAddressTransferTest"),UVM_LOW);
 
   axi4LiteMasterWriteRandomAddressTransferSeq.start(axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent[0].axi4LiteMasterWriteSequencer); 
   #10;
 
+  `uvm_info(get_type_name(),$sformatf("After start method Axi4LiteMasterWriteRandomAddressTransferTest"),UVM_LOW);
   phase.drop_objection(this);
+  `uvm_info(get_type_name(),$sformatf("After drop_objection Axi4LiteMasterWriteRandomAddressTransferTest"),UVM_LOW);
 
 endtask : run_phase
 
