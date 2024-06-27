@@ -16,6 +16,7 @@ function Axi4LiteMasterReadBaseSeq::new(string name = "Axi4LiteMasterReadBaseSeq
 endfunction : new
 
 task Axi4LiteMasterReadBaseSeq::body();
+  req = Axi4LiteMasterReadTransaction::type_id::create("req"); 
   //dynamic casting of p_sequencer and m_sequencer
   if(!$cast(p_sequencer,m_sequencer))begin
     `uvm_error(get_full_name(),"Virtual sequencer pointer cast failed")
