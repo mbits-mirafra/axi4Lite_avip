@@ -219,6 +219,16 @@ IFAWVALIDISASSERTED_THEN_WITHIN10CLK_WVALIDWILLASSERT: assert property(awvalidIs
   else
     $error("IFAWVALIDISASSERTED_THEN_WITHIN10CLK_WVALIDWILLASSERT : NOT ASSERTED");
 
+    property bvalidAndBreadyAssertedThenResponseIsNotExokay;
+      @(posedge aclk) disable iff (!aresetn)
+       (bvalid && bready) |-> (bresp !== 2'b01);
+    endproperty
+
+IFBVALIDANDBREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY: assert property(bvalidAndBreadyAssertedThenResponseIsNotExokay)
+  $info("IFBVALIDANDBREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY : ASSERTED");
+  else
+    $error("IFBVALIDANDBREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY : NOT ASSERTED");
+
 endinterface : Axi4LiteMasterWriteAssertions
 
 `endif
