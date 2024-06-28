@@ -93,19 +93,6 @@ task Axi4LiteMasterReadDriverProxy::readTransferTask();
                                                masterReadPacketStruct),UVM_MEDIUM); 
       end
 
-      begin : MASTER_READ_RESPONSE_CHANNEL
-        Axi4LiteMasterReadTransaction  masterReadResponseTx;
-        axi4LiteReadMasterTransferPacketStruct masterReadPacketStruct;
-
-        `uvm_info(get_type_name(),$sformatf("MASTER_READ_RESPONSE_THREAD::Checking read response struct packet = %p",
-                                               masterReadPacketStruct),UVM_MEDIUM); 
-        Axi4LiteMasterReadSeqItemConverter::fromReadClass(reqRead, masterReadPacketStruct);
-        axi4LiteMasterReadDriverBFM.readResponseChannelTask(masterReadConfigStruct, masterReadPacketStruct);
-        Axi4LiteMasterReadSeqItemConverter::toReadClass(masterReadPacketStruct,masterReadResponseTx);
-        `uvm_info(get_type_name(),$sformatf("MASTER_READ_RESPONSE_THREAD::Received read response packet From driverBFM = %p",
-                                               masterReadPacketStruct),UVM_MEDIUM); 
-      end
-
     join
 
     axi4LiteMasterReadSeqItemPort.item_done();

@@ -6,6 +6,16 @@ class Axi4LiteMasterReadTransaction extends uvm_sequence_item;
 
   Axi4LiteMasterReadAgentConfig axi4LiteMasterReadAgentConfig; 
 
+  rand bit [ADDRESS_WIDTH-1:0] araddr;
+  rand arprotEnum arprot;
+  bit [DATA_WIDTH-1:0] rdata;
+  rrespEnum rresp;
+
+  int waitCounterForArready;
+  int waitCounterForRvalid;
+
+  rand bit [DELAY_WIDTH-1:0] delayForRready;
+
   extern function new (string name = "Axi4LiteMasterReadTransaction");
   extern function void do_copy(uvm_object rhs);
   extern function void post_randomize();
@@ -24,6 +34,12 @@ endfunction : post_randomize
 function void Axi4LiteMasterReadTransaction::do_copy(uvm_object rhs);
   Axi4LiteMasterReadTransaction axi4LiteMasterReadTxCopyObj;
 
+  araddr = axi4LiteMasterReadTxCopyObj.araddr;
+  arprot = axi4LiteMasterReadTxCopyObj.arprot;
+  rdata = axi4LiteMasterReadTxCopyObj.rdata;
+  rresp = axi4LiteMasterReadTxCopyObj.rresp;
+  delayForRready = axi4LiteMasterReadTxCopyObj.delayForRready;
+
   if(!$cast(axi4LiteMasterReadTxCopyObj,rhs)) begin
     `uvm_fatal("do_copy","cast of the rhs object failed")
   end
@@ -39,12 +55,22 @@ function bit Axi4LiteMasterReadTransaction::do_compare (uvm_object rhs, uvm_comp
     return 0;
   end
   
-  return super.do_compare(axi4LiteMasterReadTxCompareObj, comparer); 
+  return super.do_compare(axi4LiteMasterReadTxCompareObj, comparer) && 
+  araddr   == axi4LiteMasterReadTxCompareObj.araddr   &&
+  arprot   == axi4LiteMasterReadTxCompareObj.arprot   &&
+  rresp   == axi4LiteMasterReadTxCompareObj.rresp   &&
+  rdata   == axi4LiteMasterReadTxCompareObj.rdata   &&
+  delayForRready == axi4LiteMasterReadTxCompareObj.delayForRready;
 
 endfunction : do_compare
 
 function void Axi4LiteMasterReadTransaction::do_print(uvm_printer printer);
 
+   printer.print_field("araddr",araddr,$bits(araddr),UVM_HEX);
+   printer.print_string("arprot",arprot.name());
+   printer.print_field("rdata",rdata,$bits(rdata),UVM_HEX);
+   printer.print_string("rresp",rresp.name());
+   printer.print_field("delayForRready",delayForRready,$bits(delayForRready),UVM_HEX);
 endfunction : do_print
 
 `endif

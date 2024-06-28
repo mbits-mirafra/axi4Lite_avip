@@ -47,6 +47,8 @@ function void Axi4LiteReadMasterBaseTest::setupAxi4LiteMasterReadAgentConfig();
 
   axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
   axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].hasCoverage = 1;
+  axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].maxDelayForArready = MAX_DELAY_READY;
+  axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].maxDelayForRvalid = MAX_DELAY_RVALID;
 
    uvm_config_db#(Axi4LiteMasterReadAgentConfig)::set( this, "*", $sformatf("Axi4LiteMasterReadAgentConfig[%0d]", i),
           axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i]);
@@ -68,7 +70,7 @@ task Axi4LiteReadMasterBaseTest::run_phase(uvm_phase phase);
 
   `uvm_info(get_type_name(), $sformatf("Inside BASE_TEST"), UVM_NONE);
    super.run_phase(phase);
-   //axi4LiteMasterReadBaseSeq.start(axi4LiteReadMasterEnv.axi4LiteReadMasterAgent.axi4LiteMasterReadSequencer);
+   axi4LiteMasterReadBaseSeq.start(axi4LiteReadMasterEnv.axi4LiteMasterReadAgent[0].axi4LiteMasterReadSequencer);
   #10;
   `uvm_info(get_type_name(), $sformatf("Done BASE_TEST"), UVM_NONE);
   phase.drop_objection(this);

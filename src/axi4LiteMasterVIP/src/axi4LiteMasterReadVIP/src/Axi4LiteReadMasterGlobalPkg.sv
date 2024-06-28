@@ -11,6 +11,8 @@ package Axi4LiteReadMasterGlobalPkg;
 
   parameter int DATA_WIDTH = 32;
 
+  parameter int DELAY_WIDTH = 5;
+
   typedef enum bit {
     BIG_ENDIAN    = 1'b0,
     LITTLE_ENDIAN = 1'b1
@@ -53,11 +55,18 @@ package Axi4LiteReadMasterGlobalPkg;
     //Read Data Channel Signals
     bit [DATA_WIDTH-1:0]     rdata;
     bit [1:0]                 rresp;
+
+    int waitCounterForArready;
+    int waitCounterForRvalid;
+    bit [DELAY_WIDTH-1:0] delayForRready;
   } axi4LiteReadMasterTransferPacketStruct;
 
   typedef struct {
     bit [ADDRESS_WIDTH-1:0] minAddress;
     bit [ADDRESS_WIDTH-1:0] maxAddress;
+
+    int maxDelayForArready;
+    int maxDelayForRvalid;
   } axi4LiteReadMasterTransferCfgStruct;
 
 endpackage : Axi4LiteReadMasterGlobalPkg

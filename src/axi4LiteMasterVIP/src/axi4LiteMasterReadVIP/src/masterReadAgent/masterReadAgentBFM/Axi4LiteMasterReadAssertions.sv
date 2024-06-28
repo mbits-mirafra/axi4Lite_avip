@@ -7,15 +7,15 @@ import Axi4LiteMasterReadAssertCoverParameter::*;
 interface Axi4LiteMasterReadAssertions (input  aclk,
                                         input  aresetn,
                                         //Read Address Channel Signals
-                                        input  arvalid,
+                                        input arvalid,
                                         input  arready,
-                                        input  araddr,
-                                        input  arprot,
+                                        input [ADDRESS_WIDTH-1:0] araddr,
+                                        input [2:0] arprot,
                                         //Read Data Channel Signals
                                         input  rvalid,
-                                        input  rready,
-                                        input  rdata,
-                                        input  rresp
+                                        input rready,
+                                        input  [DATA_WIDTH-1:0] rdata,
+                                        input  [1:0] rresp
                                        );  
 
   import uvm_pkg::*;

@@ -1,21 +1,23 @@
 `ifndef AXI4LITEMASTERREADCOVERPROPERTY_INCLUDED_
 `define AXI4LITEMASTERREADCOVERPROPERTY_INCLUDED_
 
+ import Axi4LiteReadMasterGlobalPkg::*;
+  
 interface Axi4LiteMasterReadCoverProperty (input  aclk,
-                                         input  aresetn,
-                                         //Read Address Channel Signals
-                                         input  arvalid,
-                                         input  araddr,
-                                         input  arready,
-                                         //Read Data Channel Signals
-                                         input  rvalid,
-                                         input  rdata,
-                                         input  rready,
-                                         input  rresp
+                                           input  aresetn,
+                                           //Read Address Channel Signals
+                                           input arvalid,
+                                           input  arready,
+                                           input [ADDRESS_WIDTH-1:0] araddr,
+                                           input [2:0] arprot,
+                                           //Read Data Channel Signals
+                                           input  rvalid,
+                                           input rready,
+                                           input  [DATA_WIDTH-1:0] rdata,
+                                           input  [1:0] rresp
                                          );  
 
   import uvm_pkg::*;
-  import Axi4LiteReadMasterGlobalPkg::*;
   import Axi4LiteMasterReadAssertCoverParameter::*; 
   `include "uvm_macros.svh";
 

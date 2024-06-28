@@ -6,6 +6,7 @@ package Axi4LiteReadMasterTestPkg;
   `include "uvm_macros.svh"
   import uvm_pkg::*;
   import Axi4LiteReadMasterGlobalPkg::*;
+  import Axi4LiteMasterReadAssertCoverParameter::*;
   import Axi4LiteMasterReadPkg::*;
   import Axi4LiteReadMasterEnvPkg::*;
 

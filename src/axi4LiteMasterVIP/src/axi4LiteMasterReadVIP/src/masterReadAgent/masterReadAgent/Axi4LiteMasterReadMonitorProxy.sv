@@ -30,7 +30,6 @@ class Axi4LiteMasterReadMonitorProxy extends uvm_component;
   extern virtual task run_phase(uvm_phase phase);
   extern virtual task readAddressSampleTask();
   extern virtual task readDataSampleTask();
-  extern virtual task readResponseSampleTask();
 
 endclass : Axi4LiteMasterReadMonitorProxy
 
@@ -67,7 +66,6 @@ task Axi4LiteMasterReadMonitorProxy::run_phase(uvm_phase phase);
   fork
     readAddressSampleTask();
     readDataSampleTask();
-    readResponseSampleTask();
   join
 endtask : run_phase
 
@@ -111,25 +109,5 @@ task Axi4LiteMasterReadMonitorProxy::readDataSampleTask();
   end
 endtask : readDataSampleTask
 
-task Axi4LiteMasterReadMonitorProxy::readResponseSampleTask();
-  forever begin
-   Axi4LiteMasterReadTransaction masterReadTx;
-   axi4LiteReadMasterTransferCfgStruct masterReadConfigStruct;
-   axi4LiteReadMasterTransferPacketStruct masterReadPacketStruct;
-
-   Axi4LiteMasterReadConfigConverter::fromClass(axi4LiteMasterReadAgentConfig, masterReadConfigStruct);
-
-   axi4LiteMasterReadMonitorBFM.readResponseChannelSampleTask(masterReadConfigStruct, masterReadPacketStruct);
-
-   Axi4LiteMasterReadSeqItemConverter::toReadClass(masterReadPacketStruct,reqRead);
-
-   // // Clone and publish the cloned item to the subscribers
-   // $cast(masterReadTx,reqRead.clone());
-
-   // `uvm_info(get_type_name(),$sformatf("Packet received from master read monitor BFM clone packet is \n %s",masterReadTx.sprint()),UVM_HIGH)
-   // axi4LiteMasterReadAddressAnalysisPort.read(masterReadTx);
-
-  end
-endtask : readResponseSampleTask
 `endif
 

@@ -1,45 +1,39 @@
 `ifndef AXI4LITEMASTERREADAGENTBFM_INCLUDED_
 `define AXI4LITEMASTERREADAGENTBFM_INCLUDED_
 
+ import Axi4LiteReadMasterGlobalPkg::*;
+
 module Axi4LiteMasterReadAgentBFM #(parameter int ADDR_WIDTH = 32,
                                      parameter int DATA_WIDTH = 32
                                     )
-                                    (input  aclk,
-                                     input  aresetn,
-                                     output arvalid,
-                                     input  arready,
-                                     output rvalid,
-                                     input  rready
-                                     );
+                                    (Axi4LiteMasterReadInterface axi4LiteMasterReadInterface);
    
   import uvm_pkg::*;
   `include "uvm_macros.svh"
-  
-  Axi4LiteMasterReadInterface axi4LiteMasterReadInterface(.aclk(aclk), 
-                                                            .aresetn(aresetn)
-                                                           );
 
   Axi4LiteMasterReadDriverBFM axi4LiteMasterReadDriverBFM (.aclk(axi4LiteMasterReadInterface.aclk), 
                                                              .aresetn(axi4LiteMasterReadInterface.aresetn),
                                                              .arvalid(axi4LiteMasterReadInterface.arvalid),
                                                              .arready(axi4LiteMasterReadInterface.arready),
+                                                             .araddr(axi4LiteMasterReadInterface.araddr),
+                                                             .arprot(axi4LiteMasterReadInterface.arprot),
                                                              .rvalid(axi4LiteMasterReadInterface.rvalid),
-                                                             .rready(axi4LiteMasterReadInterface.rready)
+                                                             .rready(axi4LiteMasterReadInterface.rready),
+                                                             .rdata(axi4LiteMasterReadInterface.rdata),
+                                                             .rresp(axi4LiteMasterReadInterface.rresp)
                                                             );
 
   Axi4LiteMasterReadMonitorBFM axi4LiteMasterReadMonitorBFM (.aclk(axi4LiteMasterReadInterface.aclk),
-                                                               .aresetn(axi4LiteMasterReadInterface.aresetn),
-                                                               .arvalid(axi4LiteMasterReadInterface.arvalid),
-                                                               .arready(axi4LiteMasterReadInterface.arready),
-                                                               .rvalid(axi4LiteMasterReadInterface.rvalid),
-                                                               .rready(axi4LiteMasterReadInterface.rready)
+                                                             .aresetn(axi4LiteMasterReadInterface.aresetn),
+                                                             .arvalid(axi4LiteMasterReadInterface.arvalid),
+                                                             .arready(axi4LiteMasterReadInterface.arready),
+                                                             .araddr(axi4LiteMasterReadInterface.araddr),
+                                                             .arprot(axi4LiteMasterReadInterface.arprot),
+                                                             .rvalid(axi4LiteMasterReadInterface.rvalid),
+                                                             .rready(axi4LiteMasterReadInterface.rready),
+                                                             .rdata(axi4LiteMasterReadInterface.rdata),
+                                                             .rresp(axi4LiteMasterReadInterface.rresp)
                                                             );
-
-  assign arvalid = axi4LiteMasterReadInterface.arvalid;
-  assign rvalid  = axi4LiteMasterReadInterface.rvalid;
-
-  assign axi4LiteMasterReadInterface.arready = arready;   
-  assign axi4LiteMasterReadInterface.rready  = rready;  
 
   //-------------------------------------------------------
   // Setting the virtual handle of BMFs into config_db
@@ -50,12 +44,16 @@ module Axi4LiteMasterReadAgentBFM #(parameter int ADDR_WIDTH = 32,
   end
 
   bind axi4LiteMasterReadMonitorBFM Axi4LiteMasterReadAssertions M_A (.aclk(aclk),
-                                                                        .aresetn(aresetn),
-                                                                        .arvalid(arvalid),
-                                                                        .arready(arready),
-                                                                        .rvalid(rvalid),
-                                                                        .rready(rready)
-                                                                       );
+                                                                      .aresetn(aresetn),
+                                                                      .arvalid(arvalid),
+                                                                      .arready(arready),
+                                                                      .araddr(araddr),
+                                                                      .arprot(arprot),
+                                                                      .rvalid(rvalid),
+                                                                      .rready(rready),
+                                                                      .rdata(rdata),
+                                                                      .rresp(rresp)
+                                                                     );
 
 
   initial begin
