@@ -40,6 +40,16 @@ interface Axi4LiteMasterWriteMonitorBFM(input bit aclk,
                                     );
     `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("from axi4Lite master write address sample task"),UVM_HIGH)
 
+    @(posedge aclk);
+    while(awvalid!==1 || awready!==1)begin
+      @(posedge aclk);
+      `uvm_info("FROM MASTER WRITE MONITOT BFM",$sformatf("Inside address channel while loop......"),UVM_HIGH)
+    end    
+      `uvm_info("FROM MASTER WRITE MONITOT BFM",$sformatf("After address channel while loop......"),UVM_HIGH)
+      
+    masterWritePacketStruct.awaddr  = awaddr;
+    masterWritePacketStruct.awprot  = awprot;
+
     `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("after awvalid & awready asserted from master write address channel task masterWritePacketStruct=%p ",masterWritePacketStruct),UVM_HIGH)
   endtask : writeAddressChannelSampleTask
 
@@ -47,6 +57,17 @@ interface Axi4LiteMasterWriteMonitorBFM(input bit aclk,
                                      output axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct
                                     );
     `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("from axi4Lite master write data sample task"),UVM_HIGH)
+
+    @(posedge aclk);
+    while(wvalid!==1 || wready!==1)begin
+      @(posedge aclk);
+      `uvm_info("FROM MASTER WRITE MONITOT BFM",$sformatf("Inside data channel while loop......"),UVM_HIGH)
+    end    
+      `uvm_info("FROM MASTER WRITE MONITOT BFM",$sformatf("After data channel while loop......"),UVM_HIGH)
+      
+    masterWritePacketStruct.wdata  = wdata;
+    masterWritePacketStruct.wstrb  = wstrb;
+
     `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("after wvalid & wready asserted from master write data channel task masterWritePacketStruct=%p ",masterWritePacketStruct),UVM_HIGH)
   endtask : writeDataChannelSampleTask
 
@@ -54,6 +75,15 @@ interface Axi4LiteMasterWriteMonitorBFM(input bit aclk,
                                       output axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct
                                      );
     `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("from axi4Lite master write response sample task"),UVM_HIGH)
+
+    @(posedge aclk);
+    while(bvalid!==1 || bready!==1)begin
+      @(posedge aclk);
+      `uvm_info("FROM MASTER WRITE MONITOT BFM",$sformatf("Inside response channel while loop......"),UVM_HIGH)
+    end    
+      `uvm_info("FROM MASTER WRITE MONITOT BFM",$sformatf("After response channel while loop......"),UVM_HIGH)
+      
+    masterWritePacketStruct.bresp  = bresp;
 
     `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("after bvalid & bready asserted from master write response channel task masterWritePacketStruct=%p ",masterWritePacketStruct),UVM_HIGH)
   endtask : writeResponseChannelSampleTask 

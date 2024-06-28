@@ -16,8 +16,8 @@ class Axi4LiteMasterWriteTransaction extends uvm_sequence_item;
   int waitCounterForWready;
   int waitCounterForBvalid;
 
-  bit [DELAY_WIDTH-1:0] delayForWvalid;
-  bit [DELAY_WIDTH-1:0] delayForBready;
+  rand bit [DELAY_WIDTH-1:0] delayForWvalid;
+  rand bit [DELAY_WIDTH-1:0] delayForBready;
 
   extern function new (string name = "Axi4LiteMasterWriteTransaction");
   extern function void do_copy(uvm_object rhs);

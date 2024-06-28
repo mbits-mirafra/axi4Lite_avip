@@ -39,7 +39,6 @@ endfunction : start_of_simulation_phase
 task Axi4LiteMasterWriteSequencer::run_phase(uvm_phase phase);
 
   `uvm_info("Axi4LiteMasterWriteSequencer", "Sequencer run_phase started", UVM_LOW)
-      super.run_phase(phase);
 
 endtask : run_phase
 

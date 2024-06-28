@@ -6,7 +6,6 @@ package Axi4LiteMasterWriteSeqPkg;
   `include "uvm_macros.svh"
   import uvm_pkg::*;
   import Axi4LiteMasterWritePkg::*;
-//  import Axi4LiteMasterWriteBFMPkg::*;
  
   `include "Axi4LiteMasterWriteBaseSeq.sv"
   `include "Axi4LiteMasterWriteRandomAddressTransferSeq.sv"

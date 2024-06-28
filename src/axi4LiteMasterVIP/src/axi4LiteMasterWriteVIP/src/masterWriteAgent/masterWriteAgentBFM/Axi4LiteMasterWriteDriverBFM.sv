@@ -104,6 +104,7 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
     end
 
     bready <= 1'b1;
+    masterWritePacketStruct.bresp <= bresp;
 
     `uvm_info(name,$sformatf("WRITE_RESPONSE_CHANNEL_TASK_ENDED"),UVM_HIGH)
   endtask : writeResponseChannelTask

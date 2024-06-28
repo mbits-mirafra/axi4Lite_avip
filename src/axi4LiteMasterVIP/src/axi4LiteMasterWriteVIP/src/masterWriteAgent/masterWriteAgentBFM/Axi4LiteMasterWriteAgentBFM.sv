@@ -6,27 +6,10 @@
 module Axi4LiteMasterWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
                                      parameter int DATA_WIDTH = 32
                                     )
-                                    (input  aclk,
-                                     input  aresetn,
-                                     output awvalid,
-                                     input  awready,
-                                     output [ADDRESS_WIDTH-1:0] awaddr,
-                                     output [2:0] awprot,
-                                     output wvalid,
-                                     output [DATA_WIDTH-1:0] wdata,
-                                     output [(DATA_WIDTH/8)-1:0] wstrb,
-                                     input  wready,
-                                     input  bvalid,
-                                     output bready,
-                                     input  [1:0] bresp
-                                     );
+                                    (Axi4LiteMasterWriteInterface axi4LiteMasterWriteInterface);
    
   import uvm_pkg::*;
   `include "uvm_macros.svh"
-  
-  Axi4LiteMasterWriteInterface axi4LiteMasterWriteInterface(.aclk(aclk), 
-                                                            .aresetn(aresetn)
-                                                           );
 
   Axi4LiteMasterWriteDriverBFM axi4LiteMasterWriteDriverBFM (.aclk(axi4LiteMasterWriteInterface.aclk), 
                                                              .aresetn(axi4LiteMasterWriteInterface.aresetn),
@@ -57,14 +40,6 @@ module Axi4LiteMasterWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
                                                                .bready(axi4LiteMasterWriteInterface.bready),
                                                                .bresp(axi4LiteMasterWriteInterface.bresp)
                                                                );
-
-  assign awvalid = axi4LiteMasterWriteInterface.awvalid;
-  assign wvalid  = axi4LiteMasterWriteInterface.wvalid;
-  assign bready  = axi4LiteMasterWriteInterface.bready;
-
-  assign axi4LiteMasterWriteInterface.awready = awready;   
-  assign axi4LiteMasterWriteInterface.wready  = wready;  
-  assign axi4LiteMasterWriteInterface.bvalid  = bvalid;  
 
   //-------------------------------------------------------
   // Setting the virtual handle of BMFs into config_db
