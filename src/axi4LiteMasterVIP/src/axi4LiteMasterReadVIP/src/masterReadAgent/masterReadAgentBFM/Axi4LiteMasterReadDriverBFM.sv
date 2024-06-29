@@ -49,14 +49,14 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
     araddr  <= masterReadPacketStruct.araddr;
     arprot  <= masterReadPacketStruct.arprot;
 
-    while(arready !== 1) begin
+    do begin
       @(posedge aclk);
       masterReadPacketStruct.waitCounterForArready++;
       if(masterReadPacketStruct.waitCounterForArready < masterReadConfigStruct.maxDelayForArready) begin
-        `uvm_error (name, $sformatf ("arready count comparisions are failed"));
-      end
+       `uvm_error (name, $sformatf ("arready count comparisions are failed"));
     end
-
+  end
+    while(arready !== 1);
     arvalid <= 1'b0;
     
     `uvm_info(name,$sformatf("READ_ADDRESS_CHANNEL_TASK_ENDED"),UVM_HIGH)

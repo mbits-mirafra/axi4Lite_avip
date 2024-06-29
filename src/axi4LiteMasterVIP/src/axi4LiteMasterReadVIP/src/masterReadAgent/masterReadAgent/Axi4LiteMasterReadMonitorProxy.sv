@@ -75,14 +75,15 @@ task Axi4LiteMasterReadMonitorProxy::readAddressSampleTask();
 
    Axi4LiteMasterReadConfigConverter::fromClass(axi4LiteMasterReadAgentConfig, masterReadConfigStruct);
 
+   `uvm_info(get_type_name(), $sformatf("Inside Master_Read_Monitor Converted cfg struct\n%p",masterReadPacketStruct), UVM_HIGH)
    axi4LiteMasterReadMonitorBFM.readAddressChannelSampleTask(masterReadConfigStruct, masterReadPacketStruct);
-
+  `uvm_info(get_type_name(), $sformatf("Master_Read_Monitor Converted packet from BFM  struct\n%p",masterReadPacketStruct), UVM_HIGH)
    Axi4LiteMasterReadSeqItemConverter::toReadClass(masterReadPacketStruct,reqRead);
 
    // // Clone and publish the cloned item to the subscribers
     $cast(masterReadTx,reqRead.clone());
 
-    `uvm_info(get_type_name(),$sformatf("Packet received from master read monitor BFM clone packet is \n %s",masterReadTx.sprint()),UVM_HIGH)
+    `uvm_info(get_type_name(),$sformatf("Packet Received OutsideReadDataSampleTask: from Master_Read_Monitor_BFM clone packet is \n %s",masterReadTx.sprint()),UVM_HIGH)
     axi4LiteMasterReadAddressAnalysisPort.write(masterReadTx);
   end
 endtask : readAddressSampleTask
@@ -95,14 +96,15 @@ task Axi4LiteMasterReadMonitorProxy::readDataSampleTask();
 
    Axi4LiteMasterReadConfigConverter::fromClass(axi4LiteMasterReadAgentConfig, masterReadConfigStruct);
 
+   `uvm_info(get_type_name(), $sformatf("InsideReadDataTask: Master_Read_Monitor Converted cfg struct\n%p",masterReadConfigStruct), UVM_HIGH)
    axi4LiteMasterReadMonitorBFM.readDataChannelSampleTask(masterReadConfigStruct, masterReadPacketStruct);
-
+ `uvm_info(get_type_name(), $sformatf("Master_Read_Monitor Converted  packet from BFM \n%p",masterReadPacketStruct), UVM_HIGH)
+   
    Axi4LiteMasterReadSeqItemConverter::toReadClass(masterReadPacketStruct,reqRead);
 
    // // Clone and publish the cloned item to the subscribers
    $cast(masterReadTx,reqRead.clone());
-
-    `uvm_info(get_type_name(),$sformatf("Packet received from master read monitor BFM clone packet is \n %s",masterReadTx.sprint()),UVM_HIGH)
+    `uvm_info(get_type_name(),$sformatf("Packet Received OutsideReadDataSampleTask: from Master_Read_Monitor_BFM clone packet is \n %s",masterReadTx.sprint()),UVM_HIGH)
      axi4LiteMasterReadDataAnalysisPort.write(masterReadTx);
   end
 endtask : readDataSampleTask
