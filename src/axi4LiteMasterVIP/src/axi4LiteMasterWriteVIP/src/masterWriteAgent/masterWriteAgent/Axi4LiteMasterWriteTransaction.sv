@@ -41,7 +41,7 @@ function void Axi4LiteMasterWriteTransaction::do_copy(uvm_object rhs);
     `uvm_fatal("do_copy","cast of the rhs object failed")
   end
   super.do_copy(rhs);
-  awaddr = axi4LiteMasterWriteTxCopyObj.awaddr;
+  awaddr  = axi4LiteMasterWriteTxCopyObj.awaddr;
   awprot  = axi4LiteMasterWriteTxCopyObj.awprot;
   wdata   = axi4LiteMasterWriteTxCopyObj.wdata;
   wstrb   = axi4LiteMasterWriteTxCopyObj.wstrb;
@@ -81,6 +81,5 @@ function void Axi4LiteMasterWriteTransaction::do_print(uvm_printer printer);
    printer.print_field("delayForBready",delayForBready,$bits(delayForBready),UVM_HEX);
 
 endfunction : do_print
-
 `endif
 
