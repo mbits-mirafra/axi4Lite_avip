@@ -34,18 +34,18 @@ endfunction : post_randomize
 function void Axi4LiteMasterReadTransaction::do_copy(uvm_object rhs);
   Axi4LiteMasterReadTransaction axi4LiteMasterReadTxCopyObj;
 
+  if(!$cast(axi4LiteMasterReadTxCopyObj,rhs)) begin
+    `uvm_fatal("do_copy","cast of the rhs object failed")
+  end
+  super.do_copy(rhs);
+
   araddr = axi4LiteMasterReadTxCopyObj.araddr;
   arprot = axi4LiteMasterReadTxCopyObj.arprot;
   rdata = axi4LiteMasterReadTxCopyObj.rdata;
   rresp = axi4LiteMasterReadTxCopyObj.rresp;
   delayForRready = axi4LiteMasterReadTxCopyObj.delayForRready;
 
-  if(!$cast(axi4LiteMasterReadTxCopyObj,rhs)) begin
-    `uvm_fatal("do_copy","cast of the rhs object failed")
-  end
-  super.do_copy(rhs);
-
-endfunction : do_copy
+  endfunction : do_copy
 
 function bit Axi4LiteMasterReadTransaction::do_compare (uvm_object rhs, uvm_comparer comparer);
   Axi4LiteMasterReadTransaction axi4LiteMasterReadTxCompareObj;

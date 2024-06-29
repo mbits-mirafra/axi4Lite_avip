@@ -13,6 +13,9 @@ package Axi4LiteReadMasterGlobalPkg;
 
   parameter int DELAY_WIDTH = 5;
 
+  parameter int MIN_ADDRESS = 8'h80;
+  parameter int MAX_ADDRESS = 8'hff;
+
   typedef enum bit {
     BIG_ENDIAN    = 1'b0,
     LITTLE_ENDIAN = 1'b1

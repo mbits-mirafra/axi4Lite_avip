@@ -13,7 +13,6 @@ class Axi4LiteMasterReadMonitorProxy extends uvm_component;
   // Declaring analysis port for the monitor port
   uvm_analysis_port#(Axi4LiteMasterReadTransaction) axi4LiteMasterReadAddressAnalysisPort;
   uvm_analysis_port#(Axi4LiteMasterReadTransaction) axi4LiteMasterReadDataAnalysisPort;
-  uvm_analysis_port#(Axi4LiteMasterReadTransaction) axi4LiteMasterReadResponseAnalysisPort;
 
   //Variable: axi4LiteMasterReadAddressFIFO
   //Declaring handle for uvm_tlm_analysis_fifo for read task
@@ -39,7 +38,6 @@ function Axi4LiteMasterReadMonitorProxy::new(string name = "Axi4LiteMasterReadMo
   super.new(name, parent);
   axi4LiteMasterReadAddressAnalysisPort  = new("axi4LiteMasterReadAddressAnalysisPort",this);
   axi4LiteMasterReadDataAnalysisPort     = new("axi4LiteMasterReadDataAnalysisPort",this);
-  axi4LiteMasterReadResponseAnalysisPort = new("axi4LiteMasterReadResponseAnalysisPort",this);
   axi4LiteMasterReadAddressFIFO= new("axi4LiteMasterReadAddressFIFO",this);
   axi4LiteMasterReadDataFIFO= new("axi4LiteMasterReadDataFIFO",this);
 endfunction : new
@@ -82,10 +80,10 @@ task Axi4LiteMasterReadMonitorProxy::readAddressSampleTask();
    Axi4LiteMasterReadSeqItemConverter::toReadClass(masterReadPacketStruct,reqRead);
 
    // // Clone and publish the cloned item to the subscribers
-   // $cast(masterReadTx,reqRead.clone());
+    $cast(masterReadTx,reqRead.clone());
 
-   // `uvm_info(get_type_name(),$sformatf("Packet received from master read monitor BFM clone packet is \n %s",masterReadTx.sprint()),UVM_HIGH)
-   // axi4LiteMasterReadAddressAnalysisPort.read(masterReadTx);
+    `uvm_info(get_type_name(),$sformatf("Packet received from master read monitor BFM clone packet is \n %s",masterReadTx.sprint()),UVM_HIGH)
+    axi4LiteMasterReadAddressAnalysisPort.write(masterReadTx);
   end
 endtask : readAddressSampleTask
 
@@ -102,10 +100,10 @@ task Axi4LiteMasterReadMonitorProxy::readDataSampleTask();
    Axi4LiteMasterReadSeqItemConverter::toReadClass(masterReadPacketStruct,reqRead);
 
    // // Clone and publish the cloned item to the subscribers
-   // $cast(masterReadTx,reqRead.clone());
+   $cast(masterReadTx,reqRead.clone());
 
-   // `uvm_info(get_type_name(),$sformatf("Packet received from master read monitor BFM clone packet is \n %s",masterReadTx.sprint()),UVM_HIGH)
-   // axi4LiteMasterReadAddressAnalysisPort.read(masterReadTx);
+    `uvm_info(get_type_name(),$sformatf("Packet received from master read monitor BFM clone packet is \n %s",masterReadTx.sprint()),UVM_HIGH)
+     axi4LiteMasterReadDataAnalysisPort.write(masterReadTx);
   end
 endtask : readDataSampleTask
 
