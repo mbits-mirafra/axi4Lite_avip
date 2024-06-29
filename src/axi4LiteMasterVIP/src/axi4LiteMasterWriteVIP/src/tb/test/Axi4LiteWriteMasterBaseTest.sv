@@ -60,7 +60,7 @@ endfunction
 
 function void Axi4LiteWriteMasterBaseTest::end_of_elaboration_phase(uvm_phase phase);
   uvm_top.print_topology();
-  uvm_test_done.set_drain_time(this,1000ns);
+  uvm_test_done.set_drain_time(this,3000ns);
 endfunction : end_of_elaboration_phase
 
 task Axi4LiteWriteMasterBaseTest::run_phase(uvm_phase phase);

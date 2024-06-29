@@ -15,10 +15,8 @@ endfunction : new
 
 task Axi4LiteMasterWriteRandomAddressTransferSeq::body();
   super.body();
-
   `uvm_info(get_type_name(),$sformatf("Inside body before start_item Axi4LiteMasterWriteRandomAddressTransferSeq"),UVM_LOW);
   start_item(req);
-//  req = Axi4LiteMasterWriteTransaction::type_id::create("req"); 
   `uvm_info(get_type_name(),$sformatf("Inside body after start_item Axi4LiteMasterWriteRandomAddressTransferSeq"),UVM_LOW);
   if(!req.randomize()) begin 
       `uvm_error(get_type_name(), "Randomization failed")
