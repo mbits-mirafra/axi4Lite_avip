@@ -8,7 +8,7 @@ package Axi4LiteMasterReadSeqPkg;
   import Axi4LiteMasterReadPkg::*;
  
   `include "Axi4LiteMasterReadBaseSeq.sv"
-  `include "Axi4LiteMasterReadRandomAddressTransferSeq.sv"
+  `include "Axi4LiteMasterReadRandomTransferSeq.sv"
 
 endpackage : Axi4LiteMasterReadSeqPkg
 `endif

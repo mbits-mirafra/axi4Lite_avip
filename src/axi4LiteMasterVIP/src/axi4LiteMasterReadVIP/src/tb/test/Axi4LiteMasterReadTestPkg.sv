@@ -1,7 +1,7 @@
-`ifndef AXI4LITEREADMASTERTESTPKG_INCLUDED_
-`define AXI4LITEREADMASTERTESTPKG_INCLUDED_
+`ifndef AXI4LITEMASTERREADTESTPKG_INCLUDED_
+`define AXI4LITEMASTERREADTESTPKG_INCLUDED_
 
-package Axi4LiteReadMasterTestPkg;
+package Axi4LiteMasterReadTestPkg;
   
   `include "uvm_macros.svh"
   import uvm_pkg::*;
@@ -13,9 +13,9 @@ package Axi4LiteReadMasterTestPkg;
   import Axi4LiteMasterReadSeqPkg::*;
 
   //including base_test for testing
-  `include "Axi4LiteReadMasterBaseTest.sv"
-  `include "Axi4LiteMasterReadRandomAddressTransferTest.sv"
+  `include "Axi4LiteMasterReadBaseTest.sv"
+  `include "Axi4LiteMasterReadRandomTransferTest.sv"
 
-endpackage : Axi4LiteReadMasterTestPkg
+endpackage : Axi4LiteMasterReadTestPkg
 
 `endif

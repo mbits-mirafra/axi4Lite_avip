@@ -1,34 +1,34 @@
-`ifndef AXI4LITEREADMASTERBASETEST_INCLUDED_
-`define AXI4LITEREADMASTERBASETEST_INCLUDED_
+`ifndef AXI4LITEMASTERREADBASETEST_INCLUDED_
+`define AXI4LITEMASTERREADBASETEST_INCLUDED_
 
-class Axi4LiteReadMasterBaseTest extends uvm_test;
-  `uvm_component_utils(Axi4LiteReadMasterBaseTest)
+class Axi4LiteMasterReadBaseTest extends uvm_test;
+  `uvm_component_utils(Axi4LiteMasterReadBaseTest)
 
   Axi4LiteMasterReadBaseSeq axi4LiteMasterReadBaseSeq;
   Axi4LiteReadMasterEnv axi4LiteReadMasterEnv;
   Axi4LiteReadMasterEnvConfig axi4LiteReadMasterEnvConfig;
 
-  extern function new(string name = "Axi4LiteReadMasterBaseTest", uvm_component parent = null);
+  extern function new(string name = "Axi4LiteMasterReadBaseTest", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual function void setupAxi4LiteReadMasterEnvConfig();
   extern virtual function void setupAxi4LiteMasterReadAgentConfig();
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
 
-endclass : Axi4LiteReadMasterBaseTest
+endclass : Axi4LiteMasterReadBaseTest
 
-function Axi4LiteReadMasterBaseTest::new(string name = "Axi4LiteReadMasterBaseTest", uvm_component parent = null);
+function Axi4LiteMasterReadBaseTest::new(string name = "Axi4LiteMasterReadBaseTest", uvm_component parent = null);
   super.new(name, parent);
 endfunction : new
 
 
-function void Axi4LiteReadMasterBaseTest::build_phase(uvm_phase phase);
+function void Axi4LiteMasterReadBaseTest::build_phase(uvm_phase phase);
   super.build_phase(phase);
   axi4LiteReadMasterEnv = Axi4LiteReadMasterEnv::type_id::create("axi4LiteReadMasterEnv",this);
   setupAxi4LiteReadMasterEnvConfig();
 endfunction : build_phase
 
-function void Axi4LiteReadMasterBaseTest::setupAxi4LiteReadMasterEnvConfig();
+function void Axi4LiteMasterReadBaseTest::setupAxi4LiteReadMasterEnvConfig();
  axi4LiteReadMasterEnvConfig = Axi4LiteReadMasterEnvConfig::type_id::create("axi4LiteReadMasterEnvConfig",this);
  axi4LiteReadMasterEnvConfig.no_of_masters = NO_OF_READMASTERS;
  setupAxi4LiteMasterReadAgentConfig();
@@ -39,7 +39,7 @@ function void Axi4LiteReadMasterBaseTest::setupAxi4LiteReadMasterEnvConfig();
                 axi4LiteReadMasterEnvConfig.sprint()),UVM_LOW);
 endfunction : setupAxi4LiteReadMasterEnvConfig
 
-function void Axi4LiteReadMasterBaseTest::setupAxi4LiteMasterReadAgentConfig();
+function void Axi4LiteMasterReadBaseTest::setupAxi4LiteMasterReadAgentConfig();
   axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig = new[axi4LiteReadMasterEnvConfig.no_of_masters];
   foreach(axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i]) begin
   axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i] = Axi4LiteMasterReadAgentConfig::type_id::create(
@@ -60,15 +60,15 @@ function void Axi4LiteReadMasterBaseTest::setupAxi4LiteMasterReadAgentConfig();
 endfunction
 
 
-function void Axi4LiteReadMasterBaseTest::end_of_elaboration_phase(uvm_phase phase);
+function void Axi4LiteMasterReadBaseTest::end_of_elaboration_phase(uvm_phase phase);
   uvm_top.print_topology();
   uvm_test_done.set_drain_time(this,1000ns);
 endfunction : end_of_elaboration_phase
 
 
-task Axi4LiteReadMasterBaseTest::run_phase(uvm_phase phase);
+task Axi4LiteMasterReadBaseTest::run_phase(uvm_phase phase);
   axi4LiteMasterReadBaseSeq = Axi4LiteMasterReadBaseSeq::type_id::create("axi4LiteMasterReadBaseSeq",this);
-  phase.raise_objection(this, "Axi4LiteReadMasterBaseTest");
+  phase.raise_objection(this, "Axi4LiteMasterReadBaseTest");
 
   `uvm_info(get_type_name(), $sformatf("Inside BASE_TEST"), UVM_NONE);
    super.run_phase(phase);

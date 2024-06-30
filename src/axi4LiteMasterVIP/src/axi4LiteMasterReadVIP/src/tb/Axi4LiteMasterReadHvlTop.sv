@@ -4,7 +4,7 @@
 module Axi4LiteMasterReadHvlTop;
 
   import Axi4LiteReadMasterGlobalPkg::*;
-  import Axi4LiteReadMasterTestPkg::*;
+  import Axi4LiteMasterReadTestPkg::*;
   import uvm_pkg::*;
 
   initial begin : START_TEST 

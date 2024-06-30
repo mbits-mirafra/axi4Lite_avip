@@ -1,28 +1,28 @@
-`ifndef AXI4LITEMASTERREADRANDOMADDRESSTRANSFERSEQ_INCLUDED_
-`define AXI4LITEMASTERREADRANDOMADDRESSTRANSFERSEQ_INCLUDED_
+`ifndef AXI4LITEMASTERREADRANDOMTRANSFERSEQ_INCLUDED_
+`define AXI4LITEMASTERREADRANDOMTRANSFERSEQ_INCLUDED_
 
-class Axi4LiteMasterReadRandomAddressTransferSeq extends Axi4LiteMasterReadBaseSeq;
-  `uvm_object_utils(Axi4LiteMasterReadRandomAddressTransferSeq)
+class Axi4LiteMasterReadRandomTransferSeq extends Axi4LiteMasterReadBaseSeq;
+  `uvm_object_utils(Axi4LiteMasterReadRandomTransferSeq)
 
-  extern function new(string name = "Axi4LiteMasterReadRandomAddressTransferSeq");
+  extern function new(string name = "Axi4LiteMasterReadRandomTransferSeq");
   extern task body();
-endclass : Axi4LiteMasterReadRandomAddressTransferSeq
+endclass : Axi4LiteMasterReadRandomTransferSeq
 
-function Axi4LiteMasterReadRandomAddressTransferSeq::new(string name = "Axi4LiteMasterReadRandomAddressTransferSeq");
+function Axi4LiteMasterReadRandomTransferSeq::new(string name = "Axi4LiteMasterReadRandomTransferSeq");
   super.new(name);
 endfunction : new
 
 
-task Axi4LiteMasterReadRandomAddressTransferSeq::body();
+task Axi4LiteMasterReadRandomTransferSeq::body();
   super.body();
 
-  `uvm_info(get_type_name(),$sformatf("Inside body before start_item Axi4LiteMasterReadRandomAddressTransferSeq"),UVM_LOW);
+  `uvm_info(get_type_name(),$sformatf("Inside body before start_item Axi4LiteMasterReadRandomTransferSeq"),UVM_LOW);
   start_item(req);
-  `uvm_info(get_type_name(),$sformatf("Inside body after start_item Axi4LiteMasterReadRandomAddressTransferSeq"),UVM_LOW);
+  `uvm_info(get_type_name(),$sformatf("Inside body after start_item Axi4LiteMasterReadRandomTransferSeq"),UVM_LOW);
   if(!req.randomize()) begin 
       `uvm_error(get_type_name(), "Randomization failed")
   end
-  `uvm_info(get_type_name(),$sformatf("Inside body after randomize Axi4LiteMasterReadRandomAddressTransferSeq"),UVM_LOW);
+  `uvm_info(get_type_name(),$sformatf("Inside body after randomize Axi4LiteMasterReadRandomTransferSeq"),UVM_LOW);
   
     req.print();
   finish_item(req);

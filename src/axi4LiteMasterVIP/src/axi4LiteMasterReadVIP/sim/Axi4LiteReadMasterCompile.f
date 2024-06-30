@@ -11,7 +11,7 @@
 ../../src/masterReadAgent/masterReadAgent/Axi4LiteMasterReadPkg.sv
 ../../src/masterReadAgent/masterReadAgent/masterReadSequences/Axi4LiteMasterReadSeqPkg.sv
 ../../src/masterReadEnv/Axi4LiteReadMasterEnvPkg.sv
-../../src/tb/test/Axi4LiteReadMasterTestPkg.sv
+../../src/tb/test/Axi4LiteMasterReadTestPkg.sv
 ../../src/masterReadAgent/masterReadAgentBFM/Axi4LiteMasterReadInterface.sv
 ../../src/masterReadAgent/masterReadAgentBFM/Axi4LiteMasterReadAssertions.sv
 ../../src/masterReadAgent/masterReadAgentBFM/Axi4LiteMasterReadCoverProperty.sv
