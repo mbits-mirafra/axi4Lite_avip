@@ -10,7 +10,7 @@
 ../../src/masterWriteAgent/masterWriteAgent/Axi4LiteMasterWritePkg.sv
 ../../src/masterWriteAgent/masterWriteAgent/masterWriteSequences/Axi4LiteMasterWriteSeqPkg.sv
 ../../src/masterWriteEnv/Axi4LiteWriteMasterEnvPkg.sv
-../../src/tb/test/Axi4LiteWriteMasterTestPkg.sv
+../../src/tb/test/Axi4LiteMasterWriteTestPkg.sv
 ../../src/masterWriteAgent/masterWriteAgentBFM/Axi4LiteMasterWriteInterface.sv
 ../../src/masterWriteAgent/masterWriteAgentBFM/Axi4LiteMasterWriteAssertCoverParameter.sv
 ../../src/masterWriteAgent/masterWriteAgentBFM/Axi4LiteMasterWriteAssertions.sv

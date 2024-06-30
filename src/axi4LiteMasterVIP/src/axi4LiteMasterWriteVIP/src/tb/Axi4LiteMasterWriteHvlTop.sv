@@ -4,7 +4,7 @@
 module Axi4LiteMasterWriteHvlTop;
 
   import Axi4LiteWriteMasterGlobalPkg::*;
-  import Axi4LiteWriteMasterTestPkg::*;
+  import Axi4LiteMasterWriteTestPkg::*;
   import uvm_pkg::*;
 
   initial begin : START_TEST 
