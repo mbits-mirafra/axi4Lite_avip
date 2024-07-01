@@ -15,6 +15,7 @@ package Axi4LiteMasterTestPkg;
 
   //including base_test for testing
   `include "Axi4LiteMasterBaseTest.sv"
+  `include "Axi4LiteMasterRandomTransferTest.sv"
 
 endpackage : Axi4LiteMasterTestPkg
 

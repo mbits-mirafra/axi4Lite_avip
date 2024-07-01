@@ -39,24 +39,11 @@ module Axi4LiteMasterHdlTop;
   genvar i;
   generate
     for (i=0; i<NO_OF_WRITEMASTERS; i++) begin : Axi4LiteMasterWriteAgentBFM
-      Axi4LiteMasterWriteAgentBFM #() axi4LiteMasterWriteAgentBFM(.aclk(axi4LiteMasterWriteInterface.aclk),
-                                                                  .aresetn(axi4LiteMasterWriteInterface.aresetn),
-                                                                  .awvalid(axi4LiteMasterWriteInterface.awvalid),
-                                                                  .awready(axi4LiteMasterWriteInterface.awready),
-                                                                  .wvalid(axi4LiteMasterWriteInterface.wvalid),
-                                                                  .wready(axi4LiteMasterWriteInterface.wready),
-                                                                  .bvalid(axi4LiteMasterWriteInterface.bvalid),
-                                                                  .bready(axi4LiteMasterWriteInterface.bready)
-                                                                 );
+      Axi4LiteMasterWriteAgentBFM #() axi4LiteMasterWriteAgentBFM(axi4LiteMasterWriteInterface);
     end
 
     for (i=0; i<NO_OF_READMASTERS; i++) begin : Axi4LiteMasterReadAgentBFM
-      Axi4LiteMasterReadAgentBFM #() axi4LiteMasterReadAgentBFM(.aclk(axi4LiteMasterReadInterface.aclk),
-                                                                  .aresetn(axi4LiteMasterReadInterface.aresetn),
-                                                                  .arvalid(axi4LiteMasterReadInterface.arvalid),
-                                                                  .arready(axi4LiteMasterReadInterface.arready),
-                                                                  .rvalid(axi4LiteMasterReadInterface.rvalid),
-                                                                  .rready(axi4LiteMasterReadInterface.rready)                                                                                    );
+      Axi4LiteMasterReadAgentBFM #() axi4LiteMasterReadAgentBFM(axi4LiteMasterReadInterface);
     end
   endgenerate
 

@@ -14,6 +14,7 @@ package Axi4LiteMasterVirtualSeqPkg;
   import Axi4LiteMasterEnvPkg::*;
 
   `include "Axi4LiteMasterVirtualBaseSeq.sv"
+  `include "Axi4LiteMasterVirtualRandomTransferSeq.sv"
 
 endpackage : Axi4LiteMasterVirtualSeqPkg
 
