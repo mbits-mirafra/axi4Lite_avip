@@ -49,20 +49,36 @@ module Axi4LiteMasterWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
     uvm_config_db#(virtual Axi4LiteMasterWriteMonitorBFM)::set(null,"*", "Axi4LiteMasterWriteMonitorBFM", axi4LiteMasterWriteMonitorBFM);
   end
 
-  bind axi4LiteMasterWriteMonitorBFM Axi4LiteMasterWriteAssertions M_A (.aclk(aclk),
-                                                                        .aresetn(aresetn),
-                                                                        .awvalid(awvalid),
-                                                                        .awready(awready),
-                                                                        .awaddr(awaddr),
-                                                                        .awprot(awprot),
-                                                                        .wvalid(wvalid),
-                                                                        .wready(wready),
-                                                                        .wdata(wdata),
-                                                                        .wstrb(wstrb),
-                                                                        .bvalid(bvalid),
-                                                                        .bready(bready),
-                                                                        .bresp(bresp)
-                                                                       );
+  bind axi4LiteMasterWriteMonitorBFM Axi4LiteMasterWriteAssertions WRITEMASTER_ASSERTPROPERTY (.aclk(aclk),
+                                                                                               .aresetn(aresetn),
+                                                                                               .awvalid(awvalid),
+                                                                                               .awready(awready),
+                                                                                               .awaddr(awaddr),
+                                                                                               .awprot(awprot),
+                                                                                               .wvalid(wvalid),
+                                                                                               .wready(wready),
+                                                                                               .wdata(wdata),
+                                                                                               .wstrb(wstrb),
+                                                                                               .bvalid(bvalid),
+                                                                                               .bready(bready),
+                                                                                               .bresp(bresp)
+                                                                                              );
+
+  bind axi4LiteMasterWriteMonitorBFM Axi4LiteMasterWriteCoverProperty WRITEMASTER_COVERPROPERTY (.aclk(aclk),
+                                                                                                 .aresetn(aresetn),
+                                                                                                 .awvalid(awvalid),
+                                                                                                 .awready(awready),
+                                                                                                 .awaddr(awaddr),
+                                                                                                 .awprot(awprot),
+                                                                                                 .wvalid(wvalid),
+                                                                                                 .wready(wready),
+                                                                                                 .wdata(wdata),
+                                                                                                 .wstrb(wstrb),
+                                                                                                 .bvalid(bvalid),
+                                                                                                 .bready(bready),
+                                                                                                 .bresp(bresp)
+                                                                                                );
+
 
 
   initial begin
