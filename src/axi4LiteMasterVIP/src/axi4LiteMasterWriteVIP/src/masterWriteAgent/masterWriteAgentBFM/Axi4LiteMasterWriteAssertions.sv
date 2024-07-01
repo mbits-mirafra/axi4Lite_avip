@@ -97,7 +97,7 @@ IFBVALIDASSERTED_THENWITHIN16CLK_BREADYASSERTED: assert property (validAssertedT
 
     property WhenResetAssertedThenReadyWillGoDefaultState(logic ready);
      @(negedge aresetn) disable iff (aresetn === 1)
-         1 |-> (ready===DEFAULT_READY);
+       ##1  1 |-> (ready===DEFAULT_READY);
     endproperty
 
 IFRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState(awready))

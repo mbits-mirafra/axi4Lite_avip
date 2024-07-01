@@ -7,7 +7,7 @@ package Axi4LiteMasterWritePkg;
   import uvm_pkg::*;
  
   import Axi4LiteWriteMasterGlobalPkg::*;
-//  import Axi4LiteMasterWriteBFMPkg::*;
+  import Axi4LiteMasterWriteAssertCoverParameter::*;
 
   `include "Axi4LiteMasterWriteAgentConfig.sv"
   `include "Axi4LiteMasterWriteTransaction.sv"

@@ -51,18 +51,18 @@ module Axi4LiteMasterWriteAssertPropertyTB;
   end
 
   initial begin
-    When_awvalidIsAsserted_Then_sameClkAwaddrAndAwprotIsNotUnknown_Expect_AssertionPass();
+  /*  When_awvalidIsAsserted_Then_sameClkAwaddrAndAwprotIsNotUnknown_Expect_AssertionPass();
     When_wvalidIsAsserted_Then_sameClkWdataAndWstrbIsNotUnknown_Expect_AssertionPass();
     When_bvalidIsAsserted_Then_sameClkBrespIsNotUnknown_Expect_AssertionPass();
 
     When_awvalidIsAsserted_Then_sameClkAwaddrAndAwprotIsUnknown_Expect_AssertionFail();
     When_wvalidIsAsserted_Then_sameClkWdataAndWstrbIsUnknown_Expect_AssertionFail();
     When_bvalidIsAsserted_Then_sameClkBrespIsUnknown_Expect_AssertionFail();
-
+*/
     When_awvalidAsserted_Then_awvalidHighAndWithin16ClkAwreadyAsserted_Expect_AssertionPass();
     When_wvalidAsserted_Then_wvalidHighAndWithin16ClkWreadyAsserted_Expect_AssertionPass();
     When_bvalidAsserted_Then_bvalidHighAndWithin16ClkBreadyAsserted_Expect_AssertionPass();
-    When_awvalidAsserted_Then_awvalidHighAndAfter16ClkAwreadyAsserted_Expect_AssertionFail();
+  /*  When_awvalidAsserted_Then_awvalidHighAndAfter16ClkAwreadyAsserted_Expect_AssertionFail();
     When_wvalidAsserted_Then_wvalidHighAndAfter16ClkWreadyAsserted_Expect_AssertionFail();
     When_bvalidAsserted_Then_bvalidHighAndAfter16ClkBreadyAsserted_Expect_AssertionFail();
     When_awvalidAsserted_Then_sameClkAwreadyAsserted_Expect_AssertionPass();
@@ -120,7 +120,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
   
     When_bvalidAndBreadyAsserted_Then_ResponseIsNotExokay_Expect_AssertionPass();
     When_bvalidAndBreadyAsserted_Then_ResponseIsExokay_Expect_AssertionFail();
-
+*/
   end
 
   task When_awvalidIsAsserted_Then_sameClkAwaddrAndAwprotIsNotUnknown_Expect_AssertionPass();

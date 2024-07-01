@@ -71,7 +71,9 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
                             inout axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct
                            );
     `uvm_info(name,$sformatf("WRITE_DATA_CHANNEL_TASK_STARTED"),UVM_HIGH)
-    @(posedge aclk);
+    repeat(masterWritePacketStruct.delayForWvalid) begin 
+      @(posedge aclk);
+    end
     wvalid <= 1'b1;
     wdata  <= masterWritePacketStruct.wdata;
     wstrb  <= masterWritePacketStruct.wstrb;
