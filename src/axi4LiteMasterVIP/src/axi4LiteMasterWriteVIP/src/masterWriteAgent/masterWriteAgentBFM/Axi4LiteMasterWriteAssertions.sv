@@ -29,20 +29,30 @@ interface Axi4LiteMasterWriteAssertions (input  aclk,
     `uvm_info("Axi4LiteMasterWriteAssertions","Axi4LiteMasterWriteAssertions",UVM_LOW);
   end
 
-  property ifValidHighThenInformationNotUnknown(logic valid, logic information);
+  property ifValidHighThenInformationNotUnknown(logic valid, logic information, logic controlSignal);
 	  @(posedge aclk) disable iff (!aresetn)
-      valid |-> !($isunknown(information));
+      valid |-> (!($isunknown(information)) && !($isunknown(controlSignal)));
   endproperty
 
-IFAWVALIDASSERTED_THEN_AWADDR_NOTUNKNOWN: assert property (ifValidHighThenInformationNotUnknown(awvalid,awaddr))
-  $info("IFAWVALIDASSERTED_THEN_AWADDR_NOTUNKNOWN : ASSERTED");
+IFAWVALIDASSERTED_THEN_AWADDRANDAWPROT_NOTUNKNOWN: assert property (ifValidHighThenInformationNotUnknown(awvalid,awaddr,awprot))
+  $info("IFAWVALIDASSERTED_THEN_AWADDRANDAWPROT_NOTUNKNOWN : ASSERTED");
   else
-    $error("IFAWVALIDASSERTED_THEN_AWADDR_NOTUNKNOWN : NOT ASSERTED");
+    $error("IFAWVALIDASSERTED_THEN_AWADDRANDAWPROT_NOTUNKNOWN : NOT ASSERTED");
 
-IFWVALIDASSERTED_THEN_WDATA_NOTUNKNOWN: assert property (ifValidHighThenInformationNotUnknown(wvalid,wdata))
-  $info("IFWVALIDASSERTED_THEN_WDATA_NOTUNKNOWN : ASSERTED");
+IFWVALIDASSERTED_THEN_WDATAANDWSTRB_NOTUNKNOWN: assert property (ifValidHighThenInformationNotUnknown(wvalid,wdata,wstrb))
+  $info("IFWVALIDASSERTED_THEN_WDATAANDWSTRB_NOTUNKNOWN : ASSERTED");
   else
-    $error("IFWVALIDASSERTED_THEN_WDATA_NOTUNKNOWN : NOT ASSERTED");
+    $error("IFWVALIDASSERTED_THEN_WDATAANDWSTRB_NOTUNKNOWN : NOT ASSERTED");
+
+  property ifBvalidHighThenBrespNotUnknown(logic bvalid, logic bresp);
+	  @(posedge aclk) disable iff (!aresetn)
+      bvalid |-> !($isunknown(bresp));
+  endproperty
+
+IFBVALIDASSERTED_THEN_BRESP_NOTUNKNOWN: assert property (ifBvalidHighThenBrespNotUnknown(bvalid,bresp))
+  $info("IFBVALIDASSERTED_THEN_BRESP_NOTUNKNOWN : ASSERTED");
+  else
+    $error("IFBVALIDASSERTED_THEN_BRESP_NOTUNKNOWN : NOT ASSERTED");
 
     property validAssertedAndStableWithin16ClkReadyAsserted(logic valid, logic ready);
       @(posedge aclk) disable iff (!aresetn)
