@@ -14,6 +14,8 @@ package Axi4LiteMasterWriteTestPkg;
   //including base_test for testing
   `include "Axi4LiteMasterWriteBaseTest.sv"
   `include "Axi4LiteMasterWriteRandomTransferTest.sv"
+  `include "Axi4LiteMasterWriteDelayForWvalidTest.sv"
+  `include "Axi4LiteMasterWriteDelayForBreadyTest.sv"
 
 endpackage : Axi4LiteMasterWriteTestPkg
 
