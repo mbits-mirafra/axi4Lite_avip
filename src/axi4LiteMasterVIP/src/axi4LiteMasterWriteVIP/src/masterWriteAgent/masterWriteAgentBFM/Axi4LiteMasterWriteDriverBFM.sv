@@ -61,7 +61,7 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
         `uvm_error (name, $sformatf ("awready count comparisions are failed"));
    end
  end
-    while(awready !== 1); 
+    while(awready !== 1'b1); 
     awvalid <= 1'b0;
 
     `uvm_info(name,$sformatf("MASTER_WRITE_ADDRESS_CHANNEL_TASK_ENDED"),UVM_HIGH)
@@ -85,7 +85,7 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
         `uvm_error (name, $sformatf ("wready count comparisions are failed"));
       end
     end
-    while(wready !== 1);
+    while(wready !== 1'b1);
     wvalid <= 1'b0;
 
     `uvm_info(name,$sformatf("WRITE_DATA_CHANNEL_TASK_ENDED"),UVM_HIGH)
@@ -97,12 +97,14 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
     `uvm_info(name,$sformatf("WRITE_RESPONSE_CHANNEL_TASK_STARTED"),UVM_HIGH)
     do begin
       @(posedge aclk);
-    end while(bvalid !== 1);
+    end while(bvalid !== 1'b1);
 
     `uvm_info(name , $sformatf("After while loop bvalid asserted "),UVM_HIGH)
 
     repeat(masterWritePacketStruct.delayForBready) begin 
+      `uvm_info(name,$sformatf("DRIVING delayForBready master write response:: %0d",masterWritePacketStruct.delayForBready),UVM_HIGH);
       @(posedge aclk);
+      bready <= 1'b0;
     end
 
     bready <= 1'b1;

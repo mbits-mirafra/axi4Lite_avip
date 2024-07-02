@@ -40,11 +40,10 @@ interface Axi4LiteMasterWriteMonitorBFM(input bit aclk,
                                     );
     `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("from axi4Lite master write address sample task"),UVM_HIGH)
 
-    @(posedge aclk);
-    while(awvalid!==1 || awready!==1)begin
+    do begin
       @(posedge aclk);
       `uvm_info("FROM MASTER WRITE MONITOT BFM",$sformatf("Inside address channel while loop......"),UVM_HIGH)
-    end    
+    end while(awvalid!==1 || awready!==1);
       `uvm_info("FROM MASTER WRITE MONITOT BFM",$sformatf("After address channel while loop......"),UVM_HIGH)
       
     masterWritePacketStruct.awaddr  = awaddr;
@@ -58,11 +57,10 @@ interface Axi4LiteMasterWriteMonitorBFM(input bit aclk,
                                     );
     `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("from axi4Lite master write data sample task"),UVM_HIGH)
 
-    @(posedge aclk);
-    while(wvalid!==1 || wready!==1)begin
+    do begin
       @(posedge aclk);
       `uvm_info("FROM MASTER WRITE MONITOT BFM",$sformatf("Inside data channel while loop......"),UVM_HIGH)
-    end    
+    end while(wvalid!==1 || wready!==1);
       `uvm_info("FROM MASTER WRITE MONITOT BFM",$sformatf("After data channel while loop......"),UVM_HIGH)
       
     masterWritePacketStruct.wdata  = wdata;
@@ -76,11 +74,10 @@ interface Axi4LiteMasterWriteMonitorBFM(input bit aclk,
                                      );
     `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("from axi4Lite master write response sample task"),UVM_HIGH)
 
-    @(posedge aclk);
-    while(bvalid!==1 || bready!==1)begin
+    do begin
       @(posedge aclk);
       `uvm_info("FROM MASTER WRITE MONITOT BFM",$sformatf("Inside response channel while loop......"),UVM_HIGH)
-    end    
+    end while(bvalid!==1 || bready!==1);    
       `uvm_info("FROM MASTER WRITE MONITOT BFM",$sformatf("After response channel while loop......"),UVM_HIGH)
       
     masterWritePacketStruct.bresp  = bresp;
