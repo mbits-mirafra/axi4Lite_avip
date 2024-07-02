@@ -78,9 +78,9 @@ task Axi4LiteMasterWriteMonitorProxy::writeAddressSampleTask();
    axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
    Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteConfigStruct);
-   `uvm_info(get_type_name(), $sformatf("Inside Master_Write_Monitor Converted cfg struct\n%p",masterWritePacketStruct), UVM_HIGH)
+   `uvm_info(get_type_name(), $sformatf("Inside Master_Write_Monitor writeAddressTask Converted cfg struct\n%p",masterWritePacketStruct), UVM_HIGH)
    axi4LiteMasterWriteMonitorBFM.writeAddressChannelSampleTask(masterWriteConfigStruct, masterWritePacketStruct);
-  `uvm_info(get_type_name(), $sformatf("Master_Write_Monitor Converted packet from BFM  struct\n%p",masterWritePacketStruct), UVM_HIGH)
+  `uvm_info(get_type_name(), $sformatf("Master_Write_Monitor writeAddressTask Converted packet from BFM  struct\n%p",masterWritePacketStruct), UVM_HIGH)
 
    Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,reqWrite);
 
@@ -98,15 +98,15 @@ task Axi4LiteMasterWriteMonitorProxy::writeDataSampleTask();
    axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
    Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteConfigStruct);
-   `uvm_info(get_type_name(), $sformatf("Inside Master_Write_Monitor Converted cfg struct\n%p",masterWritePacketStruct), UVM_HIGH)
+   `uvm_info(get_type_name(), $sformatf("Inside Master_Write_Monitor writeDataTask Converted cfg struct\n%p",masterWritePacketStruct), UVM_HIGH)
    axi4LiteMasterWriteMonitorBFM.writeDataChannelSampleTask(masterWriteConfigStruct, masterWritePacketStruct);
-  `uvm_info(get_type_name(), $sformatf("Master_Write_Monitor Converted packet from BFM  struct\n%p",masterWritePacketStruct), UVM_HIGH)
+  `uvm_info(get_type_name(), $sformatf("Master_Write_Monitor writeDataTask Converted packet from BFM  struct\n%p",masterWritePacketStruct), UVM_HIGH)
    Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,reqWrite);
 
     $cast(masterWriteTx,reqWrite.clone());
 
     `uvm_info(get_type_name(),$sformatf("Packet Received OutsideWriteDataSampleTask: from Master_Read_Monitor_BFM clone packet is \n %s",masterWriteTx.sprint()),UVM_HIGH)
-    axi4LiteMasterWriteAddressAnalysisPort.write(masterWriteTx);
+    axi4LiteMasterWriteDataAnalysisPort.write(masterWriteTx);
   end
 endtask : writeDataSampleTask
 
@@ -117,15 +117,15 @@ task Axi4LiteMasterWriteMonitorProxy::writeResponseSampleTask();
    axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
    Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteConfigStruct);
-   `uvm_info(get_type_name(), $sformatf("Inside Master_Write_Monitor Converted cfg struct\n%p",masterWritePacketStruct), UVM_HIGH)
+   `uvm_info(get_type_name(), $sformatf("Inside Master_Write_Monitor writeResponseTask Converted cfg struct\n%p",masterWritePacketStruct), UVM_HIGH)
    axi4LiteMasterWriteMonitorBFM.writeResponseChannelSampleTask(masterWriteConfigStruct, masterWritePacketStruct);
-  `uvm_info(get_type_name(), $sformatf("Master_Write_Monitor Converted packet from BFM  struct\n%p",masterWritePacketStruct), UVM_HIGH)
+  `uvm_info(get_type_name(), $sformatf("Master_Write_Monitor writeResponseTask Converted packet from BFM  struct\n%p",masterWritePacketStruct), UVM_HIGH)
    Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,reqWrite);
 
     $cast(masterWriteTx,reqWrite.clone());
 
     `uvm_info(get_type_name(),$sformatf("Packet Received OutsideWriteResponseSampleTask: from Master_Read_Monitor_BFM clone packet is \n %s",masterWriteTx.sprint()),UVM_HIGH)
-   axi4LiteMasterWriteAddressAnalysisPort.write(masterWriteTx);
+   axi4LiteMasterWriteDataAnalysisPort.write(masterWriteTx);
   end
 
 endtask : writeResponseSampleTask
