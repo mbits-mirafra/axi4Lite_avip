@@ -25,20 +25,20 @@ interface Axi4LiteMasterReadAssertions (input  aclk,
     `uvm_info("Axi4LiteMasterReadAssertions","Axi4LiteMasterReadAssertions",UVM_LOW);
   end
 
-property ifValidHighThenInformationAreNotUnknown(logic valid, logic information);
+property ifValidHighThenInformationAreNotUnknown(logic valid, logic information, logic controlSignal);
 	  @(posedge aclk) disable iff (!aresetn)
-      valid |-> !($isunknown(information));
+      valid |-> (!($isunknown(information)) && !($isunknown(controlSignal)));
   endproperty
 
-IFARVALIDASSERTED_THEN_ARADDR_NOTUNKNOWN: assert property (ifValidHighThenInformationAreNotUnknown(arvalid,araddr))
-  $info("IFARVALIDASSERTED_THEN_ARADDR_NOTUNKNOWN : ASSERTED");
+IFARVALIDASSERTED_THEN_ARADDRARPROT_NOTUNKNOWN: assert property (ifValidHighThenInformationAreNotUnknown(arvalid,araddr,arprot))
+  $info("IFARVALIDASSERTED_THEN_ARADDRARPROT_NOTUNKNOWN : ASSERTED");
   else
-    $error("IFARVALIDASSERTED_THEN_ARADDR_NOTUNKNOWN : NOT ASSERTED");
+    $error("IFARVALIDASSERTED_THEN_ARADDRARPROT_NOTUNKNOWN : NOT ASSERTED");
 
-IFRVALIDASSERTED_THEN_RDATA_NOTUNKNOWN: assert property (ifValidHighThenInformationAreNotUnknown(rvalid,rdata))
-  $info("IFRVALIDASSERTED_THEN_RDATA_NOTUNKNOWN : ASSERTED");
+IFRVALIDASSERTED_THEN_RDATARRESP_NOTUNKNOWN: assert property (ifValidHighThenInformationAreNotUnknown(rvalid,rdata,rresp))
+  $info("IFRVALIDASSERTED_THEN_RDATARRESP_NOTUNKNOWN : ASSERTED");
   else
-    $error("IFRVALIDASSERTED_THEN_RDATA_NOTUNKNOWN : NOT ASSERTED");
+    $error("IFRVALIDASSERTED_THEN_RDATARRESP_NOTUNKNOWN : NOT ASSERTED");
 
     property validAssertedAndStableWithin16ClkReadyAsserted(logic valid, logic ready);
       @(posedge aclk) disable iff (!aresetn)
