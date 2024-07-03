@@ -1,1 +1,4 @@
 setenv AXI4LITE_MASTER `pwd` 
+
+setenv AXI4LITE_MASTERWRITE "$AXI4LITE_MASTER/src/axi4LiteMasterWriteVIP"
+setenv AXI4LITE_MASTERREAD "$AXI4LITE_MASTER/src/axi4LiteMasterReadVIP"

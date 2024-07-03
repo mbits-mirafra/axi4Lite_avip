@@ -1,1 +1,4 @@
 setenv AXI4LITE_SLAVE `pwd` 
+
+setenv AXI4LITE_SLAVEWRITE "$AXI4LITE_SLAVE/src/axi4LiteSlaveWriteVIP"
+setenv AXI4LITE_SLAVEREAD "$AXI4LITE_SLAVE/src/axi4LiteSlaveReadVIP"
