@@ -13,6 +13,7 @@ package Axi4LiteMasterWriteSeqPkg;
   `include "Axi4LiteMasterWriteRandomTransferSeq.sv"
   `include "Axi4LiteMasterWriteDelayForWvalidSeq.sv"
   `include "Axi4LiteMasterWriteDelayForBreadySeq.sv"
+  `include "Axi4LiteMasterWriteAddressInsideMinAndMaxRangeSeq.sv"
 
 endpackage : Axi4LiteMasterWriteSeqPkg
 `endif

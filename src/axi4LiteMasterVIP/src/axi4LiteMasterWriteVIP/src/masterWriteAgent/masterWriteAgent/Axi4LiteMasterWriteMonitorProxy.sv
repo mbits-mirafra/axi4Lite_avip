@@ -86,7 +86,7 @@ task Axi4LiteMasterWriteMonitorProxy::writeAddressSampleTask();
 
     $cast(masterWriteTx,reqWrite.clone());
 
-    `uvm_info(get_type_name(),$sformatf("Packet Received OutsideWriteAddressSampleTask: from Master_Read_Monitor_BFM clone packet is \n %s",masterWriteTx.sprint()),UVM_HIGH)
+    `uvm_info(get_type_name(),$sformatf("Packet Received OutsideWriteAddressSampleTask: from Master_write_Monitor_BFM clone packet is \n %s",masterWriteTx.sprint()),UVM_HIGH)
     axi4LiteMasterWriteAddressAnalysisPort.write(masterWriteTx);
   end
 endtask : writeAddressSampleTask
@@ -105,7 +105,7 @@ task Axi4LiteMasterWriteMonitorProxy::writeDataSampleTask();
 
     $cast(masterWriteTx,reqWrite.clone());
 
-    `uvm_info(get_type_name(),$sformatf("Packet Received OutsideWriteDataSampleTask: from Master_Read_Monitor_BFM clone packet is \n %s",masterWriteTx.sprint()),UVM_HIGH)
+    `uvm_info(get_type_name(),$sformatf("Packet Received OutsideWriteDataSampleTask: from Master_Write_Monitor_BFM clone packet is \n %s",masterWriteTx.sprint()),UVM_HIGH)
     axi4LiteMasterWriteDataAnalysisPort.write(masterWriteTx);
   end
 endtask : writeDataSampleTask
@@ -124,7 +124,7 @@ task Axi4LiteMasterWriteMonitorProxy::writeResponseSampleTask();
 
     $cast(masterWriteTx,reqWrite.clone());
 
-    `uvm_info(get_type_name(),$sformatf("Packet Received OutsideWriteResponseSampleTask: from Master_Read_Monitor_BFM clone packet is \n %s",masterWriteTx.sprint()),UVM_HIGH)
+    `uvm_info(get_type_name(),$sformatf("Packet Received OutsideWriteResponseSampleTask: from Master_Write_Monitor_BFM clone packet is \n %s",masterWriteTx.sprint()),UVM_HIGH)
    axi4LiteMasterWriteDataAnalysisPort.write(masterWriteTx);
   end
 

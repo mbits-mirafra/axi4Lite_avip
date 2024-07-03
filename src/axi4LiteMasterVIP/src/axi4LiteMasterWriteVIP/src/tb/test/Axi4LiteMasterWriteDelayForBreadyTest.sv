@@ -27,12 +27,11 @@ task Axi4LiteMasterWriteDelayForBreadyTest::run_phase(uvm_phase phase);
 
   `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteMasterWriteDelayForBreadyTest"),UVM_LOW);
     
-   repeat(5) begin
    if(!axi4LiteMasterWriteDelayForBreadySeq.randomize()) begin
        `uvm_error(get_type_name(), "Randomization failed")
-   end
-       `uvm_info(get_type_name(),$sformatf("Axi4LiteMasterWriteDelayForBreadyTest delayForBready :%0d", axi4LiteMasterWriteDelayForBreadySeq.delayForBready),UVM_LOW);
   end
+       `uvm_info(get_type_name(),$sformatf("Axi4LiteMasterWriteDelayForBreadyTest delayForBready :%0d", axi4LiteMasterWriteDelayForBreadySeq.delayForBready),UVM_LOW);
+
   phase.raise_objection(this);
   super.run_phase(phase);
   axi4LiteMasterWriteDelayForBreadySeq.start(axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent[0].axi4LiteMasterWriteSequencer); 

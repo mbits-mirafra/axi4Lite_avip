@@ -28,7 +28,7 @@ task Axi4LiteMasterWriteAddressInsideMinAndMaxRangeTest::run_phase(uvm_phase pha
    if(!axi4LiteMasterWriteAddressInsideMinAndMaxRangeSeq.randomize()) begin
        `uvm_error(get_type_name(), "Randomization failed")
    end
-       `uvm_info(get_type_name(),$sformatf("Axi4LiteMasterWriteAddressInsideMinAndMaxRangeTest delayForWvalid :%0d", axi4LiteMasterWriteAddressInsideMinAndMaxRangeSeq.delayForWvalid),UVM_LOW);
+       `uvm_info(get_type_name(),$sformatf("Axi4LiteMasterWriteAddressInsideMinAndMaxRangeTest awaddr :%0d", axi4LiteMasterWriteAddressInsideMinAndMaxRangeSeq.awaddr),UVM_LOW);
 
   phase.raise_objection(this);
   super.run_phase(phase);

@@ -1,10 +1,7 @@
 `ifndef AXI4LITEMASTERWRITECOVERPROPERTY_INCLUDED_
 `define AXI4LITEMASTERWRITECOVERPROPERTY_INCLUDED_
-  import uvm_pkg::*;
-  import Axi4LiteWriteMasterGlobalPkg::*;
-  import Axi4LiteMasterWriteAssertCoverParameter::*;
-  `include "uvm_macros.svh";
 
+ import Axi4LiteWriteMasterGlobalPkg::*;
 
 interface Axi4LiteMasterWriteCoverProperty (input  aclk,
                                             input  aresetn,
@@ -24,8 +21,11 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
                                             input  [1:0] bresp
                                            );  
 
+  import uvm_pkg::*;
+  import Axi4LiteMasterWriteAssertCoverParameter::*;
+  `include "uvm_macros.svh";
+
   initial begin
-    
     `uvm_info("Axi4LiteMasterWriteCoverProperty","Axi4LiteMasterWriteCoverProperty",UVM_LOW);
   end
   

@@ -19,9 +19,10 @@ endfunction : new
 task Axi4LiteMasterWriteAddressInsideMinAndMaxRangeSeq::body();
   super.body();
   start_item(req);
-  if(!req.randomize() with {awaddr == this.awaddr;})begin 
+  if(!req.randomize()) begin 
       `uvm_error(get_type_name(), "Randomization failed")
   end
+  req.awaddr = this.awaddr;
     req.print();
   finish_item(req);
 
