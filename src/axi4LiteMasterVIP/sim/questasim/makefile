@@ -81,7 +81,9 @@ compile:
 	+cover \
 	+fcover \
 	-l Axi4LiteMasterCompile.log \
-	-f ../Axi4LiteMasterCompile.f 
+	-f $(AXI4LITE_MASTER)/src/axi4LiteMasterWriteVIP/sim/Axi4LiteWriteMaster.f \
+	-f $(AXI4LITE_MASTER)/src/axi4LiteMasterReadVIP/sim/Axi4LiteReadMaster.f \
+	-f $(AXI4LITE_MASTER)/sim/Axi4LiteMasterProject.f
 
 	# -s means silent mode
 	#  The command executed along with the output will be displayed on the terminal
