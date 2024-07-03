@@ -1,0 +1,1 @@
+setenv AXI4LITE_SLAVEWRITE `pwd` 

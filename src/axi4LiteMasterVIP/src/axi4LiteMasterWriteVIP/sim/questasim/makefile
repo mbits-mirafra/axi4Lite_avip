@@ -81,7 +81,8 @@ compile:
 	+cover \
 	+fcover \
 	-l Axi4LiteWriteMasterCompile.log \
-	-f ../Axi4LiteWriteMasterCompile.f 
+	-f $(AXI4LITE_MASTERWRITE)/sim/Axi4LiteWriteMaster.f \
+	-f $(AXI4LITE_MASTERWRITE)/sim/Axi4LiteWriteMasterProject.f
 
 	# -s means silent mode
 	#  The command executed along with the output will be displayed on the terminal
@@ -92,7 +93,7 @@ compile:
 
 # Setting a default test as base_test
 ifndef test
-override test = Axi4LiteWriteMasterBaseTest
+override test = Axi4LiteMasterWriteBaseTest
 endif
 
 # Setting the default uvm_verbosity to UVM_MEDIUM

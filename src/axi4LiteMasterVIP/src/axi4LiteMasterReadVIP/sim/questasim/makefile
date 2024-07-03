@@ -81,7 +81,8 @@ compile:
 	+cover \
 	+fcover \
 	-l Axi4LiteReadMasterCompile.log \
-	-f ../Axi4LiteReadMasterCompile.f 
+	-f $(AXI4LITE_MASTERREAD)/sim/Axi4LiteReadMaster.f \
+	-f $(AXI4LITE_MASTERREAD)/sim/Axi4LiteReadMasterProject.f
 
 	# -s means silent mode
 	#  The command executed along with the output will be displayed on the terminal
@@ -92,7 +93,7 @@ compile:
 
 # Setting a default test as base_test
 ifndef test
-override test = Axi4LiteReadMasterBaseTest
+override test = Axi4LiteMasterReadBaseTest
 endif
 
 # Setting the default uvm_verbosity to UVM_MEDIUM

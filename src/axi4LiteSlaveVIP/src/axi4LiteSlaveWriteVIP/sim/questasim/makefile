@@ -81,7 +81,8 @@ compile:
 	+cover \
 	+fcover \
 	-l Axi4LiteWriteSlaveCompile.log \
-	-f ../Axi4LiteWriteSlaveCompile.f 
+	-f $(AXI4LITE_SLAVEWRITE)/sim/Axi4LiteWriteSlave.f \
+	-f $(AXI4LITE_SLAVEWRITE)/sim/Axi4LiteWriteSlaveProject.f 
 
 	# -s means silent mode
 	#  The command executed along with the output will be displayed on the terminal
