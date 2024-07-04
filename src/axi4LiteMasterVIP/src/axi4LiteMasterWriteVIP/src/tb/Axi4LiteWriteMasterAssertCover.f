@@ -1,11 +1,13 @@
-+incdir+../../src/
-+incdir+../../src/masterWriteAgent/masterWriteAgentBFM/
-+incdir+../tb/
++incdir+$AXI4LITE_MASTERWRITE/src/
++incdir+$AXI4LITE_MASTERWRITE/src/masterWriteAgent/masterWriteAgentBFM/
++incdir+$AXI4LITE_MASTERWRITE/src/tb
 
-../../src/Axi4LiteWriteMasterGlobalPkg.sv
-../masterWriteAgent/masterWriteAgentBFM/Axi4LiteMasterWriteAssertCoverParameter.sv
-../masterWriteAgent/masterWriteAgentBFM/Axi4LiteMasterWriteCoverProperty.sv
-../masterWriteAgent/masterWriteAgentBFM/Axi4LiteMasterWriteAssertions.sv
-./Axi4LiteMasterWriteCoverPropertyTB.sv
-./Axi4LiteMasterWriteAssertPropertyTB.sv
+$(AXI4LITE_MASTERWRITE)/src/Axi4LiteWriteMasterGlobalPkg.sv
+
+$(AXI4LITE_MASTERWRITE)/src/masterWriteAgent/masterWriteAgentBFM/Axi4LiteMasterWriteAssertCoverParameter.sv
+$(AXI4LITE_MASTERWRITE)/src/masterWriteAgent/masterWriteAgentBFM/Axi4LiteMasterWriteCoverProperty.sv
+$(AXI4LITE_MASTERWRITE)/src/masterWriteAgent/masterWriteAgentBFM/Axi4LiteMasterWriteAssertions.sv
+$(AXI4LITE_MASTERWRITE)/src/tb/Axi4LiteMasterWriteCoverPropertyTB.sv
+$(AXI4LITE_MASTERWRITE)/src/tb/Axi4LiteMasterWriteAssertPropertyTB.sv
+
 
