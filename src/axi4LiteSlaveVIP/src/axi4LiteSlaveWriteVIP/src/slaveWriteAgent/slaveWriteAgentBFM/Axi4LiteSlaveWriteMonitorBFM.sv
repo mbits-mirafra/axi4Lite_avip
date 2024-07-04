@@ -39,24 +39,57 @@ interface Axi4LiteSlaveWriteMonitorBFM(input bit aclk,
 
   task writeAddressChannelSampleTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteConfigStruct,
                                output axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct);
-    `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("from axi4Lite Slave writeAddressChannelTask"),UVM_HIGH)
-    `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("after while loop from axi4Lite Slave writeAddressChannel slaveWritePacketStruct=%p ",slaveWritePacketStruct),UVM_HIGH)
+    `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("from axi4Lite slave write address sample task"),UVM_HIGH)
+
+    @(posedge aclk);
+    while(awvalid!==1 || awready!==1)begin
+      @(posedge aclk);
+      `uvm_info("FROM SLAVE WRITE MONITOT BFM",$sformatf("Inside address channel while loop......"),UVM_HIGH)
+    end    
+      `uvm_info("FROM SLAVE WRITE MONITOT BFM",$sformatf("After address channel while loop......"),UVM_HIGH)
+      
+    slaveWritePacketStruct.awaddr  = awaddr;
+    slaveWritePacketStruct.awprot  = awprot;
+
+    `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("after awvalid & awready asserted from slave write address channel task slaveWritePacketStruct=%p ",slaveWritePacketStruct),UVM_HIGH)
+ 
   endtask : writeAddressChannelSampleTask 
 
-     task writeDataChannelSampleTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteConfigStruct,
+task writeDataChannelSampleTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteConfigStruct,
                               output axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct);
-    `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("from axi4Lite Slave writeDataChannelTask"),UVM_HIGH)
 
-    `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("after while loop from axi4Lite Slave writeDataChannel slaveWritePacketStruct=%p ",slaveWritePacketStruct),UVM_HIGH)
-  endtask : writeDataChannelSampleTask 
+`uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("from axi4Lite slave write data sample task"),UVM_HIGH)
+
+    @(posedge aclk);
+    while(wvalid!==1 || wready!==1)begin
+      @(posedge aclk);
+      `uvm_info("FROM SLAVE WRITE MONITOT BFM",$sformatf("Inside data channel while loop......"),UVM_HIGH)
+    end    
+      `uvm_info("FROM SLAVE WRITE MONITOT BFM",$sformatf("After data channel while loop......"),UVM_HIGH)
+      
+    slaveWritePacketStruct.wdata  = wdata;
+    slaveWritePacketStruct.wstrb  = wstrb;
+
+    `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("after wvalid & wready asserted from slave write data channel task slaveWritePacketStruct=%p ",slaveWritePacketStruct),UVM_HIGH)  
+
+endtask : writeDataChannelSampleTask 
 
   
-  task writeResponseChannelSampleTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteConfigStruct,
+task writeResponseChannelSampleTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteConfigStruct,
                                       output axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct
                                     );
-    `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("from axi4Lite Slave writeResponseChannelTask"),UVM_HIGH)
+`uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("from axi4Lite slave write response sample task"),UVM_HIGH)
 
-    `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("after while loop from axi4Lite Slave writeResponseChannel slaveWritePacketStruct=%p ",slaveWritePacketStruct),UVM_HIGH)
+    @(posedge aclk);
+    while(bvalid!==1 || bready!==1)begin
+      @(posedge aclk);
+      `uvm_info("FROM SLAVE WRITE MONITOT BFM",$sformatf("Inside response channel while loop......"),UVM_HIGH)
+    end    
+      `uvm_info("FROM SLAVE WRITE MONITOT BFM",$sformatf("After response channel while loop......"),UVM_HIGH)
+      
+    slaveWritePacketStruct.bresp  = bresp;
+
+    `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("after bvalid & bready asserted from slave write response channel task slaveWritePacketStruct=%p ",slaveWritePacketStruct),UVM_HIGH)
   endtask : writeResponseChannelSampleTask 
 
 endinterface : Axi4LiteSlaveWriteMonitorBFM

@@ -1,20 +1,21 @@
-`ifndef AXI4LITEWRITESLAVETESTPKG_INCLUDED_
-`define AXI4LITEWRITESLAVETESTPKG_INCLUDED_
+`ifndef AXI4LITESLAVETEWRITESTPKG_INCLUDED_
+`define AXI4LITESLAVETEWRITESTPKG_INCLUDED_
 
-package Axi4LiteWriteSlaveTestPkg;
+package Axi4LiteSlaveWriteTestPkg;
   
   `include "uvm_macros.svh"
   import uvm_pkg::*;
   import Axi4LiteWriteSlaveGlobalPkg::*;
+  import Axi4LiteSlaveWriteAssertCoverParameter::*;
   import Axi4LiteSlaveWritePkg::*;
   import Axi4LiteWriteSlaveEnvPkg::*;
 
   import Axi4LiteSlaveWriteSeqPkg::*;
 
   //including base_test for testing
-  `include "Axi4LiteWriteSlaveBaseTest.sv"
-  `include "Axi4LiteSlaveWriteRandomAddressTransferTest.sv"
+  `include "Axi4LiteSlaveWriteBaseTest.sv"
+  `include "Axi4LiteSlaveWriteRandomTransferTest.sv"
 
-endpackage : Axi4LiteWriteSlaveTestPkg
+endpackage : Axi4LiteSlaveWriteTestPkg
 
 `endif

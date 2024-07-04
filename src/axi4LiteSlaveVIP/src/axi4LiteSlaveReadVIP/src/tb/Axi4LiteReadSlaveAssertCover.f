@@ -1,11 +1,12 @@
-+incdir+../../src/
-+incdir+../../src/slaveReadAgent/slaveReadAgentBFM
-+incdir+../tb/
++incdir+$AXI4LITE_SLAVEREAD/src/
++incdir+$AXI4LITE_SLAVEREAD/src/slaveReadAgent/slaveReadAgentBFM/
++incdir+$AXI4LITE_SLAVEREAD/src/tb
 
-../../src/Axi4LiteReadSlaveGlobalPkg.sv
-../../src/slaveReadAgent/slaveReadAgentBFM/Axi4LiteSlaveReadAssertCoverParameter.sv
-../../src/slaveReadAgent/slaveReadAgentBFM/Axi4LiteSlaveReadCoverProperty.sv
-../../src/slaveReadAgent/slaveReadAgentBFM/Axi4LiteSlaveReadAssertions.sv
-./Axi4LiteSlaveReadCoverPropertyTB.sv
-./Axi4LiteSlaveReadAssertPropertyTB.sv
+$(AXI4LITE_SLAVEREAD)/src/Axi4LiteReadslaveGlobalPkg.sv
+
+$(AXI4LITE_SLAVEREAD)/src/slaveReadAgent/slaveReadAgentBFM/Axi4LiteslaveReadAssertCoverParameter.sv
+$(AXI4LITE_SLAVEREAD)/src/slaveReadAgent/slaveReadAgentBFM/Axi4LiteslaveReadCoverProperty.sv
+$(AXI4LITE_SLAVEREAD)/src/slaveReadAgent/slaveReadAgentBFM/Axi4LiteslaveReadAssertions.sv
+$(AXI4LITE_SLAVEREAD)/src/tb/Axi4LiteslaveReadCoverPropertyTB.sv
+$(AXI4LITE_SLAVEREAD)/src/tb/Axi4LiteslaveReadAssertPropertyTB.sv
 
