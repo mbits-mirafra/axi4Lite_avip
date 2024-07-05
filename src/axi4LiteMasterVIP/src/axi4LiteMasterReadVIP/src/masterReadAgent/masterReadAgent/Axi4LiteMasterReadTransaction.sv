@@ -16,6 +16,8 @@ class Axi4LiteMasterReadTransaction extends uvm_sequence_item;
 
   rand bit [DELAY_WIDTH-1:0] delayForRready;
 
+  constraint delayForRready_c {soft delayForRready <= MAX_DELAY_READY;}
+
   extern function new (string name = "Axi4LiteMasterReadTransaction");
   extern function void do_copy(uvm_object rhs);
   extern function void post_randomize();

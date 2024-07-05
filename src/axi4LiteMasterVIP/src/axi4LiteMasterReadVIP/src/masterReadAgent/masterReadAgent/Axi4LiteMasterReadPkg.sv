@@ -7,6 +7,7 @@ package Axi4LiteMasterReadPkg;
   import uvm_pkg::*;
  
   import Axi4LiteReadMasterGlobalPkg::*;
+  import Axi4LiteMasterReadAssertCoverParameter::*;
 
   `include "Axi4LiteMasterReadAgentConfig.sv"
   `include "Axi4LiteMasterReadTransaction.sv"

@@ -99,9 +99,15 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
                                 inout axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct
                                );
     `uvm_info(name,$sformatf("WRITE_RESPONSE_CHANNEL_TASK_STARTED"),UVM_HIGH)
+    //TODO awvalid, awready, wvalid and wready will assert before bvalid - add logic
     do begin
       @(posedge aclk);
-    end while(bvalid !== 1'b1);
+      masterWritePacketStruct.waitCounterForBvalid++;
+      if(masterWritePacketStruct.waitCounterForBvalid > masterWriteConfigStruct.maxDelayForBvalid) begin
+       `uvm_error (name, $sformatf ("bvalid count comparisions are failed"));
+    end
+  end
+    while(bvalid === 0);
 
     `uvm_info(name , $sformatf("After while loop bvalid asserted "),UVM_HIGH)
 
