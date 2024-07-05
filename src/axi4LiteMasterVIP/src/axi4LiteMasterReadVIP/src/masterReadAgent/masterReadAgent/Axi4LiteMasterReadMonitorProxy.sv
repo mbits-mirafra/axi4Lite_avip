@@ -75,7 +75,7 @@ task Axi4LiteMasterReadMonitorProxy::readAddressSampleTask();
 
    Axi4LiteMasterReadConfigConverter::fromClass(axi4LiteMasterReadAgentConfig, masterReadConfigStruct);
 
-   `uvm_info(get_type_name(), $sformatf("Inside Master_Read_Monitor Converted cfg struct\n%p",masterReadPacketStruct), UVM_HIGH)
+   `uvm_info(get_type_name(), $sformatf("Inside Master_Read_Monitor Converted cfg struct\n%p",masterReadConfigStruct), UVM_HIGH)
    axi4LiteMasterReadMonitorBFM.readAddressChannelSampleTask(masterReadConfigStruct, masterReadPacketStruct);
   `uvm_info(get_type_name(), $sformatf("Master_Read_Monitor Converted packet from BFM  struct\n%p",masterReadPacketStruct), UVM_HIGH)
    Axi4LiteMasterReadSeqItemConverter::toReadClass(masterReadPacketStruct,reqRead);
