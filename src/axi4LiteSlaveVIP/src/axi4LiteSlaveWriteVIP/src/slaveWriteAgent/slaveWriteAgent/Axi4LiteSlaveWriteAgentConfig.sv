@@ -7,6 +7,8 @@ class Axi4LiteSlaveWriteAgentConfig extends uvm_object;
   uvm_active_passive_enum isActive = UVM_ACTIVE;  
   
   bit hasCoverage;
+  bit [ADDRESS_WIDTH-1:0] maxAddressRange;
+  bit [ADDRESS_WIDTH-1:0] minAddressRange;
 
   int maxDelayForWvalid;
   int maxDelayForBready;
@@ -24,6 +26,8 @@ function void Axi4LiteSlaveWriteAgentConfig::do_print(uvm_printer printer);
 
   printer.print_string ("isActive",   isActive.name());
   printer.print_field ("hasCoverage", hasCoverage, $bits(hasCoverage), UVM_DEC);
+  printer.print_field ("maxAddressRange", maxAddressRange, 32, UVM_DEC);
+  printer.print_field ("minAddressRange", minAddressRange, 32, UVM_DEC); 
   printer.print_field ("maxDelayForWvalid", maxDelayForWvalid, $bits(maxDelayForWvalid), UVM_DEC);
   printer.print_field ("maxDelayForBready", maxDelayForBready, $bits(maxDelayForBready), UVM_DEC);
 endfunction : do_print

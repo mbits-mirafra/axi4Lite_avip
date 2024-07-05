@@ -49,6 +49,8 @@ function void Axi4LiteSlaveWriteBaseTest::setupAxi4LiteSlaveWriteAgentConfig();
   axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].hasCoverage = 1;
   axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].maxDelayForWvalid = MAX_DELAY_WVALID;
   axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].maxDelayForBready = MAX_DELAY_READY;
+  axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].minAddressRange   = MIN_ADDRESS;
+  axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].maxAddressRange   = MAX_ADDRESS;
 
    uvm_config_db#(Axi4LiteSlaveWriteAgentConfig)::set( this, "*", $sformatf("Axi4LiteSlaveWriteAgentConfig[%0d]", i),
           axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i]);
@@ -60,7 +62,7 @@ endfunction
 
 function void Axi4LiteSlaveWriteBaseTest::end_of_elaboration_phase(uvm_phase phase);
   uvm_top.print_topology();
-  uvm_test_done.set_drain_time(this,10ns);
+  uvm_test_done.set_drain_time(this,1000ns);
 endfunction : end_of_elaboration_phase
 
 task Axi4LiteSlaveWriteBaseTest::run_phase(uvm_phase phase);
