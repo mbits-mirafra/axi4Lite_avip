@@ -83,7 +83,7 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
        `uvm_error (name, $sformatf ("rvalid count comparisions are failed"));
     end
   end
-    while(arready === 0);
+    while(rvalid === 0);
     
     `uvm_info(name , $sformatf("After while loop rvalid asserted "),UVM_HIGH)
 

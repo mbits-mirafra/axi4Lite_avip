@@ -6,7 +6,7 @@ class Axi4LiteMasterWriteDelayForBreadySeq extends Axi4LiteMasterWriteBaseSeq;
  
   rand bit [DELAY_WIDTH-1:0] delayForBready;
 
-  constraint delayForBready_c {soft delayForBready  <= MAX_DELAY_READY;}
+  // GopalS: constraint delayForBready_c {soft delayForBready  <= MAX_DELAY_READY;}
 
   extern function new(string name = "Axi4LiteMasterWriteDelayForBreadySeq");
   extern task body();

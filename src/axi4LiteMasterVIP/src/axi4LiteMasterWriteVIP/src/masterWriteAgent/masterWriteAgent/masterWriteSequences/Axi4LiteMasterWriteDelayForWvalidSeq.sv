@@ -7,7 +7,7 @@ class Axi4LiteMasterWriteDelayForWvalidSeq extends Axi4LiteMasterWriteBaseSeq;
  
   rand bit [DELAY_WIDTH-1:0] delayForWvalid;
 
-  constraint delayForWvalid_c {soft delayForWvalid <= MAX_DELAY_WVALID;}
+  // GopalS: constraint delayForWvalid_c {soft delayForWvalid <= MAX_DELAY_WVALID;}
 
   extern function new(string name = "Axi4LiteMasterWriteDelayForWvalidSeq");
   extern task body();
