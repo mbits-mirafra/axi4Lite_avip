@@ -13,6 +13,10 @@ package Axi4LiteReadSlaveGlobalPkg;
 
   parameter int DELAY_WIDTH = 5;
 
+  parameter int MIN_ADDRESS = 8'h80;
+
+  parameter int MAX_ADDRESS = 8'hff;
+
   typedef enum bit {
     BIG_ENDIAN    = 1'b0,
     LITTLE_ENDIAN = 1'b1
@@ -63,6 +67,8 @@ package Axi4LiteReadSlaveGlobalPkg;
   } axi4LiteReadSlaveTransferPacketStruct;
 
   typedef struct {
+    bit [ADDRESS_WIDTH-1:0] minAddressRange;
+    bit [ADDRESS_WIDTH-1:0] maxAddressRange;
     int maxDelayForRready;
    } axi4LiteReadSlaveTransferCfgStruct;
 

@@ -4,8 +4,50 @@
 class Axi4LiteSlaveReadCoverage extends uvm_subscriber#(Axi4LiteSlaveReadTransaction);
   `uvm_component_utils(Axi4LiteSlaveReadCoverage)
 
-  covergroup axi4LiteSlaveReadCovergroup with function sample (Axi4LiteSlaveReadTransaction packet);
+   Axi4LiteSlaveReadAgentConfig axi4LiteSlaveReadAgentConfig;
+  covergroup axi4LiteSlaveReadCovergroup with function sample (Axi4LiteSlaveReadAgentConfig cfg, Axi4LiteSlaveReadTransaction packet);
     option.per_instance = 1; 
+
+    READADDR_CP : coverpoint packet.araddr {
+    option.comment                     = "readAddress value";
+    bins READ_ADDRRANGE                 = {[MIN_ADDRESS:MAX_ADDRESS]}; 
+    wildcard bins READ_EVENADDR         = {8'b????_???0};
+    wildcard bins READ_ODDADDR          = {8'b????_???1};
+    wildcard bins READ_MODEOFADDR       = {8'b????_??00};
+   //illegal_bins  READADDROUTOFRANGE       = {[MAX_ADDRESS+1:$]};
+    bins  READ_ADDROUTOFRANGE           = {[MAX_ADDRESS+1:$]};
+   }
+
+    READDATA_CP : coverpoint packet.rdata {
+    option.comment                     = "readDATA value";
+    bins READ_DATAMIN                  = {32'h0000_0001};
+    bins READ_DATAMAX                  = {32'hFFFF_FFFF};
+    bins READ_DATTOGGLE1               = {32'h1010_1010};
+    bins READ_ANYDATA                  = {[0:$]};
+   }
+
+    RRESP_CP : coverpoint packet.rresp {
+    option.comment             = "Read Response values";
+    bins READ_OKAY            = {0};
+    illegal_bins READ_EXOKAY  = {1};
+    bins READ_SLVERR          = {2};
+    illegal_bins READ_DECERR  = {3};
+   }
+
+    ARPROT_CP : coverpoint packet.arprot {
+    option.comment                                 = "Read Address Protection Values" ;
+    bins DataNonsecureUnprivileged                 = {3'b000};  
+	  bins DataNonSecurePrivileged                   = {3'b001};  
+	  bins DataSecureUnPrivileged                    = {3'b010};  
+	  bins DataSecurePrivileged                      = {3'b011};  
+	  illegal_bins InstructionNonsecureUnPrivileged  = {3'b100};  
+	  illegal_bins InstructionNonsecurePrivileged    = {3'b101};  
+	  illegal_bins InstructionSecureUnPrivileged     = {3'b110};  
+	  illegal_bins InstructionSecureprivileged       = {3'b111};  
+	 }
+
+    ARPROT_CP_X_RRESP_CP      : cross ARPROT_CP, RRESP_CP;
+    ARADDR_CP_X_BRESP_CP      : cross READADDR_CP,RRESP_CP{bins b1 = binsof(READADDR_CP.READ_ADDROUTOFRANGE) && binsof(RRESP_CP.READ_SLVERR);}
 
   endgroup: axi4LiteSlaveReadCovergroup
 
@@ -24,7 +66,7 @@ endfunction : new
 function void Axi4LiteSlaveReadCoverage::write(Axi4LiteSlaveReadTransaction t);
  `uvm_info(get_type_name(),$sformatf("Before calling SAMPLE METHOD"),UVM_HIGH);
 
-  axi4LiteSlaveReadCovergroup.sample(t);
+  axi4LiteSlaveReadCovergroup.sample(axi4LiteSlaveReadAgentConfig, t);
 
   `uvm_info(get_type_name(),"After calling SAMPLE METHOD",UVM_HIGH);
 

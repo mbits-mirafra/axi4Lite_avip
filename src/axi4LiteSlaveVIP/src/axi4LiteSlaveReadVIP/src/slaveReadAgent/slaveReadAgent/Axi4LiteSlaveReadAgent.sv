@@ -60,10 +60,10 @@ function void Axi4LiteSlaveReadAgent::connect_phase(uvm_phase phase);
     axi4LiteSlaveReadMonitorProxy.axi4LiteSlaveReadDataAnalysisPort.connect(axi4LiteSlaveReadCoverage.analysis_export);
   end
 
-  axi4LiteSlaveReadMonitorProxy.axi4LiteSlaveReadAddressAnalysisPort.connect(axi4LiteSlaveReadAgentAddressAnalysisPort);
-  axi4LiteSlaveReadMonitorProxy.axi4LiteSlaveReadDataAnalysisPort.connect(axi4LiteSlaveReadAgentDataAnalysisPort);
+   axi4LiteSlaveReadMonitorProxy.axi4LiteSlaveReadAddressAnalysisPort.connect(axi4LiteSlaveReadAgentAddressAnalysisPort);
+   axi4LiteSlaveReadMonitorProxy.axi4LiteSlaveReadDataAnalysisPort.connect(axi4LiteSlaveReadAgentDataAnalysisPort);
 
-  axi4LiteSlaveReadMonitorProxy.axi4LiteSlaveReadAgentConfig = axi4LiteSlaveReadAgentConfig;
+   axi4LiteSlaveReadMonitorProxy.axi4LiteSlaveReadAgentConfig = axi4LiteSlaveReadAgentConfig;
 
 endfunction: connect_phase
 

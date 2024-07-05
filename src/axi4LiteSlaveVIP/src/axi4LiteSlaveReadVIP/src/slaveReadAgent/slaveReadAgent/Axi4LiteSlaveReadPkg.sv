@@ -6,6 +6,7 @@ package Axi4LiteSlaveReadPkg;
   `include "uvm_macros.svh"
   import uvm_pkg::*;
   import Axi4LiteReadSlaveGlobalPkg::*;
+  import Axi4LiteSlaveReadAssertCoverParameter::*;
 
   `include "Axi4LiteSlaveReadTransaction.sv"
   `include "Axi4LiteSlaveReadAgentConfig.sv"

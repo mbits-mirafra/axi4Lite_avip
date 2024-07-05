@@ -5,8 +5,9 @@ package Axi4LiteSlaveReadSeqPkg;
 
   `include "uvm_macros.svh"
   import uvm_pkg::*;
-  import Axi4LiteSlaveReadPkg::*;
   import Axi4LiteReadSlaveGlobalPkg::*; 
+  import Axi4LiteSlaveReadAssertCoverParameter::*;
+  import Axi4LiteSlaveReadPkg::*;
  
   `include "Axi4LiteSlaveReadBaseSeq.sv"
   `include "Axi4LiteSlaveReadRandomTransferSeq.sv"

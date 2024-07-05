@@ -6,11 +6,12 @@ package Axi4LiteSlaveReadTestPkg;
   `include "uvm_macros.svh"
   import uvm_pkg::*;
   import Axi4LiteReadSlaveGlobalPkg::*;
-  import Axi4LiteSlaveReadAssertCoverParameter::*;
   import Axi4LiteSlaveReadPkg::*;
   import Axi4LiteReadSlaveEnvPkg::*;
-
   import Axi4LiteSlaveReadSeqPkg::*;
+
+  import Axi4LiteSlaveReadAssertCoverParameter::*;
+
 
   //including base_test for testing
   `include "Axi4LiteSlaveReadBaseTest.sv"
