@@ -54,7 +54,7 @@ package Axi4LiteReadSlaveGlobalPkg;
     bit	                     arready;
     //Read Data Channel Signals
     bit [DATA_WIDTH-1:0]     rdata;
-    bit [1:0]                 rresp;
+    bit [1:0]                rresp;
 
     int waitCounterForRready;
     bit [DELAY_WIDTH-1:0] delayForArready;
@@ -63,12 +63,8 @@ package Axi4LiteReadSlaveGlobalPkg;
   } axi4LiteReadSlaveTransferPacketStruct;
 
   typedef struct {
-    bit [ADDRESS_WIDTH-1:0] minAddress;
-    bit [ADDRESS_WIDTH-1:0] maxAddress;
-
     int maxDelayForRready;
-
-  } axi4LiteReadSlaveTransferCfgStruct;
+   } axi4LiteReadSlaveTransferCfgStruct;
 
 endpackage : Axi4LiteReadSlaveGlobalPkg
 `endif

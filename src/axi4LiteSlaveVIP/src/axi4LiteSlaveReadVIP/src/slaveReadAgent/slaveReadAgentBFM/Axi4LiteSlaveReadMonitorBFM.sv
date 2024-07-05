@@ -32,16 +32,35 @@ interface Axi4LiteSlaveReadMonitorBFM(input bit aclk,
   endtask : waitForAresetn
 
   task readAddressChannelSampleTask(input axi4LiteReadSlaveTransferCfgStruct slaveReadConfigStruct,output axi4LiteReadSlaveTransferPacketStruct slaveReadPacketStruct);
+   
     @(posedge aclk);
     `uvm_info("FROM SLAVE READ MONITOR BFM",$sformatf("from axi4Lite Slave readAddressChannelTask"),UVM_HIGH)
-
+      
+    while(arvalid!==1 || arready!==1)begin
+      @(posedge aclk);
+      `uvm_info("FROM SLAVE READ MONITOT BFM",$sformatf("Inside address channel while loop......"),UVM_HIGH)
+    end    
+      `uvm_info("FROM SLAVE READ MONITOT BFM",$sformatf("After address channel while loop......"),UVM_HIGH)
+      
+    slaveReadPacketStruct.araddr  = araddr;
+    slaveReadPacketStruct.arprot  = arprot;
+  
     `uvm_info("FROM SLAVE READ MONITOR BFM",$sformatf("after while loop from axi4Lite Slave readAddressChannel slaveReadPacketStruct=%p ",slaveReadPacketStruct),UVM_HIGH)
   endtask : readAddressChannelSampleTask
 
   task readDataChannelSampleTask(input axi4LiteReadSlaveTransferCfgStruct slaveReadConfigStruct,output axi4LiteReadSlaveTransferPacketStruct slaveReadPacketStruct);
     @(posedge aclk);
+    
     `uvm_info("FROM SLAVE READ MONITOR BFM",$sformatf("from axi4Lite Slave readDataChannelTask"),UVM_HIGH)
-
+    
+    while(rvalid!==1 || rready!==1)begin
+      @(posedge aclk);
+      `uvm_info("FROM SLAVE READ MONITOT BFM",$sformatf("Inside data channel while loop......"),UVM_HIGH)
+    end    
+      `uvm_info("FROM SLAVE READ MONITOT BFM",$sformatf("After data channel while loop......"),UVM_HIGH)
+      
+    slaveReadPacketStruct.rdata  = rdata;
+    slaveReadPacketStruct.rresp  = rresp;
 
     `uvm_info("FROM SLAVE READ MONITOR BFM",$sformatf("after while loop from axi4Lite Slave readDataChannel slaveReadPacketStruct=%p ",slaveReadPacketStruct),UVM_HIGH)
   endtask : readDataChannelSampleTask

@@ -9,7 +9,7 @@ package Axi4LiteSlaveReadSeqPkg;
   import Axi4LiteReadSlaveGlobalPkg::*; 
  
   `include "Axi4LiteSlaveReadBaseSeq.sv"
-  `include "Axi4LiteSlaveReadRandomAddressTransferSeq.sv"
+  `include "Axi4LiteSlaveReadRandomTransferSeq.sv"
 
 endpackage : Axi4LiteSlaveReadSeqPkg
 `endif

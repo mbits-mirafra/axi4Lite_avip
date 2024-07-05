@@ -86,7 +86,7 @@ task Axi4LiteSlaveReadMonitorProxy::ReadDataSampleTask();
     $cast(slaveReadDataTx,reqRead.clone());
 
     `uvm_info(get_type_name(),$sformatf("Packet received from slave read monitor BFM clone packet is \n %s",slaveReadDataTx.sprint()),UVM_HIGH)
-    axi4LiteSlaveReadAddressAnalysisPort.write(slaveReadDataTx);
+    axi4LiteSlaveReadDataAnalysisPort.write(slaveReadDataTx);
   end
 endtask
 

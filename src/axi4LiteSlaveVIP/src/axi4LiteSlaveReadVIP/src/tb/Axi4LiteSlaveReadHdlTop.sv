@@ -32,6 +32,12 @@ module Axi4LiteSlaveReadHdlTop;
   Axi4LiteSlaveReadInterface axi4LiteSlaveReadInterface(.aclk(aclk),
                                                             .aresetn(aresetn));
 
+  initial begin
+    axi4LiteSlaveReadInterface.arvalid  <= 1'b1;
+    axi4LiteSlaveReadInterface.araddr   <= 1'hf;
+    axi4LiteSlaveReadInterface.rready   <= 1'b1;
+ end
+
   genvar i;
   generate
     for (i=0; i<NO_OF_READSLAVES; i++) begin : Axi4LiteSlaveReadAgentBFM
