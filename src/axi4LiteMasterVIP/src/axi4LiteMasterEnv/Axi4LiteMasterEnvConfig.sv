@@ -5,11 +5,9 @@ class Axi4LiteMasterEnvConfig extends uvm_object;
   `uvm_object_utils(Axi4LiteMasterEnvConfig)
   
   bit hasMasterVirtualSequencer = 1;
-  int noOfWriteMasters;
-  int noOfReadMasters;
 
-  Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfig[];
-  Axi4LiteMasterReadAgentConfig axi4LiteMasterReadAgentConfig[];
+  Axi4LiteWriteMasterEnvConfig axi4LiteWriteMasterEnvConfig;
+  Axi4LiteReadMasterEnvConfig axi4LiteReadMasterEnvConfig;
 
   extern function new(string name = "Axi4LiteMasterEnvConfig");
   extern function void do_print(uvm_printer printer);

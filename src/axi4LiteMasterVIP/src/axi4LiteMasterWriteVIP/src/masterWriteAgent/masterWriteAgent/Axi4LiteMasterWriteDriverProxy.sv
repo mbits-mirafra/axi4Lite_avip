@@ -78,9 +78,9 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
         Axi4LiteMasterWriteTransaction  masterWriteAddressTx;
         axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
+        Axi4LiteMasterWriteSeqItemConverter::fromWriteClass(reqWrite, masterWritePacketStruct);
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_ADDRESS_THREAD::Checking write address struct packet = %p",
                                                masterWritePacketStruct),UVM_MEDIUM); 
-        Axi4LiteMasterWriteSeqItemConverter::fromWriteClass(reqWrite, masterWritePacketStruct);
         axi4LiteMasterWriteDriverBFM.writeAddressChannelTask(masterWriteConfigStruct, masterWritePacketStruct);
         Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,masterWriteAddressTx);
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_ADDRESS_THREAD::Received write address packet From driverBFM = %p",masterWritePacketStruct),UVM_MEDIUM); 
@@ -90,9 +90,9 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
         Axi4LiteMasterWriteTransaction  masterWriteDataTx;
         axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
+        Axi4LiteMasterWriteSeqItemConverter::fromWriteClass(reqWrite, masterWritePacketStruct);
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_DATA_THREAD::Checking write data struct packet = %p",
                                                masterWritePacketStruct),UVM_MEDIUM); 
-        Axi4LiteMasterWriteSeqItemConverter::fromWriteClass(reqWrite, masterWritePacketStruct);
         axi4LiteMasterWriteDriverBFM.writeDataChannelTask(masterWriteConfigStruct, masterWritePacketStruct);
         Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,masterWriteDataTx);
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_DATA_THREAD::Received write data packet From driverBFM = %p",
@@ -103,9 +103,9 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
         Axi4LiteMasterWriteTransaction  masterWriteResponseTx;
         axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
+        Axi4LiteMasterWriteSeqItemConverter::fromWriteClass(reqWrite, masterWritePacketStruct);
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_RESPONSE_THREAD::Checking write response struct packet = %p",
                                                masterWritePacketStruct),UVM_MEDIUM); 
-        Axi4LiteMasterWriteSeqItemConverter::fromWriteClass(reqWrite, masterWritePacketStruct);
         axi4LiteMasterWriteDriverBFM.writeResponseChannelTask(masterWriteConfigStruct, masterWritePacketStruct);
         Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,masterWriteResponseTx);
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_RESPONSE_THREAD::Received write response packet From driverBFM = %p",

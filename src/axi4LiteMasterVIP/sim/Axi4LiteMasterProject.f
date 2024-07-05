@@ -1,3 +1,9 @@
++incdir+$AXI4LITE_MASTERWRITE/src/masterWriteEnv/
++incdir+$AXI4LITE_MASTERREAD/src/masterReadEnv/
+      
+$(AXI4LITE_MASTERWRITE)/src/masterWriteEnv/Axi4LiteWriteMasterEnvPkg.sv
+$(AXI4LITE_MASTERREAD)/src/masterReadEnv/Axi4LiteReadMasterEnvPkg.sv
+
 +incdir+$AXI4LITE_MASTER/src/axi4LiteMasterEnv/masterVirtualSequencer/
 +incdir+$AXI4LITE_MASTER/src/axi4LiteMasterEnv/
 +incdir+$AXI4LITE_MASTER/src/tb/virtualSequences/

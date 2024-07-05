@@ -8,19 +8,19 @@ class Axi4LiteMasterEnv extends uvm_env;
   
   Axi4LiteMasterEnvConfig axi4LiteMasterEnvConfig;
 
-  Axi4LiteMasterWriteAgent axi4LiteMasterWriteAgent[];
-  Axi4LiteMasterReadAgent axi4LiteMasterReadAgent[];
+  Axi4LiteWriteMasterEnv axi4LiteWriteMasterEnv;
+  Axi4LiteReadMasterEnv axi4LiteReadMasterEnv;
 
   Axi4LiteMasterVirtualSequencer axi4LiteMasterVirtualSequencer;
 
-  Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfig[];
-  Axi4LiteMasterReadAgentConfig axi4LiteMasterReadAgentConfig[];
+  Axi4LiteWriteMasterEnvConfig axi4LiteWriteMasterEnvConfig;
+  Axi4LiteReadMasterEnvConfig axi4LiteReadMasterEnvConfig;
 
-  uvm_analysis_port#(Axi4LiteMasterWriteTransaction) axi4LiteMasterWriteEnvAddressAnalysisPort;
-  uvm_analysis_port#(Axi4LiteMasterWriteTransaction) axi4LiteMasterWriteEnvDataAnalysisPort;
-  uvm_analysis_port#(Axi4LiteMasterWriteTransaction) axi4LiteMasterWriteEnvResponseAnalysisPort;
-  uvm_analysis_port#(Axi4LiteMasterReadTransaction) axi4LiteMasterReadEnvAddressAnalysisPort;
-  uvm_analysis_port#(Axi4LiteMasterReadTransaction) axi4LiteMasterReadEnvDataAnalysisPort;
+  uvm_analysis_port#(Axi4LiteMasterWriteTransaction) axi4LiteMasterEnvWriteAddressAnalysisPort;
+  uvm_analysis_port#(Axi4LiteMasterWriteTransaction) axi4LiteMasterEnvWriteDataAnalysisPort;
+  uvm_analysis_port#(Axi4LiteMasterWriteTransaction) axi4LiteMasterEnvWriteResponseAnalysisPort;
+  uvm_analysis_port#(Axi4LiteMasterReadTransaction) axi4LiteMasterEnvReadAddressAnalysisPort;
+  uvm_analysis_port#(Axi4LiteMasterReadTransaction) axi4LiteMasterEnvReadDataAnalysisPort;
 
   extern function new(string name = "Axi4LiteMasterEnv", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
@@ -30,11 +30,11 @@ endclass : Axi4LiteMasterEnv
 
 function Axi4LiteMasterEnv::new(string name = "Axi4LiteMasterEnv",uvm_component parent = null);
   super.new(name, parent);
-  axi4LiteMasterWriteEnvAddressAnalysisPort  = new("axi4LiteMasterWriteEnvAddressAnalysisPort",this);
-  axi4LiteMasterWriteEnvDataAnalysisPort     = new("axi4LiteMasterWriteEnvDataAnalysisPort",this);
-  axi4LiteMasterWriteEnvResponseAnalysisPort = new("axi4LiteMasterWriteEnvResponseAnalysisPort",this);
-  axi4LiteMasterReadEnvAddressAnalysisPort  = new("axi4LiteMasterReadEnvAddressAnalysisPort",this);
-  axi4LiteMasterReadEnvDataAnalysisPort     = new("axi4LiteMasterReadEnvDataAnalysisPort",this);
+  axi4LiteMasterEnvWriteAddressAnalysisPort  = new("axi4LiteMasterEnvWriteAddressAnalysisPort",this);
+  axi4LiteMasterEnvWriteDataAnalysisPort     = new("axi4LiteMasterEnvWriteDataAnalysisPort",this);
+  axi4LiteMasterEnvWriteResponseAnalysisPort = new("axi4LiteMasterEnvWriteResponseAnalysisPort",this);
+  axi4LiteMasterEnvReadAddressAnalysisPort  = new("axi4LiteMasterEnvReadAddressAnalysisPort",this);
+  axi4LiteMasterEnvReadDataAnalysisPort     = new("axi4LiteMasterEnvReadDataAnalysisPort",this);
 endfunction : new
 
 function void Axi4LiteMasterEnv::build_phase(uvm_phase phase);
@@ -45,42 +45,24 @@ function void Axi4LiteMasterEnv::build_phase(uvm_phase phase);
     `uvm_fatal("FATAL_MASTER_ENV_AGENT_CONFIG", $sformatf("Couldn't get the master_env_agent_config from config_db"))
   end
 
- axi4LiteMasterWriteAgentConfig = new[axi4LiteMasterEnvConfig.noOfWriteMasters];
-  foreach(axi4LiteMasterWriteAgentConfig[i]) begin
-    if(!uvm_config_db#(Axi4LiteMasterWriteAgentConfig)::get(this,"",$sformatf("Axi4LiteMasterWriteAgentConfig[%0d]",i),axi4LiteMasterWriteAgentConfig[i])) begin
-      `uvm_fatal("FATAL_MASTER_WRITE_AGENT_CONFIG", $sformatf("Couldn't get the Axi4LiteMasterWriteAgentConfig[%0d] from config_db",i))
-    end
-  end
+  axi4LiteWriteMasterEnvConfig = Axi4LiteWriteMasterEnvConfig::type_id::create("axi4LiteWriteMasterEnvConfig");
+  if(!uvm_config_db #(Axi4LiteWriteMasterEnvConfig)::get(this,"","Axi4LiteWriteMasterEnvConfig",axi4LiteWriteMasterEnvConfig))
+    `uvm_fatal("FATAL_WRITE_MASTER_ENV_CONFIG","Couldn't get the Axi4LiteWriteMasterEnvConfig from config_db")
 
-  axi4LiteMasterReadAgentConfig = new[axi4LiteMasterEnvConfig.noOfReadMasters];
-  foreach(axi4LiteMasterReadAgentConfig[i]) begin
-    if(!uvm_config_db #(Axi4LiteMasterReadAgentConfig)::get(this,"",$sformatf("Axi4LiteMasterReadAgentConfig[%0d]",i),axi4LiteMasterReadAgentConfig[i])) begin
-      `uvm_fatal("FATAL_MASTER_READ_AGENT_CONFIG", $sformatf("Couldn't get the Axi4LiteMasterReadAgentConfig[%0d] from config_db",i))
-    end
-  end
-
-  axi4LiteMasterWriteAgent = new[axi4LiteMasterEnvConfig.noOfWriteMasters];
-  foreach(axi4LiteMasterWriteAgent[i]) begin
-    axi4LiteMasterWriteAgent[i]=Axi4LiteMasterWriteAgent::type_id::create($sformatf("axi4LiteMasterWriteAgent[%0d]",i),this);
-  end
-
-  axi4LiteMasterReadAgent = new[axi4LiteMasterEnvConfig.noOfReadMasters];
-  foreach(axi4LiteMasterReadAgent[i]) begin
-    axi4LiteMasterReadAgent[i]=Axi4LiteMasterReadAgent::type_id::create($sformatf("axi4LiteMasterReadAgent[%0d]",i),this);
-  end
+  axi4LiteReadMasterEnvConfig = Axi4LiteReadMasterEnvConfig::type_id::create("axi4LiteReadMasterEnvConfig");
+  if(!uvm_config_db#(Axi4LiteReadMasterEnvConfig)::get(this,"","Axi4LiteReadMasterEnvConfig",axi4LiteReadMasterEnvConfig))
+    `uvm_fatal("FATAL_READ_MASTER_ENV_CONFIG","Couldn't get the Axi4LiteReadMasterEnvConfig from config_db")
 
   if(axi4LiteMasterEnvConfig.hasMasterVirtualSequencer) begin
     axi4LiteMasterVirtualSequencer = Axi4LiteMasterVirtualSequencer::type_id::create("axi4LiteVirtualMasterSequencer",this);
   end
 
-  foreach(axi4LiteMasterWriteAgent[i]) begin
-    axi4LiteMasterWriteAgent[i].axi4LiteMasterWriteAgentConfig = axi4LiteMasterWriteAgentConfig[i];
-  end
-  
-  foreach(axi4LiteMasterReadAgent[i]) begin
-    axi4LiteMasterReadAgent[i].axi4LiteMasterReadAgentConfig = axi4LiteMasterReadAgentConfig[i];
-  end
-  
+  axi4LiteWriteMasterEnv = Axi4LiteWriteMasterEnv::type_id::create("axi4LiteWriteMasterEnv",this);
+  axi4LiteReadMasterEnv = Axi4LiteReadMasterEnv::type_id::create("axi4LiteReadMasterEnv",this);
+
+  axi4LiteWriteMasterEnv.axi4LiteWriteMasterEnvConfig = axi4LiteWriteMasterEnvConfig;
+  axi4LiteReadMasterEnv.axi4LiteReadMasterEnvConfig = axi4LiteReadMasterEnvConfig;
+
 endfunction : build_phase
 
 
@@ -88,23 +70,23 @@ function void Axi4LiteMasterEnv::connect_phase(uvm_phase phase);
   super.connect_phase(phase);
 
   if(axi4LiteMasterEnvConfig.hasMasterVirtualSequencer) begin
-    foreach(axi4LiteMasterWriteAgent[i]) begin
-      axi4LiteMasterVirtualSequencer.axi4LiteMasterWriteSequencer = axi4LiteMasterWriteAgent[i].axi4LiteMasterWriteSequencer;
+    foreach(axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent[i]) begin
+      axi4LiteMasterVirtualSequencer.axi4LiteMasterWriteSequencer = axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent[i].axi4LiteMasterWriteSequencer;
     end
-    foreach(axi4LiteMasterReadAgent[i]) begin
-     axi4LiteMasterVirtualSequencer.axi4LiteMasterReadSequencer = axi4LiteMasterReadAgent[i].axi4LiteMasterReadSequencer;
+    foreach(axi4LiteReadMasterEnv.axi4LiteMasterReadAgent[i]) begin
+      axi4LiteMasterVirtualSequencer.axi4LiteMasterReadSequencer = axi4LiteReadMasterEnv.axi4LiteMasterReadAgent[i].axi4LiteMasterReadSequencer;
     end
   end
 
-  foreach(axi4LiteMasterWriteAgent[i]) begin
-    axi4LiteMasterWriteAgent[i].axi4LiteMasterWriteAgentAddressAnalysisPort.connect(axi4LiteMasterWriteEnvAddressAnalysisPort);
-    axi4LiteMasterWriteAgent[i].axi4LiteMasterWriteAgentDataAnalysisPort.connect(axi4LiteMasterWriteEnvDataAnalysisPort);
-    axi4LiteMasterWriteAgent[i].axi4LiteMasterWriteAgentResponseAnalysisPort.connect(axi4LiteMasterWriteEnvResponseAnalysisPort);
+  foreach(axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent[i]) begin
+    axi4LiteWriteMasterEnv.axi4LiteMasterWriteEnvAddressAnalysisPort.connect(axi4LiteMasterEnvWriteAddressAnalysisPort);
+    axi4LiteWriteMasterEnv.axi4LiteMasterWriteEnvDataAnalysisPort.connect(axi4LiteMasterEnvWriteDataAnalysisPort);
+    axi4LiteWriteMasterEnv.axi4LiteMasterWriteEnvResponseAnalysisPort.connect(axi4LiteMasterEnvWriteResponseAnalysisPort);
   end
 
-  foreach(axi4LiteMasterReadAgent[i]) begin
-    axi4LiteMasterReadAgent[i].axi4LiteMasterReadAgentAddressAnalysisPort.connect(axi4LiteMasterReadEnvAddressAnalysisPort);
-    axi4LiteMasterReadAgent[i].axi4LiteMasterReadAgentDataAnalysisPort.connect(axi4LiteMasterReadEnvDataAnalysisPort);
+  foreach(axi4LiteReadMasterEnv.axi4LiteMasterReadAgent[i]) begin
+    axi4LiteReadMasterEnv.axi4LiteMasterReadEnvAddressAnalysisPort.connect(axi4LiteMasterEnvReadAddressAnalysisPort);
+    axi4LiteReadMasterEnv.axi4LiteMasterReadEnvDataAnalysisPort.connect(axi4LiteMasterEnvReadDataAnalysisPort);
   end
 
 endfunction : connect_phase

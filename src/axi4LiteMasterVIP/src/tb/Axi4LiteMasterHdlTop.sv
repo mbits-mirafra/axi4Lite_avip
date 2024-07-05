@@ -36,6 +36,37 @@ module Axi4LiteMasterHdlTop;
   Axi4LiteMasterReadInterface axi4LiteMasterReadInterface(.aclk(aclk),
                                                             .aresetn(aresetn));
 
+  initial begin
+    @(negedge aresetn);
+    axi4LiteMasterWriteInterface.bvalid  <= 1'b0;
+    axi4LiteMasterWriteInterface.awready <= 1'b1;  
+    axi4LiteMasterWriteInterface.wready  <= 1'b1;
+    @(posedge aresetn);
+    axi4LiteMasterWriteInterface.awready <= 1'b0;  
+    axi4LiteMasterWriteInterface.wready  <= 1'b0;
+    repeat(3) begin
+      @(posedge aclk);
+    end
+    axi4LiteMasterWriteInterface.awready <= 1'b1;  
+    repeat(4) begin
+      @(posedge aclk);
+    end
+    axi4LiteMasterWriteInterface.wready  <= 1'b1;
+    repeat(4) begin
+      @(posedge aclk);
+    end
+    axi4LiteMasterWriteInterface.bvalid  <= 1'b1;
+    axi4LiteMasterWriteInterface.bresp   <= 2'b00;
+  end
+
+  initial begin
+    axi4LiteMasterReadInterface.arready = 1'b1;
+    axi4LiteMasterReadInterface.rvalid = 1'b1;
+    axi4LiteMasterReadInterface.rdata = 8'hff;
+    axi4LiteMasterReadInterface.rresp = 2'b00;
+  end
+                                                           
+
   genvar i;
   generate
     for (i=0; i<NO_OF_WRITEMASTERS; i++) begin : Axi4LiteMasterWriteAgentBFM

@@ -11,10 +11,12 @@ package Axi4LiteMasterVirtualSeqPkg;
   import Axi4LiteMasterWriteSeqPkg::*;
   import Axi4LiteMasterReadSeqPkg::*;
 
+  import Axi4LiteMasterVirtualSeqrPkg::*;
+
   import Axi4LiteMasterEnvPkg::*;
 
   `include "Axi4LiteMasterVirtualBaseSeq.sv"
-  `include "Axi4LiteMasterVirtualRandomTransferSeq.sv"
+  `include "Axi4LiteMasterVirtualRandomWriteReadTransferSeq.sv"
 
 endpackage : Axi4LiteMasterVirtualSeqPkg
 
