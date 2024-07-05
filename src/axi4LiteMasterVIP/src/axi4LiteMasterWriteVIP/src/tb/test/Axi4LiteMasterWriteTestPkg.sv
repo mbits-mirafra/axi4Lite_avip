@@ -8,6 +8,7 @@ package Axi4LiteMasterWriteTestPkg;
   import Axi4LiteWriteMasterGlobalPkg::*;
   import Axi4LiteMasterWritePkg::*;
   import Axi4LiteWriteMasterEnvPkg::*;
+  import Axi4LiteMasterWriteAssertCoverParameter::*;
 
   import Axi4LiteMasterWriteSeqPkg::*;
 

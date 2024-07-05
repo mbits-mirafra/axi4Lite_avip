@@ -57,11 +57,13 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
     do begin
       @(posedge aclk);
       masterWritePacketStruct.waitCounterForAwready++;
-      if(masterWritePacketStruct.waitCounterForAwready < masterWriteConfigStruct.maxDelayForAwready) begin
+      if(masterWritePacketStruct.waitCounterForAwready > masterWriteConfigStruct.maxDelayForAwready) begin
         `uvm_error (name, $sformatf ("awready count comparisions are failed"));
    end
  end
-    while(awready !== 1'b1); 
+    while(awready !== 1'b1);
+
+    @(posedge aclk);
     awvalid <= 1'b0;
 
     `uvm_info(name,$sformatf("MASTER_WRITE_ADDRESS_CHANNEL_TASK_ENDED"),UVM_HIGH)
@@ -81,11 +83,13 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
     do begin 
      @(posedge aclk);
       masterWritePacketStruct.waitCounterForWready++;
-      if(masterWritePacketStruct.waitCounterForWready < masterWriteConfigStruct.maxDelayForWready) begin
+      if(masterWritePacketStruct.waitCounterForWready > masterWriteConfigStruct.maxDelayForWready) begin
         `uvm_error (name, $sformatf ("wready count comparisions are failed"));
       end
     end
     while(wready !== 1'b1);
+
+    @(posedge aclk);
     wvalid <= 1'b0;
 
     `uvm_info(name,$sformatf("WRITE_DATA_CHANNEL_TASK_ENDED"),UVM_HIGH)
@@ -102,13 +106,15 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
     `uvm_info(name , $sformatf("After while loop bvalid asserted "),UVM_HIGH)
 
     repeat(masterWritePacketStruct.delayForBready) begin 
-      `uvm_info(name,$sformatf("DRIVING delayForBready master write response:: %0d",masterWritePacketStruct.delayForBready),UVM_HIGH);
       @(posedge aclk);
       bready <= 1'b0;
     end
 
     bready <= 1'b1;
     masterWritePacketStruct.bresp <= bresp;
+
+    @(posedge aclk);
+    bready <= DEFAULT_READY;
 
     `uvm_info(name,$sformatf("WRITE_RESPONSE_CHANNEL_TASK_ENDED"),UVM_HIGH)
   endtask : writeResponseChannelTask
