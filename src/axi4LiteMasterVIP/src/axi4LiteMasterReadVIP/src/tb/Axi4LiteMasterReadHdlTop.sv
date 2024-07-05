@@ -35,6 +35,8 @@ module Axi4LiteMasterReadHdlTop;
   initial begin
     axi4LiteMasterReadInterface.arready = 1'b1;
     axi4LiteMasterReadInterface.rvalid = 1'b1;
+    axi4LiteMasterReadInterface.rdata = 8'hff;
+    axi4LiteMasterReadInterface.rresp = 2'b00;
   end
                                                            
   genvar i;
