@@ -19,36 +19,6 @@ function void Axi4LiteSlaveWriteSeqItemConverter::fromWriteClass(input Axi4LiteS
 
   `uvm_info("axi4Lite_Slave_Write_Seq_item_conv_class",$sformatf("------------------------------------fromWriteClass----------------------------------"),UVM_HIGH);
 
-/*  outputConv.awaddr = inputConv.awaddr;
-  `uvm_info("axi4Lite_slaveWrite_seq_item_conv_class",$sformatf("After converting fromWriteClass awaddr =  %0h",outputConv.awaddr),UVM_HIGH);
-
-  outputConv.awprot = awprotEnum'(inputConv.awprot);
-  `uvm_info("axi4Lite_slaveWrite_seq_item_conv_class",$sformatf("After converting fromWriteClass awprot =  %0b",outputConv.awprot),UVM_HIGH);
-
-  outputConv.wdata = inputConv.wdata;
-  `uvm_info("axi4Lite_slaveWrite_seq_item_conv_class",$sformatf("After converting fromWriteClass wdata =  %0h",outputConv.wdata),UVM_HIGH);
-
-  outputConv.wstrb = inputConv.wstrb;
-  `uvm_info("axi4Lite_slaveWrite_seq_item_conv_class",$sformatf("After converting fromWriteClass wstrb =  %0b",outputConv.wstrb),UVM_HIGH);
-
-  outputConv.bresp = brespEnum'(inputConv.bresp);
-  `uvm_info("axi4Lite_slaveWrite_seq_item_conv_class",$sformatf("After converting fromWriteClass bresp =  %0b",outputConv.bresp),UVM_HIGH);
-
-  outputConv.delayForAwready = inputConv.delayForAwready;
-  `uvm_info("axi4Lite_slaveWrite_seq_item_conv_class",$sformatf("After converting fromWriteClass delayForAwready =  %0d",outputConv.delayForAwready),UVM_HIGH);
-  
-  outputConv.delayForWready = inputConv.delayForWready;
-  `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting fromWriteClass delayForWready =  %0d",outputConv.delayForWready),UVM_HIGH);
-
-  outputConv.waitCounterForAwready = inputConv.waitCounterForAwready;
-  `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting fromWriteClass waitCounterForAwready =  %0d",outputConv.waitCounterForAwready),UVM_HIGH);
-
-  outputConv.waitCounterForWready = inputConv.waitCounterForWready;
-  `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting fromWriteClass waitCounterForWready =  %0d",outputConv.waitCounterForWready),UVM_HIGH);
-  
-  outputConv.waitCounterForBvalid = inputConv.waitCounterForBvalid;
-  `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting fromWriteClass waitCounterForBvalid =  %0d",outputConv.waitCounterForBvalid),UVM_HIGH);
-*/
   outputConv.delayForAwready = inputConv.delayForAwready;
   outputConv.delayForWready  = inputConv.delayForWready;
 
