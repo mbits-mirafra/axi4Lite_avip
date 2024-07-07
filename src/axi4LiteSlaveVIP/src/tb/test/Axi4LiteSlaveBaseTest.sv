@@ -11,7 +11,9 @@ class Axi4LiteSlaveBaseTest extends uvm_test;
   extern function new(string name = "Axi4LiteSlaveBaseTest", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual function void setupAxi4LiteSlaveEnvConfig();
+  extern virtual function void setupAxi4LiteWriteSlaveEnvConfig();
   extern virtual function void setupAxi4LiteSlaveWriteAgentConfig();
+  extern virtual function void setupAxi4LiteReadSlaveEnvConfig();
   extern virtual function void setupAxi4LiteSlaveReadAgentConfig();
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
@@ -31,10 +33,11 @@ endfunction : build_phase
 
 function void Axi4LiteSlaveBaseTest::setupAxi4LiteSlaveEnvConfig();
  axi4LiteSlaveEnvConfig = Axi4LiteSlaveEnvConfig::type_id::create("axi4LiteSlaveEnvConfig",this);
- axi4LiteSlaveEnvConfig.noOfWriteSlaves = NO_OF_WRITESLAVES;
- axi4LiteSlaveEnvConfig.noOfReadSlaves = NO_OF_READSLAVES;
- setupAxi4LiteSlaveWriteAgentConfig();
- setupAxi4LiteSlaveReadAgentConfig();
+
+ axi4LiteSlaveEnvConfig.hasSlaveVirtualSequencer = 1;
+
+ setupAxi4LiteWriteSlaveEnvConfig();
+ setupAxi4LiteReadSlaveEnvConfig();
 
  uvm_config_db#(Axi4LiteSlaveEnvConfig)::set(this, "*", "Axi4LiteSlaveEnvConfig",
                                                    axi4LiteSlaveEnvConfig);
@@ -42,52 +45,80 @@ function void Axi4LiteSlaveBaseTest::setupAxi4LiteSlaveEnvConfig();
                 axi4LiteSlaveEnvConfig.sprint()),UVM_LOW);
 endfunction : setupAxi4LiteSlaveEnvConfig
 
+function void Axi4LiteSlaveBaseTest::setupAxi4LiteWriteSlaveEnvConfig();
+  axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig = Axi4LiteWriteSlaveEnvConfig::type_id::create("axi4LiteWriteSlaveEnvConfig",this);
+  axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.no_of_slaves = NO_OF_WRITESLAVES;
+  setupAxi4LiteSlaveWriteAgentConfig();
+
+  uvm_config_db#(Axi4LiteWriteSlaveEnvConfig)::set(this, "*", "Axi4LiteWriteSlaveEnvConfig",
+                                                   axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig);
+  `uvm_info(get_type_name(), $sformatf("\nAXI4LITE_WRITE_SLAVE_ENV_CONFIG\n%s", 
+                axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.sprint()),UVM_LOW);
+endfunction : setupAxi4LiteWriteSlaveEnvConfig
+
 function void Axi4LiteSlaveBaseTest::setupAxi4LiteSlaveWriteAgentConfig();
-  axi4LiteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig = new[axi4LiteSlaveEnvConfig.noOfWriteSlaves];
-  foreach(axi4LiteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i]) begin
-  axi4LiteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i] = Axi4LiteSlaveWriteAgentConfig::type_id::create(
+  axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig = new[axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.no_of_slaves];
+  foreach(axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i]) begin
+  axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i] = Axi4LiteSlaveWriteAgentConfig::type_id::create(
                                                               $sformatf("axi4LiteSlaveWriteAgentConfig[%0d]",i));
 
-  axi4LiteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
-  axi4LiteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].hasCoverage = 1;
+  axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
+  axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].hasCoverage = 1;
+  axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].minAddressRange = Axi4LiteWriteSlaveGlobalPkg::MIN_ADDRESS;
+  axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].maxAddressRange = Axi4LiteWriteSlaveGlobalPkg::MAX_ADDRESS;
+  axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].maxDelayForWvalid = Axi4LiteSlaveWriteAssertCoverParameter::MAX_DELAY_WVALID;
+  axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].maxDelayForBready = Axi4LiteSlaveWriteAssertCoverParameter::MAX_DELAY_READY;
 
    uvm_config_db#(Axi4LiteSlaveWriteAgentConfig)::set( this, "*", $sformatf("Axi4LiteSlaveWriteAgentConfig[%0d]", i),
-          axi4LiteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i]);
+          axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i]);
     `uvm_info(get_type_name(), $sformatf("\nAXI4LITE_SLAVE_WRITE_AGENT_CONFIG[%0d]\n%s",i,
-                 axi4LiteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].sprint()),UVM_LOW);
+                 axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].sprint()),UVM_LOW);
   end
-endfunction
+endfunction : setupAxi4LiteSlaveWriteAgentConfig
  
+function void Axi4LiteSlaveBaseTest::setupAxi4LiteReadSlaveEnvConfig();
+  axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig = Axi4LiteReadSlaveEnvConfig::type_id::create("axi4LiteReadSlaveEnvConfig",this);
+  axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.no_of_slaves = NO_OF_READSLAVES;
+  setupAxi4LiteSlaveReadAgentConfig();
+
+  uvm_config_db#(Axi4LiteReadSlaveEnvConfig)::set(this, "*", "Axi4LiteReadSlaveEnvConfig",
+                                                   axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig);
+  `uvm_info(get_type_name(), $sformatf("\nAXI4LITE_WRITE_SLAVE_ENV_CONFIG\n%s", 
+                axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.sprint()),UVM_LOW);
+endfunction : setupAxi4LiteReadSlaveEnvConfig
+
 function void Axi4LiteSlaveBaseTest::setupAxi4LiteSlaveReadAgentConfig();
-  axi4LiteSlaveEnvConfig.axi4LiteSlaveReadAgentConfig = new[axi4LiteSlaveEnvConfig.noOfReadSlaves];
-  foreach(axi4LiteSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i]) begin
-  axi4LiteSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i] = Axi4LiteSlaveReadAgentConfig::type_id::create(
+  axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig = new[axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.no_of_slaves];
+  foreach(axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i]) begin
+  axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i] = Axi4LiteSlaveReadAgentConfig::type_id::create(
                                                               $sformatf("axi4LiteSlaveReadAgentConfig[%0d]",i));
 
-  axi4LiteSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
-  axi4LiteSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].hasCoverage = 1;
+  axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
+  axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].hasCoverage = 1;
+  axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].maxDelayForRready = Axi4LiteSlaveReadAssertCoverParameter::MAX_DELAY_READY;
 
    uvm_config_db#(Axi4LiteSlaveReadAgentConfig)::set( this, "*", $sformatf("Axi4LiteSlaveReadAgentConfig[%0d]", i),
-          axi4LiteSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i]);
-    `uvm_info(get_type_name(), $sformatf("\nAXI4LITE_SLAVE_READ_AGENT_CONFIG[%0d]\n%s",i,
-                 axi4LiteSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].sprint()),UVM_LOW);
+          axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i]);
+    `uvm_info(get_type_name(), $sformatf("\nAXI4LITE_SLAVE_WRITE_AGENT_CONFIG[%0d]\n%s",i,
+                 axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].sprint()),UVM_LOW);
   end
-endfunction
+endfunction : setupAxi4LiteSlaveReadAgentConfig
 
 function void Axi4LiteSlaveBaseTest::end_of_elaboration_phase(uvm_phase phase);
   uvm_top.print_topology();
-  uvm_test_done.set_drain_time(this,10ns);
+  uvm_test_done.set_drain_time(this,3000ns);
 endfunction : end_of_elaboration_phase
 
 
 task Axi4LiteSlaveBaseTest::run_phase(uvm_phase phase);
+  axi4LiteSlaveVirtualBaseSeq = Axi4LiteSlaveVirtualBaseSeq::type_id::create("axi4LiteSlaveVirtualBaseSeq");
   phase.raise_objection(this, "Axi4LiteSlaveBaseTest");
 
-  `uvm_info(get_type_name(), $sformatf("Inside BASE_TEST"), UVM_NONE);
+  `uvm_info(get_type_name(), $sformatf("Inside SLAVE_BASE_TEST"), UVM_NONE);
    super.run_phase(phase);
-   //axi4LiteSlaveWriteBaseSeq.start(axi4LiteSlaveEnv.axi4LiteWriteSlaveAgent.axi4LiteSlaveWriteSequencer);
+   axi4LiteSlaveVirtualBaseSeq.start(axi4LiteSlaveEnv.axi4LiteSlaveVirtualSequencer);
   #10;
-  `uvm_info(get_type_name(), $sformatf("Done BASE_TEST"), UVM_NONE);
+  `uvm_info(get_type_name(), $sformatf("Done SLAVE_BASE_TEST"), UVM_NONE);
   phase.drop_objection(this);
 
 endtask : run_phase

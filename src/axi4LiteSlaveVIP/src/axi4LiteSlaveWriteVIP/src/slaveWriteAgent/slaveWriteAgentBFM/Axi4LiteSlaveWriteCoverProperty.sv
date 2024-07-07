@@ -1,10 +1,7 @@
 `ifndef AXI4LITESLAVEWRITECOVERPROPERTY_INCLUDED_
 `define AXI4LITESLAVEWRITECOVERPROPERTY_INCLUDED_
-  import uvm_pkg::*;
-  import Axi4LiteWriteSlaveGlobalPkg::*;
-  import Axi4LiteSlaveWriteAssertCoverParameter::*;
-  `include "uvm_macros.svh";
 
+ import Axi4LiteWriteSlaveGlobalPkg::*;
 
 interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
                                             input  aresetn,
@@ -23,6 +20,10 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
                                             input  bready,
                                             input  [1:0] bresp
                                            );  
+
+  import uvm_pkg::*;
+  `include "uvm_macros.svh";
+  import Axi4LiteSlaveWriteAssertCoverParameter::*;
 
   initial begin
     

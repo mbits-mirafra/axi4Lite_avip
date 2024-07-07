@@ -5,11 +5,9 @@ class Axi4LiteSlaveEnvConfig extends uvm_object;
   `uvm_object_utils(Axi4LiteSlaveEnvConfig)
   
   bit hasSlaveVirtualSequencer = 1;
-  int noOfWriteSlaves;
-  int noOfReadSlaves;
 
-  Axi4LiteSlaveWriteAgentConfig axi4LiteSlaveWriteAgentConfig[];
-  Axi4LiteSlaveReadAgentConfig axi4LiteSlaveReadAgentConfig[];
+  Axi4LiteWriteSlaveEnvConfig axi4LiteWriteSlaveEnvConfig;
+  Axi4LiteReadSlaveEnvConfig axi4LiteReadSlaveEnvConfig;
 
   extern function new(string name = "Axi4LiteSlaveEnvConfig");
   extern function void do_print(uvm_printer printer);

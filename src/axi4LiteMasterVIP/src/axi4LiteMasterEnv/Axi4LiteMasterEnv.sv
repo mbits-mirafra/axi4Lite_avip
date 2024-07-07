@@ -1,8 +1,6 @@
 `ifndef AXI4LITEMASTERENV_INCLUDED_
 `define AXI4LITEMASTERENV_INCLUDED_
 
-// Environment contains slave_agent_top,master_agent_top and Axi4LiteVirtualMasterSequencer
-
 class Axi4LiteMasterEnv extends uvm_env;
   `uvm_component_utils(Axi4LiteMasterEnv)
   

@@ -11,9 +11,11 @@ package Axi4LiteSlaveVirtualSeqPkg;
   import Axi4LiteSlaveWriteSeqPkg::*;
   import Axi4LiteSlaveReadSeqPkg::*;
 
+  import Axi4LiteSlaveVirtualSeqrPkg::*;
   import Axi4LiteSlaveEnvPkg::*;
 
   `include "Axi4LiteSlaveVirtualBaseSeq.sv"
+  `include "Axi4LiteSlaveVirtualRandomWriteReadTransferSeq.sv"
 
 endpackage : Axi4LiteSlaveVirtualSeqPkg
 

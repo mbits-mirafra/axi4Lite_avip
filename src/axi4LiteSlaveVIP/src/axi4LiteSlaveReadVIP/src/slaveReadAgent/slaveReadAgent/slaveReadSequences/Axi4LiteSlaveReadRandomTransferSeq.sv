@@ -16,14 +16,14 @@ task Axi4LiteSlaveReadRandomTransferSeq::body();
   super.body();
 
   req = Axi4LiteSlaveReadTransaction::type_id::create("req");
-  `uvm_info(get_type_name(), $sformatf("BEFORE start_item Axi4LiteSlaveReadRandomTransferSeq"), UVM_NONE);
+  `uvm_info(get_type_name(),$sformatf("Inside body before start_item Axi4LiteSlaveReadRandomTransferSeq"),UVM_LOW);
  
   start_item(req);
   if(!req.randomize()) begin
     `uvm_fatal("Axi4LiteSlaveReadRandomTransferSeq","Rand failed");
   end
  
-  `uvm_info(get_type_name(), $sformatf("Axi4LiteSlaveReadRandomTransferSeq \n%s",req.sprint()), UVM_NONE);
+  `uvm_info(get_type_name(), $sformatf("Inside body after Randomize Axi4LiteSlaveReadRandomTransferSeq \n%s",req.sprint()), UVM_NONE);
  
   finish_item(req);
   `uvm_info(get_type_name(), $sformatf("AFTER finish_item Axi4LiteSlaveReadRandomTransferSeq"), UVM_NONE);

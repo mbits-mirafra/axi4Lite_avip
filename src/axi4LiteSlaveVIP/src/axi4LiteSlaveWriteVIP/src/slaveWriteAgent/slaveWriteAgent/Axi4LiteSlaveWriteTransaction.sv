@@ -17,6 +17,10 @@ class Axi4LiteSlaveWriteTransaction extends uvm_sequence_item;
   int waitCounterForWvalid;
   int waitCounterForBready;
 
+  constraint delayForAwready_c {soft delayForAwready <= MAX_DELAY_READY;}
+  constraint delayForWready_c {soft delayForWready <= MAX_DELAY_READY;}
+  constraint delayForBvalid_c {soft delayForBvalid <= MAX_DELAY_BVALID;}
+
   extern function new(string name = "Axi4LiteSlaveWriteTransaction");
   extern function void do_copy(uvm_object rhs);
   extern function bit do_compare (uvm_object rhs, uvm_comparer comparer);
@@ -35,6 +39,11 @@ function void Axi4LiteSlaveWriteTransaction::do_copy (uvm_object rhs);
     `uvm_fatal("do_copy","cast of the rhs object failed")
   end
   super.do_copy(rhs);
+  awaddr  = axi4LiteSlaveWriteTxCopyObj.awaddr;
+  awprot  = axi4LiteSlaveWriteTxCopyObj.awprot;
+  wdata   = axi4LiteSlaveWriteTxCopyObj.wdata;
+  wstrb   = axi4LiteSlaveWriteTxCopyObj.wstrb;
+  bresp   = axi4LiteSlaveWriteTxCopyObj.bresp;
   delayForAwready = axi4LiteSlaveWriteTxCopyObj.delayForAwready; 
   delayForWready = axi4LiteSlaveWriteTxCopyObj.delayForWready; 
   delayForBvalid = axi4LiteSlaveWriteTxCopyObj.delayForBvalid; 
@@ -49,6 +58,11 @@ function bit Axi4LiteSlaveWriteTransaction::do_compare (uvm_object rhs, uvm_comp
   end
 
   return super.do_compare(axi4LiteSlaveWriteTxCompareObj, comparer) &&
+  awaddr  == axi4LiteSlaveWriteTxCompareObj.awaddr  &&
+  awprot  == axi4LiteSlaveWriteTxCompareObj.awprot  &&
+  wdata   == axi4LiteSlaveWriteTxCompareObj.wdata   &&
+  wstrb   == axi4LiteSlaveWriteTxCompareObj.wstrb   &&
+  bresp   == axi4LiteSlaveWriteTxCompareObj.bresp   &&
   delayForAwready == axi4LiteSlaveWriteTxCompareObj.delayForAwready &&
   delayForWready == axi4LiteSlaveWriteTxCompareObj.delayForWready &&
   delayForBvalid == axi4LiteSlaveWriteTxCompareObj.delayForBvalid;
@@ -56,6 +70,11 @@ function bit Axi4LiteSlaveWriteTransaction::do_compare (uvm_object rhs, uvm_comp
 endfunction : do_compare
 
 function void Axi4LiteSlaveWriteTransaction::do_print(uvm_printer printer);
+  printer.print_field("awaddr",awaddr,$bits(awaddr),UVM_HEX);
+  printer.print_string("awprot",awprot.name());
+  printer.print_field("wdata",wdata,$bits(wdata),UVM_HEX);
+  printer.print_field("wstrb",wstrb,$bits(wstrb),UVM_HEX);
+  printer.print_string("bresp",bresp.name());
   printer.print_field($sformatf("delayForAwready"),this.delayForAwready,$bits(delayForAwready),UVM_HEX);
   printer.print_field($sformatf("delayForWready"),this.delayForWready,$bits(delayForWready),UVM_HEX);
   printer.print_field($sformatf("delayForBvalid"),this.delayForBvalid,$bits(delayForBvalid),UVM_HEX);

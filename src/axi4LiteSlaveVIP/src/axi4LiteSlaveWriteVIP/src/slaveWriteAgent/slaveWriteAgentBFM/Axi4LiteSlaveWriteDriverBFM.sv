@@ -46,23 +46,23 @@ interface Axi4LiteSlaveWriteDriverBFM(input      aclk,
 task writeAddressChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteConfigStruct, 
                              inout axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct
                              );
-    `uvm_info(name,$sformatf("SLAVE_WRITE_ADDRESS_CHANNEL_TASK_STARTED"),UVM_HIGH)
-    do begin
-      @(posedge aclk);
-    end while(awvalid !== 1);
+  `uvm_info(name,$sformatf("SLAVE_WRITE_ADDRESS_CHANNEL_TASK_STARTED"),UVM_HIGH)
+  do begin
+    @(posedge aclk);
+  end while(awvalid !== 1);
 
-    `uvm_info(name , $sformatf("After while loop awvalid asserted "),UVM_HIGH)
+  `uvm_info(name , $sformatf("After while loop awvalid asserted "),UVM_HIGH)
 
-    repeat(slaveWritePacketStruct.delayForAwready) begin 
-      @(posedge aclk);
-    end
+  repeat(slaveWritePacketStruct.delayForAwready) begin 
+    @(posedge aclk);
+  end
 
-    awready <= 1'b1;
-    slaveWritePacketStruct.awaddr <= awaddr;
-    slaveWritePacketStruct.awprot <= awprot;
-    
-    `uvm_info(name,$sformatf("SLAVE_WRITE_ADDRESS_CHANNEL_TASK_ENDED"),UVM_HIGH)
-  endtask : writeAddressChannelTask
+  awready <= 1'b1;
+  slaveWritePacketStruct.awaddr <= awaddr;
+  slaveWritePacketStruct.awprot <= awprot;
+  
+  `uvm_info(name,$sformatf("SLAVE_WRITE_ADDRESS_CHANNEL_TASK_ENDED"),UVM_HIGH)
+endtask : writeAddressChannelTask
 
 
 task writeDataChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteConfigStruct, 
@@ -71,48 +71,45 @@ task writeDataChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteCo
    `uvm_info(name,$sformatf("SLAVE_WRITE_DATA_CHANNEL_TASK_STARTED"),UVM_HIGH)
     do begin
       @(posedge aclk);
+      slaveWritePacketStruct.waitCounterForWvalid++;
+      if(slaveWritePacketStruct.waitCounterForWvalid > slaveWriteConfigStruct.maxDelayForWvalid) begin
+        `uvm_error (name, $sformatf ("wvalid count comparisions are failed"));
+      end 
     end while(wvalid !== 1);
 
     `uvm_info(name , $sformatf("After while loop wvalid asserted "),UVM_HIGH)
 
     repeat(slaveWritePacketStruct.delayForWready) begin 
       @(posedge aclk);
-      slaveWritePacketStruct.waitCounterForWvalid++;
-      if(slaveWritePacketStruct.waitCounterForWvalid > slaveWriteConfigStruct.maxDelayForWvalid) begin
-        `uvm_error (name, $sformatf ("wvalid count comparisions are failed"));
-     end
-   end
-    
-     wready <= 1'b1;
-     slaveWritePacketStruct.wdata <= wdata;
-     slaveWritePacketStruct.wstrb <= wstrb;
+    end
+    wready <= 1'b1;
+    slaveWritePacketStruct.wdata <= wdata;
+    slaveWritePacketStruct.wstrb <= wstrb;
  
-     `uvm_info(name,$sformatf("SLAVE_WRITE_DATA_CHANNEL_TASK_ENDED"),UVM_HIGH)
-   
+    `uvm_info(name,$sformatf("SLAVE_WRITE_DATA_CHANNEL_TASK_ENDED"),UVM_HIGH)
 endtask :writeDataChannelTask
 
 
 task writeResponseChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteConfigStruct, 
                               inout axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct
                              );
-    `uvm_info(name,$sformatf("SLAVE_WRITE_RESPONSE_CHANNEL_TASK_STARTED"),UVM_HIGH)
+  `uvm_info(name,$sformatf("SLAVE_WRITE_RESPONSE_CHANNEL_TASK_STARTED"),UVM_HIGH)
+  @(posedge aclk);
+  bvalid <= 1'b1;
+  bresp  <= slaveWritePacketStruct.bresp;
+
+  do begin
     @(posedge aclk);
-    bvalid <= 1'b1;
-    bresp  <= slaveWritePacketStruct.bresp;
+    slaveWritePacketStruct.waitCounterForBready++;
+    if(slaveWritePacketStruct.waitCounterForBready > slaveWriteConfigStruct.maxDelayForBready) begin
+      `uvm_error (name, $sformatf ("bready count comparisions are failed"));
+    end
+  end while(bready === 0); 
+  
+  bvalid <= 1'b0;
 
-    do begin
-      @(posedge aclk);
-      slaveWritePacketStruct.waitCounterForBready++;
-      if(slaveWritePacketStruct.waitCounterForBready > slaveWriteConfigStruct.maxDelayForBready) begin
-        `uvm_error (name, $sformatf ("bready count comparisions are failed"));
-   end
- end
-    while(bready === 0); 
-    bvalid <= 1'b0;
-
-    `uvm_info(name,$sformatf("SLAVE_WRITE_RESPONSE_CHANNEL_TASK_ENDED"),UVM_HIGH)
+  `uvm_info(name,$sformatf("SLAVE_WRITE_RESPONSE_CHANNEL_TASK_ENDED"),UVM_HIGH)
 endtask : writeResponseChannelTask
-
 
 endinterface : Axi4LiteSlaveWriteDriverBFM
 

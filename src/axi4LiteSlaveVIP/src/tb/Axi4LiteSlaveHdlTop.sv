@@ -36,6 +36,18 @@ module Axi4LiteSlaveHdlTop;
   Axi4LiteSlaveReadInterface axi4LiteSlaveReadInterface(.aclk(aclk),
                                                             .aresetn(aresetn));
 
+  initial begin
+   axi4LiteSlaveWriteInterface.awvalid  <= 1'b1; 
+   axi4LiteSlaveWriteInterface.wvalid   <= 1'b1;    
+   axi4LiteSlaveWriteInterface.bready   <= 1'b1;  
+ end
+
+  initial begin
+    axi4LiteSlaveReadInterface.arvalid  <= 1'b1;
+    axi4LiteSlaveReadInterface.araddr   <= 1'hf;
+    axi4LiteSlaveReadInterface.rready   <= 1'b1;
+ end
+
   genvar i;
   generate
     for (i=0; i<NO_OF_WRITESLAVES; i++) begin : Axi4LiteSlaveWriteAgentBFM

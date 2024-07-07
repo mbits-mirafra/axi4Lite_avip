@@ -7,6 +7,7 @@ package Axi4LiteSlaveWritePkg;
   import uvm_pkg::*;
 
   import Axi4LiteWriteSlaveGlobalPkg::*;
+  import Axi4LiteSlaveWriteAssertCoverParameter::*;
 
   `include "Axi4LiteSlaveWriteTransaction.sv"
   `include "Axi4LiteSlaveWriteAgentConfig.sv"
