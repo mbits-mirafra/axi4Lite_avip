@@ -47,28 +47,38 @@ module Axi4LiteSlaveWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
     uvm_config_db#(virtual Axi4LiteSlaveWriteMonitorBFM)::set(null,"*", "Axi4LiteSlaveWriteMonitorBFM", axi4LiteSlaveWriteMonitorBFM);
   end
 
-  bind axi4LiteSlaveWriteMonitorBFM Axi4LiteSlaveWriteAssertions M_A (.aclk(aclk),
-                                                                      .aresetn(aresetn),
-                                                                      .awvalid(awvalid),
-                                                                      .awready(awready),
-                                                                      .awaddr(awaddr),
-                                                                      .awprot(awprot),
-                                                                      .wvalid(wvalid),
-                                                                      .wready(wready),
-                                                                      .wdata(wdata),
-                                                                      .wstrb(wstrb),
-                                                                      .bvalid(bvalid),
-                                                                      .bready(bready),
-                                                                      .bresp(bresp)
-                                                                     );
-  //-------------------------------------------------------
-  // Setting the virtual handle of BMFs into config_db
-  //-------------------------------------------------------
-  initial begin
-    uvm_config_db#(virtual Axi4LiteSlaveWriteDriverBFM)::set(null,"*", "Axi4LiteSlaveWriteDriverBFM", axi4LiteSlaveWriteDriverBFM); 
-    uvm_config_db#(virtual Axi4LiteSlaveWriteMonitorBFM)::set(null,"*", "Axi4LiteSlaveWriteMonitorBFM", axi4LiteSlaveWriteMonitorBFM);
-  end
+  bind axi4LiteSlaveWriteMonitorBFM Axi4LiteSlaveWriteAssertions WRITESLAVE_ASSERTPROPERTY (.aclk(aclk),
+                                                                                            .aresetn(aresetn),
+                                                                                            .awvalid(awvalid),
+                                                                                            .awready(awready),
+                                                                                            .awaddr(awaddr),
+                                                                                            .awprot(awprot),
+                                                                                            .wvalid(wvalid),
+                                                                                            .wready(wready),
+                                                                                            .wdata(wdata),
+                                                                                            .wstrb(wstrb),
+                                                                                            .bvalid(bvalid),
+                                                                                            .bready(bready),
+                                                                                            .bresp(bresp)
+                                                                                            );
 
+
+  bind axi4LiteSlaveWriteMonitorBFM Axi4LiteSlaveWriteCoverProperty WRITESLAVE_COVERPROPERTY  (.aclk(aclk),
+                                                                                               .aresetn(aresetn),
+                                                                                               .awvalid(awvalid),
+                                                                                               .awready(awready),
+                                                                                               .awaddr(awaddr),
+                                                                                               .awprot(awprot),
+                                                                                               .wvalid(wvalid),
+                                                                                               .wready(wready),
+                                                                                               .wdata(wdata),
+                                                                                               .wstrb(wstrb),
+                                                                                               .bvalid(bvalid),
+                                                                                               .bready(bready),
+                                                                                               .bresp(bresp)
+                                                                                             );
+
+                                                                     
   initial begin
     `uvm_info("Axi4LiteSlaveWriteAgentBFM",$sformatf("AXI4LITE SLAVEWRITEAGENTBFM"),UVM_LOW);
   end

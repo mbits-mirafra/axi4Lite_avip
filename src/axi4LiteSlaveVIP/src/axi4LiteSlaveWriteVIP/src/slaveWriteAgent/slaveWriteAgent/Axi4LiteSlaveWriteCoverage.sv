@@ -5,7 +5,8 @@ class Axi4LiteSlaveWriteCoverage extends uvm_subscriber#(Axi4LiteSlaveWriteTrans
   `uvm_component_utils(Axi4LiteSlaveWriteCoverage)
 
    Axi4LiteSlaveWriteAgentConfig axi4LiteSlaveWriteAgentConfig;
-    covergroup axi4LiteSlaveWriteCovergroup with function sample (Axi4LiteSlaveWriteAgentConfig cfg, Axi4LiteSlaveWriteTransaction packet);
+
+   covergroup axi4LiteSlaveWriteCovergroup with function sample (Axi4LiteSlaveWriteAgentConfig cfg, Axi4LiteSlaveWriteTransaction packet);
     option.per_instance = 1;
       
    WRITEADDR_CP : coverpoint packet.awaddr {

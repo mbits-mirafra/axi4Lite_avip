@@ -37,7 +37,10 @@ module Axi4LiteSlaveWriteHdlTop;
    axi4LiteSlaveWriteInterface.awvalid  <= 1'b1; 
    axi4LiteSlaveWriteInterface.wvalid   <= 1'b1;    
    axi4LiteSlaveWriteInterface.bready   <= 1'b1;  
-   
+   axi4LiteSlaveWriteInterface.awaddr   <= 1'hf;  
+   axi4LiteSlaveWriteInterface.awprot   <= 3'b001;  
+   axi4LiteSlaveWriteInterface.wdata    <= 2'hff;
+   axi4LiteSlaveWriteInterface.wstrb    <= 1'hf;
  end
 
   genvar i;

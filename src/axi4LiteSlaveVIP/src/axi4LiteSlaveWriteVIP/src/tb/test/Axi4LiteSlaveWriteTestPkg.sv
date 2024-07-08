@@ -15,6 +15,7 @@ package Axi4LiteSlaveWriteTestPkg;
   //including base_test for testing
   `include "Axi4LiteSlaveWriteBaseTest.sv"
   `include "Axi4LiteSlaveWriteRandomTransferTest.sv"
+  `include "Axi4LiteSlaveWriteDelayForAwreadyTest.sv"
 
 endpackage : Axi4LiteSlaveWriteTestPkg
 
