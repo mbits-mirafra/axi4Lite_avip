@@ -30,32 +30,53 @@ module Axi4LiteSlaveHdlTop;
     aresetn = 1'b1;
   end
 
-  Axi4LiteSlaveWriteInterface axi4LiteSlaveWriteInterface(.aclk(aclk),
-                                                            .aresetn(aresetn));
-
-  Axi4LiteSlaveReadInterface axi4LiteSlaveReadInterface(.aclk(aclk),
-                                                            .aresetn(aresetn));
+  Axi4LiteSlaveInterface axi4LiteSlaveInterface(.aclk(aclk),
+                                                .aresetn(aresetn)
+                                               );
 
   initial begin
-   axi4LiteSlaveWriteInterface.awvalid  <= 1'b1; 
-   axi4LiteSlaveWriteInterface.wvalid   <= 1'b1;    
-   axi4LiteSlaveWriteInterface.bready   <= 1'b1;  
+   axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.awvalid  <= 1'b1; 
+   axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.wvalid   <= 1'b1;    
+   axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.bready   <= 1'b1;  
  end
 
   initial begin
-    axi4LiteSlaveReadInterface.arvalid  <= 1'b1;
-    axi4LiteSlaveReadInterface.araddr   <= 1'hf;
-    axi4LiteSlaveReadInterface.rready   <= 1'b1;
+    axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.arvalid  <= 1'b1;
+    axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.araddr   <= 1'hf;
+    axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.rready   <= 1'b1;
  end
 
   genvar i;
   generate
     for (i=0; i<NO_OF_WRITESLAVES; i++) begin : Axi4LiteSlaveWriteAgentBFM
-      Axi4LiteSlaveWriteAgentBFM #() axi4LiteSlaveWriteAgentBFM(axi4LiteSlaveWriteInterface);
+      Axi4LiteSlaveWriteAgentBFM #() axi4LiteSlaveWriteAgentBFM(.aclk(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.aclk),
+                                                                .aresetn(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.aresetn),
+                                                                .awvalid(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.awvalid),
+                                                                .awready(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.awready),
+                                                                .awaddr(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.awaddr),
+                                                                .awprot(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.awprot),
+                                                                .wvalid(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.wvalid),
+                                                                .wready(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.wready),
+                                                                .wdata(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.wdata),
+                                                                .wstrb(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.wstrb),
+                                                                .bvalid(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.bvalid),
+                                                                .bready(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.bready),
+                                                                .bresp(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.bresp)
+                                                               );
     end
 
     for (i=0; i<NO_OF_READSLAVES; i++) begin : Axi4LiteSlaveReadAgentBFM
-      Axi4LiteSlaveReadAgentBFM #() axi4LiteSlaveReadAgentBFM(axi4LiteSlaveReadInterface);
+      Axi4LiteSlaveReadAgentBFM #() axi4LiteSlaveReadAgentBFM(.aclk(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.aclk),
+                                                              .aresetn(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.aresetn),
+                                                              .arvalid(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.arvalid),
+                                                              .arready(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.arready),
+                                                              .araddr(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.araddr),
+                                                              .arprot(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.arprot),
+                                                              .rvalid(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.rvalid),
+                                                              .rready(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.rready),
+                                                              .rdata(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.rdata),
+                                                              .rresp(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.rresp)
+                                                             );
     end
   endgenerate
 
