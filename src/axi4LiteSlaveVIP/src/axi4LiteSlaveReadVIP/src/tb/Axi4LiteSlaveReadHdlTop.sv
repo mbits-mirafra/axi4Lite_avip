@@ -35,7 +35,8 @@ module Axi4LiteSlaveReadHdlTop;
 
   initial begin
     axi4LiteSlaveReadInterface.arvalid  <= 1'b1;
-    axi4LiteSlaveReadInterface.araddr   <= 1'hf;
+    axi4LiteSlaveReadInterface.araddr   <= 4'hd;
+    axi4LiteSlaveReadInterface.arprot   <= 3'b000;
     axi4LiteSlaveReadInterface.rready   <= 1'b1;
  end
 

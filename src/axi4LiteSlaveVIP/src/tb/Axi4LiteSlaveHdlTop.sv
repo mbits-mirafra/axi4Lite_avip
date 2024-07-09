@@ -1,6 +1,9 @@
 `ifndef AXI4LITESLAVEHDLTOP_INCLUDED_
 `define AXI4LITESLAVEHDLTOP_INCLUDED_
 
+`define AXI4LITE_WRITEINTERFACE axi4LiteMasterInterface.axi4LiteMasterWriteInterface  
+`define AXI4LITE_READINTERFACE axi4LiteMasterInterface.axi4LiteMasterReadInterface  
+
 module Axi4LiteSlaveHdlTop;
 
   import uvm_pkg::*;
@@ -35,47 +38,52 @@ module Axi4LiteSlaveHdlTop;
                                                );
 
   initial begin
-   axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.awvalid  <= 1'b1; 
-   axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.wvalid   <= 1'b1;    
-   axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.bready   <= 1'b1;  
+   `AXI4LITE_WRITEINTERFACE.awvalid  <= 1'b1; 
+   `AXI4LITE_WRITEINTERFACE.awaddr   <= 4'hc; 
+   `AXI4LITE_WRITEINTERFACE.awprot   <= 3'b000; 
+   `AXI4LITE_WRITEINTERFACE.wvalid   <= 1'b1;    
+   `AXI4LITE_WRITEINTERFACE.wdata    <= 32'haaaa_bbbb;    
+   `AXI4LITE_WRITEINTERFACE.wstrb    <= 4'hf;    
+   `AXI4LITE_WRITEINTERFACE.bready   <= 1'b1;  
  end
 
   initial begin
-    axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.arvalid  <= 1'b1;
-    axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.araddr   <= 1'hf;
-    axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.rready   <= 1'b1;
+    `AXI4LITE_READINTERFACE.arvalid  <= 1'b1;
+    `AXI4LITE_READINTERFACE.araddr   <= 4'hd;
+    `AXI4LITE_READINTERFACE.arprot   <= 3'b000;
+    `AXI4LITE_READINTERFACE.rready   <= 1'b1;
  end
 
   genvar i;
   generate
     for (i=0; i<NO_OF_WRITESLAVES; i++) begin : Axi4LiteSlaveWriteAgentBFM
-      Axi4LiteSlaveWriteAgentBFM #() axi4LiteSlaveWriteAgentBFM(.aclk(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.aclk),
-                                                                .aresetn(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.aresetn),
-                                                                .awvalid(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.awvalid),
-                                                                .awready(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.awready),
-                                                                .awaddr(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.awaddr),
-                                                                .awprot(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.awprot),
-                                                                .wvalid(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.wvalid),
-                                                                .wready(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.wready),
-                                                                .wdata(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.wdata),
-                                                                .wstrb(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.wstrb),
-                                                                .bvalid(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.bvalid),
-                                                                .bready(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.bready),
-                                                                .bresp(axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface.bresp)
+      Axi4LiteSlaveWriteAgentBFM #() axi4LiteSlaveWriteAgentBFM(.aclk(`AXI4LITE_WRITEINTERFACE.aclk),
+                                                                .aresetn(`AXI4LITE_WRITEINTERFACE.aresetn),
+                                                                .awvalid(`AXI4LITE_WRITEINTERFACE.awvalid),
+                                                                .awready(`AXI4LITE_WRITEINTERFACE.awready),
+                                                                .awaddr(`AXI4LITE_WRITEINTERFACE.awaddr),
+                                                                .awprot(`AXI4LITE_WRITEINTERFACE.awprot),
+                                                                .wvalid(`AXI4LITE_WRITEINTERFACE.wvalid),
+                                                                .wready(`AXI4LITE_WRITEINTERFACE.wready),
+                                                                .wdata(`AXI4LITE_WRITEINTERFACE.wdata),
+                                                                .wstrb(`AXI4LITE_WRITEINTERFACE.wstrb),
+                                                                .bvalid(`AXI4LITE_WRITEINTERFACE.bvalid),
+                                                                .bready(`AXI4LITE_WRITEINTERFACE.bready),
+                                                                .bresp(`AXI4LITE_WRITEINTERFACE.bresp)
                                                                );
     end
 
     for (i=0; i<NO_OF_READSLAVES; i++) begin : Axi4LiteSlaveReadAgentBFM
-      Axi4LiteSlaveReadAgentBFM #() axi4LiteSlaveReadAgentBFM(.aclk(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.aclk),
-                                                              .aresetn(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.aresetn),
-                                                              .arvalid(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.arvalid),
-                                                              .arready(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.arready),
-                                                              .araddr(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.araddr),
-                                                              .arprot(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.arprot),
-                                                              .rvalid(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.rvalid),
-                                                              .rready(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.rready),
-                                                              .rdata(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.rdata),
-                                                              .rresp(axi4LiteSlaveInterface.axi4LiteSlaveReadInterface.rresp)
+      Axi4LiteSlaveReadAgentBFM #() axi4LiteSlaveReadAgentBFM(.aclk(`AXI4LITE_READINTERFACE.aclk),
+                                                              .aresetn(`AXI4LITE_READINTERFACE.aresetn),
+                                                              .arvalid(`AXI4LITE_READINTERFACE.arvalid),
+                                                              .arready(`AXI4LITE_READINTERFACE.arready),
+                                                              .araddr(`AXI4LITE_READINTERFACE.araddr),
+                                                              .arprot(`AXI4LITE_READINTERFACE.arprot),
+                                                              .rvalid(`AXI4LITE_READINTERFACE.rvalid),
+                                                              .rready(`AXI4LITE_READINTERFACE.rready),
+                                                              .rdata(`AXI4LITE_READINTERFACE.rdata),
+                                                              .rresp(`AXI4LITE_READINTERFACE.rresp)
                                                              );
     end
   endgenerate

@@ -14,6 +14,8 @@ $(AXI4LITE_MASTER)/src/axi4LiteMasterEnv/masterVirtualSequencer/Axi4LiteMasterVi
 $(AXI4LITE_SLAVE)/src/axi4LiteSlaveEnv/slaveVirtualSequencer/Axi4LiteSlaveVirtualSeqrPkg.sv
 $(AXI4LITE_MASTER)/src/axi4LiteMasterEnv/Axi4LiteMasterEnvPkg.sv
 $(AXI4LITE_SLAVE)/src/axi4LiteSlaveEnv/Axi4LiteSlaveEnvPkg.sv
+$(AXI4LITE_MASTER)/src/tb/Axi4LiteMasterInterface.sv
+$(AXI4LITE_SLAVE)/src/tb/Axi4LiteSlaveInterface.sv
 
 +incdir+$AXI4LITE_PROJECT/src/axi4LiteEnv/virtualSequencer/
 +incdir+$AXI4LITE_PROJECT/src/tb/virtualSequences/
