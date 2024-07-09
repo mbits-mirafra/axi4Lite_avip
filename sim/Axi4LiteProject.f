@@ -23,6 +23,7 @@ $(AXI4LITE_PROJECT)/src/axi4LiteEnv/virtualSequencer/Axi4LiteVirtualSeqrPkg.sv
 $(AXI4LITE_PROJECT)/src/axi4LiteEnv/Axi4LiteEnvPkg.sv
 $(AXI4LITE_PROJECT)/src/tb/virtualSequences/Axi4LiteVirtualSeqPkg.sv
 $(AXI4LITE_PROJECT)/src/tb/test/Axi4LiteTestPkg.sv
+$(AXI4LITE_PROJECT)/src/tb/Axi4LiteInterface.sv
 
 $(AXI4LITE_PROJECT)/src/tb/Axi4LiteHdlTop.sv
 $(AXI4LITE_PROJECT)/src/tb/Axi4LiteHvlTop.sv

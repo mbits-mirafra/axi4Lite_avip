@@ -59,7 +59,20 @@ module Axi4LiteMasterWriteHdlTop;
   genvar i;
   generate
     for (i=0; i<NO_OF_WRITEMASTERS; i++) begin : Axi4LiteMasterWriteAgentBFM
-      Axi4LiteMasterWriteAgentBFM #() axi4LiteMasterWriteAgentBFM(axi4LiteMasterWriteInterface);
+      Axi4LiteMasterWriteAgentBFM #() axi4LiteMasterWriteAgentBFM(.aclk(axi4LiteMasterWriteInterface.aclk),
+                                                                  .aresetn(axi4LiteMasterWriteInterface.aresetn),
+                                                                  .awvalid(axi4LiteMasterWriteInterface.awvalid),
+                                                                  .awready(axi4LiteMasterWriteInterface.awready),
+                                                                  .awaddr(axi4LiteMasterWriteInterface.awaddr),
+                                                                  .awprot(axi4LiteMasterWriteInterface.awprot),
+                                                                  .wvalid(axi4LiteMasterWriteInterface.wvalid),
+                                                                  .wready(axi4LiteMasterWriteInterface.wready),
+                                                                  .wdata(axi4LiteMasterWriteInterface.wdata),
+                                                                  .wstrb(axi4LiteMasterWriteInterface.wstrb),
+                                                                  .bvalid(axi4LiteMasterWriteInterface.bvalid),
+                                                                  .bready(axi4LiteMasterWriteInterface.bready),
+                                                                  .bresp(axi4LiteMasterWriteInterface.bresp)
+                                                                 );
     end
   endgenerate
 

@@ -30,7 +30,8 @@ module Axi4LiteMasterReadHdlTop;
   end
 
   Axi4LiteMasterReadInterface axi4LiteMasterReadInterface(.aclk(aclk),
-                                                          .aresetn(aresetn));
+                                                          .aresetn(aresetn)
+                                                         );
 
   initial begin
     axi4LiteMasterReadInterface.arready = 1'b1;
@@ -42,7 +43,17 @@ module Axi4LiteMasterReadHdlTop;
   genvar i;
   generate
     for (i=0; i<NO_OF_READMASTERS; i++) begin : Axi4LiteMasterReadAgentBFM
-      Axi4LiteMasterReadAgentBFM #() axi4LiteMasterReadAgentBFM(axi4LiteMasterReadInterface);
+      Axi4LiteMasterReadAgentBFM #() axi4LiteMasterReadAgentBFM(.aclk(axi4LiteMasterReadInterface.aclk),
+                                                                .aresetn(axi4LiteMasterReadInterface.aresetn),
+                                                                .arvalid(axi4LiteMasterReadInterface.arvalid),
+                                                                .arready(axi4LiteMasterReadInterface.arready),
+                                                                .araddr(axi4LiteMasterReadInterface.araddr),
+                                                                .arprot(axi4LiteMasterReadInterface.arprot),
+                                                                .rvalid(axi4LiteMasterReadInterface.rvalid),
+                                                                .rready(axi4LiteMasterReadInterface.rready),
+                                                                .rdata(axi4LiteMasterReadInterface.rdata),
+                                                                .rresp(axi4LiteMasterReadInterface.rresp)
+                                                               );
     end
   endgenerate
 

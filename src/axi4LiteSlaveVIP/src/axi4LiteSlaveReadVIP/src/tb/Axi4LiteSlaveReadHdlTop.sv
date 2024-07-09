@@ -30,7 +30,8 @@ module Axi4LiteSlaveReadHdlTop;
   end
 
   Axi4LiteSlaveReadInterface axi4LiteSlaveReadInterface(.aclk(aclk),
-                                                            .aresetn(aresetn));
+                                                        .aresetn(aresetn)
+                                                       );
 
   initial begin
     axi4LiteSlaveReadInterface.arvalid  <= 1'b1;
@@ -41,7 +42,17 @@ module Axi4LiteSlaveReadHdlTop;
   genvar i;
   generate
     for (i=0; i<NO_OF_READSLAVES; i++) begin : Axi4LiteSlaveReadAgentBFM
-      Axi4LiteSlaveReadAgentBFM #() axi4LiteSlaveReadAgentBFM(axi4LiteSlaveReadInterface);
+      Axi4LiteSlaveReadAgentBFM #() axi4LiteSlaveReadAgentBFM(.aclk(axi4LiteSlaveReadInterface.aclk),
+                                                              .aresetn(axi4LiteSlaveReadInterface.aresetn),
+                                                              .arvalid(axi4LiteSlaveReadInterface.arvalid),
+                                                              .arready(axi4LiteSlaveReadInterface.arready),
+                                                              .araddr(axi4LiteSlaveReadInterface.araddr),
+                                                              .arprot(axi4LiteSlaveReadInterface.arprot),
+                                                              .rvalid(axi4LiteSlaveReadInterface.rvalid),
+                                                              .rready(axi4LiteSlaveReadInterface.rready),
+                                                              .rdata(axi4LiteSlaveReadInterface.rdata),
+                                                              .rresp(axi4LiteSlaveReadInterface.rresp)
+                                                             );
     end
   endgenerate
 

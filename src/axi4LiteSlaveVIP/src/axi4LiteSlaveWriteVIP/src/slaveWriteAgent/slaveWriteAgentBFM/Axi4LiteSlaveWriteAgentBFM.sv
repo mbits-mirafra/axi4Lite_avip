@@ -6,39 +6,52 @@ import Axi4LiteWriteSlaveGlobalPkg::*;
 module Axi4LiteSlaveWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
                                     parameter int DATA_WIDTH = 32
                                    )
-                                   (Axi4LiteSlaveWriteInterface axi4LiteSlaveWriteInterface);
+                                   (input                      aclk,
+                                    input                      aresetn,
+                                    input                      awvalid,
+                                    output reg                 awready,
+                                    input  [ADDRESS_WIDTH-1:0] awaddr,
+                                    input                [2:0] awprot,
+                                    input                      wvalid,
+                                    output reg                 wready,
+                                    input     [DATA_WIDTH-1:0] wdata,
+                                    input [(DATA_WIDTH/8)-1:0] wstrb,
+                                    output reg                 bvalid,
+                                    input                      bready,
+                                    output reg           [1:0] bresp
+                                   );
 
   import uvm_pkg::*;
   `include "uvm_macros.svh"
 
-  Axi4LiteSlaveWriteDriverBFM axi4LiteSlaveWriteDriverBFM (.aclk(axi4LiteSlaveWriteInterface.aclk),
-                                                           .aresetn(axi4LiteSlaveWriteInterface.aresetn),
-                                                           .awvalid(axi4LiteSlaveWriteInterface.awvalid),
-                                                           .awready(axi4LiteSlaveWriteInterface.awready),
-                                                           .awaddr(axi4LiteSlaveWriteInterface.awaddr),
-                                                           .awprot(axi4LiteSlaveWriteInterface.awprot),
-                                                           .wvalid(axi4LiteSlaveWriteInterface.wvalid),
-                                                           .wready(axi4LiteSlaveWriteInterface.wready),
-                                                           .wdata(axi4LiteSlaveWriteInterface.wdata),
-                                                           .wstrb(axi4LiteSlaveWriteInterface.wstrb),
-                                                           .bvalid(axi4LiteSlaveWriteInterface.bvalid),
-                                                           .bready(axi4LiteSlaveWriteInterface.bready),
-                                                           .bresp(axi4LiteSlaveWriteInterface.bresp)
+  Axi4LiteSlaveWriteDriverBFM axi4LiteSlaveWriteDriverBFM (.aclk(aclk),
+                                                           .aresetn(aresetn),
+                                                           .awvalid(awvalid),
+                                                           .awready(awready),
+                                                           .awaddr(awaddr),
+                                                           .awprot(awprot),
+                                                           .wvalid(wvalid),
+                                                           .wready(wready),
+                                                           .wdata(wdata),
+                                                           .wstrb(wstrb),
+                                                           .bvalid(bvalid),
+                                                           .bready(bready),
+                                                           .bresp(bresp)
                                                           );
 
-  Axi4LiteSlaveWriteMonitorBFM axi4LiteSlaveWriteMonitorBFM (.aclk(axi4LiteSlaveWriteInterface.aclk),
-                                                             .aresetn(axi4LiteSlaveWriteInterface.aresetn),
-                                                             .awvalid(axi4LiteSlaveWriteInterface.awvalid),
-                                                             .awready(axi4LiteSlaveWriteInterface.awready),
-                                                             .awaddr(axi4LiteSlaveWriteInterface.awaddr),
-                                                             .awprot(axi4LiteSlaveWriteInterface.awprot),
-                                                             .wvalid(axi4LiteSlaveWriteInterface.wvalid),
-                                                             .wready(axi4LiteSlaveWriteInterface.wready),
-                                                             .wdata(axi4LiteSlaveWriteInterface.wdata),
-                                                             .wstrb(axi4LiteSlaveWriteInterface.wstrb),
-                                                             .bvalid(axi4LiteSlaveWriteInterface.bvalid),
-                                                             .bready(axi4LiteSlaveWriteInterface.bready),
-                                                             .bresp(axi4LiteSlaveWriteInterface.bresp)
+  Axi4LiteSlaveWriteMonitorBFM axi4LiteSlaveWriteMonitorBFM (.aclk(aclk),
+                                                             .aresetn(aresetn),
+                                                             .awvalid(awvalid),
+                                                             .awready(awready),
+                                                             .awaddr(awaddr),
+                                                             .awprot(awprot),
+                                                             .wvalid(wvalid),
+                                                             .wready(wready),
+                                                             .wdata(wdata),
+                                                             .wstrb(wstrb),
+                                                             .bvalid(bvalid),
+                                                             .bready(bready),
+                                                             .bresp(bresp)
                                                             );
 
 
