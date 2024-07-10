@@ -13,9 +13,8 @@ package Axi4LiteWriteSlaveGlobalPkg;
 
   parameter int DELAY_WIDTH = 5;
 
-  parameter int MIN_ADDRESS = 01;
-
-  parameter int MAX_ADDRESS = 7'h7f;
+  parameter int MIN_ADDRESS = 8'h01;
+  parameter int MAX_ADDRESS = 8'hff;
 
   typedef enum bit {
     BIG_ENDIAN    = 1'b0,
