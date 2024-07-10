@@ -47,7 +47,10 @@ class Axi4LiteSlaveReadCoverage extends uvm_subscriber#(Axi4LiteSlaveReadTransac
 	 }
 
     ARPROT_CP_X_RRESP_CP      : cross ARPROT_CP, RRESP_CP;
-    ARADDR_CP_X_BRESP_CP      : cross READADDR_CP,RRESP_CP{bins b1 = binsof(READADDR_CP.READ_ADDROUTOFRANGE) && binsof(RRESP_CP.READ_SLVERR);}
+    ARADDR_CP_X_BRESP_CP      : cross READADDR_CP,RRESP_CP{
+      bins b1 = binsof(READADDR_CP.READ_ADDROUTOFRANGE) && binsof(RRESP_CP.READ_SLVERR);
+      bins b2 = binsof(READADDR_CP.READ_ADDRRANGE) && binsof(RRESP_CP.WRITE_OKAY);
+    }
 
   endgroup: axi4LiteSlaveReadCovergroup
 

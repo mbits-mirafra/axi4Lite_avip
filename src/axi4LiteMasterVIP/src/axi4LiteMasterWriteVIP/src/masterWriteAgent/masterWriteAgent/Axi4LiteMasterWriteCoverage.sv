@@ -58,7 +58,10 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
 
    AWPROT_CP_X_BRESP_CP    : cross AWPROT_CP, BRESP_CP;
    WRITEDATA_CP_X_WSTRB_CP : cross WRITEDATA_CP, WSTRB_CP;
-   WRITEADDR_CP_X_BRESP_CP : cross WRITEADDR_CP,BRESP_CP{bins b1 = binsof(WRITEADDR_CP.WRITEADDROUTOFRANGE) && binsof(BRESP_CP.WRITE_SLVERR);}
+   WRITEADDR_CP_X_BRESP_CP : cross WRITEADDR_CP,BRESP_CP{
+     bins b1 = binsof(WRITEADDR_CP.WRITEADDROUTOFRANGE) && binsof(BRESP_CP.WRITE_SLVERR);
+     bins b2 = binsof(WRITEADDR_CP.WRITEADDRRANGE) && binsof(BRESP_CP.WRITE_OKAY);
+   }
 
    endgroup: axi4LiteMasterWriteCovergroup
 
