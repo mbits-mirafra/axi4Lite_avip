@@ -14,6 +14,7 @@ package Axi4LiteMasterWriteSeqPkg;
   `include "Axi4LiteMasterWriteDelayForWvalidSeq.sv"
   `include "Axi4LiteMasterWriteDelayForBreadySeq.sv"
   `include "Axi4LiteMasterWriteAddressInsideMinAndMaxRangeSeq.sv"
+  `include "Axi4LiteMasterWriteAwreadyLowAfter3ClkAwvalidHighSeq.sv"
 
 endpackage : Axi4LiteMasterWriteSeqPkg
 `endif

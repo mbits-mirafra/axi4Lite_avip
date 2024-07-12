@@ -6,7 +6,7 @@ class Axi4LiteMasterWriteDelayForBreadySeq extends Axi4LiteMasterWriteBaseSeq;
  
   rand bit [DELAY_WIDTH-1:0] delayForBready;
 
-  // GopalS: constraint delayForBready_c {soft delayForBready  <= MAX_DELAY_READY;}
+  constraint delayForBready_c {soft delayForBready  <= MAX_DELAY_READY;}
 
   extern function new(string name = "Axi4LiteMasterWriteDelayForBreadySeq");
   extern task body();
@@ -19,9 +19,10 @@ endfunction : new
 task Axi4LiteMasterWriteDelayForBreadySeq::body();
   super.body();
   start_item(req);
-  if(!req.randomize() with {delayForBready == this.delayForBready;})begin 
+  if(!req.randomize())begin 
       `uvm_error(get_type_name(), "Randomization failed")
   end
+    req.delayForBready = this.delayForBready;
     req.print();
   finish_item(req);
 

@@ -33,6 +33,9 @@ function void Axi4LiteMasterWriteSeqItemConverter::fromWriteClass(input Axi4Lite
   outputConv.bresp = brespEnum'(inputConv.bresp);
   `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting fromWriteClass bresp =  %0b",outputConv.bresp),UVM_HIGH);
 
+  outputConv.delayForAwvalid = inputConv.delayForAwvalid;
+  `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting fromWriteClass delayForAwvalid =  %0d",outputConv.delayForAwvalid),UVM_HIGH);
+
   outputConv.delayForWvalid = inputConv.delayForWvalid;
   `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting fromWriteClass delayForWvalid =  %0d",outputConv.delayForWvalid),UVM_HIGH);
 
@@ -71,7 +74,10 @@ function void Axi4LiteMasterWriteSeqItemConverter::toWriteClass(input axi4LiteWr
   outputConv.bresp = brespEnum'(inputConv.bresp);
   `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting toWriteClass bresp =  %0b",outputConv.bresp),UVM_HIGH);
 
-  outputConv.delayForWvalid = inputConv.delayForWvalid;
+  outputConv.delayForAwvalid = inputConv.delayForAwvalid;
+  `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting toWriteClass delayForAwvalid =  %0d",outputConv.delayForAwvalid),UVM_HIGH);
+
+ outputConv.delayForWvalid = inputConv.delayForWvalid;
   `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting toWriteClass delayForWvalid =  %0d",outputConv.delayForWvalid),UVM_HIGH);
 
   outputConv.delayForBready = inputConv.delayForBready;

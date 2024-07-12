@@ -16,6 +16,7 @@ class Axi4LiteMasterWriteTransaction extends uvm_sequence_item;
   int waitCounterForWready;
   int waitCounterForBvalid;
 
+  rand bit [DELAY_WIDTH-1:0] delayForAwvalid;
   rand bit [DELAY_WIDTH-1:0] delayForWvalid;
   rand bit [DELAY_WIDTH-1:0] delayForBready;
 
@@ -49,6 +50,7 @@ function void Axi4LiteMasterWriteTransaction::do_copy(uvm_object rhs);
   wdata   = axi4LiteMasterWriteTxCopyObj.wdata;
   wstrb   = axi4LiteMasterWriteTxCopyObj.wstrb;
   bresp   = axi4LiteMasterWriteTxCopyObj.bresp;
+  delayForAwvalid = axi4LiteMasterWriteTxCopyObj.delayForAwvalid;
   delayForWvalid = axi4LiteMasterWriteTxCopyObj.delayForWvalid;
   delayForBready = axi4LiteMasterWriteTxCopyObj.delayForBready;
 
@@ -68,6 +70,7 @@ function bit Axi4LiteMasterWriteTransaction::do_compare (uvm_object rhs, uvm_com
   wdata   == axi4LiteMasterWriteTxCompareObj.wdata   &&
   wstrb   == axi4LiteMasterWriteTxCompareObj.wstrb   &&
   bresp   == axi4LiteMasterWriteTxCompareObj.bresp   &&
+  delayForAwvalid == axi4LiteMasterWriteTxCompareObj.delayForAwvalid &&
   delayForWvalid == axi4LiteMasterWriteTxCompareObj.delayForWvalid &&
   delayForBready == axi4LiteMasterWriteTxCompareObj.delayForBready;
 
@@ -80,6 +83,7 @@ function void Axi4LiteMasterWriteTransaction::do_print(uvm_printer printer);
    printer.print_field("wdata",wdata,$bits(wdata),UVM_HEX);
    printer.print_field("wstrb",wstrb,$bits(wstrb),UVM_HEX);
    printer.print_string("bresp",bresp.name());
+   printer.print_field("delayForAwvalid",delayForAwvalid,$bits(delayForAwvalid),UVM_HEX);
    printer.print_field("delayForWvalid",delayForWvalid,$bits(delayForWvalid),UVM_HEX);
    printer.print_field("delayForBready",delayForBready,$bits(delayForBready),UVM_HEX);
 

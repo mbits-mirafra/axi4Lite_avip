@@ -62,6 +62,7 @@ package Axi4LiteWriteMasterGlobalPkg;
     int waitCounterForAwready;
     int waitCounterForWready;
     int waitCounterForBvalid;
+    bit [DELAY_WIDTH-1:0] delayForAwvalid;
     bit [DELAY_WIDTH-1:0] delayForWvalid;
     bit [DELAY_WIDTH-1:0] delayForBready;
     

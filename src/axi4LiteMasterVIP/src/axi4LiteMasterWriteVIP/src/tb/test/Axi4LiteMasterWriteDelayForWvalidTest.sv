@@ -27,7 +27,7 @@ task Axi4LiteMasterWriteDelayForWvalidTest::run_phase(uvm_phase phase);
 
   `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteMasterWriteDelayForWvalidTest"),UVM_LOW);
     
-   if(!axi4LiteMasterWriteDelayForWvalidSeq.randomize()) begin
+   if(!axi4LiteMasterWriteDelayForWvalidSeq.randomize()with{delayForWvalid == 3;}) begin
        `uvm_error(get_type_name(), "Randomization failed")
   end
        `uvm_info(get_type_name(),$sformatf("Axi4LiteMasterWriteDelayForWvalidTest delayForWvalid :%0d", axi4LiteMasterWriteDelayForWvalidSeq.delayForWvalid),UVM_LOW);
