@@ -13,10 +13,10 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
    WRITEADDR_CP : coverpoint packet.awaddr {
    option.comment                  = "writeAddress value";
    bins WRITEADDRRANGE             = {[MIN_ADDRESS:MAX_ADDRESS]}; 
-   wildcard bins WRITEEVENADDR     = {32'b????_????_????_????_????_????_????_???0};
-   wildcard bins WRITEODDADDR      = {32'b????_????_????_????_????_????_????_???1};
-   wildcard bins WRITEMODEOF4ADDR  = {32'b????_????_????_????_????_????_????_??00};
-   bins  WRITEADDROUTOFRANGE       = {[MAX_ADDRESS+1:$]};
+   bins WRITEEVENADDR              = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %2 == 0);
+   bins WRITEODDADDR               = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %2 == 1);
+   bins WRITEMODEOF4ADDR           = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %4 == 0);
+   bins WRITEADDROUTOFRANGE        = {[MAX_ADDRESS+1:$]};
    }
 
    WRITEDATA_CP : coverpoint packet.wdata {

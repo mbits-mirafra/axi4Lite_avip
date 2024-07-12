@@ -19,6 +19,8 @@ package Axi4LiteMasterWriteTestPkg;
   `include "Axi4LiteMasterWriteDelayForBreadyTest.sv"
   `include "Axi4LiteMasterWriteAddressInsideMinAndMaxRangeTest.sv"
   `include "Axi4LiteMasterWriteAwreadyLowAfter3ClkAwvalidHighTest.sv"
+  `include "Axi4LiteMasterWriteEvenAddressTest.sv"
+  `include "Axi4LiteMasterWriteOddAddressTest.sv"
 
 endpackage : Axi4LiteMasterWriteTestPkg
 
