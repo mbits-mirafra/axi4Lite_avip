@@ -1,4 +1,3 @@
-
 `ifndef AXI4LITESLAVEWRITEDELAYFORAWREADYSEQ_INCLUDED_
 `define AXI4LITESLAVEWRITEDELAYFORAWREADYSEQ_INCLUDED_
 
@@ -7,7 +6,7 @@ class Axi4LiteSlaveWriteDelayForAwreadySeq extends Axi4LiteSlaveWriteBaseSeq;
  
   rand bit [DELAY_WIDTH-1:0] delayForAwready;
 
-  // GopalS: constraint delayForAwready_c {soft delayForAwready <= MAX_DELAY_WVALID;}
+  constraint delayForAwready_c {soft delayForAwready <= MAX_DELAY_READY;}
 
   extern function new(string name = "Axi4LiteSlaveWriteDelayForAwreadySeq");
   extern task body();
@@ -21,9 +20,10 @@ task Axi4LiteSlaveWriteDelayForAwreadySeq::body();
   req = Axi4LiteSlaveWriteTransaction::type_id::create();
   super.body();
   start_item(req);
-  if(!req.randomize() with {delayForAwready == this.delayForAwready;})begin 
+  if(!req.randomize())begin 
       `uvm_error(get_type_name(), "Randomization failed")
   end
+  req.delayForAwready = this.delayForAwready; 
     req.print();
   finish_item(req);
 

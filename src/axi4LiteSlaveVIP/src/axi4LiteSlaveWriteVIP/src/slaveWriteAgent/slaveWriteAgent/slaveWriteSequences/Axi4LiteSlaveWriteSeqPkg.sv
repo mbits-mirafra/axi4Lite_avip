@@ -5,12 +5,15 @@ package Axi4LiteSlaveWriteSeqPkg;
 
   `include "uvm_macros.svh"
   import uvm_pkg::*;
-  import Axi4LiteSlaveWritePkg::*;
   import Axi4LiteWriteSlaveGlobalPkg::*; 
+  import Axi4LiteSlaveWriteAssertCoverParameter::*;
+  import Axi4LiteSlaveWritePkg::*;
  
   `include "Axi4LiteSlaveWriteBaseSeq.sv"
   `include "Axi4LiteSlaveWriteRandomTransferSeq.sv"
   `include "Axi4LiteSlaveWriteDelayForAwreadySeq.sv"
+  `include "Axi4LiteSlaveWriteDelayForWreadySeq.sv"
+  `include "Axi4LiteSlaveWriteDelayForBvalidSeq.sv"
 
 endpackage : Axi4LiteSlaveWriteSeqPkg
 `endif
