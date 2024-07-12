@@ -290,7 +290,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFRREADYASSERTED_THEN_ANYCLK_RVALIDASSERTED : COVERED");
 
     property WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(logic valid, logic ready); 
-     @(posedge aclk) disable iff (aresetn)
+     @(posedge aclk) disable iff (!aresetn)
          (ready && valid) |=> (ready== DEFAULT_READY);
     endproperty  
 
@@ -303,8 +303,9 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFRREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_RREADY_WILLGODEFAULTSTATE : COVERED");
 
     property WhenArreadyHighAndSendingValidAddressAndRedaingDataOnSlaveLocationThenSlaveWillGiveOkayResponse; 
-      @(posedge aclk) disable iff (aresetn)
-      (arvalid && arready && !($isunknown(araddr))) |-> ##[0:$] (rvalid && rready && !($isunknown(rdata)) && (rresp != 2'b10));
+      @(posedge aclk) disable iff (!aresetn)
+      (arvalid && arready && !($isunknown(araddr))) |-> 
+       ##[1:MAX_DELAY_RVALID] (rvalid && rready) ##0 (!($isunknown(rdata)) && (rresp == 2'b00));
     endproperty  
 
     IFARREADYHIGH_THEN_READINGDATAONSLAVEADDRESS_ANDIFSLAVEACCEPTVALIDADDRESS_THENNOSLAVEERROR: cover property  
@@ -312,7 +313,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info(" IFARREADYHIGH_THEN_READINGDATAONSLAVEADDRESS_ANDIFSLAVEACCEPTVALIDADDRESS_THENNOSLAVEERROR : COVERED");
 
     property WhenArvalidAndArreadyAreAssertedThenNextClkRvalidWillBeAssert;
-     @(posedge aclk) disable iff (aresetn)
+     @(posedge aclk) disable iff (!aresetn)
      (arvalid && arready && !rvalid) |=> rvalid;
     endproperty
 
@@ -321,7 +322,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFARVALIDANDARREADYBOTHAREASSERTED_THEN_NEXTCLK_RVALIDWILLBEASSERT :  COVERED");
 
     property WhenArvalidAndArreadyAreAssertedThenAt3ClkRvalidWillBeAsserted;
-     @(posedge aclk) disable iff (aresetn)
+     @(posedge aclk) disable iff (!aresetn)
      (arvalid && arready && !rvalid) |-> ##3 rvalid;
     endproperty
 
@@ -330,7 +331,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFARVALIDANDARREADYBOTHAREASSERTED_THEN_AT3CLK_RVALIDWILLBEASSERT :  COVERED");
 
      property WhenArvalidAndArreadyAreAssertedThenInbetween1To10ClkRvalidWillBeAsserted;
-     @(posedge aclk) disable iff (aresetn)
+     @(posedge aclk) disable iff (!aresetn)
      (arvalid && arready && !rvalid) |-> ##[1:MAX_DELAY_RVALID] rvalid;
     endproperty
 
@@ -339,7 +340,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFARVALIDANDARREADYBOTHAREASSERTED_THEN_INBETWEEN1TO10CLK_RVALIDWILLBEASSERT :  COVERED");
 
     property WhenArvalidAndArreadyAreAssertedThenAnyClkRvalidWillBeAssert;
-     @(posedge aclk) disable iff (aresetn)
+     @(posedge aclk) disable iff (!aresetn)
      (arvalid && arready && !rvalid) |-> ##[1:$] rvalid;
     endproperty
 
@@ -348,13 +349,22 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFARVALIDANDARREADYBOTHAREASSERTED_THEN_ANYCLK_RVALIDWILLBEASSERT :  COVERED");
 
     property WhenArvalidAndArreadyAreAssertedThenAnyClkRvalidIsAssertedAndRdataIsNotUnknown();
-      @(posedge aclk) disable iff (aresetn)
+      @(posedge aclk) disable iff (!aresetn)
       (arvalid && arready && !rvalid) |-> ##[1:$] (rvalid  && !($isunknown(rdata)));
     endproperty
 
     IFARVALIDANDARREADYBOTHAREASSERTED_THEN_ANYCLK_RVALIDASSERTEDANDRDATAISNOTUNKNOWN: cover property
     (WhenArvalidAndArreadyAreAssertedThenAnyClkRvalidIsAssertedAndRdataIsNotUnknown)
     $info("IFARVALIDANDARREADYBOTHAREASSERTED_THEN_ANYCLK_RVALIDASSERTEDANDRDATAISNOTUNKNOWN :  COVERED");
+
+   property WhenRvalidAndRreadyIsAssertedThenRdataOflowerLanesIsValidData;
+   @(posedge aclk) disable iff (!aresetn)
+    (rvalid && rready) |-> (!($isunknown(rdata)) && (rdata[31:16] === 16'b0)); 
+   endproperty
+
+   IFRVALIDANDRREADYISASSERTED_THEN_RDATAOFLOWERLANES_L1ANDL0ISVALIDDATA: cover property
+   (WhenRvalidAndRreadyIsAssertedThenRdataOflowerLanesIsValidData)
+   $info("IFRVALIDANDRREADYISASSERTED_THEN_RDATAOFLOWERLANES_L1ANDL0ISVALIDDATA : COVERED");
 
 endinterface : Axi4LiteMasterReadCoverProperty
 
