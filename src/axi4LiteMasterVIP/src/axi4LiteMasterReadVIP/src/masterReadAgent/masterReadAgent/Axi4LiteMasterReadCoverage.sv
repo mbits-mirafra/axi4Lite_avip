@@ -50,7 +50,7 @@ class Axi4LiteMasterReadCoverage extends uvm_subscriber#(Axi4LiteMasterReadTrans
    ARPROT_CP_X_RRESP_CP      : cross ARPROT_CP, RRESP_CP;
    ARADDR_CP_X_BRESP_CP      : cross READADDR_CP,RRESP_CP{
      bins b1 = binsof(READADDR_CP.READ_ADDROUTOFRANGE) && binsof(RRESP_CP.READ_SLVERR);
-     bins b2 = binsof(READADDR_CP.READ_ADDRRANGE) && binsof(RRESP_CP.WRITE_OKAY);
+     bins b2 = binsof(READADDR_CP.READ_ADDRRANGE) && binsof(RRESP_CP.READ_OKAY);
    }
   endgroup: axi4LiteMasterReadCovergroup
 

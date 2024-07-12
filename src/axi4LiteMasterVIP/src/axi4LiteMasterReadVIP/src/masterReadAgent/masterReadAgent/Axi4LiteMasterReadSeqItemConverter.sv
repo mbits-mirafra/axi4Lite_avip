@@ -30,6 +30,9 @@ function void Axi4LiteMasterReadSeqItemConverter::fromReadClass(input Axi4LiteMa
   outputConv.rresp = rrespEnum'(inputConv.rresp);
   `uvm_info("axi4Lite_masterRead_seq_item_conv_class",$sformatf("After converting fromReadClass rresp =  %0b",outputConv.rresp),UVM_HIGH);
 
+  outputConv.delayForArvalid = inputConv.delayForArvalid;
+  `uvm_info("axi4Lite_masterRead_seq_item_conv_class",$sformatf("After converting fromReadClass delayForArvalid =  %0d",outputConv.delayForArvalid),UVM_HIGH);
+
   outputConv.delayForRready = inputConv.delayForRready;
   `uvm_info("axi4Lite_masterRead_seq_item_conv_class",$sformatf("After converting fromReadClass delayForRready =  %0d",outputConv.delayForRready),UVM_HIGH);
 
@@ -59,7 +62,10 @@ function void Axi4LiteMasterReadSeqItemConverter::toReadClass(input axi4LiteRead
   outputConv.rresp = rrespEnum'(inputConv.rresp);
   `uvm_info("axi4Lite_masterRead_seq_item_conv_class",$sformatf("After converting toReadClass rresp =  %0b",outputConv.rresp),UVM_HIGH);
 
-  outputConv.delayForRready = inputConv.delayForRready;
+  outputConv.delayForArvalid = inputConv.delayForArvalid;
+  `uvm_info("axi4Lite_masterRead_seq_item_conv_class",$sformatf("After converting toReadClass delayForArvalid =  %0d",outputConv.delayForArvalid),UVM_HIGH);
+
+outputConv.delayForRready = inputConv.delayForRready;
   `uvm_info("axi4Lite_masterRead_seq_item_conv_class",$sformatf("After converting toReadClass delayForRready =  %0d",outputConv.delayForRready),UVM_HIGH);
 
   outputConv.waitCounterForArready = inputConv.waitCounterForArready;

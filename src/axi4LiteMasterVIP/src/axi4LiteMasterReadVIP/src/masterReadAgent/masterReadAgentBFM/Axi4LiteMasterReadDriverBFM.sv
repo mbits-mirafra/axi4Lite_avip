@@ -44,7 +44,10 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
                                inout axi4LiteReadMasterTransferPacketStruct masterReadPacketStruct
                               );
     `uvm_info(name,$sformatf("READ_ADDRESS_CHANNEL_TASK_STARTED"),UVM_HIGH)
-    @(posedge aclk);
+    
+    repeat(masterReadPacketStruct.delayForArvalid) begin
+     @(posedge aclk);
+    end
     arvalid <= 1'b1;
     araddr  <= masterReadPacketStruct.araddr;
     arprot  <= masterReadPacketStruct.arprot;

@@ -61,6 +61,7 @@ package Axi4LiteReadMasterGlobalPkg;
 
     int waitCounterForArready;
     int waitCounterForRvalid;
+    bit [DELAY_WIDTH-1:0] delayForArvalid;
     bit [DELAY_WIDTH-1:0] delayForRready;
   } axi4LiteReadMasterTransferPacketStruct;
 

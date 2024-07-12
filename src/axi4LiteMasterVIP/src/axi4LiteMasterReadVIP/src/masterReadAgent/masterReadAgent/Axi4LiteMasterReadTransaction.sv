@@ -14,9 +14,11 @@ class Axi4LiteMasterReadTransaction extends uvm_sequence_item;
   int waitCounterForArready;
   int waitCounterForRvalid;
 
+  rand bit [DELAY_WIDTH-1:0] delayForArvalid;
   rand bit [DELAY_WIDTH-1:0] delayForRready;
 
-  constraint delayForRready_c {soft delayForRready <= MAX_DELAY_READY;}
+  constraint delayForArvalid_c {soft delayForArvalid <= MAX_DELAY_READY;}
+  constraint delayForRready_c  {soft delayForRready  <= MAX_DELAY_READY;}
 
   extern function new (string name = "Axi4LiteMasterReadTransaction");
   extern function void do_copy(uvm_object rhs);
@@ -45,7 +47,8 @@ function void Axi4LiteMasterReadTransaction::do_copy(uvm_object rhs);
   arprot = axi4LiteMasterReadTxCopyObj.arprot;
   rdata = axi4LiteMasterReadTxCopyObj.rdata;
   rresp = axi4LiteMasterReadTxCopyObj.rresp;
-  delayForRready = axi4LiteMasterReadTxCopyObj.delayForRready;
+  delayForArvalid = axi4LiteMasterReadTxCopyObj.delayForArvalid;
+  delayForRready  = axi4LiteMasterReadTxCopyObj.delayForRready;
 
   endfunction : do_copy
 
@@ -62,7 +65,8 @@ function bit Axi4LiteMasterReadTransaction::do_compare (uvm_object rhs, uvm_comp
   arprot   == axi4LiteMasterReadTxCompareObj.arprot   &&
   rresp   == axi4LiteMasterReadTxCompareObj.rresp   &&
   rdata   == axi4LiteMasterReadTxCompareObj.rdata   &&
-  delayForRready == axi4LiteMasterReadTxCompareObj.delayForRready;
+  delayForArvalid == axi4LiteMasterReadTxCompareObj.delayForArvalid &&
+  delayForRready  == axi4LiteMasterReadTxCompareObj.delayForRready;
 
 endfunction : do_compare
 
@@ -72,6 +76,7 @@ function void Axi4LiteMasterReadTransaction::do_print(uvm_printer printer);
    printer.print_string("arprot",arprot.name());
    printer.print_field("rdata",rdata,$bits(rdata),UVM_HEX);
    printer.print_string("rresp",rresp.name());
+   printer.print_field("delayForArvalid",delayForArvalid,$bits(delayForArvalid),UVM_HEX);
    printer.print_field("delayForRready",delayForRready,$bits(delayForRready),UVM_HEX);
 endfunction : do_print
 

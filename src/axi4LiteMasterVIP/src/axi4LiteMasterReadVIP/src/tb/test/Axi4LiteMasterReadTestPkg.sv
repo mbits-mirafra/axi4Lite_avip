@@ -15,6 +15,8 @@ package Axi4LiteMasterReadTestPkg;
   //including base_test for testing
   `include "Axi4LiteMasterReadBaseTest.sv"
   `include "Axi4LiteMasterReadRandomTransferTest.sv"
+  `include "Axi4LiteMasterReadDelayForRreadyTest.sv"
+  `include "Axi4LiteMasterReadDelayForArvalidTest.sv"
 
 endpackage : Axi4LiteMasterReadTestPkg
 
