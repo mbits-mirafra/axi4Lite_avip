@@ -8,51 +8,51 @@ class Axi4LiteSlaveWriteCoverage extends uvm_subscriber#(Axi4LiteSlaveWriteTrans
 
    covergroup axi4LiteSlaveWriteCovergroup with function sample (Axi4LiteSlaveWriteAgentConfig cfg, Axi4LiteSlaveWriteTransaction packet);
     option.per_instance = 1;
-      
+
    WRITEADDR_CP : coverpoint packet.awaddr {
-   option.comment                  = "writeAddress value";
-   bins WRITEADDRRANGE             = {[MIN_ADDRESS:MAX_ADDRESS]};
-   wildcard bins WRITEEVENADDR     = {32'b????_????_????_????_????_????_????_???0};
-   wildcard bins WRITEODDADDR      = {32'b????_????_????_????_????_????_????_???1};
-   wildcard bins WRITEMODEOF4ADDR  = {32'b????_????_????_????_????_????_????_??00};
-   bins  WRITEADDROUTOFRANGE       = {[MAX_ADDRESS+1:$]};
+   option.comment                                  = "writeAddress value";
+   bins WRITE_ADDRRANGE                            = {[MIN_ADDRESS:MAX_ADDRESS]};
+   bins WRITE_EVENADDR                             = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %2 == 0);
+   bins WRITE_ODDADDR                              = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %2 == 1);
+   bins WRITE_MODEOF4ADDR                          = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %4 == 0);
+   bins WRITE_ADDROUTOFRANGE                       = {[MAX_ADDRESS+1:$]};
    }
 
    WRITEDATA_CP : coverpoint packet.wdata {
-   option.comment                 = "writeDATA value";
-   bins WRITEDATAMIN              = {32'h0000_0001};
-   bins WRITEDATAMAX              = {32'hFFFF_FFFF};
-   bins WRITEDATTOGGLE1           = {32'h1010_1010};
-   bins WRITEEANYDATA             = {[0:$]};
+   option.comment                                  = "writeDATA value";
+   bins WRITE_DATAMIN                              = {32'h0000_0001};
+   bins WRITE_DATAMAX                              = {32'hFFFF_FFFF};
+   bins WRITE_DATTOGGLE1                           = {32'h1010_1010};
+   bins WRITE_ANYDATA                              = {[0:$]};
   }
 
    WSTRB_CP : coverpoint packet.wstrb{
-   option.comment                 = "writeStrobe value";
-   bins singleBit                 = {4'b0001, 4'b0010, 4'b0100, 4'b1000};
-   bins twoBits                   = {4'b0011, 4'b0110, 4'b1100, 4'b1001, 4'b0101, 4'b1010};
-   bins threeBits                 = {4'b0111, 4'b1110, 4'b1101, 4'b1011};
-   bins allZeros                  = {4'b0000};
-   bins allOnes                   = {4'b1111};
+   option.comment                                  = "writeStrobe value";
+   bins SINGLE_BIT                                 = {4'b0001, 4'b0010, 4'b0100, 4'b1000};
+   bins TWO_BITS                                   = {4'b0011, 4'b0110, 4'b1100, 4'b1001, 4'b0101, 4'b1010};
+   bins THREE_BITS                                 = {4'b0111, 4'b1110, 4'b1101, 4'b1011};
+   bins ALL_ZEROS                                  = {4'b0000};
+   bins ALL_ONES                                   = {4'b1111};
   }
 
    BRESP_CP : coverpoint packet.bresp {
-   option.comment             = "Write Response values";
-   bins WRITE_OKAY            = {0};
-   illegal_bins WRITE_EXOKAY  = {1};
-   bins WRITE_SLVERR          = {2};
-   illegal_bins WRITE_DECERR  = {3};
+   option.comment                                  = "Write Response values";
+   bins WRITE_OKAY                                 = {0};
+   illegal_bins WRITE_EXOKAY                       = {1};
+   bins WRITE_SLVERR                               = {2};
+   illegal_bins WRITE_DECERR                       = {3};
   }
 
    AWPROT_CP : coverpoint packet.awprot {
-   option.comment                                 = "Write Address Protection Values" ;
-   bins DataNonsecureUnprivileged                 = {3'b000};
-	 bins DataNonSecurePrivileged                   = {3'b001};
-	 bins DataSecureUnPrivileged                    = {3'b010};
-	 bins DataSecurePrivileged                      = {3'b011};
-	 illegal_bins InstructionNonsecureUnPrivileged  = {3'b100};
-	 illegal_bins InstructionNonsecurePrivileged    = {3'b101};
-	 illegal_bins InstructionSecureUnPrivileged     = {3'b110};
-	 illegal_bins InstructionSecureprivileged       = {3'b111};
+   option.comment                                   = "Write Address Protection Values" ;
+   bins DATA_NONSECURE_UNPRIVILEGED                 = {3'b000};
+	 bins DATA_NONSECURE_PRIVILEGED                   = {3'b001};
+	 bins DATA_SECURE_UNPRIVILEGED                    = {3'b010};
+	 bins DATA_SECURE_PRIVILEGED                      = {3'b011};
+	 illegal_bins INSTRUCTION_NONSECURE_UNPRIVILEGED  = {3'b100};
+	 illegal_bins INSTRUCTION_NONSECURE_PRIVILEGED    = {3'b101};
+	 illegal_bins INSTRUCTION_SECURE_UNPRIVILEGED     = {3'b110};
+	 illegal_bins INSTRUCTION_SECURE_PRIVILEGED       = {3'b111};
 	}
 
    AWPROT_CP_X_BRESP_CP    : cross AWPROT_CP, BRESP_CP;
@@ -61,9 +61,8 @@ class Axi4LiteSlaveWriteCoverage extends uvm_subscriber#(Axi4LiteSlaveWriteTrans
      bins b1 = binsof(WRITEADDR_CP.WRITEADDROUTOFRANGE) && binsof(BRESP_CP.WRITE_SLVERR);
      bins b2 = binsof(WRITEADDR_CP.WRITEADDRRANGE) && binsof(BRESP_CP.WRITE_OKAY);
    }
-
  
-    endgroup: axi4LiteSlaveWriteCovergroup
+  endgroup: axi4LiteSlaveWriteCovergroup
  
   extern function new(string name = "Axi4LiteSlaveWriteCoverage", uvm_component parent = null);
   extern virtual function void write(Axi4LiteSlaveWriteTransaction t);

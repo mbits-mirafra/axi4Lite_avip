@@ -10,44 +10,44 @@ class Axi4LiteMasterReadCoverage extends uvm_subscriber#(Axi4LiteMasterReadTrans
     option.per_instance = 1;
 
    READADDR_CP : coverpoint packet.araddr {
-   option.comment                     = "readAddress value";
-   bins READ_ADDRRANGE                 = {[MIN_ADDRESS:MAX_ADDRESS]}; 
-   wildcard bins READ_EVENADDR         = {8'b????_???0};
-   wildcard bins READ_ODDADDR          = {8'b????_???1};
-   wildcard bins READ_MODEOFADDR       = {8'b????_??00};
-   //illegal_bins  READADDROUTOFRANGE       = {[MAX_ADDRESS+1:$]};
-   bins  READ_ADDROUTOFRANGE           = {[MAX_ADDRESS+1:$]};
+   option.comment                                  = "readAddress value";
+   bins READ_ADDRRANGE                             = {[MIN_ADDRESS:MAX_ADDRESS]};
+   bins READ_EVENADDR                              = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %2 == 0);
+   bins READ_ODDADDR                               = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %2 == 1);
+   bins READ_MODEOF4ADDR                           = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %4 == 0);
+   bins READ_ADDROUTOFRANGE                        = {[MAX_ADDRESS+1:$]};
    }
 
    READDATA_CP : coverpoint packet.rdata {
-   option.comment                     = "readDATA value";
-   bins READ_DATAMIN                  = {32'h0000_0001};
-   bins READ_DATAMAX                  = {32'hFFFF_FFFF};
-   bins READ_DATTOGGLE1               = {32'h1010_1010};
-   bins READ_ANYDATA                  = {[0:$]};
+   option.comment                                  = "readDATA value";
+   bins READ_DATAMIN                               = {32'h0000_0001};
+   bins READ_DATAMAX                               = {32'hFFFF_FFFF};
+   bins READ_DATTOGGLE1                            = {32'h1010_1010};
+   bins READ_ANYDATA                               = {[0:$]};
   }
 
    RRESP_CP : coverpoint packet.rresp {
-   option.comment             = "Read Response values";
-   bins READ_OKAY            = {0};
-   illegal_bins READ_EXOKAY  = {1};
-   bins READ_SLVERR          = {2};
-   illegal_bins READ_DECERR  = {3};
+   option.comment                                  = "Read Response values";
+   bins READ_OKAY                                  = {0};
+   illegal_bins READ_EXOKAY                        = {1};
+   bins READ_SLVERR                                = {2};
+   illegal_bins READ_DECERR                        = {3};
   }
 
    ARPROT_CP : coverpoint packet.arprot {
-   option.comment                                 = "Read Address Protection Values" ;
-   bins DataNonsecureUnprivileged                 = {3'b000};  
-	 bins DataNonSecurePrivileged                   = {3'b001};  
-	 bins DataSecureUnPrivileged                    = {3'b010};  
-	 bins DataSecurePrivileged                      = {3'b011};  
-	 illegal_bins InstructionNonsecureUnPrivileged  = {3'b100};  
-	 illegal_bins InstructionNonsecurePrivileged    = {3'b101};  
-	 illegal_bins InstructionSecureUnPrivileged     = {3'b110};  
-	 illegal_bins InstructionSecureprivileged       = {3'b111};  
+   option.comment                                   = "Read Address Protection Values" ;
+   bins DATA_NONSECURE_UNPRIVILEGED                 = {3'b000};  
+	 bins DATA_NONSECURE_PRIVILEGED                   = {3'b001};  
+	 bins DATA_SECURE_UNPRIVILEGED                    = {3'b010};  
+	 bins DATA_SECURE_PRIVILEGED                      = {3'b011};  
+	 illegal_bins INSTRUCTION_NONSECURE_UNPRIVILEGED  = {3'b100};  
+	 illegal_bins INSTRUCTION_NONSECURE_PRIVILEGED    = {3'b101};  
+	 illegal_bins INSTRUCTION_SECURE_UNPRIVILEGED     = {3'b110};  
+	 illegal_bins INSTRUCTION_SECURE_PRIVILEGED       = {3'b111};  
 	}
 
    ARPROT_CP_X_RRESP_CP      : cross ARPROT_CP, RRESP_CP;
+   READDATA_CP_X_RRESP_CP    : cross READDATA_CP, RRESP_CP;
    ARADDR_CP_X_BRESP_CP      : cross READADDR_CP,RRESP_CP{
      bins b1 = binsof(READADDR_CP.READ_ADDROUTOFRANGE) && binsof(RRESP_CP.READ_SLVERR);
      bins b2 = binsof(READADDR_CP.READ_ADDRRANGE) && binsof(RRESP_CP.READ_OKAY);
