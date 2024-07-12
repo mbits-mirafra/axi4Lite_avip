@@ -169,58 +169,70 @@ module Axi4LiteMasterWriteCoverPropertyTB;
     When_wvalidAndWreadyAreAsserted_Then_awreadyIsLow();
     When_wvalidIsAsserted_Then_wstrbOfL3AndL2AreAsserted();
     When_wvalidIsAsserted_Then_wstrbOfL1AndL0AreAsserted();
+    When_wvalidAndWreadyAreAsserted_Then_wstrbValueIsAllOnes_Then_wdataIsNotUnknown();
+    When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbIsActiveByte_Then_inbetween1To15ClkWdataIsPreviousValues();
 end
 
   task When_awvalidIsAsserted_Then_awaddrIsNotUnknown();
     `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awaddrIsNotUnknown Task started"),UVM_NONE);
+      @(posedge aclk);  
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
-      awaddr <= 32'bx;
+      awaddr  <= 32'hxxxx_xxxx;
       repeat(2) begin
       @(posedge aclk);
       end
       awvalid <= 1'b1;
-      awaddr <= 32'h1122_3344;
+      awaddr  <= 32'h1122_3344;
     `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awaddrIsNotUnknown Task Ended"),UVM_NONE);
   endtask
 
   task When_wvalidIsAsserted_Then_wdataIsNotUnknown();
     `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wdataIsNotUnknown Task started"),UVM_NONE);
+      @(posedge aclk);  
+      aresetn<= 1'b1;
       wvalid <= 1'b0;
-      wdata <= 32'bx;
+      wdata  <= 32'hxxxx_xxxx;
       repeat(2) begin
       @(posedge aclk);
       end
       wvalid <= 1'b1;
-      wdata <= 32'h2222_3333;
+      wdata  <= 32'h2222_3333;
     `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wdataIsNotUnknown Task Ended"),UVM_NONE);
   endtask
 
   task When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious2ClkAwaddrIsUnknown();
     `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious2ClkAwaddrIsUnknown Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
-      awaddr <= 32'bx;
+      awaddr  <= 32'hxxxx_xxxx;
       repeat(3) begin
       @(posedge aclk);
       end
       awvalid <= 1'b1;
-      awaddr <= 32'h1122_3344;
+      awaddr  <= 32'h1122_3344;
     `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious2ClkAwaddrIsUnknown Task Ended"),UVM_NONE);
   endtask
 
   task When_wvalidIsAsserted_Then_wdataIsNotUnknownAndPrevious2ClkWdataIsUnknown();
     `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wdataIsNotUnknownAndPrevious2ClkWdataIsUnknown Task started"),UVM_NONE);
-      wvalid <= 1'b0;
-      wdata <= 32'bx;
+      @(posedge aclk);
+      aresetn <= 1'b1;
+      wvalid  <= 1'b0;
+      wdata   <= 32'hxxxx_xxxx;
       repeat(3) begin
       @(posedge aclk);
       end
-      wvalid <= 1'b1;
-      wdata <= 32'h2222_3333;
+      wvalid  <= 1'b1;
+      wdata   <= 32'h2222_3333;
     `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wdataIsNotUnknownAndPrevious2ClkWdataIsUnknown Task Ended"),UVM_NONE);
   endtask
 
   task When_awreadyIsLow_Then_awvalidIsAssertedAfter3Clk();
     `uvm_info(name,$sformatf("When_awreadyIsLow_Then_awvalidIsAssertedAfter3Clk Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       repeat(3) begin
@@ -232,28 +244,34 @@ end
 
   task When_wreadyIsLow_Then_wvalidIsAssertedAfter3Clk();
     `uvm_info(name,$sformatf("When_wreadyIsLow_Then_wvalidIsAssertedAfter3Clk Task started"),UVM_NONE);
-      wvalid <= 1'b0;
-      wready <= 1'b0;
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      wvalid  <= 1'b0;
+      wready  <= 1'b0;
       repeat(3) begin
       @(posedge aclk);
       end
-      wvalid <= 1'b1;
+      wvalid  <= 1'b1;
     `uvm_info(name,$sformatf("When_wreadyIsLow_Then_wvalidIsAssertedAfter3Clk Task Ended"),UVM_NONE);
   endtask
  
   task When_breadyIsLow_Then_bvalidIsAssertedAfter3Clk();
     `uvm_info(name,$sformatf("When_breadyIsLow_Then_bvalidIsAssertedAfter3Clk Task started"),UVM_NONE);
-      bvalid <= 1'b0;
-      bready <= 1'b0;
+      @(posedge aclk);
+      aresetn <= 1'b1;
+      bvalid  <= 1'b0;
+      bready  <= 1'b0;
       repeat(3) begin
       @(posedge aclk);
       end
-      bvalid <= 1'b1;
+      bvalid  <= 1'b1;
     `uvm_info(name,$sformatf("When_breadyIsLow_Then_bvalidIsAssertedAfter3Clk Task Ended"),UVM_NONE);
   endtask
  
   task When_awreadyIsLow_Then_anyClkAwvalidIsAssertedThenAwreadyCanBeAssertAnyTime();
     `uvm_info(name,$sformatf("When_awreadyIsLow_Then_anyClkAwvalidIsAssertedThenAwreadyCanBeAssertAnyTime Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       repeat(4) begin
@@ -269,36 +287,42 @@ end
 
   task When_wreadyIsLow_Then_anyClkWvalidIsAssertedThenWreadyCanBeAssertAnyTime();
     `uvm_info(name,$sformatf("When_wreadyIsLow_Then_anyClkWvalidIsAssertedThenWreadyCanBeAssertAnyTime Task started"),UVM_NONE);
-      wvalid <= 1'b0;
-      wready <= 1'b0;
+      @(posedge aclk);
+      aresetn <= 1'b1;
+      wvalid  <= 1'b0;
+      wready  <= 1'b0;
       repeat(4) begin
       @(posedge aclk);
       end
-      wvalid <= 1'b1;
+      wvalid  <= 1'b1;
       repeat(2) begin
       @(posedge aclk);
       end
-      wready <= 1'b1;
+      wready  <= 1'b1;
     `uvm_info(name,$sformatf("When_wreadyIsLow_Then_anyClkWvalidIsAssertedThenWreadyCanBeAssertAnyTime Task Ended"),UVM_NONE);
   endtask
 
   task When_breadyIsLow_Then_anyClkBvalidIsAssertedThenBreadyCanBeAssertAnyTime();
     `uvm_info(name,$sformatf("When_breadyIsLow_Then_anyClkBvalidIsAssertedThenBreadyCanBeAssertAnyTime Task started"),UVM_NONE);
-      bvalid <= 1'b0;
-      bready <= 1'b0;
+      @(posedge aclk);
+      aresetn <= 1'b1;
+      bvalid  <= 1'b0;
+      bready  <= 1'b0;
       repeat(4) begin
       @(posedge aclk);
       end
-      bvalid <= 1'b1;
+      bvalid  <= 1'b1;
       repeat(2) begin
       @(posedge aclk);
       end
-      bready <= 1'b1;
+      bready  <= 1'b1;
     `uvm_info(name,$sformatf("When_breadyIsLow_Then_anyClkBvalidIsAssertedThenBreadyCanBeAssertAnyTime Task Ended"),UVM_NONE);
   endtask
 
  task When_awvalidIsAsserted_Then_sameClkAwreadyIsAsserted();
     `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwreadyIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk);
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       @(posedge aclk);
@@ -309,6 +333,8 @@ end
 
  task When_wvalidIsAsserted_Then_sameClkWreadyIsAsserted();
     `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWreadyIsAsserted Task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
       @(posedge aclk);
@@ -319,6 +345,8 @@ end
 
  task When_bvalidIsAsserted_Then_sameClkBreadyIsAsserted();
     `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_sameClkBreadyIsAsserted Task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
       @(posedge aclk);
@@ -329,6 +357,8 @@ end
 
   task When_awvalidIsAsserted_Then_remainsHigh_NextClkAwreadyIsAsserted();
     `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_remainsHigh_NextClkAwreadyIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       repeat(2) begin
@@ -342,6 +372,8 @@ end
 
   task When_wvalidIsAsserted_Then_remainsHigh_NextClkWreadyIsAsserted();
     `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_remainsHigh_NextClkWreadyIsAsserted Task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
       repeat(2) begin
@@ -355,19 +387,23 @@ end
 
   task When_bvalidIsAsserted_Then_remainsHigh_NextClkBreadyIsAsserted();
     `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_remainsHigh_NextClkBreadyIsAsserted Task started"),UVM_NONE);
-      bvalid <= 1'b0;
-      bready <= 1'b0;
+      @(posedge aclk); 
+      aresetn <= 1'b1; 
+      bvalid  <= 1'b0;
+      bready  <= 1'b0;
       repeat(2) begin
       @(posedge aclk);
       end
-      bvalid <= 1'b1;
+      bvalid  <= 1'b1;
       @(posedge aclk);
-      bready <= 1'b1;
+      bready  <= 1'b1;
     `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_remainsHigh_NextClkBreadyIsAsserted  Task Ended"),UVM_NONE);
   endtask
 
   task When_awvalidIsAsserted_Then_remainsHigh_Then_Within1To16ClkAwreadyIsAsserted();
    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_remainsHigh_Then_Within1To16ClkAwreadyIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       repeat(2) begin
@@ -383,36 +419,42 @@ end
 
  task When_wvalidIsAsserted_Then_remainsHigh_Then_Within1To16ClkWreadyIsAsserted();
    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_remainsHigh_Then_Within1To16ClkWreadyIsAsserted Task started"),UVM_NONE);
-      wvalid <= 1'b0;
-      wready <= 1'b0;
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      wvalid  <= 1'b0;
+      wready  <= 1'b0;
       repeat(2) begin
       @(posedge aclk);
       end
-      wvalid <= 1'b1;
+      wvalid  <= 1'b1;
       repeat(10) begin
       @(posedge aclk);
       end
-      wready <= 1'b1;
+      wready  <= 1'b1;
     `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_remainsHigh_Then_Within1To16ClkWreadyIsAsserted Task Ended"),UVM_NONE);
   endtask
 
  task When_bvalidIsAsserted_Then_remainsHigh_Then_Within1To16ClkBreadyIsAsserted();
    `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_remainsHigh_Then_Within1To16ClkBreadyIsAsserted Task started"),UVM_NONE);
-      bvalid <= 1'b0;
-      bready <= 1'b0;
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      bvalid  <= 1'b0;
+      bready  <= 1'b0;
       repeat(2) begin
       @(posedge aclk);
       end
-      bvalid <= 1'b1;
+      bvalid  <= 1'b1;
       repeat(10) begin
       @(posedge aclk);
       end
-      bready <= 1'b1;
+      bready  <= 1'b1;
     `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_remainsHigh_Then_Within1To16ClkBreadyIsAsserted Task Ended"),UVM_NONE);
   endtask
 
   task When_awvalidIsAsserted_Then_remainsHigh_Then_awreadyIsAlwaysLow();
    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_remainsHigh_Then_awreadyIsAlwaysLow Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;  
       awvalid <= 1'b0;
       awready <= 1'b0;
       repeat(2) begin
@@ -424,6 +466,8 @@ end
 
   task When_wvalidIsAsserted_Then_remainsHigh_Then_wreadyIsAlwaysLow();
    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_remainsHigh_Then_wreadyIsAlwaysLow Task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
       repeat(2) begin
@@ -435,6 +479,8 @@ end
 
   task When_bvalidIsAsserted_Then_remainsHigh_Then_breadyIsAlwaysLow();
    `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_remainsHigh_Then_breadyIsAlwaysLow Task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
       repeat(2) begin
@@ -446,6 +492,8 @@ end
 
   task When_BackToBackAwvalidAndAwreadyAsserted_Then_noDelayInbetween2Transfer();
    `uvm_info(name,$sformatf("When_BackToBackAwvalidAndAwreadyAsserted_Then_noDelayInbetween2Transfer Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       @(posedge aclk);
@@ -462,6 +510,8 @@ end
 
   task When_BackToBackWvalidAndWreadyAsserted_Then_noDelayInbetween2Transfer();
    `uvm_info(name,$sformatf("When_BackToBackWvalidAndWreadyAsserted_Then_noDelayInbetween2Transfer Task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
       @(posedge aclk);
@@ -478,6 +528,8 @@ end
 
   task When_BackToBackBvalidAndBreadyAsserted_Then_noDelayInbetween2Transfer();
    `uvm_info(name,$sformatf("When_BackToBackBvalidAndBreadyAsserted_Then_noDelayInbetween2Transfer Task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
       @(posedge aclk);
@@ -494,6 +546,8 @@ end
 
   task When_BackToBackAwvalidAndAwreadyAsserted_Then_1ClkDelayInbetween2Transfer();
    `uvm_info(name,$sformatf("When_BackToBackAwvalidAndAwreadyAsserted_Then_1ClkDelayInbetween2Transfer Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       @(posedge aclk);
@@ -510,38 +564,44 @@ end
 
   task When_BackToBackWvalidAndWreadyAsserted_Then_1ClkDelayInbetween2Transfer();
    `uvm_info(name,$sformatf("When_BackToBackWvalidAndWreadyAsserted_Then_1ClkDelayInbetween2Transfer Task started"),UVM_NONE);
-      wvalid <= 1'b0;
-      wready <= 1'b0;
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      wvalid  <= 1'b0;
+      wready  <= 1'b0;
       @(posedge aclk);
-      wvalid <= 1'b1;
-      wready <= 1'b1;
+      wvalid  <= 1'b1;
+      wready  <= 1'b1;
       @(posedge aclk);
-      wvalid <= 1'b0;
-      wready <= 1'b0;
+      wvalid  <= 1'b0;
+      wready  <= 1'b0;
       @(posedge aclk);
-      wvalid <= 1'b1;
-      wready <= 1'b1;
+      wvalid  <= 1'b1;
+      wready  <= 1'b1;
     `uvm_info(name,$sformatf("When_BackToBackWvalidAndWreadyAsserted_Then_1ClkDelayInbetween2Transfer  Task Ended"),UVM_NONE);
   endtask
 
   task When_BackToBackBvalidAndBreadyAsserted_Then_1ClkDelayInbetween2Transfer();
    `uvm_info(name,$sformatf("When_BackToBackBvalidAndBreadyAsserted_Then_1ClkDelayInbetween2Transfer Task started"),UVM_NONE);
-      bvalid <= 1'b0;
-      bready <= 1'b0;
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      bvalid  <= 1'b0;
+      bready  <= 1'b0;
       @(posedge aclk);
-      bvalid <= 1'b1;
-      bready <= 1'b1;
+      bvalid  <= 1'b1;
+      bready  <= 1'b1;
       @(posedge aclk);
-      bvalid <= 1'b0;
-      bready <= 1'b0;
+      bvalid  <= 1'b0;
+      bready  <= 1'b0;
       @(posedge aclk);
-      bvalid <= 1'b1;
-      bready <= 1'b1;
+      bvalid  <= 1'b1;
+      bready  <= 1'b1;
     `uvm_info(name,$sformatf("When_BackToBackBvalidAndBreadyAsserted_Then_1ClkDelayInbetween2Transfer  Task Ended"),UVM_NONE);
   endtask
  
   task When_BackToBackAwvalidAndAwreadyAsserted_Then_2ClkDelayInbetween2Transfer();
    `uvm_info(name,$sformatf("When_BackToBackAwvalidAndAwreadyAsserted_Then_2ClkDelayInbetween2Transfer Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       @(posedge aclk);
@@ -561,6 +621,8 @@ end
 
   task When_BackToBackWvalidAndWreadyAsserted_Then_2ClkDelayInbetween2Transfer();
    `uvm_info(name,$sformatf("When_BackToBackWvalidAndWreadyAsserted_Then_2ClkDelayInbetween2Transfer Task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
       @(posedge aclk);
@@ -579,6 +641,8 @@ end
 
   task When_BackToBackBvalidAndBreadyAsserted_Then_2ClkDelayInbetween2Transfer();
    `uvm_info(name,$sformatf("When_BackToBackBvalidAndBreadyAsserted_Then_2ClkDelayInbetween2Transfer Task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
       @(posedge aclk);
@@ -597,6 +661,8 @@ end
 
  task When_BackToBackAwvalidAndAwreadyAsserted_Then_3To16ClkDelayInbetween2Transfer();
   `uvm_info(name,$sformatf("When_BackToBackAwvalidAndAwreadyAsserted_Then_3To16ClkDelayInbetween2Transfer Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       @(posedge aclk);
@@ -615,6 +681,8 @@ end
 
   task When_BackToBackWvalidAndWreadyAsserted_Then_3To16ClkDelayInbetween2Transfer();
    `uvm_info(name,$sformatf("When_BackToBackWvalidAndWreadyAsserted_Then_3To16ClkDelayInbetween2Transfer Task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
       @(posedge aclk);
@@ -633,24 +701,28 @@ end
 
   task When_BackToBackBvalidAndBreadyAsserted_Then_3To16ClkDelayInbetween2Transfer();
    `uvm_info(name,$sformatf("When_BackToBackBvalidAndBreadyAsserted_Then_3To16ClkDelayInbetween2Transfer Task started"),UVM_NONE);
-      bvalid <= 1'b0;
-      bready <= 1'b0;
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      bvalid  <= 1'b0;
+      bready  <= 1'b0;
       @(posedge aclk);
-      bvalid <= 1'b1;
-      bready <= 1'b1;
+      bvalid  <= 1'b1;
+      bready  <= 1'b1;
       @(posedge aclk);
-      bvalid <= 1'b0;
-      bready <= 1'b0;
+      bvalid  <= 1'b0;
+      bready  <= 1'b0;
       repeat(8) begin //Delay We can give anything inbetween 3 to 16
       @(posedge aclk);
       end
-      bvalid <= 1'b1;
-      bready <= 1'b1;
+      bvalid  <= 1'b1;
+      bready  <= 1'b1;
     `uvm_info(name,$sformatf("When_BackToBackBvalidAndBreadyAsserted_Then_3To16ClkDelayInbetween2Transfer  Task Ended"),UVM_NONE);
   endtask
 
   task When_BackToBackAwvalidAndAwreadyAsserted_Then_moreThan16ClkDelayInbetween2Transfer();
   `uvm_info(name,$sformatf("When_BackToBackAwvalidAndAwreadyAsserted_Then_moreThan16ClkDelayInbetween2Transfer Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       @(posedge aclk);
@@ -669,6 +741,8 @@ end
 
   task When_BackToBackWvalidAndWreadyAsserted_Then_moreThan16ClkDelayInbetween2Transfer();
      `uvm_info(name,$sformatf("When_BackToBackWvalidAndWreadyAsserted_Then_moreThan16ClkDelayInbetween2Transfer Task started"),UVM_NONE);
+      @(posedge aclk);
+      aresetn<= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
       @(posedge aclk);
@@ -687,6 +761,8 @@ end
 
   task When_BackToBackBvalidAndBreadyAsserted_Then_moreThan16ClkDelayInbetween2Transfer();
    `uvm_info(name,$sformatf("When_BackToBackBvalidAndBreadyAsserted_Then_morethan16ClkDelayInbetween2Transfer Task started"),UVM_NONE);
+     @(posedge aclk);
+     aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
       @(posedge aclk);
@@ -705,6 +781,8 @@ end
 
   task When_awreadyNeedToAsserted_atleastOnce();
   `uvm_info(name,$sformatf("When_awreadyNeedToAsserted_atleastOnce Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awready <= 1'b0;
       @(posedge aclk);
       awready <= 1'b1;
@@ -713,6 +791,8 @@ end
 
  task When_wreadyNeedToAsserted_atleastOnce();
   `uvm_info(name,$sformatf("When_wreadyNeedToAsserted_atleastOnce Task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       wready <= 1'b0;
       @(posedge aclk);
       wready <= 1'b1;
@@ -721,14 +801,18 @@ end
 
  task When_breadyNeedToAsserted_atleastOnce();
   `uvm_info(name,$sformatf("When_breadyNeedToAsserted_atleastOnce Task started"),UVM_NONE);
-      bready <= 1'b0;
-      @(posedge aclk);
-      bready <= 1'b1;
+    @(posedge aclk); 
+    aresetn <= 1'b1;
+     bready <= 1'b0;
+     @(posedge aclk);
+     bready <= 1'b1;
     `uvm_info(name,$sformatf("When_breadyNeedToAsserted_atleastOnce Task Ended"),UVM_NONE);
   endtask
 
   task When_awreadyIsAsserted_Then_sameClkDeasserted();
   `uvm_info(name,$sformatf("When_awreadyIsAsserted_Then_sameClkDeasserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awready <= 1'b0;
       @(posedge aclk);
       awready <= 1'b1;
@@ -739,6 +823,8 @@ end
 
   task When_wreadyIsAsserted_Then_sameClkDeasserted();
   `uvm_info(name,$sformatf("When_wreadyIsAsserted_Then_sameClkDeasserted Task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       wready <= 1'b0;
       @(posedge aclk);
       wready <= 1'b1;
@@ -749,6 +835,8 @@ end
 
   task When_breadyIsAsserted_Then_sameClkDeasserted();
   `uvm_info(name,$sformatf("When_breadyIsAsserted_Then_sameClkDeasserted Task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       bready <= 1'b0;
       @(posedge aclk);
       bready <= 1'b1;
@@ -759,6 +847,8 @@ end
 
   task When_awvalidIsAsserted_Then_nextClkAwreadyIsAsserted();
    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_nextClkAwreadyIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       @(posedge aclk);
@@ -770,17 +860,21 @@ end
 
   task When_wvalidIsAsserted_Then_nextClkWreadyIsAsserted();
    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_nextClkWreadyIsAsserted Task started"),UVM_NONE);
-      wvalid <= 1'b0;
-      wready <= 1'b0;
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      wvalid  <= 1'b0;
+      wready  <= 1'b0;
       @(posedge aclk);
-      wvalid <= 1'b1;
+      wvalid  <= 1'b1;
       @(posedge aclk);
-      wready <= 1'b1;
+      wready  <= 1'b1;
     `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_nextClkWreadyIsAsserted Task Ended"),UVM_NONE);
   endtask
 
   task When_bvalidIsAsserted_Then_nextClkBreadyIsAsserted();
    `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_nextClkBreadyIsAsserted Task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
       @(posedge aclk);
@@ -792,6 +886,8 @@ end
 
   task When_awvalidIsAsserted_Then_inbetween2To5ClkAwreadyIsAsserted();
    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_inbetween2To5ClkAwreadyIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       @(posedge aclk);
@@ -805,6 +901,8 @@ end
  
   task When_wvalidIsAsserted_Then_inbetween2To5ClkWreadyIsAsserted();
    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_inbetween2To5ClkWreadyIsAsserted Task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
       @(posedge aclk);
@@ -818,6 +916,8 @@ end
  
   task When_bvalidIsAsserted_Then_inbetween2To5ClkBreadyIsAsserted();
    `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_inbetween2To5ClkBreadyIsAsserted Task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
       @(posedge aclk);
@@ -831,6 +931,8 @@ end
 
   task When_awvalidIsAsserted_Then_within16ClkAwreadyIsAsserted();
    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_within16ClkAwreadyIsAsserted task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       @(posedge aclk);
@@ -844,6 +946,8 @@ end
 
   task When_wvalidIsAsserted_Then_within16ClkWreadyIsAsserted();
    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_within16ClkWreadyIsAsserted task started"),UVM_NONE);
+   @(posedge aclk); 
+   aresetn <= 1'b1;
     wvalid <= 1'b0;
     wready <= 1'b0;
     @(posedge aclk);
@@ -857,6 +961,8 @@ end
 
   task When_bvalidIsAsserted_Then_within16ClkBreadyIsAsserted();
    `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_within16ClkBreadyIsAsserted task started"),UVM_NONE);
+   @(posedge aclk); 
+   aresetn <= 1'b1;
     bvalid <= 1'b0;
     bready <= 1'b0;
     @(posedge aclk);
@@ -870,6 +976,8 @@ end
 
   task When_awreadyIsAssertedAndDeasserted_Then_nextClkAwvalidIsAsserted();
    `uvm_info(name,$sformatf("When_awreadyIsAssertedAndDeasserted_Then_nextClkAwvalidIsAsserted task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       @(posedge aclk);
@@ -883,6 +991,8 @@ end
 
   task When_wreadyIsAssertedAndDeasserted_Then_nextClkWvalidIsAsserted();
    `uvm_info(name,$sformatf("When_wreadyIsAssertedAndDeasserted_Then_nextClkWvalidIsAsserted task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
       @(posedge aclk);
@@ -896,20 +1006,24 @@ end
 
    task When_breadyIsAssertedAndDeasserted_Then_nextClkBvalidIsAsserted();
    `uvm_info(name,$sformatf("When_breadyIsAssertedAndDeasserted_Then_nextClkBvalidIsAsserted task started"),UVM_NONE);
-      bvalid <= 1'b0;
-      bready <= 1'b0;
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      bvalid  <= 1'b0;
+      bready  <= 1'b0;
       @(posedge aclk);
-      bready <= 1'b1;
+      bready  <= 1'b1;
       @(posedge aclk);
-      bready <= 1'b0;
+      bready  <= 1'b0;
       @(posedge aclk);
-      bvalid <= 1'b1;
+      bvalid  <= 1'b1;
     `uvm_info(name,$sformatf("When_breadyIsAssertedAndDeasserted_Then_nextClkBvalidIsAsserted task ended"),UVM_NONE);
   endtask
 
 
   task When_awreadyIsAssertedAndDeasserted3Times_Then_nextClkAwvalidIsAsserted();
    `uvm_info(name,$sformatf("When_awreadyIsAssertedAndDeasserted3Times_Then_nextClkAwvalidIsAsserted task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;  
       awvalid <= 1'b0;
       awready <= 1'b0;
       @(posedge aclk);
@@ -931,6 +1045,8 @@ end
 
   task When_wreadyIsAssertedAndDeasserted3Times_Then_nextClkWvalidIsAsserted();
    `uvm_info(name,$sformatf("When_wreadyIsAssertedAndDeasserted3Times_Then_nextClkWvalidIsAsserted task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
       @(posedge aclk);
@@ -952,6 +1068,8 @@ end
 
   task When_breadyIsAssertedAndDeasserted3Times_Then_nextClkBvalidIsAsserted();
    `uvm_info(name,$sformatf("When_breadyIsAssertedAndDeasserted3Times_Then_nextClkBvalidIsAsserted task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
       @(posedge aclk);
@@ -973,6 +1091,8 @@ end
 
   task When_awreadyIsAsserted_Then_nextClkAwvalidIsAsserted();
    `uvm_info(name,$sformatf("When_awreadyIsAsserted_Then_nextClkAwvalidIsAsserted task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       @(posedge aclk);
@@ -984,6 +1104,8 @@ end
 
   task When_wreadyIsAsserted_Then_nextClkWvalidIsAsserted();
    `uvm_info(name,$sformatf("When_wreadyIsAsserted_Then_nextClkWvalidIsAsserted Task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
       @(posedge aclk);
@@ -995,43 +1117,51 @@ end
 
   task When_breadyIsAsserted_Then_nextClkBvalidIsAsserted();
    `uvm_info(name,$sformatf("When_breadyIsAsserted_Then_nextClkBvalidIsAsserted Task started"),UVM_NONE);
-      bvalid <= 1'b0;
-      bready <= 1'b0;
-      @(posedge aclk);
-      bready <= 1'b1;
-      @(posedge aclk);
-      bvalid <= 1'b1;
+    @(posedge aclk); 
+    aresetn <= 1'b1;
+     bvalid <= 1'b0;
+     bready <= 1'b0;
+     @(posedge aclk);
+     bready <= 1'b1;
+     @(posedge aclk);
+     bvalid <= 1'b1;
     `uvm_info(name,$sformatf("When_breadyIsAsserted_Then_nextClkBvalidIsAsserted task ended"),UVM_NONE);
   endtask
 
   task When_awreadyIsAsserted_Then_inbetween2To5ClkAwvalidIsAsserted();
    `uvm_info(name,$sformatf("When_awreadyIsAsserted_Then_inbetween2To5ClkAwvalidIsAsserted task started"),UVM_NONE);
-      awvalid <= 1'b0;
-      awready <= 1'b0;
-      @(posedge aclk);
-      awready <= 1'b1;
-      repeat(3) begin //Here inbetween 2 to 5 anyvalue you can give
-      @(posedge aclk);
-      end
-      awvalid <= 1'b1;
+     @(posedge aclk); 
+     aresetn <= 1'b1;   
+     awvalid <= 1'b0;
+     awready <= 1'b0;
+     @(posedge aclk);
+     awready <= 1'b1;
+     repeat(3) begin //Here inbetween 2 to 5 anyvalue you can give
+     @(posedge aclk);
+     end
+     awvalid <= 1'b1;
     `uvm_info(name,$sformatf("When_awreadyIsAsserted_Then_inbetween2To5ClkAwvalidIsAsserted task ended"),UVM_NONE);
   endtask
 
   task When_wreadyIsAsserted_Then_inbetween2To5ClkWvalidIsAsserted();
    `uvm_info(name,$sformatf("When_wreadyIsAsserted_Then_inbetween2To5ClkWvalidIsAsserted task started"),UVM_NONE);
-      wvalid <= 1'b0;
-      wready <= 1'b0;
-      @(posedge aclk);
-      wready <= 1'b1;
-      repeat(3) begin //Here inbetween 2 to 5 anyvalue you can give
-      @(posedge aclk);
-      end
-      wvalid <= 1'b1;
+    @(posedge aclk); 
+    aresetn <= 1'b1;
+     wvalid <= 1'b0;
+     wready <= 1'b0;
+     @(posedge aclk);
+     wready <= 1'b1;
+     repeat(3) begin //Here inbetween 2 to 5 anyvalue you can give
+     @(posedge aclk);
+     end
+     wvalid <= 1'b1;
     `uvm_info(name,$sformatf("When_wreadyIsAsserted_Then_inbetween2To5ClkWvalidIsAsserted task ended"),UVM_NONE);
   endtask
 
   task When_breadyIsAsserted_Then_inbetween2To5ClkBvalidIsAsserted();
    `uvm_info(name,$sformatf("When_breadyIsAsserted_Then_inbetween2To5ClkBvalidIsAsserted task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
       @(posedge aclk);
@@ -1043,8 +1173,10 @@ end
     `uvm_info(name,$sformatf("When_breadyIsAsserted_Then_inbetween2To5ClkBvalidIsAsserted task ended"),UVM_NONE);
   endtask
 
-    task When_awreadyIsAsserted_Then_anyClkAwvalidIsAsserted();
+  task When_awreadyIsAsserted_Then_anyClkAwvalidIsAsserted();
    `uvm_info(name,$sformatf("When_awreadyIsAsserted_Then_anyClkAwvalidIsAsserted task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       @(posedge aclk);
@@ -1058,6 +1190,8 @@ end
 
   task When_wreadyIsAsserted_Then_anyClkWvalidIsAsserted();
    `uvm_info(name,$sformatf("When_wreadyIsAsserted_Then_anyClkWvalidIsAsserted task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
       @(posedge aclk);
@@ -1069,8 +1203,10 @@ end
     `uvm_info(name,$sformatf("When_wreadyIsAsserted_Then_anyClkWvalidIsAsserted task ended"),UVM_NONE);
   endtask
 
-    task When_breadyIsAsserted_Then_anyClkBvalidIsAsserted();
+  task When_breadyIsAsserted_Then_anyClkBvalidIsAsserted();
    `uvm_info(name,$sformatf("When_breadyIsAsserted_Then_anyClkBvalidIsAsserted task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
       @(posedge aclk);
@@ -1082,10 +1218,10 @@ end
     `uvm_info(name,$sformatf("When_breadyIsAsserted_Then_anyClkBvalidIsAsserted task ended"),UVM_NONE);
   endtask
 
-   
-
   task When_awreadyDefaultValueIs1AndTransferOccur_Then_nextClkAwreadyValueWillGoDefaultState();
    `uvm_info(name,$sformatf("When_awreadyDefaultValueIs1AndTransferOccur_Then_nextClkAwreadyValueWillGoDefaultState"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b1;
       @(posedge aclk);
@@ -1100,6 +1236,8 @@ end
 
   task When_wreadyDefaultValueIs1AndTransferOccur_Then_nextClkWreadyValueWillGoDefaultState();
    `uvm_info(name,$sformatf("When_wreadyDefaultValueIs1AndTransferOccur_Then_nextClkWreadyValueWillGoDefaultState task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b1;
       @(posedge aclk);
@@ -1114,6 +1252,8 @@ end
 
   task When_breadyDefaultValueIs1AndTransferOccur_Then_nextClkBreadyValueWillGoDefaultState();
    `uvm_info(name,$sformatf("When_breadyDefaultValueIs1AndTransferOccur_Then_nextClkBreadyValueWillGoDefaultState task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b1;
       @(posedge aclk);
@@ -1128,6 +1268,8 @@ end
 
   task When_awreadyDefaultValueIs0AndTransferOccur_Then_nextClkAwreadyValueWillGoDefaultState();
    `uvm_info(name,$sformatf("When_awreadyDefaultValueIs0AndTransferOccur_Then_nextClkAwreadyValueWillGoDefaultState task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       @(posedge aclk);
@@ -1140,6 +1282,8 @@ end
 
   task When_wreadyDefaultValueIs0AndTransferOccur_Then_nextClkWreadyValueWillGoDefaultState();
    `uvm_info(name,$sformatf("When_wreadyDefaultValueIs0AndTransferOccur_Then_nextClkWreadyValueWillGoDefaultState task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
       @(posedge aclk);
@@ -1152,6 +1296,8 @@ end
 
   task When_breadyDefaultValueIs0AndTransferOccur_Then_nextClkBreadyValueWillGoDefaultState();
    `uvm_info(name,$sformatf("When_breadyDefaultValueIs0AndTransferOccur_Then_nextClkBreadyValueWillGoDefaultState task started"),UVM_NONE);
+     @(posedge aclk); 
+     aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
       @(posedge aclk);
@@ -1162,25 +1308,32 @@ end
     `uvm_info(name,$sformatf("When_breadyDefaultValueIs0AndTransferOccur_Then_nextClkBreadyValueWillGoDefaultState task ended"),UVM_NONE);
   endtask
 
- task When_awreadyIsHighAndWritingValidAwaddrAndWdataOnSlaveLocation_Then_brespWillGiveOkayResponse();
+  task When_awreadyIsHighAndWritingValidAwaddrAndWdataOnSlaveLocation_Then_brespWillGiveOkayResponse();
    `uvm_info(name,$sformatf("When_awreadyIsHighAndWritingValidAwaddrAndWdataOnSlaveLocation_Then_brespWillGiveOkayResponse task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
-      awaddr  <= 32'b0;
+      awaddr  <= 32'hxxxx_xxxx;
       wvalid  <= 1'b0;
       wready  <= 1'b0;
-      wdata   <= 32'b0;
+      wdata   <= 32'hxxxx_xxxx;
       bvalid  <= 1'b0;
       bready  <= 1'b0;
+      bresp   <= 2'bxx;
       @(posedge aclk);
       awvalid <= 1'b1;
       awready <= 1'b1;
       awaddr  <= 32'h1234_5678;
+      repeat(5) begin;
       @(posedge aclk);
+      end 
       wvalid  <= 1'b1;
       wready  <= 1'b1;
       wdata   <= 32'h1122_3344;
+      repeat(5) begin;
       @(posedge aclk);
+      end
       bvalid  <= 1'b1;
       bready  <= 1'b1;
       bresp   <= 2'b00;
@@ -1188,7 +1341,9 @@ end
   endtask
 
   task When_awvalidAwreadyWvalidWreadyAreAssertedSameClk_Then_NextClkBvalidIsAsserted();
-  `uvm_info(name,$sformatf("When_awvalidAwreadyWvalidWreadyAreAssertedSameClk_Then_NextClkBvalidIsAsserted task started"),UVM_NONE);
+   `uvm_info(name,$sformatf("When_awvalidAwreadyWvalidWreadyAreAssertedSameClk_Then_NextClkBvalidIsAsserted task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       wvalid  <= 1'b0;
@@ -1206,6 +1361,8 @@ end
 
   task When_awvalidAwreadyAreAsserted_Then_nextClkWvalidWreadyAreAsserted_Then_nextClkBvalidIsAsserted();
   `uvm_info(name,$sformatf("When_awvalidAwreadyAreAsserted_Then_nextClkWvalidWreadyAreAsserted_Then_nextClkBvalidIsAsserted task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       wvalid  <= 1'b0;
@@ -1224,6 +1381,8 @@ end
 
   task When_awvalidAwreadyAreAsserted_Then_nextClkWvalidWreadyAreAsserted_Then_inbetween1To16ClkBvalidIsAsserted();
   `uvm_info(name,$sformatf("When_awvalidAwreadyAreAsserted_Then_nextClkWvalidWreadyAreAsserted_Then_inbetween1To16ClkBvalidIsAsserted task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       wvalid  <= 1'b0;
@@ -1244,6 +1403,8 @@ end
 
   task When_awvalidAwreadyAreAsserted_Then_anyClkWvalidWreadyAreAsserted_Then_anyClkBvalidIsAsserted();
   `uvm_info(name,$sformatf("When_awvalidAwreadyAreAsserted_Then_anyClkWvalidWreadyAreAsserted_Then_anyClkBvalidIsAsserted task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       wvalid  <= 1'b0;
@@ -1266,6 +1427,8 @@ end
 
  task When_awvalidAwreadyAreAsserted_Then_anyClkWvalidWreadyAreAsserted_Then_BvalidIsLow();
   `uvm_info(name,$sformatf("When_awvalidAwreadyAreAsserted_Then_anyClkWvalidWreadyAreAsserted_Then_BvalidIsLow Fail Scenario task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       wvalid  <= 1'b0;
@@ -1284,6 +1447,8 @@ end
  
   task When_awaddrIsAsserted_Then_sameClkWdataIsAsserted();
   `uvm_info(name,$sformatf("When_awaddrIsAsserted_Then_sameClkWdataIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       awaddr  <= 1'b0;
@@ -1302,6 +1467,8 @@ end
 
   task When_awaddrIsAsserted_Then_sameClkWdataIsAssertedButWdataIsUnknownValue();
   `uvm_info(name,$sformatf("When_awaddrIsAsserted_Then_sameClkWdataIsAssertedButWdataIsUnknownValue Fail Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       awaddr  <= 1'b0;
@@ -1320,6 +1487,8 @@ end
    
   task When_awaddrIsAsserted_Then_sameClkWdataIsAssertedButWvalidIsLow();
   `uvm_info(name,$sformatf("When_awaddrIsAsserted_Then_sameClkWdataIsAssertedButWvalidIsLow Fail Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       awaddr  <= 1'b0;
@@ -1338,6 +1507,8 @@ end
    
   task When_awaddrIsAsserted_Then_nextClkWdataIsAsserted();
   `uvm_info(name,$sformatf("When_awaddrIsAsserted_Then_nextClkWdataIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       awaddr  <= 1'b0;
@@ -1357,6 +1528,8 @@ end
 
   task When_awaddrIsAsserted_Then_inbetween1To10ClkWdataIsAsserted();
   `uvm_info(name,$sformatf(" When_awaddrIsAsserted_Then_inbetween1To10ClkWdataIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       awaddr  <= 1'b0;
@@ -1378,6 +1551,8 @@ end
 
   task When_awaddrIsAsserted_Then_anyClkWdataIsAsserted();
   `uvm_info(name,$sformatf("When_awaddrIsAsserted_Then_anyClkWdataIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       awaddr  <= 1'b0;
@@ -1399,6 +1574,8 @@ end
 
   task When_wdataIsAsserted_Then_nextClkAwaddrIsAsserted();
   `uvm_info(name,$sformatf("When_wdataIsAsserted_Then_nextClkAwaddrIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       awaddr  <= 1'b0;
@@ -1418,6 +1595,8 @@ end
 
   task When_wdataIsAsserted_Then_inbetween1To10ClkAwaddrIsAsserted();
   `uvm_info(name,$sformatf("When_wdataIsAsserted_Then_inbetween1To10ClkAwaddrIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       awaddr  <= 1'b0;
@@ -1439,6 +1618,8 @@ end
 
   task When_wdataIsAsserted_Then_anyClkAwaddrIsAsserted();
   `uvm_info(name,$sformatf("When_wdataIsAsserted_Then_anyClkAwaddrIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       awaddr  <= 1'b0;
@@ -1460,6 +1641,8 @@ end
 
   task When_awvalidIsAsserted_Then_nextClkAwreadyAndWreadyAreAsserted();
    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_nextClkAwreadyAndWreadyAreAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       wready  <= 1'b0;
@@ -1473,6 +1656,8 @@ end
 
   task When_awvalidIsAsserted_Then_anyClkAwreadyAndWreadyAreAsserted();
    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_anyClkAwreadyAndWreadyAreAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       wready  <= 1'b0;
@@ -1488,6 +1673,8 @@ end
 
   task When_awvalidIsAsserted_Then_sameClkAwreadyAndWreadyAreAsserted();
    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwreadyAndWreadyAreAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       wready  <= 1'b0;
@@ -1500,6 +1687,8 @@ end
 
    task When_awvalidIsAsserted_Then_awreadyAndWreadyAreLow();
    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awreadyAndWreadyAreLow Fail Scenario Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       wready  <= 1'b0;
@@ -1511,6 +1700,8 @@ end
 
     task When_awvalidAndAwreadyAreAsserted_Then_wreadyIsLow();
    `uvm_info(name,$sformatf("When_awvalidAndAwreadyAreAsserted_Then_wreadyIsLow Fail Scenario Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       wready  <= 1'b0;
@@ -1522,6 +1713,8 @@ end
 
     task When_awvalidAndWreadyAreAsserted_Then_awreadyIsLow();
    `uvm_info(name,$sformatf("When_awvalidAndWreadyAreAsserted_Then_awreadyIsLow Fail Scenario Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       wready  <= 1'b0;
@@ -1533,6 +1726,8 @@ end
 
   task When_awreadyIsAsserted_Then_nextClkWvalidIsAsserted();
    `uvm_info(name,$sformatf(" When_awreadyIsAsserted_Then_nextClkWvalidIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awready <= 1'b0;
       wvalid  <= 1'b0;
       @(posedge aclk);
@@ -1544,6 +1739,8 @@ end
 
   task When_awreadyIsAsserted_Then_anyClkWvalidIsAsserted();
    `uvm_info(name,$sformatf(" When_awreadyIsAsserted_Then_anyClkWvalidIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awready <= 1'b0;
       wvalid  <= 1'b0;
       @(posedge aclk);
@@ -1557,6 +1754,8 @@ end
 
   task When_awreadyIsAsserted_Then_sameClkWvalidIsAsserted();
    `uvm_info(name,$sformatf(" When_awreadyIsAsserted_Then_sameClkWvalidIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awready <= 1'b0;
       wvalid  <= 1'b0;
       @(posedge aclk);
@@ -1568,6 +1767,7 @@ end
 
   task When_awreadyIsAsserted_Then_nextClkAwvalidAndWvalidAreAsserted();
    `uvm_info(name,$sformatf(" When_awreadyIsAsserted_Then_nextClkAwvalidAndWvalidAreAsserted Task started"),UVM_NONE);
+      @(posedge aclk); aresetn <= 1'b1;
       awready <= 1'b0;
       awvalid <= 1'b0;
       wvalid  <= 1'b0;
@@ -1581,6 +1781,8 @@ end
 
   task When_awreadyIsAsserted_Then_anyClkAwvalidAndWvalidAreAsserted();
    `uvm_info(name,$sformatf(" When_awreadyIsAsserted_Then_anyClkAwvalidAndWvalidAreAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awready <= 1'b0;
       awvalid <= 1'b0;
       wvalid  <= 1'b0;
@@ -1596,29 +1798,35 @@ end
  
   task When_awreadyIsAsserted_Then_sameClkAwvalidAndWvalidAreAsserted();
    `uvm_info(name,$sformatf(" When_awreadyIsAsserted_Then_sameClkAwvalidAndWvalidAreAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awready <= 1'b0;
       awvalid <= 1'b0;
       wvalid  <= 1'b0;
       @(posedge aclk);
       awready  <= 1'b1;
       awvalid  <= 1'b1;
-      wvalid  <= 1'b1;
+      wvalid   <= 1'b1;
       `uvm_info(name,$sformatf("When_awreadyIsAsserted_Then_sameClkAwvalidAndWvalidAreAsserted Task  ended"),UVM_NONE);
   endtask
 
   task When_wvalidIsAsserted_Then_nextClkAwreadyIsAsserted(); 
    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_nextClkAwreadyIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awready <= 1'b0;
       wvalid  <= 1'b0;
       @(posedge aclk);
       wvalid  <= 1'b1;
       @(posedge aclk);
-      awready  <= 1'b1;
+      awready <= 1'b1;
       `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_nextClkAwreadyIsAsserted Task  ended"),UVM_NONE);
   endtask
 
   task When_wvalidIsAsserted_Then_anyClkAwreadyIsAsserted(); 
    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_anyClkAwreadyIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awready <= 1'b0;
       wvalid  <= 1'b0;
       @(posedge aclk);
@@ -1626,19 +1834,21 @@ end
       repeat(5) begin //Here we can give any value example 5
       @(posedge aclk);
       end
-      awready  <= 1'b1;
+      awready <= 1'b1;
       `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_anyClkAwreadyIsAsserted Task  ended"),UVM_NONE);
   endtask
 
   task When_awvalidIsAsserted_Then_nextClkAwreadyIsAsserted_Then_nextClkWvalidIsAsserted(); 
    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_nextClkAwreadyIsAsserted_Then_nextClkWvalidIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awready <= 1'b0;
       awvalid <= 1'b0;
       wvalid  <= 1'b0;
       @(posedge aclk);
       awvalid <= 1'b1;
       @(posedge aclk);
-      awready  <= 1'b1;
+      awready <= 1'b1;
       @(posedge aclk);
       wvalid  <= 1'b1;
       `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_nextClkAwreadyIsAsserted_Then_nextClkWvalidIsAsserted Task  ended"),UVM_NONE);
@@ -1646,6 +1856,8 @@ end
 
   task When_wvalidIsAsserted_Then_nextClkAwvalidIsAsserted();
    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_nextClkAwvalidIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       wvalid  <= 1'b0;
       @(posedge aclk);
@@ -1657,6 +1869,8 @@ end
 
     task When_wvalidIsAsserted_Then_anyClkAwvalidIsAsserted();
    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_anyClkAwvalidIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       wvalid  <= 1'b0;
       @(posedge aclk);
@@ -1670,6 +1884,8 @@ end
 
     task When_wvalidIsAsserted_Then_sameClkAwvalidIsAsserted();
    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkAwvalidIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       wvalid  <= 1'b0;
       @(posedge aclk);
@@ -1681,6 +1897,8 @@ end
 
     task When_awvalidIsAsserted_Then_nextClkWvalidIsAsserted();
    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_nextClkWvalidIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       wvalid  <= 1'b0;
       @(posedge aclk);
@@ -1692,6 +1910,8 @@ end
 
     task When_awvalidIsAsserted_Then_anyClkWvalidIsAsserted();
    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_anyClkWvalidIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       awvalid <= 1'b0;
       wvalid  <= 1'b0;
       @(posedge aclk);
@@ -1705,6 +1925,8 @@ end
 
   task When_wvalidIsAsserted_Then_nextClkAwreadyAndWreadyAreAsserted();
    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_nextClkAwreadyAndWreadyAreAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       wvalid  <= 1'b0;
       awready <= 1'b0;
       wready  <= 1'b0;
@@ -1718,6 +1940,8 @@ end
 
   task When_wvalidIsAsserted_Then_anyClkAwreadyAndWreadyAreAsserted();
    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_anyClkAwreadyAndWreadyAreAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       wvalid  <= 1'b0;
       awready <= 1'b0;
       wready  <= 1'b0;
@@ -1733,6 +1957,8 @@ end
 
   task When_wvalidIsAsserted_Then_sameClkAwreadyAndWreadyAreAsserted();
    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkAwreadyAndWreadyAreAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       wvalid  <= 1'b0;
       awready <= 1'b0;
       wready  <= 1'b0;
@@ -1745,6 +1971,8 @@ end
 
    task When_wvalidIsAsserted_Then_awreadyAndWreadyAreLow();
    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_awreadyAndWreadyAreLow Fail Scenario Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       wvalid  <= 1'b0;
       awready <= 1'b0;
       wready  <= 1'b0;
@@ -1756,6 +1984,8 @@ end
 
     task When_wvalidAndAwreadyAreAsserted_Then_wreadyIsLow();
    `uvm_info(name,$sformatf("When_wvalidAndAwreadyAreAsserted_Then_wreadyIsLow Fail Scenario Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       wvalid  <= 1'b0;
       awready <= 1'b0;
       wready  <= 1'b0;
@@ -1767,6 +1997,8 @@ end
 
     task When_wvalidAndWreadyAreAsserted_Then_awreadyIsLow();
    `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_awreadyIsLow Fail Scenario Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       wvalid  <= 1'b0;
       awready <= 1'b0;
       wready  <= 1'b0;
@@ -1778,6 +2010,8 @@ end
 
     task When_wvalidIsAsserted_Then_wstrbOfL3AndL2AreAsserted();
    `uvm_info(name,$sformatf(" When_wvalidIsAsserted_Then_wstrbOfL3AndL2AreAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       wvalid  <= 1'b0;
       wready  <= 1'b0;
       wstrb   <= 4'b0000;
@@ -1798,6 +2032,8 @@ end
 
     task When_wvalidIsAsserted_Then_wstrbOfL1AndL0AreAsserted();
    `uvm_info(name,$sformatf(" When_wvalidIsAsserted_Then_wstrbOfL1AndL0AreAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
       wvalid  <= 1'b0;
       wready  <= 1'b0;
       wstrb   <= 4'b0000;
@@ -1815,6 +2051,52 @@ end
       wdata   <= 32'h0000_0000;
       `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wstrbOfL1AndL0AreAsserted Task  ended"),UVM_NONE);
   endtask
+
+  task When_wvalidAndWreadyAreAsserted_Then_wstrbValueIsAllOnes_Then_wdataIsNotUnknown();
+   `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_wstrbValueIsAllOnes_Then_wdataIsNotUnknown Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      wvalid  <= 1'b0;
+      wready  <= 1'b0;
+      wstrb   <= 4'b0000;
+      wdata   <= 32'hxxxx_xxxx;
+      @(posedge aclk);
+      wvalid  <= 1'b1;
+      wready  <= 1'b1;
+      wstrb   <= 4'b1111;
+      wdata   <= 32'h4433_2211; 
+      `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_wstrbValueIsAllOnes_Then_wdataIsNotUnknown Task  ended"),UVM_NONE);
+  endtask
+ 
+  task When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbIsActiveByte_Then_inbetween1To15ClkWdataIsPreviousValues();
+   `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbIsActiveByte_Then_inbetween1To15ClkWdataIsPreviousValues( Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      wvalid  <= 1'b0;
+      wready  <= 1'b0;
+      wstrb   <= 4'b0000;
+      wdata   <= 32'hxxxx_xxxx;
+      @(posedge aclk);
+      wvalid  <= 1'b1;
+      wready  <= 1'b1;
+      wstrb   <= 4'b1111;
+      wdata   <= 32'h4433_2211; 
+      @(posedge aclk);
+      wvalid  <= 1'b0;
+      wready  <= 1'b0;
+      wstrb   <= 4'b0000;
+      wdata   <= 32'hxxxx_xxxx; 
+      repeat(10) begin
+      @(posedge aclk);
+      end
+      wvalid  <= 1'b1;
+      wready  <= 1'b1;
+      wstrb   <= 4'b0101;
+      wdata   <= 32'h4455_2255; 
+      `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbIsActiveByte_Then_inbetween1To15ClkWdataIsPreviousValues  Task ended"),UVM_NONE);
+  endtask
+
+
 
 endmodule : Axi4LiteMasterWriteCoverPropertyTB
 
