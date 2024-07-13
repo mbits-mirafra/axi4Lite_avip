@@ -18,8 +18,8 @@ package Axi4LiteMasterReadTestPkg;
   `include "Axi4LiteMasterReadDelayForRreadyTest.sv"
   `include "Axi4LiteMasterReadDelayForArvalidTest.sv"
   `include "Axi4LiteMasterReadAddressInsideMinAndMaxRangeTest.sv"
-  `include "Axi4LiteMasterWriteEvenAddressTest.sv"
-  `include "Axi4LiteMasterWriteOddAddressTest.sv"
+  `include "Axi4LiteMasterReadEvenAddressTest.sv"
+  `include "Axi4LiteMasterReadOddAddressTest.sv"
 
 endpackage : Axi4LiteMasterReadTestPkg
 
