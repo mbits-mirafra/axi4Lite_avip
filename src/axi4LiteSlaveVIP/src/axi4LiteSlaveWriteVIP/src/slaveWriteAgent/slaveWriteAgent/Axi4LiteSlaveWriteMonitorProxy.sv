@@ -63,7 +63,6 @@ task Axi4LiteSlaveWriteMonitorProxy::run_phase(uvm_phase phase);
    writeDataSampleTask(); 
    writeResponseSampleTask();
  join
-  `uvm_info("ID","Mahdeva", UVM_HIGH);
 endtask : run_phase 
 
 task Axi4LiteSlaveWriteMonitorProxy::writeAddressSampleTask();
@@ -73,7 +72,7 @@ task Axi4LiteSlaveWriteMonitorProxy::writeAddressSampleTask();
    axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct;
 
    Axi4LiteSlaveWriteConfigConverter::fromClass(axi4LiteSlaveWriteAgentConfig, slaveWriteConfigStruct);
-   `uvm_info(get_type_name(), $sformatf("Inside Slave_Write_Monitor writeAddressTask Converted cfg struct\n%p",slaveWritePacketStruct), UVM_HIGH)
+   `uvm_info(get_type_name(), $sformatf("Inside Slave_Write_Monitor writeAddressTask Converted cfg struct\n%p",slaveWriteConfigStruct), UVM_HIGH)
    axi4LiteSlaveWriteMonitorBFM.writeAddressChannelSampleTask(slaveWriteConfigStruct, slaveWritePacketStruct);
   `uvm_info(get_type_name(), $sformatf("Slave_Write_Monitor writeAddressTask Converted packet from BFM  struct\n%p",slaveWritePacketStruct), UVM_HIGH)
 
@@ -93,7 +92,7 @@ task Axi4LiteSlaveWriteMonitorProxy::writeDataSampleTask();
    axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct;
 
    Axi4LiteSlaveWriteConfigConverter::fromClass(axi4LiteSlaveWriteAgentConfig, slaveWriteConfigStruct);
-   `uvm_info(get_type_name(), $sformatf("Inside Slave_Write_Monitor writeDataTask Converted cfg struct\n%p",slaveWritePacketStruct), UVM_HIGH)
+   `uvm_info(get_type_name(), $sformatf("Inside Slave_Write_Monitor writeDataTask Converted cfg struct\n%p",slaveWriteConfigStruct), UVM_HIGH)
    axi4LiteSlaveWriteMonitorBFM.writeDataChannelSampleTask(slaveWriteConfigStruct, slaveWritePacketStruct);
   `uvm_info(get_type_name(), $sformatf("Slave_Write_Monitor writeDataTask Converted packet from BFM  struct\n%p",slaveWritePacketStruct), UVM_HIGH)
    Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,reqWrite);
@@ -112,7 +111,7 @@ task Axi4LiteSlaveWriteMonitorProxy::writeResponseSampleTask();
    axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct;
 
    Axi4LiteSlaveWriteConfigConverter::fromClass(axi4LiteSlaveWriteAgentConfig, slaveWriteConfigStruct);
-   `uvm_info(get_type_name(), $sformatf("Inside Slave_Write_Monitor writeResponseTask Converted cfg struct\n%p",slaveWritePacketStruct), UVM_HIGH)
+   `uvm_info(get_type_name(), $sformatf("Inside Slave_Write_Monitor writeResponseTask Converted cfg struct\n%p",slaveWriteConfigStruct), UVM_HIGH)
    axi4LiteSlaveWriteMonitorBFM.writeResponseChannelSampleTask(slaveWriteConfigStruct, slaveWritePacketStruct);
   `uvm_info(get_type_name(), $sformatf("Slave_Write_Monitor writeResponseTask Converted packet from BFM  struct\n%p",slaveWritePacketStruct), UVM_HIGH)
    Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,reqWrite);

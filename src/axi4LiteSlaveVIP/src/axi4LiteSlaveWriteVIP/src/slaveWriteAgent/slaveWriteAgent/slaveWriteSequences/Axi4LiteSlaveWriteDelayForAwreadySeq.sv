@@ -17,7 +17,6 @@ function Axi4LiteSlaveWriteDelayForAwreadySeq::new(string name = "Axi4LiteSlaveW
 endfunction : new
 
 task Axi4LiteSlaveWriteDelayForAwreadySeq::body();
-  req = Axi4LiteSlaveWriteTransaction::type_id::create();
   super.body();
   start_item(req);
   if(!req.randomize())begin 
