@@ -24,11 +24,6 @@ task Axi4LiteSlaveWriteAddressInsideMinAndMaxRangeTest::run_phase(uvm_phase phas
   axi4LiteSlaveWriteAddressInsideMinAndMaxRangeSeq = Axi4LiteSlaveWriteAddressInsideMinAndMaxRangeSeq ::type_id::create("axi4LiteSlaveWriteAddressInsideMinAndMaxRangeSeq");
 
   `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteSlaveWriteAddressInsideMinAndMaxRangeTest"),UVM_LOW);
-    
-   if(!axi4LiteSlaveWriteAddressInsideMinAndMaxRangeSeq.randomize()) begin
-       `uvm_error(get_type_name(), "Randomization failed")
-   end
-       `uvm_info(get_type_name(),$sformatf("Axi4LiteSlaveWriteAddressInsideMinAndMaxRangeTest awaddr :%0d", axi4LiteSlaveWriteAddressInsideMinAndMaxRangeSeq.awaddr),UVM_LOW);
 
   phase.raise_objection(this);
   super.run_phase(phase);
