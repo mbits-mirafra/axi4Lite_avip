@@ -26,12 +26,11 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   import Axi4LiteSlaveWriteAssertCoverParameter::*;
 
   initial begin
-    
     `uvm_info("Axi4LiteSlaveWriteCoverProperty","Axi4LiteSlaveWriteCoverProperty",UVM_LOW);
   end
   
   property WhenValidGoesHighThenInformationNotUnknownAndPreviousClkInformationUnknown(logic valid, logic information); 
-   @(posedge aclk) 
+   @(posedge aclk) disable iff (!aresetn) 
     $rose(valid) |-> !($isunknown(information)) && ($past(information,1) === 1'bx); 
   endproperty 
 
@@ -44,7 +43,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFWVALIDGOESHIGH_THEN_WDATA_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_WDATA_IS_UNKNOWN : COVERED");
 
   property WhenValidAssertedThenInformationNotUnknownAndPrevious2ClkInformationUnknwon(logic valid, logic information);
-	 @(posedge aclk) 
+	 @(posedge aclk) disable iff (!aresetn)
      valid |-> !($isunknown(information)) && ($past(information,2) === 1'bx); 
  endproperty 
 
@@ -57,7 +56,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFWVALIDGOESHIGH_THEN_WDATA_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_WDATA_IS_UNKNOWN : COVERED");
 
   property WhenReadyLowAndValidAssertedAfter3Clk(logic valid, logic ready);
-   @(posedge aclk)
+   @(posedge aclk) disable iff (!aresetn)
     !ready |-> ##3 (valid && !ready);
   endproperty
 
@@ -74,7 +73,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFBREADYISLOW_THEN_BVALIDIS_ASSERTED_AFTER3CLK : COVERED");
 
   property WhenReadyLowAndValidAssertedAfterAnyClkThenReadyWillAssertedAnyClk(logic valid, logic ready);
-   @(posedge aclk)
+   @(posedge aclk) disable iff (!aresetn)
    !ready |-> ##[1:MAX_DELAY_VALID] (valid && !ready);
   endproperty
   
@@ -91,7 +90,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFBREADYLOW_THEN_ANYCLK_BVALIDIS_ASSERTED_THEN_BREADYWILL_ASSERTED_ANYCLK :COVERED");
 
   property WhenValidAssertedThenSameClkReadyAsserted(logic valid, logic ready);
-   @(posedge aclk)
+   @(posedge aclk) disable iff (!aresetn)
    $rose(valid) |-> ready;
   endproperty
 
@@ -108,7 +107,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFBVALIDISASSERTED_THENSAMECLK_BREADYISASSERTED :COVERED");
 
   property WhenValidAssertedThenValidHighAndNextClkReadyAsserted(logic valid, logic ready); 
-   @(posedge aclk) 
+   @(posedge aclk) disable iff (!aresetn) 
     $rose(valid) |=> $stable(valid) && ready; 
   endproperty  
 
@@ -125,7 +124,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("IFBVALIDASSERTED_ANDREMAINHIGH_THEN_NEXTCLK_BREADYASSERTED : COVERED");
 
   property WhenValidAssertedThenValidHighAndWithin1To16ClkReadyAsserted(logic valid, logic ready);
-   @(posedge aclk) 
+     @(posedge aclk) disable iff (!aresetn)
     $rose(valid) |=> ($stable(valid) throughout (##[1:MAX_DELAY_READY] $rose(ready))); 
   endproperty  
 
@@ -143,7 +142,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
 
   property WhenBackToBackValidAndReadyAssertedWithoutDelayInbetween2Transfer(logic valid, logic ready);
-   @(posedge aclk)
+   @(posedge aclk) disable iff (!aresetn)
     (valid && ready) |=> ($stable(valid) && $stable(ready));
   endproperty
 
@@ -160,7 +159,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFBACKTOBACK_BVALIDANDBREADYASSERTED_WITHOUTDELAY_INBETWEEN2TRANSFER : COVERED");
 
   property WhenBackToBackValidAndReadyAssertedWith1ClkDelayInbetween2Transfer(logic valid, logic ready);
-   @(posedge aclk)
+   @(posedge aclk) disable iff (!aresetn)
     (valid && ready) |=> ##1 (valid && ready);
   endproperty
 
@@ -177,7 +176,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFBACKTOBACK_BVALIDANDBREADYASSERTED_WITH1CLKDELAY_INBETWEEN2TRANSFER : COVERED");
 
   property WhenBackToBackValidAndReadyAssertedWith2ClkDelayInbetween2Transfer(logic valid, logic ready); 
-   @(posedge aclk) 
+   @(posedge aclk) disable iff (!aresetn) 
     (valid && ready) |=> ##2 (valid && ready); 
   endproperty  
 
@@ -194,7 +193,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFBACKTOBACK_BVALIDANDBREADYASSERTED_WITH2CLKDELAY_INBETWEEN2TRANSFER  :COVERED");
 
   property WhenBackToBackValidAndReadyAssertedWithin3To16ClkDelayInbetween2Transfer(logic valid, logic ready);
-   @(posedge aclk)
+   @(posedge aclk) disable iff (!aresetn)
     (valid && ready) |=> ##[3:DELAY_FOR_SECOND_TRANSFER] (valid && ready);
   endproperty
 
@@ -211,7 +210,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFBACKTOBACK_BVALIDANDBREADYASSERTED_WITHIN3TO16CLKDELAY_INBETWEEN2TRANSFER : COVERED");
 
   property WhenBackToBackValidAndReadyAssertedWithMoreThan16ClkDelayInbetween2Transfer(logic valid, logic ready);
-   @(posedge aclk)
+   @(posedge aclk) disable iff (!aresetn)
    (valid && ready) |=> ##[DELAY_FOR_SECOND_TRANSFER :$] (valid && ready);
   endproperty
 
@@ -228,7 +227,8 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFBACKTOBACK_BVALIDANDBREADYASSERTED_WITHMORETHAN16CLKDELAY_INBETWEEN2TRANSFER : COVERED");
 
   property readyAssertAtleastOnce(logic ready); 
-  @(posedge aclk) ready; 
+   @(posedge aclk) disable iff (!aresetn)
+   ready; 
   endproperty 
 
   IFAWREADY_NEEDTOASSERTED_ATLEASTONCE: cover property
@@ -245,7 +245,8 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
 
   property WhenValidAssertedThenReadyAssertedNextClk(logic valid, logic ready);
-  @(posedge aclk) valid |-> !ready ##1 (valid && ready);
+  @(posedge aclk) disable iff (!aresetn)
+   valid |-> !ready ##1 (valid && ready);
   endproperty
 
   IFAWVALIDASSERTED_THEN_NEXTCLK_AWREADYASSERTED: cover property 
@@ -260,9 +261,10 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   (WhenValidAssertedThenReadyAssertedNextClk(bvalid, bready))
   $info("IFBVALIDASSERTED_THEN_NEXTCLK_BREADYASSERTED : COVERED");
 
-  property WhenValidAssertedThenInbetween2To5ClkReadyAsserted(logic valid, logic ready);
-  @(posedge aclk) valid |-> ##[2:5] ready; 
-  endproperty  
+    property WhenValidAssertedThenInbetween2To5ClkReadyAsserted(logic valid, logic ready);
+     @(posedge aclk) disable iff (!aresetn)
+     valid |-> ##[2:5] ready; 
+    endproperty  
 
    IFAWVALIDASSERTED_THEN_INBETWEEN2TO5CLK_AWREADYASSERTED: cover property 
    (WhenValidAssertedThenInbetween2To5ClkReadyAsserted(awvalid, awready)) 
@@ -277,7 +279,8 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("IFBVALIDASSERTED_THEN_INBETWEEN2TO5CLK_BREADYASSERTED : COVERED");
 
    property WhenValidAssertedThenWithin16ClkReadyAsserted(logic valid, logic ready);
-   @(posedge aclk) valid |-> ##[0:MAX_DELAY_READY] ready;
+     @(posedge aclk) disable iff (!aresetn)
+    valid |-> ##[0:MAX_DELAY_READY] ready;
    endproperty
 
    IFAWVALIDASSERTED_THEN_WITH16CLK_AWREADYASSERTED: cover property 
@@ -293,7 +296,8 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("IFBVALIDASSERTED_THEN_WITH16CLK_BREADYASSERTED : COVERED");
 
     property WhenReadyAssertedAndDeassertedThenNextClkValidAsserted(logic valid, logic ready);
-     @(posedge aclk) $fell(ready) |-> !valid ##1 valid;
+     @(posedge aclk) disable iff (!aresetn)
+     $fell(ready) |-> !valid ##1 valid;
     endproperty
 
     IFAWREADYASSERTED_DEASSERTED_THEN_NEXTCLK_AWVALIDASSERTED: cover property
@@ -309,7 +313,8 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
     $info("IFBREADYASSERTED_DEASSERTED_THEN_NEXTCLK_BVALIDASSERTED: COVERED");
 
     property WhenReadyAssertedAndDeasserted3TimesThenNextClkValidAsserted(logic valid, logic ready);
-    @(posedge aclk) (ready && !valid) |-> !valid s_until_with $fell(ready)[->3] ##1 $rose(valid);
+       @(posedge aclk) disable iff (!aresetn)
+      (ready && !valid) |-> !valid s_until_with $fell(ready)[->3] ##1 $rose(valid);
     endproperty
 
     IFAWREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_AWVALIDASSERTED: cover property
@@ -325,7 +330,8 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
     $info("IFBREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_BVALIDASSERTED : COVERED");
 
     property WhenReadyAssertedThenNextClkValidAsserted(logic valid, logic ready);
-     @(posedge aclk) ready |-> !valid ##1 valid;
+     @(posedge aclk) disable iff (!aresetn)
+     ready |-> !valid ##1 valid;
     endproperty
 
     IFAWREADYASSERTED_THEN_NEXTCLK_AWVALIDASSERTED: cover property
@@ -342,7 +348,8 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
     
     property WhenReadyAssertedThenInbetween2To5ClkValidAsserted(logic valid, logic ready);
-     @(posedge aclk) ready |-> !valid ##[2:5] valid;
+     @(posedge aclk) disable iff (!aresetn)
+     ready |-> !valid ##[2:5] valid;
     endproperty
 
     IFAWREADYASSERTED_THEN_INBETWEEN2TO5CLK_AWVALIDASSERTED: cover property
@@ -358,7 +365,8 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
     $info("IFBREADYASSERTED_THEN_INBETWEEN2TO5CLK_BVALIDASSERTED: COVERED");
 
     property WhenReadyAssertedThenAnyClkValidAsserted(logic valid, logic ready);
-     @(posedge aclk) ready |-> !valid ##[0:$] valid;
+     @(posedge aclk) disable iff (!aresetn)
+     ready |-> !valid ##[0:$] valid;
     endproperty
 
     IFAWREADYASSERTED_THEN_ANYCLK_AWVALIDASSERTED: cover property
@@ -374,7 +382,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
     $info("IFBREADYASSERTED_THEN_ANYCLK_BVALIDASSERTED : COVERED");
 
     property WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(logic valid, logic ready); 
-     @(posedge aclk) disable iff (aresetn)
+     @(posedge aclk) disable iff (!aresetn)
          (ready && valid) |=> (ready== DEFAULT_READY);
     endproperty  
 
@@ -391,8 +399,10 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
     $info("IFBREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_BREADY_WILLGODEFAULTSTATE : COVERED");
 
     property WhenAwreadyHighAndWritingValidAddressAndDataOnSlaveLocationThenSlaveWillGiveOkayResponse; 
-     @(posedge aclk) disable iff (aresetn)
-         (awvalid && awready && !($isunknown(awaddr))) |->  ##[0:$] (wvalid && wready && !($isunknown(wdata)))  ##[0:$] (bvalid &&       bready  && (bresp != 2'b10));
+     @(posedge aclk) disable iff (!aresetn)
+         (awvalid && awready && !($isunknown(awaddr))) |->  
+              ##[0:MAX_DELAY_WVALID] (wvalid && wready && !($isunknown(wdata)))  
+              ##[1:MAX_DELAY_BVALID] (bvalid && bready && (bresp == 2'b00));
     endproperty  
 
     IFAWREADYHIGH_THEN_WRITINGTHEVALID_AWADDRANDWDATA_ONSLAVELOCATION_THEN_SLAVEWILLGIVEOKAYRESPONSE: cover property 
@@ -400,7 +410,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
     $info("IFAWREADYHIGH_THEN_WRITINGTHEVALID_AWADDRANDWDATA_ONSLAVELOCATION_THEN_SLAVEWILLGIVEOKAYRESPONSE : COVERED");
 
    property WhenAwvalidAwreadyWvalidAndWreadyAreAssertedSameClkThenNextClkBvalidAsserted; 
-   @(posedge aclk) disable iff (aresetn)
+   @(posedge aclk) disable iff (!aresetn)
    (awvalid && awready && wvalid && wready && !bvalid) |=> bvalid; 
    endproperty  
 
@@ -409,7 +419,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("AWVALIDANDAWREADY_WVALIDANDWREADY_ASSERTEDATSAMECLK_THEN_BVALIDASSERTEDNEXTCLK :COVERED");
 
    property WhenAwvalidAwreadyAssertedThenNextClkWvalidWreadyAssertedThenNextClkBValidAsserted;
-   @(posedge aclk) disable iff (aresetn)
+   @(posedge aclk) disable iff (!aresetn)
    (awvalid && awready && !bvalid) |=> (wvalid && wready && !bvalid) ##1 bvalid;
    endproperty
 
@@ -418,7 +428,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("AWVALIDANDAWREADY_THEN_NEXTCLK_WVALIDANDWREADYASSERTED_THEN_NEXTCLK_BVALIDASSERTED :COVERED");
 
    property WhenAwvalidAwreadyAssertedThenNextClkWvalidWreadyAssertedThenInbetween1To16ClkBValidAsserted;
-   @(posedge aclk) disable iff (aresetn)
+   @(posedge aclk) disable iff (!aresetn)
    (awvalid && awready && !bvalid) |=> (wvalid && wready && !bvalid) ##[1:MAX_DELAY_BVALID] bvalid;
    endproperty
 
@@ -427,7 +437,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("AWVALIDANDAWREADY_THEN_NEXTCLK_WVALIDANDWREADYASSERTED_THEN_INBETWEEN1TO16CLK_BVALIDASSERTED :COVERED");
 
    property WhenAwvalidAwreadyAssertedThenAnyClkWvalidWreadyAssertedThenAnyClkBValidAsserted;
-   @(posedge aclk) disable iff (aresetn)
+   @(posedge aclk) disable iff (!aresetn)
    (awvalid && awready && !bvalid) |-> ##[0:$] (wvalid && wready && !bvalid) ##[1:$] bvalid;
    endproperty
 
@@ -436,7 +446,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("IFAWVALIDANDAWREADY_THEN_ANYCLK_WVALIDANDWREADYASSERTED_THEN_ANYCLK_BVALIDASSERTED :COVERED");
 
    property WhenAwaddressIsGeneratedOnTheSameClkWdataWillBeGenerated;
-    @(posedge aclk) disable iff (aresetn)
+    @(posedge aclk) disable iff (!aresetn)
    (awvalid && awready && awaddr) |-> (wvalid && wready && wdata)
    endproperty
 
@@ -445,7 +455,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("IFAWADDRESISASSERTED_THEN_SAMECLK_WDATAWILLBEASSERTED : COVERED");
 
    property WhenAwaddressIsGeneratedThenNextClkWdataWillBeGenerated;
-    @(posedge aclk) disable iff (aresetn)
+    @(posedge aclk) disable iff (!aresetn)
    (awvalid && awready && awaddr) |=> (wvalid && wready && wdata)
    endproperty
 
@@ -454,7 +464,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("IFAWADDRESISASSERTED_THEN_NEXTCLK_WDATAWILLBEASSERTED : COVERED");
 
    property WhenAwaddressIsGeneratedThenInbetween1To10ClkWdataWillBeGenerated; 
-    @(posedge aclk) disable iff (aresetn)
+    @(posedge aclk) disable iff (!aresetn)
    (awvalid && awready && awaddr) |-> ##[1:MAX_DELAY_WVALID] (wvalid && wready && wdata)
    endproperty  
    
@@ -463,7 +473,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("IFAWADDRESISASSERTED_THEN_INBETWEEN1TO10CLKWDATAWILLBEASSERTED : COVERED");
 
    property WhenAwaddressIsGeneratedThenAnyClkWdataWillBeGenerated;
-    @(posedge aclk) disable iff (aresetn)
+    @(posedge aclk) disable iff (!aresetn)
    (awvalid && awready && awaddr) |-> ##[0:$] (wvalid && wready && wdata)
    endproperty
 
@@ -472,7 +482,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("IFAWADDRESISASSERTED_THEN_ANYCLK_WDATAWILLBEASSERTED : COVERED");
 
     property WhenWdataIsGeneratedThenNextClkAwaddressillBeGenerated; 
-    @(posedge aclk) disable iff (aresetn)
+    @(posedge aclk) disable iff (!aresetn)
     (wvalid && wready && wdata) |=> (awvalid && awready && awaddr)
     endproperty  
 
@@ -481,7 +491,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("IFWDATAISASSERTED_THEN_NEXTCLK_AWADDRWILLBEASSERTED :COVERED");
 
    property WhenWdataIsGeneratedThenInbetween1To10ClkAwaddressillBeGenerated;
-   @(posedge aclk) disable iff (aresetn)
+   @(posedge aclk) disable iff (!aresetn)
    (wvalid && wready && wdata) |-> ##[1:MAX_DELAY_AWADDR] (awvalid && awready && awaddr)
    endproperty
 
@@ -490,7 +500,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("IFWDATAISASSERTED_THEN_INBETWEEN1TO10CLK_AWADDRWILLBEASSERTED :COVERED");
 
    property WhenWdataIsGeneratedThenAnyClkAwddressWillBeGenerated;
-   @(posedge aclk) disable iff (aresetn)
+   @(posedge aclk) disable iff (!aresetn)
    (wvalid && wready && wdata) |-> ##[0:$] (awvalid && awready && awaddr)
    endproperty
 
@@ -499,7 +509,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("IFWDATAISASSERTED_THEN_ANYCLK_AWADDRSWILLBEASSERTED :COVERED");
 
    property WhenAwvalidIsAssertedThenNextClkAwreadyAndWreadyWillBeAssert;
-     @(posedge aclk)  disable iff (aresetn)
+     @(posedge aclk)  disable iff (!aresetn)
     awvalid |=> (awready && wready);
     //(awvalid && !awready && !wready) |=> (awready && wready);
    endproperty
@@ -509,7 +519,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFAWVALIDISASSERTED_THEN_NEXTCLK_AWREADYANDWREADYWILLBEASSERT : COVERED");
 
   property WhenAwvalidIsAssertedThenAnyClkAwreadyAndWreadyWillBeAssert; 
-    @(posedge aclk) disable iff (aresetn)
+    @(posedge aclk) disable iff (!aresetn)
     (awvalid && !awready && !wready) |-> ##[1:$] (awready && wready);
   endproperty  
 
@@ -518,7 +528,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFAWVALIDISASSERTED_THEN_ANYCLK_AWREADYANDWREADYWILLBEASSERT :  COVERED");
 
    property WhenAwvalidIsAssertedThenSameClkAwreadyAndWreadyWillBeAssert;
-   @(posedge aclk)  disable iff (aresetn)
+   @(posedge aclk)  disable iff (!aresetn)
    awvalid |-> (awready && wready);
    endproperty
 
@@ -527,7 +537,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFAWVALIDISASSERTED_THEN_SAMECLK_AWREADYANDWREADYWILLBEASSERT : COVERED");
 
   property WhenAwreadyIsAssertedThenNextClkWvalidIsAsserted;
-    @(posedge aclk) disable iff (aresetn)
+    @(posedge aclk) disable iff (!aresetn)
     (awready && !wvalid) |=> wvalid;
   endproperty
 
@@ -536,7 +546,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFAWREADYISASSERTED_THEN_NEXTCLK_WVALIDISASSERTED :  COVERED");
 
   property WhenAwreadyIsAssertedThenAnyClkWvalidIsAsserted;
-    @(posedge aclk) disable iff (aresetn)
+    @(posedge aclk) disable iff (!aresetn)
     awready |-> ##[0:$] wvalid;
   endproperty
 
@@ -545,7 +555,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFAWREADYISASSERTED_THEN_ANYCLK_WVALIDISASSERTED :  COVERED");
 
   property WhenAwreadyIsAssertedThenSameClkWvalidIsAsserted;
-    @(posedge aclk) disable iff (aresetn)
+    @(posedge aclk) disable iff (!aresetn)
     awready |-> wvalid;
   endproperty
 
@@ -554,7 +564,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFAWREADYISASSERTED_THEN_SAMECLK_WVALIDISASSERTED :  COVERED");
 
   property WhenAwreadyIsAssertedThenNextClkAwvalidAndWvalidAreAsserted;
-    @(posedge aclk) disable iff (aresetn)
+    @(posedge aclk) disable iff (!aresetn)
     (awready) |-> ##1 (awvalid && wvalid);
 //(awready && !awvalid && !wvalid) |-> ##1 (awvalid && wvalid);
   endproperty
@@ -565,7 +575,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
 
    property WhenAwreadyIsAssertedThenAnyClkAwvalidAndWvalidAreAsserted;
-   @(posedge aclk) disable iff (aresetn)
+   @(posedge aclk) disable iff (!aresetn)
    awready |-> ##[1:$] (awvalid && wvalid);
    endproperty
  
@@ -574,7 +584,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("IFAWREADYISASSERTED_THEN_ANYCLK_AWVALIDANDWVALIDAREASSERTED :  COVERED");
 
    property WhenAwreadyIsAssertedThenSameClkAwvalidAndWvalidAreAsserted;
-   @(posedge aclk) disable iff (aresetn)
+   @(posedge aclk) disable iff (!aresetn)
    awready |-> (awvalid && wvalid);
    endproperty
  
@@ -583,7 +593,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFAWREADYISASSERTED_THEN_SAMECLK_AWVALIDANDWVALIDAREASSERTED :  COVERED");
 
   property WhenWvalidIsAssertedThenNextClkAwreadyAsserted;
-    @(posedge aclk) disable iff (aresetn)
+    @(posedge aclk) disable iff (!aresetn)
     wvalid |=> awready;
   endproperty
 
@@ -593,7 +603,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
 
   property WhenWvalidIsAssertedThenAnyClkAwreadyAsserted;
-    @(posedge aclk) disable iff (aresetn)
+    @(posedge aclk) disable iff (!aresetn)
     wvalid |=> ##[0:$] awready;
   endproperty
 
@@ -602,7 +612,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFWVALIDISASSERTED_THEN_ANYCLK_AWREADYISASSERTED:  COVERED");
 
    property WhenAwvalidIsAssertedThenNextClkAwreadyAssertedThenNextClkWvalidIsAsserted();
-   @(posedge aclk) disable iff (aresetn)
+   @(posedge aclk) disable iff (!aresetn)
     awvalid |=> awready ##1 wvalid;
    endproperty
 
@@ -611,7 +621,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("IFAWVALIDISASSERTED_THEN_NEXTCLK_AWREADYISASSERTED_THEN_NEXTCLK_WVALIDIASERTED  COVERED");
 
    property WhenWvalidIsAssertedThenNextClkAwvalidIsAsserted();
-    @(posedge aclk) disable iff (aresetn)
+    @(posedge aclk) disable iff (!aresetn)
     wvalid |=> awvalid;
    endproperty 
 
@@ -620,7 +630,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("IFWVALIDISASSERTED_THEN_NEXTCLK_AWVALIDISASSERTED:  COVERED");
 
    property WhenWvalidIsAssertedThenAnyClkAwvalidIsAsserted();
-   @(posedge aclk) disable iff (aresetn)
+   @(posedge aclk) disable iff (!aresetn)
    wvalid |=> ## [0:$] awvalid;
    endproperty
 
@@ -630,7 +640,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
 
    property WhenWvalidIsAssertedThenSameClkAwvalidIsAsserted();
-    @(posedge aclk) disable iff (aresetn)
+    @(posedge aclk) disable iff (!aresetn)
     wvalid |-> awvalid;
    endproperty 
 
@@ -639,7 +649,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("IFWVALIDISASSERTED_THEN_SAMECLK_AWVALIDISASSERTED:  COVERED");
 
    property WhenAwvalidIsAssertedThenNextClkWvalidIsAsserted();
-    @(posedge aclk) disable iff (aresetn)
+    @(posedge aclk) disable iff (!aresetn)
     awvalid |=> wvalid;
    endproperty
 
@@ -648,7 +658,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("IFAWVALIDISASSERTED_THEN_NEXTCLK_WVALIDISASSERTED:  COVERED");
 
    property WhenAwvalidIsAssertedThenAnyClkWvalidIsAsserted();
-    @(posedge aclk) disable iff (aresetn)
+    @(posedge aclk) disable iff (!aresetn)
     awvalid |=> ##[0:$] wvalid;
    endproperty
 
@@ -657,7 +667,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    $info("IFAWVALIDISASSERTED_THEN_ANYCLK_WVALIDISASSERTED:  COVERED");
 
    property WhenWvalidIsAssertedThenNextClkAwreadyAndWreadyWillBeAssert;
-     @(posedge aclk)  disable iff (aresetn)
+     @(posedge aclk)  disable iff (!aresetn)
     wvalid |=> (awready && wready);
    endproperty
 
@@ -666,7 +676,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFWVALIDISASSERTED_THEN_NEXTCLK_AWREADYANDWREADYWILLBEASSERT : COVERED");
 
   property WhenWvalidIsAssertedThenAnyClkAwreadyAndWreadyWillBeAssert; 
-    @(posedge aclk) disable iff (aresetn)
+    @(posedge aclk) disable iff (!aresetn)
     (wvalid && !awready && !wready) |-> ##[1:$] (awready && wready);
   endproperty  
 
@@ -675,7 +685,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFWVALIDISASSERTED_THEN_ANYCLK_AWREADYANDWREADYWILLBEASSERT :  COVERED");
 
    property WhenWvalidIsAssertedThenSameClkAwreadyAndWreadyWillBeAssert;
-   @(posedge aclk)  disable iff (aresetn)
+   @(posedge aclk)  disable iff (!aresetn)
    wvalid |-> (awready && wready);
    endproperty
 
@@ -684,7 +694,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   $info("IFWVALIDISASSERTED_THEN_SAMECLK_AWREADYANDWREADYWILLBEASSERT : COVERED");
 
    property WhenWvalidIsAssertedAndWstrbOfHigherLanesOfWdataIsValidData;
-   @(posedge aclk) disable iff (aresetn)
+   @(posedge aclk) disable iff (!aresetn)
     (wvalid && wready) |-> ((wstrb === 4'b1100) && (wdata[15:0] === 16'b0));
    endproperty
 
@@ -692,14 +702,37 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
    (WhenWvalidIsAssertedAndWstrbOfHigherLanesOfWdataIsValidData)
    $info("IFWVALIDISASSERTED_THEN_WSTRBOFHIGHERLANESAREASSERTED_THEN_L3ANDL2OFWDATAISVALIDDATA : COVERED");
 
+
    property WhenWvalidAssertedAndWstrbOfLowerLanesOfWdataIsValidData;
-   @(posedge aclk) disable iff (aresetn)
+   @(posedge aclk) disable iff (!aresetn)
    (wvalid && wready) |-> ((wstrb == 4'b0011) && (wdata[31:16] == 16'h0000));
    endproperty
   
    IFWVALIDISASSERTED_THEN_WSTRBOFHIGHERLANESAREASSERTED_THEN_L1ANDL0OFWDATAISVALIDDATA: cover property
    (WhenWvalidAssertedAndWstrbOfLowerLanesOfWdataIsValidData)
    $info("IFWVALIDISASSERTED_THEN_WSTRBOFHIGHERLANESAREASSERTED_THEN_L1ANDL0OFWDATAISVALIDDATA : COVERED");
+
+   property WhenWvalidAndWreadyAreAssertedThenSameClkWstrbValueIsAllOnesThenWdataIsNotUnknown; 
+     @(posedge aclk) disable iff (!aresetn)
+     (wvalid && wready) |-> ((wstrb == 4'b1111) && (!$isunknown(wdata)));
+   endproperty 
+
+   IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THENWDATAISNOTUNKNOWNVALUE: cover property 
+   (WhenWvalidAndWreadyAreAssertedThenSameClkWstrbValueIsAllOnesThenWdataIsNotUnknown)
+   $info("IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THENWDATAISNOTUNKNOWNVALUE :COVERED");
+
+   
+   property WhenWvalidAndWreadyAreAssertedAndWstrbIsInactiveByteThenWdataIsPreviousValues;
+     @(posedge aclk) disable iff (!aresetn)
+     (wvalid && wready) |-> ((wstrb == 4'b1111) && (!$isunknown(wdata)) 
+      ##[1:15] (wvalid && wready) ##0 (wstrb == 4'b0101) && (wdata[31:24] == $past(wdata[31:24])) 
+      && wdata[15:08] == $past(wdata[15:08]));   
+   endproperty 
+
+   IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBISINACTIVEBYE_THEN_INBETWEEN1TO15CLKWDATAISPREVIOUSVALUES: cover property 
+   (WhenWvalidAndWreadyAreAssertedAndWstrbIsInactiveByteThenWdataIsPreviousValues)
+   $info("IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBISINACTIVEBYE_THEN_INBETWEEN1TO15CLKWDATAISPREVIOUSVALUES : COVERED");
+ 
 
  endinterface : Axi4LiteSlaveWriteCoverProperty
 
