@@ -61,7 +61,7 @@ usage:
 	echo "make regression testlist_name=<regression_testlist_name.list>";
 	echo "";
 	echo "Example:":
-	echo "make regression testlist_name=axi4Lite_transfers_regression.list";
+	echo "make regression testlist_name=axi4LiteMasterWriteRegression.list";
 	echo "";
 	echo "-----------------------------------------------------------------";
 	echo "-----------------------------------------------------------------";
@@ -160,9 +160,9 @@ clean_compile:
 	rm -rf work/ *_compile.log transcript waveform.wlf
 	rm -rf merged_coverage.ucdb merged_cov_html_report
 
-#clean:
-#	make clean_compile
-#	make clean_simulate
+clean:
+	make clean_compile
+	make clean_simulate
 
 ##
 ## For Regression and coverage merge
@@ -170,7 +170,7 @@ clean_compile:
 regression:
 	# Run compilation
 	#make compile
-	make clean_simulate
+	make compile
 	# Run simualtion - regression 
 	python regression_handling.py $(testlist_name)
 	#	# Get the tests from regression list

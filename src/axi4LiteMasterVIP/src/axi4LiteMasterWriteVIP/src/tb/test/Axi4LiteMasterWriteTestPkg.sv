@@ -27,6 +27,7 @@ package Axi4LiteMasterWriteTestPkg;
   `include "Axi4LiteMasterWriteWstrbAnyTwoBitsOneTest.sv"
   `include "Axi4LiteMasterWriteWstrbAnyThreeBitsOneTest.sv"
   `include "Axi4LiteMasterWriteWstrbAllBitsOneTest.sv"
+  `include "Axi4LiteMasterWriteModBy4AddressTest.sv"
 
 endpackage : Axi4LiteMasterWriteTestPkg
 
