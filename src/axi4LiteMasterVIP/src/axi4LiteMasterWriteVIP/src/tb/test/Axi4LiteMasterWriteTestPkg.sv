@@ -21,6 +21,8 @@ package Axi4LiteMasterWriteTestPkg;
   `include "Axi4LiteMasterWriteAwreadyLowAfter3ClkAwvalidHighTest.sv"
   `include "Axi4LiteMasterWriteEvenAddressTest.sv"
   `include "Axi4LiteMasterWriteOddAddressTest.sv"
+  `include "Axi4LiteMasterWriteWdataMaxValueTest.sv"
+  `include "Axi4LiteMasterWriteWdataToggleValueTest.sv"
 
 endpackage : Axi4LiteMasterWriteTestPkg
 

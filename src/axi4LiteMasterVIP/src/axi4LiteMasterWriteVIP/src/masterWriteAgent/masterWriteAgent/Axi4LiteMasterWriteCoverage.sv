@@ -21,10 +21,9 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
 
    WRITEDATA_CP : coverpoint packet.wdata {
    option.comment                                   = "writeDATA value";
-   bins WRITE_DATAMIN                               = {32'h0000_0001};
    bins WRITE_DATAMAX                               = {32'hFFFF_FFFF};
-   bins WRITE_DATTOGGLE1                            = {32'h1010_1010};
-   bins WRITE_EANYDATA                              = {[0:$]};
+   bins WRITE_DATTOGGLE1                            = {32'hAAAA_AAAA};
+   bins WRITE_ANYDATA                               = {[1:$]};
    }
 
    WSTRB_CP : coverpoint packet.wstrb{
@@ -59,8 +58,8 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
    AWPROT_CP_X_BRESP_CP    : cross AWPROT_CP, BRESP_CP;
    WRITEDATA_CP_X_WSTRB_CP : cross WRITEDATA_CP, WSTRB_CP;
    WRITEADDR_CP_X_BRESP_CP : cross WRITEADDR_CP,BRESP_CP {
-     bins b1 = binsof(WRITEADDR_CP.WRITEADDROUTOFRANGE) && binsof(BRESP_CP.WRITE_SLVERR);
-     bins b2 = binsof(WRITEADDR_CP.WRITEADDRRANGE) && binsof(BRESP_CP.WRITE_OKAY);
+     bins b1 = binsof(WRITEADDR_CP.WRITE_ADDROUTOFRANGE) && binsof(BRESP_CP.WRITE_SLVERR);
+     bins b2 = binsof(WRITEADDR_CP.WRITE_ADDRRANGE) && binsof(BRESP_CP.WRITE_OKAY);
   }
 
    endgroup: axi4LiteMasterWriteCovergroup
