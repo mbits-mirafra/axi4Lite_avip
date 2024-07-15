@@ -18,11 +18,10 @@ endfunction : new
 
 function void Axi4LiteMasterWriteAwreadyLowAfter3ClkAwvalidHighTest::build_phase(uvm_phase phase);
   super.build_phase(phase);
+  axi4LiteMasterWriteAwreadyLowAfter3ClkAwvalidHighSeq = Axi4LiteMasterWriteAwreadyLowAfter3ClkAwvalidHighSeq ::type_id::create("axi4LiteMasterWriteAwreadyLowAfter3ClkAwvalidHighSeq");
 endfunction : build_phase
 
 task Axi4LiteMasterWriteAwreadyLowAfter3ClkAwvalidHighTest::run_phase(uvm_phase phase);
-
-  axi4LiteMasterWriteAwreadyLowAfter3ClkAwvalidHighSeq = Axi4LiteMasterWriteAwreadyLowAfter3ClkAwvalidHighSeq ::type_id::create("axi4LiteMasterWriteAwreadyLowAfter3ClkAwvalidHighSeq");
 
   `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteMasterWriteAwreadyLowAfter3ClkAwvalidHighTest"),UVM_LOW);
     

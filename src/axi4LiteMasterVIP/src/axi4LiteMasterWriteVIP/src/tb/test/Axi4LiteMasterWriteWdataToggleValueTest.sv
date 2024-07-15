@@ -20,8 +20,6 @@ endfunction : build_phase
 
 task Axi4LiteMasterWriteWdataToggleValueTest::run_phase(uvm_phase phase);
   
-  axi4LiteMasterWriteWdataSeq = Axi4LiteMasterWriteWdataSeq ::type_id::create("axi4LiteMasterWriteWdataSeq");
-  
   `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteMasterWriteWdataToggleValueTest"),UVM_LOW);
     
    if(!axi4LiteMasterWriteWdataSeq.randomize() with {wdata == 32'hAAAA_AAAA;}) begin

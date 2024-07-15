@@ -1,4 +1,3 @@
-
 `ifndef AXI4LITEMASTERWRITEDELAYFORBREADYTEST_INCLUDED_
 `define AXI4LITEMASTERWRITEDELAYFORBREADYTEST_INCLUDED_
 
@@ -19,11 +18,10 @@ endfunction : new
 
 function void Axi4LiteMasterWriteDelayForBreadyTest::build_phase(uvm_phase phase);
   super.build_phase(phase);
+  axi4LiteMasterWriteDelayForBreadySeq = Axi4LiteMasterWriteDelayForBreadySeq ::type_id::create("axi4LiteMasterWriteDelayForWvalidSeq");
 endfunction : build_phase
 
 task Axi4LiteMasterWriteDelayForBreadyTest::run_phase(uvm_phase phase);
-
-  axi4LiteMasterWriteDelayForBreadySeq = Axi4LiteMasterWriteDelayForBreadySeq ::type_id::create("axi4LiteMasterWriteDelayForWvalidSeq");
 
   `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteMasterWriteDelayForBreadyTest"),UVM_LOW);
     

@@ -18,11 +18,10 @@ endfunction : new
 
 function void Axi4LiteMasterWriteRandomTransferTest::build_phase(uvm_phase phase);
   super.build_phase(phase);
+  axi4LiteMasterWriteRandomTransferSeq = Axi4LiteMasterWriteRandomTransferSeq ::type_id::create("axi4LiteMasterWriteRandomTransferSeq");
 endfunction : build_phase
 
 task Axi4LiteMasterWriteRandomTransferTest::run_phase(uvm_phase phase);
-
-  axi4LiteMasterWriteRandomTransferSeq = Axi4LiteMasterWriteRandomTransferSeq ::type_id::create("axi4LiteMasterWriteRandomTransferSeq");
 
   `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteMasterWriteRandomTransferTest"),UVM_LOW);
 

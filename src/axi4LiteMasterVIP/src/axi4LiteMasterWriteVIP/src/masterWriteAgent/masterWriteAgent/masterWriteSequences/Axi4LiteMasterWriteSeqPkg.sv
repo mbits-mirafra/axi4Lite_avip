@@ -16,6 +16,7 @@ package Axi4LiteMasterWriteSeqPkg;
   `include "Axi4LiteMasterWriteAddressInsideMinAndMaxRangeSeq.sv"
   `include "Axi4LiteMasterWriteAwreadyLowAfter3ClkAwvalidHighSeq.sv"
   `include "Axi4LiteMasterWriteWdataSeq.sv"
+  `include "Axi4LiteMasterWriteWstrbSeq.sv"
 
 endpackage : Axi4LiteMasterWriteSeqPkg
 `endif

@@ -17,11 +17,10 @@ endfunction : new
 
 function void Axi4LiteMasterWriteWdataMaxValueTest::build_phase(uvm_phase phase);
   super.build_phase(phase);
+  axi4LiteMasterWriteWdataSeq = Axi4LiteMasterWriteWdataSeq ::type_id::create("axi4LiteMasterWriteWdataSeq");
 endfunction : build_phase
 
 task Axi4LiteMasterWriteWdataMaxValueTest::run_phase(uvm_phase phase);
-
-  axi4LiteMasterWriteWdataSeq = Axi4LiteMasterWriteWdataSeq ::type_id::create("axi4LiteMasterWriteWdataSeq");
 
   `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteMasterWriteWdataMaxValueTest"),UVM_LOW);
     

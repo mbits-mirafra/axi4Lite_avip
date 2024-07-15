@@ -23,6 +23,10 @@ package Axi4LiteMasterWriteTestPkg;
   `include "Axi4LiteMasterWriteOddAddressTest.sv"
   `include "Axi4LiteMasterWriteWdataMaxValueTest.sv"
   `include "Axi4LiteMasterWriteWdataToggleValueTest.sv"
+  `include "Axi4LiteMasterWriteWstrbSingleBitOneTest.sv"
+  `include "Axi4LiteMasterWriteWstrbAnyTwoBitsOneTest.sv"
+  `include "Axi4LiteMasterWriteWstrbAnyThreeBitsOneTest.sv"
+  `include "Axi4LiteMasterWriteWstrbAllBitsOneTest.sv"
 
 endpackage : Axi4LiteMasterWriteTestPkg
 

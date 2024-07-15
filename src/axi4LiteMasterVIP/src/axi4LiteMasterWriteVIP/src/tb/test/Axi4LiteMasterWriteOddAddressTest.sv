@@ -19,8 +19,6 @@ function void Axi4LiteMasterWriteOddAddressTest::build_phase(uvm_phase phase);
 endfunction : build_phase
 
 task Axi4LiteMasterWriteOddAddressTest::run_phase(uvm_phase phase);
-  
-  axi4LiteMasterWriteAddressInsideMinAndMaxRangeSeq = Axi4LiteMasterWriteAddressInsideMinAndMaxRangeSeq ::type_id::create("axi4LiteMasterWriteAddressInsideMinAndMaxRangeSeq");
  
   `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteMasterWriteOddAddressTest"),UVM_LOW);
     
