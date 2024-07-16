@@ -19,9 +19,8 @@ class Axi4LiteSlaveReadCoverage extends uvm_subscriber#(Axi4LiteSlaveReadTransac
 
     READDATA_CP : coverpoint packet.rdata {
     option.comment                                  = "readDATA value";
-    bins READ_DATAMIN                               = {32'h0000_0001};
     bins READ_DATAMAX                               = {32'hFFFF_FFFF};
-    bins READ_DATTOGGLE1                            = {32'h1010_1010};
+    bins READ_DATTOGGLE1                            = {32'hAAAA_AAAA};
     bins READ_ANYDATA                               = {[0:$]};
    }
 

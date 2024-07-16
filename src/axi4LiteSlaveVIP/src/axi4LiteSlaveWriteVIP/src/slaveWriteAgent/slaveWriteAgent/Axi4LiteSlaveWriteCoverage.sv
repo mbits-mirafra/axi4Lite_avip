@@ -20,9 +20,8 @@ class Axi4LiteSlaveWriteCoverage extends uvm_subscriber#(Axi4LiteSlaveWriteTrans
 
    WRITEDATA_CP : coverpoint packet.wdata {
    option.comment                                  = "writeDATA value";
-   bins WRITE_DATAMIN                              = {32'h0000_0001};
    bins WRITE_DATAMAX                              = {32'hFFFF_FFFF};
-   bins WRITE_DATTOGGLE1                           = {32'h1010_1010};
+   bins WRITE_DATTOGGLE1                           = {32'hAAAA_AAAA};
    bins WRITE_ANYDATA                              = {[0:$]};
   }
 
