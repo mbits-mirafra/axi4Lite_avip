@@ -17,7 +17,6 @@ function Axi4LiteSlaveReadDelayForArreadySeq::new(string name = "Axi4LiteSlaveRe
 endfunction : new
 
 task Axi4LiteSlaveReadDelayForArreadySeq::body();
-  req = Axi4LiteSlaveReadTransaction::type_id::create();
   super.body();
   start_item(req);
   if(!req.randomize())begin 

@@ -15,7 +15,6 @@ endfunction : new
 task Axi4LiteSlaveReadRandomTransferSeq::body();
   super.body();
 
-  req = Axi4LiteSlaveReadTransaction::type_id::create("req");
   `uvm_info(get_type_name(),$sformatf("Inside body before start_item Axi4LiteSlaveReadRandomTransferSeq"),UVM_LOW);
  
   start_item(req);

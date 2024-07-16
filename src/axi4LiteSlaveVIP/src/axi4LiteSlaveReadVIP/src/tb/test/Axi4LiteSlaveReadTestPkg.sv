@@ -12,12 +12,13 @@ package Axi4LiteSlaveReadTestPkg;
 
   import Axi4LiteSlaveReadAssertCoverParameter::*;
 
-
   //including base_test for testing
   `include "Axi4LiteSlaveReadBaseTest.sv"
   `include "Axi4LiteSlaveReadRandomTransferTest.sv"
   `include "Axi4LiteSlaveReadDelayForArreadyTest.sv"
   `include "Axi4LiteSlaveReadDelayForRvalidTest.sv"
+  `include "Axi4LiteSlaveReadRdataMaxValueTest.sv"
+  `include "Axi4LiteSlaveReadRdataToggleValueTest.sv"
 
 endpackage : Axi4LiteSlaveReadTestPkg
 
