@@ -30,6 +30,7 @@ package Axi4LiteTestPkg;
   //including base_test for testing
   `include "Axi4LiteBaseTest.sv"
   `include "Axi4LiteRandomWriteReadTransferTest.sv"
+  `include "Axi4LiteDelayForAwvalidAndAwreadyTest.sv"
 
 endpackage : Axi4LiteTestPkg
 
