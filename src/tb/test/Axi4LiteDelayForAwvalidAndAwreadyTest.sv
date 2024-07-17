@@ -7,7 +7,7 @@ class Axi4LiteDelayForAwvalidAndAwreadyTest extends Axi4LiteBaseTest;
   Axi4LiteVirtualDelayForAwvalidAndAwreadySeq axi4LiteVirtualDelayForAwvalidAndAwreadySeq;
   
   extern function new(string name = "Axi4LiteDelayForAwvalidAndAwreadyTest", uvm_component parent = null);
-  extern virtual function void setupAxi4LiteSlaveWriteAgentConfig();
+  extern function void setupAxi4LiteSlaveWriteAgentConfig();
   extern virtual task run_phase(uvm_phase phase);
 
 
