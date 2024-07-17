@@ -7,7 +7,8 @@ class Axi4LiteDelayForArvalidAndArreadyTest extends Axi4LiteBaseTest;
   Axi4LiteVirtualDelayForArvalidAndArreadySeq axi4LiteVirtualDelayForArvalidAndArreadySeq;
   
   extern function new(string name = "Axi4LiteDelayForArvalidAndArreadyTest", uvm_component parent = null);
-extern virtual task run_phase(uvm_phase phase);
+  extern function void setupAxi4LiteSlaveReadAgentConfig();
+  extern virtual task run_phase(uvm_phase phase);
 
 endclass : Axi4LiteDelayForArvalidAndArreadyTest
 
@@ -15,6 +16,14 @@ function Axi4LiteDelayForArvalidAndArreadyTest::new(string name = "Axi4LiteDelay
                                  uvm_component parent = null);
   super.new(name, parent);
 endfunction : new
+
+function void Axi4LiteDelayForArvalidAndArreadyTest::setupAxi4LiteSlaveReadAgentConfig();
+  super.setupAxi4LiteSlaveReadAgentConfig();
+  
+  foreach(axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i]) begin
+     axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].defaultStateReady = 0; 
+  end
+endfunction
 
 task Axi4LiteDelayForArvalidAndArreadyTest::run_phase(uvm_phase phase);
 

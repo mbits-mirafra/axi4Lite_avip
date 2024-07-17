@@ -7,7 +7,8 @@ class Axi4LiteDelayForBvalidAndBreadyTest extends Axi4LiteBaseTest;
   Axi4LiteVirtualDelayForBvalidAndBreadySeq axi4LiteVirtualDelayForBvalidAndBreadySeq;
   
   extern function new(string name = "Axi4LiteDelayForBvalidAndBreadyTest", uvm_component parent = null);
-extern virtual task run_phase(uvm_phase phase);
+  extern function void setupAxi4LiteMasterWriteAgentConfig();
+  extern virtual task run_phase(uvm_phase phase);
 
 endclass : Axi4LiteDelayForBvalidAndBreadyTest
 
@@ -15,6 +16,14 @@ function Axi4LiteDelayForBvalidAndBreadyTest::new(string name = "Axi4LiteDelayFo
                                  uvm_component parent = null);
   super.new(name, parent);
 endfunction : new
+
+function void Axi4LiteDelayForBvalidAndBreadyTest::setupAxi4LiteMasterWriteAgentConfig();
+  super.setupAxi4LiteMasterWriteAgentConfig();
+  
+  foreach(axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i]) begin
+   axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].defaultStateReady = 0; 
+  end
+endfunction
 
 task Axi4LiteDelayForBvalidAndBreadyTest::run_phase(uvm_phase phase);
 

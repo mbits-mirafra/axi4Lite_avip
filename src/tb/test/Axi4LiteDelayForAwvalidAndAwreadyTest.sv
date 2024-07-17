@@ -19,13 +19,11 @@ function Axi4LiteDelayForAwvalidAndAwreadyTest::new(string name = "Axi4LiteDelay
 endfunction : new
 
 function void Axi4LiteDelayForAwvalidAndAwreadyTest::setupAxi4LiteSlaveWriteAgentConfig();
-  `uvm_info(get_type_name(),$sformatf("Gopal"),UVM_LOW);
   super.setupAxi4LiteSlaveWriteAgentConfig();
   
   foreach(axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i]) begin
      axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].defaultStateReady = 0; 
   end
-  `uvm_info(get_type_name(),$sformatf("Gopal axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[0].defaultStateReady : %0d", axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[0].defaultStateReady),UVM_LOW);
 endfunction
 
 task Axi4LiteDelayForAwvalidAndAwreadyTest::run_phase(uvm_phase phase);
