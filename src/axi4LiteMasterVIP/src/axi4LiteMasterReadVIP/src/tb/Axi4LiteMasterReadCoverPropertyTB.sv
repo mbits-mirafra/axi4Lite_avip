@@ -90,8 +90,8 @@ module Axi4LiteMasterReadCoverPropertyTB;
     When_rreadyIsAsserted_Then_nextClkRvalidIsAsserted();
     When_arreadyIsAsserted_Then_inbetween2To5ClkArvalidIsAsserted();
     When_rreadyIsAsserted_Then_inbetween2To5ClkRvalidIsAsserted();
-    When_arreadyIsAsserted_Then_anyClkArvalidIsAsserted();
-    When_rreadyIsAsserted_Then_anyClkRvalidIsAsserted();
+    When_arreadyIsAsserted_Then_inbetween1To15ClkArvalidIsAsserted();
+    When_rreadyIsAsserted_Then_inbetween1To15ClkRvalidIsAsserted();
 
     When_arreadyDefaultValueIs1AndTransferOccur_Then_nextClkArreadyValueWillGoDefaultState();
     When_rreadyDefaultValueIs1AndTransferOccur_Then_nextClkRreadyValueWillGoDefaultState();
@@ -800,34 +800,34 @@ module Axi4LiteMasterReadCoverPropertyTB;
     `uvm_info(name,$sformatf("When_rreadyIsAsserted_Then_inbetween2To5ClkRvalidIsAsserted task ended"),UVM_NONE);
   endtask
 
-    task When_arreadyIsAsserted_Then_anyClkArvalidIsAsserted();
-   `uvm_info(name,$sformatf("When_arreadyIsAsserted_Then_anyClkArvalidIsAsserted task started"),UVM_NONE);
+    task When_arreadyIsAsserted_Then_inbetween1To15ClkArvalidIsAsserted();
+   `uvm_info(name,$sformatf("When_arreadyIsAsserted_Then_inbetween1To15ClkArvalidIsAsserted task started"),UVM_NONE);
       @(posedge aclk);
       aresetn <= 1'b1;
       arvalid <= 1'b0;
       arready <= 1'b0;
       @(posedge aclk);
       arready <= 1'b1;
-      repeat(5) begin //Here anyvalue you can give example 5
+      repeat(5) begin //Here anyvalue between the 1 to 15 you can give example 5
       @(posedge aclk);
       end
       arvalid <= 1'b1;
-    `uvm_info(name,$sformatf("When_arreadyIsAsserted_Then_anyClkArvalidIsAsserted task ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_arreadyIsAsserted_Then_inbetween1To15ClkArvalidIsAsserted task ended"),UVM_NONE);
   endtask
 
-  task When_rreadyIsAsserted_Then_anyClkRvalidIsAsserted();
-   `uvm_info(name,$sformatf("When_rreadyIsAsserted_Then_anyClkRvalidIsAsserted task started"),UVM_NONE);
+  task When_rreadyIsAsserted_Then_inbetween1To15ClkRvalidIsAsserted();
+   `uvm_info(name,$sformatf("When_rreadyIsAsserted_Then_inbetween1To15ClkRvalidIsAsserted task started"),UVM_NONE);
      @(posedge aclk);
       aresetn<= 1'b1;
       rvalid <= 1'b0;
       rready <= 1'b0;
       @(posedge aclk);
       rready <= 1'b1;
-      repeat(5) begin //Here anyvalue you can give example 5
+      repeat(5) begin //Here anyvalue between the 1 to 15 you can give example 5
       @(posedge aclk);
       end
       rvalid <= 1'b1;
-    `uvm_info(name,$sformatf("When_rreadyIsAsserted_Then_anyClkRvalidIsAsserted task ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_rreadyIsAsserted_Then_inbetween1To15ClkRvalidIsAsserted task ended"),UVM_NONE);
   endtask
 
 task When_arreadyDefaultValueIs1AndTransferOccur_Then_nextClkArreadyValueWillGoDefaultState();

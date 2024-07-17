@@ -280,19 +280,19 @@ interface Axi4LiteSlaveReadCoverProperty (input aclk,
     IFRREADYASSERTED_THEN_INBETWEEN2TO5CLK_RVALIDASSERTED: cover property
     (WhenReadyAssertedThenInbetween2To5ClkValidAsserted(rvalid,rready))
     $info("IFRREADYASSERTED_THEN_INBETWEEN2TO5CLK_RVALIDASSERTED: COVERED");
-
-    property WhenReadyAssertedThenAnyClkValidAsserted(logic valid, logic ready);
-     @(posedge aclk) disable iff (!aresetn) ready |-> !valid ##[0:$] valid;
+ 
+    property WhenReadyAssertedThenInbetween1To15ClkValidAsserted(logic valid, logic ready);
+     @(posedge aclk) disable iff (!aresetn) ready |-> !valid ##[1:MAX_DELAY_VALID] valid;
     endproperty
 
-    IFARREADYASSERTED_THEN_ANYCLK_ARVALIDASSERTED: cover property
-    (WhenReadyAssertedThenAnyClkValidAsserted(arvalid,arready))
-    $info("IFARREADYASSERTED_THEN_ANYCLK_ARVALIDASSERTED : COVERED");
+    IFARREADYASSERTED_THEN_INBETWEEN1TO15CLK_ARVALIDASSERTED: cover property
+    (WhenReadyAssertedThenInbetween1To15ClkValidAsserted(arvalid,arready))
+    $info("IFARREADYASSERTED_THEN_INBETWEEN1TO15CLK_ARVALIDASSERTED : COVERED");
 
-    IFRREADYASSERTED_THEN_ANYCLK_RVALIDASSERTED: cover property
-    (WhenReadyAssertedThenAnyClkValidAsserted(rvalid,rready))
-    $info("IFRREADYASSERTED_THEN_ANYCLK_RVALIDASSERTED : COVERED");
-
+    IFRREADYASSERTED_THEN_INBETWEEN1TO15CLK_RVALIDASSERTED: cover property
+    (WhenReadyAssertedThenInbetween1To15ClkValidAsserted(rvalid,rready))
+    $info("IFRREADYASSERTED_THEN_INBETWEEN1TO15CLK_RVALIDASSERTED : COVERED");
+ 
     property WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(logic valid, logic ready); 
      @(posedge aclk) disable iff (!aresetn)
          (ready && valid) |=> (ready== DEFAULT_READY);
