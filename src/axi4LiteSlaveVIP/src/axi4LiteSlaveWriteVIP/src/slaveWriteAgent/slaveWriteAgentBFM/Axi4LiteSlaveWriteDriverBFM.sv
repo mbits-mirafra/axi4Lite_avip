@@ -33,12 +33,12 @@ interface Axi4LiteSlaveWriteDriverBFM(input      aclk,
     `uvm_info("axi4 slave driver bfm",$sformatf("AXI4 SLAVE DRIVER BFM"),UVM_LOW);
   end
 
-  task waitForAresetn();
+  task waitForAresetn(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteConfigStruct);
     @(negedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DETECTED"),UVM_HIGH)
     bvalid   <= 1'b0;
-    awready  <= DEFAULT_READY;
-    wready   <= DEFAULT_READY;
+    awready  <= slaveWriteConfigStruct.defaultStateReady;
+    wready   <= slaveWriteConfigStruct.defaultStateReady;
     @(posedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DEACTIVATED"),UVM_HIGH)
   endtask : waitForAresetn 
@@ -61,6 +61,9 @@ task writeAddressChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWrit
   slaveWritePacketStruct.awaddr <= awaddr;
   slaveWritePacketStruct.awprot <= awprot;
   
+  @(posedge aclk);
+  awready <= slaveWriteConfigStruct.defaultStateReady;
+
   `uvm_info(name,$sformatf("SLAVE_WRITE_ADDRESS_CHANNEL_TASK_ENDED"),UVM_HIGH)
 endtask : writeAddressChannelTask
 
@@ -86,6 +89,9 @@ task writeDataChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteCo
     slaveWritePacketStruct.wdata <= wdata;
     slaveWritePacketStruct.wstrb <= wstrb;
  
+    @(posedge aclk);
+    wready <= slaveWriteConfigStruct.defaultStateReady;
+
     `uvm_info(name,$sformatf("SLAVE_WRITE_DATA_CHANNEL_TASK_ENDED"),UVM_HIGH)
 endtask :writeDataChannelTask
 

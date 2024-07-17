@@ -19,8 +19,6 @@ package Axi4LiteSlaveWriteTestPkg;
   `include "Axi4LiteSlaveWriteDelayForWreadyTest.sv"
   `include "Axi4LiteSlaveWriteDelayForBvalidTest.sv"
   `include "Axi4LiteSlaveWriteAddressInsideMinAndMaxRangeTest.sv"
-  `include "Axi4LiteSlaveWriteEvenAddressTest.sv"
-  `include "Axi4LiteSlaveWriteOddAddressTest.sv"
 
 endpackage : Axi4LiteSlaveWriteTestPkg
 

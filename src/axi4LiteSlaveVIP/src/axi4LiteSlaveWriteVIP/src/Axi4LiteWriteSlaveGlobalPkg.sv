@@ -67,6 +67,7 @@ package Axi4LiteWriteSlaveGlobalPkg;
   typedef struct {
     int maxDelayForWvalid;
     int maxDelayForBready;
+    bit defaultStateReady;
 
   } axi4LiteWriteSlaveTransferCfgStruct;
 

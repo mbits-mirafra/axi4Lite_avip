@@ -19,6 +19,7 @@ class Axi4LiteSlaveWriteDriverProxy extends uvm_driver#(Axi4LiteSlaveWriteTransa
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
+  extern virtual task waitForAresetnTask();
   extern virtual task writeTransferTask();
 
  endclass : Axi4LiteSlaveWriteDriverProxy
@@ -43,9 +44,15 @@ function void Axi4LiteSlaveWriteDriverProxy::end_of_elaboration_phase(uvm_phase 
 endfunction  : end_of_elaboration_phase
 
 task Axi4LiteSlaveWriteDriverProxy::run_phase(uvm_phase phase);
- axi4LiteSlaveWriteDriverBFM.waitForAresetn();
+ waitForAresetnTask();
  writeTransferTask();
 endtask : run_phase
+
+task Axi4LiteSlaveWriteDriverProxy::waitForAresetnTask();
+ axi4LiteWriteSlaveTransferCfgStruct slaveWriteConfigStruct;
+ Axi4LiteSlaveWriteConfigConverter::fromClass(axi4LiteSlaveWriteAgentConfig, slaveWriteConfigStruct);
+ axi4LiteSlaveWriteDriverBFM.waitForAresetn(slaveWriteConfigStruct);
+endtask : waitForAresetnTask
 
 task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
  forever begin
