@@ -25,34 +25,38 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     `uvm_info("Axi4LiteMasterReadCoverProperty","Axi4LiteMasterReadCoverProperty",UVM_LOW);
   end
   
-  property WhenValidGoesHighThenInformationNotUnknownAndPreviousClkInformationUnknown(logic valid, logic information); 
-   @(posedge aclk) 
-    $rose(valid) |-> !($isunknown(information)) && ($past(information,1) === 1'bx); 
+  property WhenValidGoesHighThenInformationNotUnknownAndPreviousClkInformationUnknown(logic valid, logic information, logic controlSignal); 
+   @(posedge aclk) disable iff (!aresetn) 
+         $rose(valid) |-> !($isunknown(information)) ##0 !($isunknown(controlSignal)) 
+                    ##0 ($past(information,1) === 'bx)  
+                    ##0 ($past(controlSignal,1) === 'bx);    
   endproperty 
 
   IFARVALIDGOESHIGH_THEN_ARADDR_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_ARADDR_IS_UNKNOWN : cover property
-  (WhenValidGoesHighThenInformationNotUnknownAndPreviousClkInformationUnknown(arvalid,araddr))
+  (WhenValidGoesHighThenInformationNotUnknownAndPreviousClkInformationUnknown(arvalid,araddr,arprot))
   $info("IFARVALIDGOESHIGH_THEN_ARADDR_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_ARADDR_IS_UNKNOWN : COVERED");
 
   IFRVALIDGOESHIGH_THEN_RDATA_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_RDATA_IS_UNKNOWN : cover property  
-  (WhenValidGoesHighThenInformationNotUnknownAndPreviousClkInformationUnknown(rvalid, rdata))
+  (WhenValidGoesHighThenInformationNotUnknownAndPreviousClkInformationUnknown(rvalid, rdata, rresp))
   $info("IFRVALIDGOESHIGH_THEN_RDATA_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_RDATA_IS_UNKNOWN : COVERED");
 
-  property WhenValidAssertedThenInformationNotUnknownAndPrevious2ClkInformationUnknwon(logic valid, logic information);
-	 @(posedge aclk) 
-     valid |-> !($isunknown(information)) && ($past(information,2) === 1'bx); 
+  property WhenValidAssertedThenInformationNotUnknownAndPrevious2ClkInformationUnknwon(logic valid, logic information, logic controlSignal);
+	 	 @(posedge aclk) disable iff (!aresetn)
+     valid |-> !($isunknown(information)) ##0 !($isunknown(controlSignal))
+                ##0 ($past(information,2) === 1'bx)
+                ##0 ($past(controlSignal,2) === 1'bx);
  endproperty 
 
    IFARVALIDGOESHIGH_THEN_ARADDR_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_ARADDR_IS_UNKNOWN : cover property  
-  (WhenValidAssertedThenInformationNotUnknownAndPrevious2ClkInformationUnknwon(arvalid, araddr))
+  (WhenValidAssertedThenInformationNotUnknownAndPrevious2ClkInformationUnknwon(arvalid, araddr, arprot))
   $info("IFARVALIDGOESHIGH_THEN_ARADDR_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_ARADDR_IS_UNKNOWN : COVERED");
 
   IFRVALIDGOESHIGH_THEN_RDATA_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_RDATA_IS_UNKNOWN : cover property  
-  (WhenValidAssertedThenInformationNotUnknownAndPrevious2ClkInformationUnknwon(rvalid, rdata))
+  (WhenValidAssertedThenInformationNotUnknownAndPrevious2ClkInformationUnknwon(rvalid, rdata, rresp))
   $info("IFRVALIDGOESHIGH_THEN_RDATA_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_RDATA_IS_UNKNOWN : COVERED");
 
   property WhenReadyLowAndValidAssertedAfter3Clk(logic valid, logic ready);
-   @(posedge aclk)
+   @(posedge aclk) disable iff (!aresetn)
     !ready |-> ##3 (valid && !ready);
   endproperty
 
@@ -65,7 +69,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   $info("IFRREADYISLOW_THEN_RVALIDIS_ASSERTED_AFTER3CLK : COVERED");
  
   property WhenReadyLowAndValidAssertedAfterAnyClkThenReadyWillAssertedAnyClk(logic valid, logic ready);
-   @(posedge aclk)
+   @(posedge aclk) disable iff (!aresetn)
    !ready |-> ##[1:$] (valid && !ready);
   endproperty
   
@@ -78,7 +82,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   $info("IFRREADYLOW_THEN_ANYCLK_RVALIDIS_ASSERTED_THEN_RREADYWILL_ASSERTED_ANYCLK :COVERED");
 
   property WhenValidAssertedThenSameClkReadyAsserted(logic valid, logic ready);
-   @(posedge aclk)
+   @(posedge aclk) disable iff (!aresetn)
    $rose(valid) |-> ready;
   endproperty
 
@@ -91,7 +95,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   $info("IFRVALIDISASSERTED_THENSAMECLK_RREADYISASSERTED :COVERED");
 
   property WhenValidAssertedThenValidHighAndNextClkReadyAsserted(logic valid, logic ready); 
-   @(posedge aclk) 
+   @(posedge aclk) disable iff (!aresetn) 
     $rose(valid) |=> $stable(valid) && ready; 
   endproperty  
 
@@ -104,7 +108,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
    $info("IFRVALIDASSERTED_ANDREMAINHIGH_THEN_NEXTCLK_RREADYASSERTED : COVERED");
 
    property WhenValidAssertedThenValidHighAndWithin1To16ClkReadyAsserted(logic valid, logic ready);
-   @(posedge aclk) 
+   @(posedge aclk) disable iff (!aresetn) 
     $rose(valid) |=> ($stable(valid) throughout (##[1:MAX_DELAY_READY] $rose(ready))); 
   endproperty  
 
@@ -117,7 +121,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   $info("IFRVALIDASSERTED_ANDREMAINHIGH_THENWITHIN1TO16CLK_RREADYASSERTED : COVERED");
 
   property WhenBackToBackValidAndReadyAssertedWithoutDelayInbetween2Transfer(logic valid, logic ready);
-   @(posedge aclk)
+   @(posedge aclk) disable iff (!aresetn)
     (valid && ready) |=> ($stable(valid) && $stable(ready));
   endproperty
 
@@ -130,7 +134,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   $info("IFBACKTOBACK_RVALIDANDRREADYASSERTED_WITHOUTDELAY_INBETWEEN2TRANSFER : COVERED");
 
   property WhenBackToBackValidAndReadyAssertedWith1ClkDelayInbetween2Transfer(logic valid, logic ready);
-   @(posedge aclk)
+   @(posedge aclk) disable iff (!aresetn)
     (valid && ready) |=> ##1 (valid && ready);
   endproperty
 
@@ -143,7 +147,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   $info("IFBACKTOBACK_RVALIDANDRREADYASSERTED_WITH1CLKDELAY_INBETWEEN2TRANSFER : COVERED");
 
   property WhenBackToBackValidAndReadyAssertedWith2ClkDelayInbetween2Transfer(logic valid, logic ready); 
-   @(posedge aclk) 
+   @(posedge aclk) disable iff (!aresetn) 
     (valid && ready) |=> ##2 (valid && ready); 
   endproperty  
 
@@ -156,7 +160,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   $info("IFBACKTOBACK_RVALIDANDRREADYASSERTED_WITH2CLKDELAY_INBETWEEN2TRANSFER  :COVERED");
  
   property WhenBackToBackValidAndReadyAssertedWithin3To16ClkDelayInbetween2Transfer(logic valid, logic ready);
-   @(posedge aclk)
+   @(posedge aclk) disable iff (!aresetn)
     (valid && ready) |=> ##[3:DELAY_FOR_SECOND_TRANSFER] (valid && ready);
   endproperty
 
@@ -169,7 +173,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   $info("IFBACKTOBACK_RVALIDANDRREADYASSERTED_WITHIN3TO16CLKDELAY_INBETWEEN2TRANSFER : COVERED");
 
   property WhenBackToBackValidAndReadyAssertedWithMoreThan16ClkDelayInbetween2Transfer(logic valid, logic ready);
-   @(posedge aclk)
+   @(posedge aclk) disable iff (!aresetn)
    (valid && ready) |=> ##[DELAY_FOR_SECOND_TRANSFER:$] (valid && ready);
   endproperty
 
@@ -182,7 +186,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   $info("IFBACKTOBACK_RVALIDANDRREADYASSERTED_WITHMORETHAN16CLKDELAY_INBETWEEN2TRANSFER : COVERED");
 
   property readyAssertAtleastOnce(logic ready); 
-  @(posedge aclk) ready; 
+  @(posedge aclk) disable iff (!aresetn) ready; 
   endproperty 
 
   IFARREADY_NEEDTOASSERTED_ATLEASTONCE: cover property
@@ -194,7 +198,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   $info("IFRREADY_NEEDTOASSERTED_ATLEASTONCE : COVERED");
  
   property WhenValidAssertedThenReadyAssertedNextClk(logic valid, logic ready);
-  @(posedge aclk) valid |-> !ready ##1 (valid && ready);
+  @(posedge aclk) disable iff (!aresetn) valid |-> !ready ##1 (valid && ready);
   endproperty
 
   IFARVALIDASSERTED_THEN_NEXTCLK_ARREADYASSERTED: cover property 
@@ -206,7 +210,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   $info("IFRVALIDASSERTED_THEN_NEXTCLK_RREADYASSERTED : COVERED");
 
   property WhenValidAssertedThenInbetween2To5ClkReadyAsserted(logic valid, logic ready);
-  @(posedge aclk) valid |-> ##[2:5] ready; 
+  @(posedge aclk) disable iff (!aresetn) valid |-> ##[2:5] ready; 
   endproperty  
 
    IFARVALIDASSERTED_THEN_INBETWEEN2TO5CLK_ARREADYASSERTED: cover property 
@@ -218,7 +222,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
    $info("IFRVALIDASSERTED_THEN_INBETWEEN2TO5CLK_RREADYASSERTED : COVERED");
 
    property WhenValidAssertedThenWithin16ClkReadyAsserted(logic valid, logic ready);
-   @(posedge aclk) valid |-> ##[0:16] ready;
+   @(posedge aclk) disable iff (!aresetn) valid |-> ##[0:16] ready;
    endproperty
 
    IFARVALIDASSERTED_THEN_WITH16CLK_ARREADYASSERTED: cover property 
@@ -230,7 +234,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
    $info("IFRVALIDASSERTED_THEN_WITH16CLK_RREADYASSERTED : COVERED");
 
     property WhenReadyAssertedAndDeassertedThenNextClkValidAsserted(logic valid, logic ready);
-     @(posedge aclk) $fell(ready) |-> !valid ##1 valid;
+     @(posedge aclk) disable iff (!aresetn) $fell(ready) |-> !valid ##1 valid;
     endproperty
 
     IFARREADYASSERTED_DEASSERTED_THEN_NEXTCLK_ARVALIDASSERTED: cover property
@@ -242,7 +246,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFRREADYASSERTED_DEASSERTED_THEN_NEXTCLK_RVALIDASSERTED: COVERED");
 
     property WhenReadyAssertedAndDeasserted3TimesThenNextClkValidAsserted(logic valid, logic ready);
-    @(posedge aclk) (ready && !valid) |-> !valid s_until_with $fell(ready)[->3] ##1 $rose(valid);
+    @(posedge aclk) disable iff (!aresetn) (ready && !valid) |-> !valid s_until_with $fell(ready)[->3] ##1 $rose(valid);
     endproperty
 
     IFARREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_ARVALIDASSERTED: cover property
@@ -254,7 +258,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFRREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_RVALIDASSERTED : COVERED");
 
     property WhenReadyAssertedThenNextClkValidAsserted(logic valid, logic ready);
-     @(posedge aclk) ready |-> !valid ##1 valid;
+     @(posedge aclk) disable iff (!aresetn) ready |-> !valid ##1 valid;
     endproperty
 
     IFARREADYASSERTED_THEN_NEXTCLK_ARVALIDASSERTED: cover property
@@ -266,7 +270,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFRREADYASSERTED_THEN_NEXTCLK_RVALIDASSERTED: COVERED");
  
     property WhenReadyAssertedThenInbetween2To5ClkValidAsserted(logic valid, logic ready);
-     @(posedge aclk) ready |-> !valid ##[2:5] valid;
+     @(posedge aclk) disable iff (!aresetn) ready |-> !valid ##[2:5] valid;
     endproperty
 
     IFARREADYASSERTED_THEN_INBETWEEN2TO5CLK_ARVALIDASSERTED: cover property
@@ -278,7 +282,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFRREADYASSERTED_THEN_INBETWEEN2TO5CLK_RVALIDASSERTED: COVERED");
 
     property WhenReadyAssertedThenAnyClkValidAsserted(logic valid, logic ready);
-     @(posedge aclk) ready |-> !valid ##[0:$] valid;
+     @(posedge aclk) disable iff (!aresetn) ready |-> !valid ##[0:$] valid;
     endproperty
 
     IFARREADYASSERTED_THEN_ANYCLK_ARVALIDASSERTED: cover property
@@ -303,7 +307,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFRREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_RREADY_WILLGODEFAULTSTATE : COVERED");
 
     property WhenArreadyHighAndSendingValidAddressAndRedaingDataOnSlaveLocationThenSlaveWillGiveOkayResponse; 
-      @(posedge aclk) disable iff (!aresetn)
+      @(posedge aclk) disable iff (!aresetn) 
       (arvalid && arready && !($isunknown(araddr))) |-> 
        ##[1:MAX_DELAY_RVALID] (rvalid && rready) ##0 (!($isunknown(rdata)) && (rresp == 2'b00));
     endproperty  
@@ -313,7 +317,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info(" IFARREADYHIGH_THEN_READINGDATAONSLAVEADDRESS_ANDIFSLAVEACCEPTVALIDADDRESS_THENNOSLAVEERROR : COVERED");
 
     property WhenArvalidAndArreadyAreAssertedThenNextClkRvalidWillBeAssert;
-     @(posedge aclk) disable iff (!aresetn)
+     @(posedge aclk) disable iff (!aresetn) 
      (arvalid && arready && !rvalid) |=> rvalid;
     endproperty
 
@@ -322,7 +326,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFARVALIDANDARREADYBOTHAREASSERTED_THEN_NEXTCLK_RVALIDWILLBEASSERT :  COVERED");
 
     property WhenArvalidAndArreadyAreAssertedThenAt3ClkRvalidWillBeAsserted;
-     @(posedge aclk) disable iff (!aresetn)
+     @(posedge aclk) disable iff (!aresetn) 
      (arvalid && arready && !rvalid) |-> ##3 rvalid;
     endproperty
 
@@ -331,7 +335,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFARVALIDANDARREADYBOTHAREASSERTED_THEN_AT3CLK_RVALIDWILLBEASSERT :  COVERED");
 
      property WhenArvalidAndArreadyAreAssertedThenInbetween1To10ClkRvalidWillBeAsserted;
-     @(posedge aclk) disable iff (!aresetn)
+     @(posedge aclk) disable iff (!aresetn) 
      (arvalid && arready && !rvalid) |-> ##[1:MAX_DELAY_RVALID] rvalid;
     endproperty
 
@@ -340,7 +344,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFARVALIDANDARREADYBOTHAREASSERTED_THEN_INBETWEEN1TO10CLK_RVALIDWILLBEASSERT :  COVERED");
 
     property WhenArvalidAndArreadyAreAssertedThenAnyClkRvalidWillBeAssert;
-     @(posedge aclk) disable iff (!aresetn)
+     @(posedge aclk) disable iff (!aresetn) 
      (arvalid && arready && !rvalid) |-> ##[1:$] rvalid;
     endproperty
 
@@ -349,7 +353,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFARVALIDANDARREADYBOTHAREASSERTED_THEN_ANYCLK_RVALIDWILLBEASSERT :  COVERED");
 
     property WhenArvalidAndArreadyAreAssertedThenAnyClkRvalidIsAssertedAndRdataIsNotUnknown();
-      @(posedge aclk) disable iff (!aresetn)
+      @(posedge aclk) disable iff (!aresetn) 
       (arvalid && arready && !rvalid) |-> ##[1:$] (rvalid  && !($isunknown(rdata)));
     endproperty
 
@@ -358,7 +362,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFARVALIDANDARREADYBOTHAREASSERTED_THEN_ANYCLK_RVALIDASSERTEDANDRDATAISNOTUNKNOWN :  COVERED");
 
    property WhenRvalidAndRreadyIsAssertedThenRdataOflowerLanesIsValidData;
-   @(posedge aclk) disable iff (!aresetn)
+   @(posedge aclk) disable iff (!aresetn) 
     (rvalid && rready) |-> (!($isunknown(rdata)) && (rdata[31:16] === 16'b0)); 
    endproperty
 

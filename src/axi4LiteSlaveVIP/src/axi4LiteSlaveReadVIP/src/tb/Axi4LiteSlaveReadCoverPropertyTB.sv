@@ -114,12 +114,14 @@ module Axi4LiteSlaveReadCoverPropertyTB;
       aresetn <= 1'b1;
       arvalid <= 1'b0;
       araddr  <= 32'hxxxx_xxxx;
-      repeat(2) begin
+      arprot  <= 3'bxxx;
+      repeat(1) begin
       @(posedge aclk);
       end
       arvalid <= 1'b1;
-      araddr <= 32'h1122_3344;
-    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddr_IS_NOT_UNKNOWN Task Ended"),UVM_NONE);
+      araddr  <= 32'h2222_1234;
+      arprot  <= 3'b111;
+   `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddr_IS_NOT_UNKNOWN Task Ended"),UVM_NONE);
   endtask
 
   task When_rvalidIsAsserted_Then_rdataIsNotUnknown();
@@ -128,11 +130,13 @@ module Axi4LiteSlaveReadCoverPropertyTB;
       aresetn <= 1'b1;
       rvalid  <= 1'b0;
       rdata   <= 32'hxxxx_xxxx;
+      rready  <= 3'bxxx;
       repeat(2) begin
       @(posedge aclk);
       end
       rvalid  <= 1'b1;
       rdata   <= 32'h2222_3333;
+      rresp   <= 2'b00;
     `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_rdataIsNotUnknown Task Ended"),UVM_NONE);
   endtask
 
@@ -142,11 +146,13 @@ module Axi4LiteSlaveReadCoverPropertyTB;
       aresetn <= 1'b1;
       arvalid <= 1'b0;
       araddr  <= 32'hxxxx_xxxx;
+      arprot  <= 3'bxxx;
       repeat(3) begin
       @(posedge aclk);
       end
       arvalid <= 1'b1;
       araddr  <= 32'h1122_3344;
+      arprot  <= 3'b111;
     `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddrIsNotUnknownAndPrevious2ClkAraddrIsUnknown Task Ended"),UVM_NONE);
   endtask
 
@@ -156,11 +162,13 @@ module Axi4LiteSlaveReadCoverPropertyTB;
       aresetn <= 1'b1;
       rvalid  <= 1'b0;
       rdata   <= 32'hxxxx_xxxx;
+      rresp   <= 2'bxx;
       repeat(3) begin
       @(posedge aclk);
       end
       rvalid  <= 1'b1;
       rdata   <= 32'h2222_3333;
+      rresp   <= 2'b00;
     `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_rdataIsNotUnknownAndPrevious2ClkRdataIsUnknown Task Ended"),UVM_NONE);
   endtask
 
