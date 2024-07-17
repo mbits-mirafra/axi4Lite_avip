@@ -26,25 +26,14 @@ task Axi4LiteVirtualDelayForAwvalidAndAwreadySeq::body();
   end
        `uvm_info(get_type_name(),$sformatf("Axi4LiteVirtualDelayForAwvalidAndAwreadySeq delayForAwvalid :%0d", axi4LiteMasterWriteDelayForAwvalidSeq.delayForAwvalid),UVM_LOW);
 
-   if(!axi4LiteSlaveWriteDelayForAwreadySeq.randomize() with {delayForAwready == 1;}) begin
+   if(!axi4LiteSlaveWriteDelayForAwreadySeq.randomize() with {delayForAwready == 10;}) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualDelayForAwvalidAndAwreadySeq")
   end
        `uvm_info(get_type_name(),$sformatf("Axi4LiteVirtualDelayForAwvalidAndAwreadySeq delayForAwready :%0d", axi4LiteSlaveWriteDelayForAwreadySeq.delayForAwready),UVM_LOW);
 
   fork
-    begin : SLAVE_WRITE
-      forever begin
-        axi4LiteSlaveWriteDelayForAwreadySeq.start(p_sequencer.axi4LiteSlaveVirtualSequencer.axi4LiteSlaveWriteSequencer);
-      end
-    end
-  join_none
-
-  fork 
-    begin: MASTER_WRITE
-      repeat(1) begin
-        axi4LiteMasterWriteDelayForAwvalidSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterWriteSequencer);
-      end
-    end
+    axi4LiteSlaveWriteDelayForAwreadySeq.start(p_sequencer.axi4LiteSlaveVirtualSequencer.axi4LiteSlaveWriteSequencer);
+    axi4LiteMasterWriteDelayForAwvalidSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterWriteSequencer);
   join
 
  endtask : body

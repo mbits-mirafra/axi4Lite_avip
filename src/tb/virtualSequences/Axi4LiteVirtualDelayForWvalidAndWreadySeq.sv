@@ -26,7 +26,7 @@ task Axi4LiteVirtualDelayForWvalidAndWreadySeq::body();
   end
        `uvm_info(get_type_name(),$sformatf("Axi4LiteVirtualDelayForWvalidAndWreadySeq delayForWvalid :%0d", axi4LiteMasterWriteDelayForWvalidSeq.delayForWvalid),UVM_LOW);
 
-   if(!axi4LiteSlaveWriteDelayForWreadySeq.randomize() with {delayForWready == 1;}) begin
+   if(!axi4LiteSlaveWriteDelayForWreadySeq.randomize() with {delayForWready == 10;}) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualDelayForWvalidAndWreadySeq")
   end
        `uvm_info(get_type_name(),$sformatf("Axi4LiteVirtualDelayForWvalidAndWreadySeq delayForWready :%0d", axi4LiteSlaveWriteDelayForWreadySeq.delayForWready),UVM_LOW);

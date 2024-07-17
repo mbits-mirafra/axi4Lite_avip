@@ -13,6 +13,8 @@ package Axi4LiteWriteMasterGlobalPkg;
 
   parameter int DELAY_WIDTH = 5;
 
+  parameter int DEFAULT_READY = 1;
+
   parameter int MIN_ADDRESS = 01;
   parameter int MAX_ADDRESS = 8'hff;
 
