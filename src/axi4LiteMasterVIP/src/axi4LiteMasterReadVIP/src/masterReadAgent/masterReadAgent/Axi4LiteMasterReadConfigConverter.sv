@@ -16,12 +16,14 @@ endfunction : new
 
 function void Axi4LiteMasterReadConfigConverter::fromClass(input Axi4LiteMasterReadAgentConfig inputConv, output axi4LiteReadMasterTransferCfgStruct outputConv);
 
+  outputConv.defaultStateReady = inputConv.defaultStateReady;
   outputConv.maxDelayForArready = inputConv.maxDelayForArready;
   outputConv.maxDelayForRvalid = inputConv.maxDelayForRvalid;
 endfunction: fromClass
 
 function void Axi4LiteMasterReadConfigConverter:: do_print(uvm_printer printer); 
   axi4LiteReadMasterTransferCfgStruct ConfigStruct;
+  printer.print_field("defaultStateReady",ConfigStruct.defaultStateReady,$bits(ConfigStruct.defaultStateReady),UVM_DEC);
   printer.print_field("maxDelayForArready",ConfigStruct.maxDelayForArready,$bits(ConfigStruct.maxDelayForArready),UVM_DEC);
   printer.print_field("maxDelayForRvalid",ConfigStruct.maxDelayForRvalid,$bits(ConfigStruct.maxDelayForRvalid),UVM_DEC);
 endfunction : do_print

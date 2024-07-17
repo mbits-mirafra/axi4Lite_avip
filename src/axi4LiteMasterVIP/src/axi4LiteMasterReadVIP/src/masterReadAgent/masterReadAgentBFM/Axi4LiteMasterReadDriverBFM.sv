@@ -31,11 +31,11 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
     `uvm_info(name,$sformatf(name),UVM_LOW)
   end
 
-  task waitForAresetn();
+  task waitForAresetn(input axi4LiteReadMasterTransferCfgStruct masterReadConfigStruct);
     @(negedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DETECTED"),UVM_HIGH)
     arvalid <= 1'b0;
-    rready  <= DEFAULT_READY;
+    rready  <= masterReadConfigStruct.defaultStateReady;
     @(posedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DEACTIVATED"),UVM_HIGH)
   endtask : waitForAresetn
@@ -98,7 +98,7 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
     masterReadPacketStruct.rresp <= rresp;
 
     @(posedge aclk);
-    rready <= DEFAULT_READY;
+    rready <= masterReadConfigStruct.defaultStateReady;
 
     `uvm_info(name,$sformatf("READ_DATA_CHANNEL_TASK_ENDED"),UVM_HIGH)
   endtask : readDataChannelTask

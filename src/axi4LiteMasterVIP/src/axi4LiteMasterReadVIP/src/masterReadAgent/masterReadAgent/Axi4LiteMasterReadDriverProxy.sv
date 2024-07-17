@@ -19,6 +19,7 @@ class Axi4LiteMasterReadDriverProxy extends uvm_driver #(Axi4LiteMasterReadTrans
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
+  extern virtual task waitForAresetnTask();
   extern virtual task readTransferTask();
 
 endclass : Axi4LiteMasterReadDriverProxy
@@ -47,10 +48,15 @@ function void Axi4LiteMasterReadDriverProxy::end_of_elaboration_phase(uvm_phase 
 endfunction : end_of_elaboration_phase
 
 task Axi4LiteMasterReadDriverProxy::run_phase(uvm_phase phase);
-  axi4LiteMasterReadDriverBFM.waitForAresetn();
+  waitForAresetnTask();
   readTransferTask();
 endtask : run_phase
 
+task Axi4LiteMasterReadDriverProxy::waitForAresetnTask();
+  axi4LiteReadMasterTransferCfgStruct  masterReadConfigStruct;
+  Axi4LiteMasterReadConfigConverter::fromClass(axi4LiteMasterReadAgentConfig, masterReadConfigStruct);
+  axi4LiteMasterReadDriverBFM.waitForAresetn(masterReadConfigStruct);
+endtask : waitForAresetnTask
 
 task Axi4LiteMasterReadDriverProxy::readTransferTask();
   

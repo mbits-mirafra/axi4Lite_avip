@@ -73,6 +73,8 @@ package Axi4LiteReadMasterGlobalPkg;
 
     int maxDelayForArready;
     int maxDelayForRvalid;
+
+    bit defaultStateReady;
   } axi4LiteReadMasterTransferCfgStruct;
 
 endpackage : Axi4LiteReadMasterGlobalPkg
