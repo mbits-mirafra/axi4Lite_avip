@@ -71,6 +71,7 @@ package Axi4LiteReadSlaveGlobalPkg;
     bit [ADDRESS_WIDTH-1:0] minAddressRange;
     bit [ADDRESS_WIDTH-1:0] maxAddressRange;
     int maxDelayForRready;
+    bit defaultStateReady;
    } axi4LiteReadSlaveTransferCfgStruct;
 
 endpackage : Axi4LiteReadSlaveGlobalPkg

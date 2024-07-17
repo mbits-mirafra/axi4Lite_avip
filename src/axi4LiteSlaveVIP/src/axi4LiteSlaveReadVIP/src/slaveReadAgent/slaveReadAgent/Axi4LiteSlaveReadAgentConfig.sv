@@ -7,6 +7,7 @@ class Axi4LiteSlaveReadAgentConfig extends uvm_object;
   uvm_active_passive_enum isActive = UVM_ACTIVE;  
   
   bit hasCoverage;
+  bit defaultStateReady;
 
   int maxDelayForRready;
   bit [ADDRESS_WIDTH-1:0] maxAddressRange;
@@ -25,6 +26,7 @@ function void Axi4LiteSlaveReadAgentConfig::do_print(uvm_printer printer);
 
   printer.print_string ("isActive",   isActive.name());
   printer.print_field ("hasCoverage", hasCoverage, $bits(hasCoverage), UVM_DEC);
+  printer.print_field ("defaultStateReady", defaultStateReady, $bits(defaultStateReady), UVM_DEC);
   printer.print_field ("maxAddressRange", maxAddressRange, 32, UVM_DEC);
   printer.print_field ("minAddressRange", minAddressRange, 32, UVM_DEC);
   printer.print_field ("maxDelayForRready", maxDelayForRready, $bits(maxDelayForRready), UVM_DEC);

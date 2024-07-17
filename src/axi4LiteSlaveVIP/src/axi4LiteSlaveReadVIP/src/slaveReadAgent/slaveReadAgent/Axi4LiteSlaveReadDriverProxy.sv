@@ -22,6 +22,7 @@ class Axi4LiteSlaveReadDriverProxy extends uvm_driver#(Axi4LiteSlaveReadTransact
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
+  extern virtual task waitForAresetnTask();
   extern virtual task readTransferTask();
 
 endclass : Axi4LiteSlaveReadDriverProxy
@@ -48,12 +49,16 @@ function void Axi4LiteSlaveReadDriverProxy::end_of_elaboration_phase(uvm_phase p
   axi4LiteSlaveReadDriverBFM.axi4LiteSlaveReadDriverProxy= this;
 endfunction  : end_of_elaboration_phase
 
-
 task Axi4LiteSlaveReadDriverProxy::run_phase(uvm_phase phase);
-  axi4LiteSlaveReadDriverBFM.waitForAresetn();
+  waitForAresetnTask();
   readTransferTask();
 endtask : run_phase
 
+task Axi4LiteSlaveReadDriverProxy::waitForAresetnTask();
+  axi4LiteReadSlaveTransferCfgStruct slaveReadConfigStruct;
+  Axi4LiteSlaveReadConfigConverter::fromClass(axi4LiteSlaveReadAgentConfig, slaveReadConfigStruct);
+  axi4LiteSlaveReadDriverBFM.waitForAresetn(slaveReadConfigStruct);
+endtask : waitForAresetnTask
 
 task Axi4LiteSlaveReadDriverProxy::readTransferTask();
   forever begin

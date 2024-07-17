@@ -31,10 +31,10 @@ interface Axi4LiteSlaveReadDriverBFM(input bit                     aclk,
     `uvm_info("axi4 slave driver bfm",$sformatf("AXI4 SLAVE DRIVER BFM"),UVM_LOW);
   end
 
-   task waitForAresetn();
+   task waitForAresetn(input axi4LiteReadSlaveTransferCfgStruct slaveReadConfigStruct);
     @(negedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET ACTIVATED"),UVM_HIGH)
-     arready  <= DEFAULT_READY;
+     arready  <= slaveReadConfigStruct.defaultStateReady;
      rvalid   <= 0;
     @(posedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DE-ACTIVATED"),UVM_HIGH)
@@ -62,7 +62,7 @@ interface Axi4LiteSlaveReadDriverBFM(input bit                     aclk,
     slaveReadPacketStruct.araddr <= araddr;
     slaveReadPacketStruct.arprot <= arprot;
     @(posedge aclk);
-    arready  <= DEFAULT_READY;
+    arready  <= slaveReadConfigStruct.defaultStateReady;
 
     `uvm_info(name,$sformatf("SLAVE_READ_ADDRESS_CHANNEL_TASK_ENDED"),UVM_HIGH)
   endtask : readAddressChannelTask
