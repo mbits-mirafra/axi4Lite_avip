@@ -33,6 +33,8 @@ package Axi4LiteTestPkg;
   `include "Axi4LiteDelayForAwvalidAndAwreadyTest.sv"
   `include "Axi4LiteDelayForWvalidAndWreadyTest.sv"
   `include "Axi4LiteDelayForBvalidAndBreadyTest.sv"
+  `include "Axi4LiteDelayForArvalidAndArreadyTest.sv"
+  `include "Axi4LiteDelayForRvalidAndRreadyTest.sv"
 
 endpackage : Axi4LiteTestPkg
 

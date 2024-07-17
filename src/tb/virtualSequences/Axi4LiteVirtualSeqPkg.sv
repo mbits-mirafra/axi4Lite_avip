@@ -25,6 +25,8 @@ package Axi4LiteVirtualSeqPkg;
   `include "Axi4LiteVirtualDelayForAwvalidAndAwreadySeq.sv"
   `include "Axi4LiteVirtualDelayForWvalidAndWreadySeq.sv"
   `include "Axi4LiteVirtualDelayForBvalidAndBreadySeq.sv"
+  `include "Axi4LiteVirtualDelayForArvalidAndArreadySeq.sv"
+  `include "Axi4LiteVirtualDelayForRvalidAndRreadySeq.sv"
 
 endpackage : Axi4LiteVirtualSeqPkg
 
