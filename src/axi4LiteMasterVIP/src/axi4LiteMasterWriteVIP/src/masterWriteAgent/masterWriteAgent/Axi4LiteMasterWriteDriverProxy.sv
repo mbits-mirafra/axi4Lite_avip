@@ -19,6 +19,7 @@ class Axi4LiteMasterWriteDriverProxy extends uvm_driver #(Axi4LiteMasterWriteTra
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
+  extern virtual task waitForAresetnTask();
   extern virtual task writeTransferTask();
 
 endclass : Axi4LiteMasterWriteDriverProxy
@@ -48,12 +49,18 @@ endfunction : end_of_elaboration_phase
 
 task Axi4LiteMasterWriteDriverProxy::run_phase(uvm_phase phase);
   `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteMasterWriteDriverProxy"),UVM_LOW);
-  axi4LiteMasterWriteDriverBFM.waitForAresetn();
+  waitForAresetnTask();
   `uvm_info(get_type_name(),$sformatf("Inside run_phase after waitForAresetn Axi4LiteMasterWriteDriverProxy"),UVM_LOW);
   writeTransferTask();
   `uvm_info(get_type_name(),$sformatf("Inside run_phase after writeTransferTask Axi4LiteMasterWriteDriverProxy"),UVM_LOW);
 endtask : run_phase
 
+task Axi4LiteMasterWriteDriverProxy::waitForAresetnTask();
+  axi4LiteWriteMasterTransferCfgStruct  masterWriteConfigStruct;
+  Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteConfigStruct);
+
+  axi4LiteMasterWriteDriverBFM.waitForAresetn(masterWriteConfigStruct);
+endtask : waitForAresetnTask
 
 task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
   

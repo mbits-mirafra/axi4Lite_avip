@@ -35,12 +35,12 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
     `uvm_info(name,$sformatf(name),UVM_LOW)
   end
 
-  task waitForAresetn();
+  task waitForAresetn(input axi4LiteWriteMasterTransferCfgStruct masterWriteConfigStruct);
     @(negedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DETECTED"),UVM_HIGH)
     awvalid <= 1'b0;
     wvalid  <= 1'b0;
-    bready  <= DEFAULT_READY;
+    bready  <= masterWriteConfigStruct.defaultStateReady;
     @(posedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DEACTIVATED"),UVM_HIGH)
   endtask : waitForAresetn
@@ -122,7 +122,7 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
     masterWritePacketStruct.bresp <= bresp;
 
     @(posedge aclk);
-    bready <= DEFAULT_READY;
+    bready <= masterWriteConfigStruct.defaultStateReady;
 
     `uvm_info(name,$sformatf("WRITE_RESPONSE_CHANNEL_TASK_ENDED"),UVM_HIGH)
   endtask : writeResponseChannelTask

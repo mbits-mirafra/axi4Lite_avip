@@ -76,6 +76,7 @@ package Axi4LiteWriteMasterGlobalPkg;
     int maxDelayForAwready;
     int maxDelayForWready;
     int maxDelayForBvalid;
+    bit defaultStateReady;
 
   } axi4LiteWriteMasterTransferCfgStruct;
 
