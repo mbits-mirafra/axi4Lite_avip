@@ -23,6 +23,8 @@ package Axi4LiteVirtualSeqPkg;
   `include "Axi4LiteVirtualBaseSeq.sv"
   `include "Axi4LiteVirtualRandomWriteReadTransferSeq.sv"
   `include "Axi4LiteVirtualDelayForAwvalidAndAwreadySeq.sv"
+  `include "Axi4LiteVirtualDelayForWvalidAndWreadySeq.sv"
+  `include "Axi4LiteVirtualDelayForBvalidAndBreadySeq.sv"
 
 endpackage : Axi4LiteVirtualSeqPkg
 

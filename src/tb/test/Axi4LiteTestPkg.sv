@@ -31,6 +31,8 @@ package Axi4LiteTestPkg;
   `include "Axi4LiteBaseTest.sv"
   `include "Axi4LiteRandomWriteReadTransferTest.sv"
   `include "Axi4LiteDelayForAwvalidAndAwreadyTest.sv"
+  `include "Axi4LiteDelayForWvalidAndWreadyTest.sv"
+  `include "Axi4LiteDelayForBvalidAndBreadyTest.sv"
 
 endpackage : Axi4LiteTestPkg
 
