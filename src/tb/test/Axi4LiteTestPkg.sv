@@ -35,6 +35,16 @@ package Axi4LiteTestPkg;
   `include "Axi4LiteDelayForBvalidAndBreadyTest.sv"
   `include "Axi4LiteDelayForArvalidAndArreadyTest.sv"
   `include "Axi4LiteDelayForRvalidAndRreadyTest.sv"
+  `include "Axi4LiteAwvalidAssertedAndSameClkAwreadyAssertedTest.sv"
+  `include "Axi4LiteAwvalidAssertedAndNextClkAwreadyAssertedTest.sv"
+  `include "Axi4LiteWvalidAssertedAndSameClkWreadyAssertedTest.sv"
+  `include "Axi4LiteWvalidAssertedAndNextClkWreadyAssertedTest.sv"
+  `include "Axi4LiteBvalidAssertedAndSameClkBreadyAssertedTest.sv"
+  `include "Axi4LiteBvalidAssertedAndNextClkBreadyAssertedTest.sv"
+  `include "Axi4LiteArvalidAssertedAndSameClkArreadyAssertedTest.sv"
+  `include "Axi4LiteArvalidAssertedAndNextClkArreadyAssertedTest.sv"
+  `include "Axi4LiteRvalidAssertedAndSameClkRreadyAssertedTest.sv"
+  `include "Axi4LiteRvalidAssertedAndNextClkRreadyAssertedTest.sv"
 
 endpackage : Axi4LiteTestPkg
 
