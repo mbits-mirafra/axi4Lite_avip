@@ -73,7 +73,7 @@ task readDataChannelTask(input axi4LiteReadSlaveTransferCfgStruct slaveReadConfi
                         );
    `uvm_info(name,$sformatf("SLAVE_READ_DATA_CHANNEL_TASK_STARTED"),UVM_HIGH)
    
-   do begin
+    do begin
       @(posedge aclk);
       `uvm_info("FROM SLAVE READ DRIVER BFM",$sformatf("Inside read data channel waiting for arvalid and arready"),UVM_HIGH)
     end
@@ -87,10 +87,11 @@ task readDataChannelTask(input axi4LiteReadSlaveTransferCfgStruct slaveReadConfi
       rdata  <= slaveReadPacketStruct.rdata;
    
      do begin
-      slaveReadPacketStruct.waitCounterForRready++;
-      if(slaveReadPacketStruct.waitCounterForRready > slaveReadConfigStruct.maxDelayForRready) begin
-     `uvm_error (name, $sformatf ("rready count comparisions are failed"));
-      end
+       @(posedge aclk);
+       slaveReadPacketStruct.waitCounterForRready++;
+       if(slaveReadPacketStruct.waitCounterForRready > slaveReadConfigStruct.maxDelayForRready) begin
+         `uvm_error (name, $sformatf ("rready count comparisions are failed"));
+       end
     end while(rready === 0);
  
    `uvm_info(name,$sformatf("SLAVE_READ_DATA_CHANNEL_TASK_ENDED"),UVM_HIGH)

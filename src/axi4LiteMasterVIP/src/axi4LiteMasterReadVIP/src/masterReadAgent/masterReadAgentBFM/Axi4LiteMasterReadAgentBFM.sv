@@ -47,26 +47,34 @@ module Axi4LiteMasterReadAgentBFM #(parameter int ADDR_WIDTH = 32,
                                                              .rresp(rresp)
                                                             );
                                                             
-  //-------------------------------------------------------
-  // Setting the virtual handle of BMFs into config_db
-  //-------------------------------------------------------
   initial begin
     uvm_config_db#(virtual Axi4LiteMasterReadDriverBFM)::set(null,"*", "Axi4LiteMasterReadDriverBFM", axi4LiteMasterReadDriverBFM); 
     uvm_config_db#(virtual Axi4LiteMasterReadMonitorBFM)::set(null,"*", "Axi4LiteMasterReadMonitorBFM", axi4LiteMasterReadMonitorBFM);
   end
 
-  bind axi4LiteMasterReadMonitorBFM Axi4LiteMasterReadAssertions M_A (.aclk(aclk),
-                                                                      .aresetn(aresetn),
-                                                                      .arvalid(arvalid),
-                                                                      .arready(arready),
-                                                                      .araddr(araddr),
-                                                                      .arprot(arprot),
-                                                                      .rvalid(rvalid),
-                                                                      .rready(rready),
-                                                                      .rdata(rdata),
-                                                                      .rresp(rresp)
-                                                                     );
+  bind axi4LiteMasterReadMonitorBFM Axi4LiteMasterReadAssertions WRITEMASTERM_ASSERTPROPERTY (.aclk(aclk),
+                                                                                              .aresetn(aresetn),
+                                                                                              .arvalid(arvalid),
+                                                                                              .arready(arready),
+                                                                                              .araddr(araddr),
+                                                                                              .arprot(arprot),
+                                                                                              .rvalid(rvalid),
+                                                                                              .rready(rready),
+                                                                                              .rdata(rdata),
+                                                                                              .rresp(rresp)
+                                                                                             );
 
+  bind axi4LiteMasterReadMonitorBFM Axi4LiteMasterReadCoverProperty WRITEMASTER_COVERPROPERTY (.aclk(aclk),
+                                                                                               .aresetn(aresetn),
+                                                                                               .arvalid(arvalid),
+                                                                                               .arready(arready),
+                                                                                               .araddr(araddr),
+                                                                                               .arprot(arprot),
+                                                                                               .rvalid(rvalid),
+                                                                                               .rready(rready),
+                                                                                               .rdata(rdata),
+                                                                                               .rresp(rresp)
+                                                                                              );
 
   initial begin
     `uvm_info("Axi4LiteMasterReadAgentBFM",$sformatf("AXI4LITE MASTERREADAGENTBFM"),UVM_LOW);

@@ -100,7 +100,9 @@ task writeResponseChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWri
                               inout axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct
                              );
   `uvm_info(name,$sformatf("SLAVE_WRITE_RESPONSE_CHANNEL_TASK_STARTED"),UVM_HIGH)
-  @(posedge aclk);
+  repeat(slaveWritePacketStruct.delayForBvalid) begin
+    @(posedge aclk);
+  end
   bvalid <= 1'b1;
   bresp  <= slaveWritePacketStruct.bresp;
 
