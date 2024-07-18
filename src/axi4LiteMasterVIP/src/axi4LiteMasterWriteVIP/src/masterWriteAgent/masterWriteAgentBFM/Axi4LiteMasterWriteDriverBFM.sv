@@ -65,7 +65,6 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
  end
     while(awready !== 1'b1);
 
-    @(posedge aclk);
     awvalid <= 1'b0;
 
     `uvm_info(name,$sformatf("MASTER_WRITE_ADDRESS_CHANNEL_TASK_ENDED"),UVM_HIGH)
@@ -91,7 +90,6 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
     end
     while(wready !== 1'b1);
 
-    @(posedge aclk);
     wvalid <= 1'b0;
 
     `uvm_info(name,$sformatf("WRITE_DATA_CHANNEL_TASK_ENDED"),UVM_HIGH)

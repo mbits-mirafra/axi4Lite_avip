@@ -98,6 +98,7 @@ task readDataChannelTask(input axi4LiteReadSlaveTransferCfgStruct slaveReadConfi
        end
     end while(rready === 0);
  
+    rvalid <= 1'b0;
    `uvm_info(name,$sformatf("SLAVE_READ_DATA_CHANNEL_TASK_ENDED"),UVM_HIGH)
  endtask : readDataChannelTask
  

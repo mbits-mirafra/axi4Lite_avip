@@ -63,7 +63,6 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
   end
     while(arready !== 1);
 
-    @(posedge aclk);
     arvalid <= 1'b0;
     
     `uvm_info(name,$sformatf("READ_ADDRESS_CHANNEL_TASK_ENDED"),UVM_HIGH)
