@@ -18,7 +18,7 @@ if debug:
   print(regression_list);
 
 # Reading the file
-path = "" + regression_list
+path = "../../src/testlists/" + regression_list
 if debug:
   print(path)
 
@@ -28,7 +28,7 @@ with open(path,'r') as f:
     if(match): 
       continue;
 
-    match = re.search('(.*_test)',line);
+    match = re.search('(.*Test)',line);
     if(match):
       reg_list_array.append(match.group(0))
       if debug:
