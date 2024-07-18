@@ -53,7 +53,9 @@ task writeAddressChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWrit
 
   `uvm_info(name , $sformatf("After while loop awvalid asserted "),UVM_HIGH)
 
-  repeat(slaveWritePacketStruct.delayForAwready) begin 
+  //FIXME
+  //What if user given the delayForAwready as 0
+  repeat(slaveWritePacketStruct.delayForAwready-1) begin 
     @(posedge aclk);
   end
 
@@ -82,7 +84,9 @@ task writeDataChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteCo
 
     `uvm_info(name , $sformatf("After while loop wvalid asserted "),UVM_HIGH)
 
-    repeat(slaveWritePacketStruct.delayForWready) begin 
+    //FIXME
+    //What if user given the delayForWready as 0
+    repeat(slaveWritePacketStruct.delayForWready-1) begin 
       @(posedge aclk);
     end
     wready <= 1'b1;
@@ -100,7 +104,9 @@ task writeResponseChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWri
                               inout axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct
                              );
   `uvm_info(name,$sformatf("SLAVE_WRITE_RESPONSE_CHANNEL_TASK_STARTED"),UVM_HIGH)
-  repeat(slaveWritePacketStruct.delayForBvalid) begin
+  //FIXME
+  //What if user given the delayForBvalid as 0
+  repeat(slaveWritePacketStruct.delayForBvalid-1) begin
     @(posedge aclk);
   end
   bvalid <= 1'b1;

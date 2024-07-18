@@ -45,7 +45,9 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
                               );
     `uvm_info(name,$sformatf("READ_ADDRESS_CHANNEL_TASK_STARTED"),UVM_HIGH)
     
-    repeat(masterReadPacketStruct.delayForArvalid) begin
+    //FIXME
+    //What if user given the delayForArvalid as 0 
+    repeat(masterReadPacketStruct.delayForArvalid-1) begin
      @(posedge aclk);
     end
     arvalid <= 1'b1;
@@ -90,7 +92,9 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
     
     `uvm_info(name , $sformatf("After while loop rvalid asserted "),UVM_HIGH)
 
-    repeat(masterReadPacketStruct.delayForRready) begin 
+    //FIXME
+    //What if user given the delayForRready as 0
+    repeat(masterReadPacketStruct.delayForRready-1) begin 
       @(posedge aclk);
     end
     rready <= 1'b1;

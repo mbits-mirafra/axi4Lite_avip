@@ -54,7 +54,9 @@ interface Axi4LiteSlaveReadDriverBFM(input bit                     aclk,
 
     `uvm_info(name , $sformatf("After while loop arvalid asserted"),UVM_HIGH)
 
-     repeat(slaveReadPacketStruct.delayForArready) begin 
+    //FIXME
+    //What if user given the delayForArready as 0
+     repeat(slaveReadPacketStruct.delayForArready-1) begin 
       @(posedge aclk);
     end
     arready <= 1'b1;
@@ -80,7 +82,9 @@ task readDataChannelTask(input axi4LiteReadSlaveTransferCfgStruct slaveReadConfi
     while(arvalid!==1 || arready!==1);
      `uvm_info("FROM SLAVE READ DRIVER BFM",$sformatf("After read data channel asserted arvalid and arready"),UVM_HIGH)
 
-     repeat(slaveReadPacketStruct.delayForRvalid) begin 
+     //FIXME
+     //What if user given the delayForRvalid as 0
+     repeat(slaveReadPacketStruct.delayForRvalid-1) begin 
       @(posedge aclk);
      end
       rvalid <= 1'b1;
