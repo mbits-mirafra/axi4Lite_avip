@@ -28,8 +28,8 @@ interface Axi4LiteSlaveReadCoverProperty (input aclk,
   property WhenValidGoesHighThenInformationNotUnknownAndPreviousClkInformationUnknown(logic valid, logic information, logic controlSignal); 
    @(posedge aclk) disable iff (!aresetn) 
          $rose(valid) |-> !($isunknown(information)) ##0 !($isunknown(controlSignal)) 
-                    ##0 ($past(information,1) === 'bx)  
-                    ##0 ($past(controlSignal,1) === 'bx);    
+                    ##0 ($past(information,1) === 1'bx)  
+                    ##0 ($past(controlSignal,1) === 1'bx);    
   endproperty 
 
   IFARVALIDGOESHIGH_THEN_ARADDR_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_ARADDR_IS_UNKNOWN : cover property

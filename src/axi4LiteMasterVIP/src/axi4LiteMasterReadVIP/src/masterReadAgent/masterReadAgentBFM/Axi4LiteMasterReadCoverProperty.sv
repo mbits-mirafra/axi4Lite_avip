@@ -12,7 +12,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
                                            input [2:0] arprot,
                                            //Read Data Channel Signals
                                            input  rvalid,
-                                           input rready,
+                                           input  rready,
                                            input  [DATA_WIDTH-1:0] rdata,
                                            input  [1:0] rresp
                                          );  
@@ -28,8 +28,8 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   property WhenValidGoesHighThenInformationNotUnknownAndPreviousClkInformationUnknown(logic valid, logic information, logic controlSignal); 
    @(posedge aclk) disable iff (!aresetn) 
          $rose(valid) |-> !($isunknown(information)) ##0 !($isunknown(controlSignal)) 
-                    ##0 ($past(information,1) === 'bx)  
-                    ##0 ($past(controlSignal,1) === 'bx);    
+                    ##0 ($past(information,1) === 1'bx)  
+                    ##0 ($past(controlSignal,1) === 1'bx);    
   endproperty 
 
   IFARVALIDGOESHIGH_THEN_ARADDR_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_ARADDR_IS_UNKNOWN : cover property
