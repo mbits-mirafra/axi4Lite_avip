@@ -28,12 +28,12 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   initial begin
     `uvm_info("Axi4LiteSlaveWriteCoverProperty","Axi4LiteSlaveWriteCoverProperty",UVM_LOW);
   end
-  
+
   property WhenValidGoesHighThenInformationNotUnknownAndPreviousClkInformationUnknown(logic valid, logic information, logic controlSignal); 
    @(posedge aclk) disable iff (!aresetn) 
        $rose(valid) |-> !($isunknown(information)) ##0 !($isunknown(controlSignal)) 
-                    ##0 ($past(information,1) === 'bx)  
-                    ##0 ($past(controlSignal,1) === 'bx);    
+                    ##0 ($past(information,1) === 1'bx)  
+                    ##0 ($past(controlSignal,1) === 1'bx);    
  endproperty 
 
   IFAWVALIDGOESHIGH_THEN_AWADDR_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_AWADDR_IS_UNKNOWN : cover property
@@ -44,20 +44,21 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   (WhenValidGoesHighThenInformationNotUnknownAndPreviousClkInformationUnknown(wvalid, wdata, wstrb))
   $info("IFWVALIDGOESHIGH_THEN_WDATA_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_WDATA_IS_UNKNOWN : COVERED");
 
-  property ifBvalidHighThenBrespNotUnknown(logic bvalid, logic bresp);
+  property ifBvalidHighThenBrespNotUnknownAndPreviousClkBrespIsUnknown(logic bvalid, logic bresp);
 	  @(posedge aclk) disable iff (!aresetn)
-      bvalid |-> !($isunknown(bresp));
+      bvalid |-> !($isunknown(bresp)) 
+      ##0 ($past(bresp,1) === 1'bx);
   endproperty
 
-  IFBVALIDASSERTED_THEN_BRESP_NOTUNKNOWN: cover property 
-  (ifBvalidHighThenBrespNotUnknown(bvalid,bresp))
-  $info("IFBVALIDASSERTED_THEN_BRESP_NOTUNKNOWN : COVERED");
+  IFBVALIDASSERTED_THEN_BRESP_NOTUNKNOWN_AND_PREVIOUS_CLK_BRESP_IS_UNKNOWN: cover property 
+  (ifBvalidHighThenBrespNotUnknownAndPreviousClkBrespIsUnknown(bvalid,bresp))
+  $info("IFBVALIDASSERTED_THEN_BRESP_NOTUNKNOWN_AND_PREVIOUS_CLK_BRESP_IS_UNKNOWN : COVERED");
 
    property WhenValidAssertedThenInformationNotUnknownAndPrevious2ClkInformationUnknwon(logic valid, logic information, logic controlSignal);
 	 @(posedge aclk) disable iff (!aresetn)
      valid |-> !($isunknown(information)) ##0 !($isunknown(controlSignal))
                 ##0 ($past(information,2) === 1'bx)
-                ##0 ($past(controlSignal,1) === 1'bx);
+                ##0 ($past(controlSignal,2) === 1'bx);
  endproperty 
 
   IFAWVALIDASSERTED_THEN_AWADDR_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_AWADDR_IS_UNKNOWN: cover property  
@@ -67,6 +68,16 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   IFWVALIDASSERTED_THEN_WDATA_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_WDATA_IS_UNKNOWN: cover property  
   (WhenValidAssertedThenInformationNotUnknownAndPrevious2ClkInformationUnknwon(wvalid, wdata, wstrb))
   $info("IFWVALIDGOESHIGH_THEN_WDATA_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_WDATA_IS_UNKNOWN : COVERED");
+  
+  property ifBvalidHighThenBrespNotUnknownAndPrevious2ClkBrespIsUnknown(logic bvalid, logic bresp);
+	  @(posedge aclk) disable iff (!aresetn)
+      bvalid |-> !($isunknown(bresp)) 
+      ##0 ($past(bresp,2) === 1'bx);
+  endproperty
+
+  IFBVALIDASSERTED_THEN_BRESP_NOTUNKNOWN_AND_PREVIOUS_2CLK_BRESP_IS_UNKNOWN: cover property 
+  (ifBvalidHighThenBrespNotUnknownAndPrevious2ClkBrespIsUnknown(bvalid,bresp))
+  $info("IFBVALIDASSERTED_THEN_BRESP_NOTUNKNOWN_AND_PREVIOUS_2CLK_BRESP_IS_UNKNOWN : COVERED");
 
   property WhenReadyLowAndValidAssertedAfter3Clk(logic valid, logic ready);
    @(posedge aclk) disable iff (!aresetn)

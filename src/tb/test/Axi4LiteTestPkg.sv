@@ -46,6 +46,7 @@ package Axi4LiteTestPkg;
   `include "Axi4LiteRvalidAssertedAndSameClkRreadyAssertedTest.sv"
   `include "Axi4LiteRvalidAssertedAndNextClkRreadyAssertedTest.sv"
   `include "Axi4LiteBackToBackTransfersWith1ClkDelayTest.sv"
+  `include "Axi4Lite32bitWriteDataTest.sv"
 
 endpackage : Axi4LiteTestPkg
 
