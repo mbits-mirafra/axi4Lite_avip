@@ -27,7 +27,6 @@ task Axi4LiteSlaveWrite32bitsTransferTest::run_phase(uvm_phase phase);
    if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize()) begin
        `uvm_error(get_type_name(), "Randomization failed")
    end
-       `uvm_info(get_type_name(),$sformatf("Axi4LiteSlaveWrite32bitsTransferTest wdata :%0d", axi4LiteSlaveWrite32bitsTransferSeq.wdata),UVM_LOW);
 
   phase.raise_objection(this);
   super.run_phase(phase);
