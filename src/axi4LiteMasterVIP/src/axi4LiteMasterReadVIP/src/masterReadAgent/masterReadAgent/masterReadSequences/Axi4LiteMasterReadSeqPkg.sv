@@ -14,6 +14,7 @@ package Axi4LiteMasterReadSeqPkg;
   `include "Axi4LiteMasterReadDelayForRreadySeq.sv"
   `include "Axi4LiteMasterReadDelayForArvalidSeq.sv"
   `include "Axi4LiteMasterReadAddressInsideMinAndMaxRangeSeq.sv"
+  `include "Axi4LiteMasterRead32bitsTransferSeq.sv"
   
 endpackage : Axi4LiteMasterReadSeqPkg
 `endif
