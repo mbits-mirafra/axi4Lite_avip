@@ -1,4 +1,3 @@
-
 `ifndef AXI4LITEMASTERWRITE32BITSTRANSFERTEST_INCLUDED_
 `define AXI4LITEMASTERWRITE32BITSTRANSFERTEST_INCLUDED_
 
@@ -26,7 +25,6 @@ task Axi4LiteMasterWrite32bitsTransferTest::run_phase(uvm_phase phase);
   `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteMasterWrite32bitsTransferTest"),UVM_LOW);
     
    if(!axi4LiteMasterWrite32bitsTransferSeq.randomize()with { awprot == 3'b010;
-                                                              wstrb  == 4'b1111;
                                                             }) begin
        `uvm_error(get_type_name(), "Randomization failed")
    end
