@@ -104,6 +104,26 @@ task writeResponseChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWri
                               inout axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct
                              );
   `uvm_info(name,$sformatf("SLAVE_WRITE_RESPONSE_CHANNEL_TASK_STARTED"),UVM_HIGH)
+  fork
+    begin
+      do begin
+        @(posedge aclk);
+        `uvm_info("FROM SLAVE WRITE DRIVER BFM",$sformatf("Inside write response channel waiting for awvalid and awready"),UVM_HIGH)
+      end
+      while(awvalid!==1 || awready!==1);
+       `uvm_info("FROM SLAVE WRITE DRIVER BFM",$sformatf("After write response channel asserted awvalid and awready"),UVM_HIGH)
+   end
+
+   begin
+      do begin
+        @(posedge aclk);
+        `uvm_info("FROM SLAVE WRITE DRIVER BFM",$sformatf("Inside write response channel waiting for wvalid and wready"),UVM_HIGH)
+      end
+      while(wvalid!==1 || wready!==1);
+       `uvm_info("FROM SLAVE WRITE DRIVER BFM",$sformatf("After write response channel asserted wvalid and wready"),UVM_HIGH)
+   end
+ join
+
   //FIXME
   //What if user given the delayForBvalid as 0
   repeat(slaveWritePacketStruct.delayForBvalid-1) begin
