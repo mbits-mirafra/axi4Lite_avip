@@ -307,14 +307,13 @@ interface Axi4LiteSlaveReadCoverProperty (input aclk,
     $info("IFRREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_RREADY_WILLGODEFAULTSTATE : COVERED");
 
     property WhenArreadyHighAndSendingValidAddressAndRedaingDataOnSlaveLocationThenSlaveWillGiveOkayResponse; 
-      @(posedge aclk) disable iff (!aresetn) 
-      (arvalid && arready && !($isunknown(araddr))) |-> 
-       ##[1:MAX_DELAY_RVALID] (rvalid && rready) ##0 (!($isunknown(rdata)) && (rresp == 2'b00));
+     @(posedge aclk) disable iff (!aresetn) 
+     (arvalid && arready && !($isunknown(araddr))) |-> 
+      ##[1:MAX_DELAY_RVALID] (rvalid && rready) ##0 (!($isunknown(rdata)) && (rresp == 2'b00));
     endproperty  
 
-    IFARREADYHIGH_THEN_READINGDATAONSLAVEADDRESS_ANDIFSLAVEACCEPTVALIDADDRESS_THENNOSLAVEERROR: cover property  
-    (WhenArreadyHighAndSendingValidAddressAndRedaingDataOnSlaveLocationThenSlaveWillGiveOkayResponse)
-    $info(" IFARREADYHIGH_THEN_READINGDATAONSLAVEADDRESS_ANDIFSLAVEACCEPTVALIDADDRESS_THENNOSLAVEERROR : COVERED");
+    IFARREADYHIGH_THEN_READINGTHERDATAONSLAVEADDRESS_AND_IFSLAVEACCEPTTHEVALIDARADDR_THEN_SLAVEWILLGIVEOKAYRESPONSE : cover property   (WhenArreadyHighAndSendingValidAddressAndRedaingDataOnSlaveLocationThenSlaveWillGiveOkayResponse)
+     $info("IFARREADYHIGH_THEN_READINGTHERDATAONSLAVEADDRESS_AND_IFSLAVEACCEPTTHEVALIDARADDR_THEN_SLAVEWILLGIVEOKAYRESPONSE : COVERED");
 
     property WhenArvalidAndArreadyAreAssertedThenNextClkRvalidWillBeAssert;
      @(posedge aclk) disable iff (!aresetn) 

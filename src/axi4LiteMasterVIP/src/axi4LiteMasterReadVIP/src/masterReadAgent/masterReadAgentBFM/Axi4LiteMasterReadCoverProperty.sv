@@ -282,7 +282,8 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFRREADYASSERTED_THEN_INBETWEEN2TO5CLK_RVALIDASSERTED: COVERED");
 
     property WhenReadyAssertedThenInbetween1To15ClkValidAsserted(logic valid, logic ready);
-     @(posedge aclk) disable iff (!aresetn) ready |-> !valid ##[1:MAX_DELAY_VALID] valid;
+     @(posedge aclk) disable iff (!aresetn) 
+      ready |-> !valid ##[1:MAX_DELAY_VALID] valid;
     endproperty
 
     IFARREADYASSERTED_THEN_INBETWEEN1TO15CLK_ARVALIDASSERTED: cover property
@@ -312,9 +313,9 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
        ##[1:MAX_DELAY_RVALID] (rvalid && rready) ##0 (!($isunknown(rdata)) && (rresp == 2'b00));
     endproperty  
 
-    IFARREADYHIGH_THEN_READINGDATAONSLAVEADDRESS_ANDIFSLAVEACCEPTVALIDADDRESS_THENNOSLAVEERROR: cover property  
+    IFARREADYHIGH_THEN_READINGTHERDATAONSLAVEADDRESS_AND_IFSLAVEACCEPTTHEVALIDARADDR_THEN_SLAVEWILLGIVEOKAYRESPONSE: cover property
     (WhenArreadyHighAndSendingValidAddressAndRedaingDataOnSlaveLocationThenSlaveWillGiveOkayResponse)
-    $info(" IFARREADYHIGH_THEN_READINGDATAONSLAVEADDRESS_ANDIFSLAVEACCEPTVALIDADDRESS_THENNOSLAVEERROR : COVERED");
+    $info("IFARREADYHIGH_THEN_READINGTHERDATAONSLAVEADDRESS_AND_IFSLAVEACCEPTTHEVALIDARADDR_THEN_SLAVEWILLGIVEOKAYRESPONSE : COVERED");
 
     property WhenArvalidAndArreadyAreAssertedThenNextClkRvalidWillBeAssert;
      @(posedge aclk) disable iff (!aresetn) 

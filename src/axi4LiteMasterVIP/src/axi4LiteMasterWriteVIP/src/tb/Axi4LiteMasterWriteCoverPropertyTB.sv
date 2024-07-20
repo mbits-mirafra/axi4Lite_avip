@@ -119,9 +119,9 @@ module Axi4LiteMasterWriteCoverPropertyTB;
     When_awreadyIsAsserted_Then_inbetween2To5ClkAwvalidIsAsserted();
     When_wreadyIsAsserted_Then_inbetween2To5ClkWvalidIsAsserted();
     When_breadyIsAsserted_Then_inbetween2To5ClkBvalidIsAsserted();
-    When_awreadyIsAsserted_Then_anyClkAwvalidIsAsserted();
-    When_wreadyIsAsserted_Then_anyClkWvalidIsAsserted();
-    When_breadyIsAsserted_Then_anyClkBvalidIsAsserted();
+    When_awreadyIsAsserted_Then_inbetween1To15ClkAwvalidIsAsserted();
+    When_wreadyIsAsserted_Then_inbetween1To15ClkWvalidIsAsserted();
+    When_breadyIsAsserted_Then_inbetween1To15ClkBvalidIsAsserted();
     When_awreadyDefaultValueIs1AndTransferOccur_Then_nextClkAwreadyValueWillGoDefaultState();
     When_wreadyDefaultValueIs1AndTransferOccur_Then_nextClkWreadyValueWillGoDefaultState();
     When_breadyDefaultValueIs1AndTransferOccur_Then_nextClkBreadyValueWillGoDefaultState();
@@ -1222,49 +1222,49 @@ end
     `uvm_info(name,$sformatf("When_breadyIsAsserted_Then_inbetween2To5ClkBvalidIsAsserted task ended"),UVM_NONE);
   endtask
 
-  task When_awreadyIsAsserted_Then_anyClkAwvalidIsAsserted();
-   `uvm_info(name,$sformatf("When_awreadyIsAsserted_Then_anyClkAwvalidIsAsserted task started"),UVM_NONE);
+  task When_awreadyIsAsserted_Then_inbetween1To15ClkAwvalidIsAsserted();
+   `uvm_info(name,$sformatf("When_awreadyIsAsserted_Then_inbetween1To15ClkAwvalidIsAsserted task started"),UVM_NONE);
       @(posedge aclk); 
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
       @(posedge aclk);
       awready <= 1'b1;
-      repeat(5) begin //Here anyvalue you can give example 5
-      @(posedge aclk);
+     repeat(5) begin //Here anyvalue you can give that is inbetween 1To15 
+       @(posedge aclk);
       end
       awvalid <= 1'b1;
-    `uvm_info(name,$sformatf("When_awreadyIsAsserted_Then_anyClkAwvalidIsAsserted task ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_awreadyIsAsserted_Then_inbetween1To15ClkAwvalidIsAsserted task ended"),UVM_NONE);
   endtask
 
-  task When_wreadyIsAsserted_Then_anyClkWvalidIsAsserted();
-   `uvm_info(name,$sformatf("When_wreadyIsAsserted_Then_anyClkWvalidIsAsserted task started"),UVM_NONE);
+  task When_wreadyIsAsserted_Then_inbetween1To15ClkWvalidIsAsserted();
+   `uvm_info(name,$sformatf("When_wreadyIsAsserted_Then_inbetween1To15ClkWvalidIsAsserted task started"),UVM_NONE);
      @(posedge aclk); 
      aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
       @(posedge aclk);
       wready <= 1'b1;
-      repeat(5) begin //Here anyvalue you can give example 5
+      repeat(5) begin //Here anyvalue you can give that is inbetween 1To15
       @(posedge aclk);
       end
       wvalid <= 1'b1;
-    `uvm_info(name,$sformatf("When_wreadyIsAsserted_Then_anyClkWvalidIsAsserted task ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_wreadyIsAsserted_Then_inbetween1To15ClkWvalidIsAsserted task ended"),UVM_NONE);
   endtask
 
-  task When_breadyIsAsserted_Then_anyClkBvalidIsAsserted();
-   `uvm_info(name,$sformatf("When_breadyIsAsserted_Then_anyClkBvalidIsAsserted task started"),UVM_NONE);
+  task When_breadyIsAsserted_Then_inbetween1To15ClkBvalidIsAsserted();
+   `uvm_info(name,$sformatf("When_breadyIsAsserted_Then_inbetween1To15ClkBvalidIsAsserted task started"),UVM_NONE);
      @(posedge aclk); 
      aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
       @(posedge aclk);
       bready <= 1'b1;
-      repeat(5) begin //Here anyvalue you can give example 5
-      @(posedge aclk);
+      repeat(5) begin  //Here anyvalue you can give that is inbetween 1To15
+       @(posedge aclk);
       end
       bvalid <= 1'b1;
-    `uvm_info(name,$sformatf("When_breadyIsAsserted_Then_anyClkBvalidIsAsserted task ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_breadyIsAsserted_Then_inbetween1To15ClkBvalidIsAsserted task ended"),UVM_NONE);
   endtask
 
   task When_awreadyDefaultValueIs1AndTransferOccur_Then_nextClkAwreadyValueWillGoDefaultState();

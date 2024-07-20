@@ -388,22 +388,22 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
     (WhenReadyAssertedThenInbetween2To5ClkValidAsserted(bvalid,bready))
     $info("IFBREADYASSERTED_THEN_INBETWEEN2TO5CLK_BVALIDASSERTED: COVERED");
 
-    property WhenReadyAssertedThenAnyClkValidAsserted(logic valid, logic ready);
+    property WhenReadyAssertedThenInbetween1To15ClkValidAsserted(logic valid, logic ready);
      @(posedge aclk) disable iff (!aresetn)
-     ready |-> !valid ##[0:$] valid;
+     ready |-> !valid ##[0:MAX_DELAY_VALID] valid;
     endproperty
 
-    IFAWREADYASSERTED_THEN_ANYCLK_AWVALIDASSERTED: cover property
-    (WhenReadyAssertedThenAnyClkValidAsserted(awvalid,awready))
-    $info("IFAWREADYASSERTED_THEN_ANYCLK_AWVALIDASSERTED : COVERED");
+    IFAWREADYASSERTED_THEN_INBETWEEN1TO15CLK_AWVALIDASSERTED : cover property
+    (WhenReadyAssertedThenInbetween1To15ClkValidAsserted(awvalid,awready))
+    $info("IFAWREADYASSERTED_THEN_INBETWEEN1TO15CLK_AWVALIDASSERTED  : COVERED");
 
-    IFWREADYASSERTED_THEN_ANYCLK_WVALIDASSERTED: cover property
-    (WhenReadyAssertedThenAnyClkValidAsserted(wvalid,wready))
-    $info("IFWREADYASSERTED_THEN_ANYCLK_WVALIDASSERTED : COVERED");
+    IFWREADYASSERTED_THEN_INBETWEEN1TO15CLK_WVALIDASSERTED : cover property
+    (WhenReadyAssertedThenInbetween1To15ClkValidAsserted(wvalid,wready))
+    $info("IFWREADYASSERTED_THEN_INBETWEEN1TO15CLK_WVALIDASSERTED : COVERED");
 
-    IFBREADYASSERTED_THEN_ANYCLK_BVALIDASSERTED: cover property
-    (WhenReadyAssertedThenAnyClkValidAsserted(bvalid,bready))
-    $info("IFBREADYASSERTED_THEN_ANYCLK_BVALIDASSERTED : COVERED");
+    IFBREADYASSERTED_THEN_INBETWEEN1TO15CLK_BVALIDASSERTED: cover property
+    (WhenReadyAssertedThenInbetween1To15ClkValidAsserted (bvalid,bready))
+    $info("IFBREADYASSERTED_THEN_INBETWEEN1TO15CLK_BVALIDASSERTED: COVERED");
 
     property WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(logic valid, logic ready); 
      @(posedge aclk) disable iff (!aresetn)
