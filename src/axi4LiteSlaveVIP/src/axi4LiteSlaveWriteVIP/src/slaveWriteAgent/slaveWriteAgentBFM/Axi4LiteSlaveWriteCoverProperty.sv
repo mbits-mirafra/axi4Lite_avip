@@ -29,20 +29,20 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
     `uvm_info("Axi4LiteSlaveWriteCoverProperty","Axi4LiteSlaveWriteCoverProperty",UVM_LOW);
   end
 
-  property WhenValidGoesHighThenInformationNotUnknownAndPreviousClkInformationUnknown(logic valid, logic information, logic controlSignal); 
+  property WhenValidGoesHighThenInformationControlSignalAreNotUnknownAndPreviousClkInformationControlSignalAreUnknown(logic valid, logic information, logic controlSignal); 
    @(posedge aclk) disable iff (!aresetn) 
        $rose(valid) |-> !($isunknown(information)) ##0 !($isunknown(controlSignal)) 
                     ##0 ($past(information,1) === 1'bx)  
                     ##0 ($past(controlSignal,1) === 1'bx);    
  endproperty 
 
-  IFAWVALIDGOESHIGH_THEN_AWADDR_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_AWADDR_IS_UNKNOWN : cover property
-  (WhenValidGoesHighThenInformationNotUnknownAndPreviousClkInformationUnknown(awvalid,awaddr, awprot))
-  $info("IFAWVALIDGOESHIGH_THEN_AWADDR_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_AWADDR_IS_UNKNOWN : COVERED");
+  IFAWVALIDGOESHIGH_THEN_AWADDRAWPROT_ARE_NOTUNKNOWN_AND_PREVIOUS_CLK_AWADDRAWPROT_ARE_UNKNOWN : cover property
+  (WhenValidGoesHighThenInformationControlSignalAreNotUnknownAndPreviousClkInformationControlSignalAreUnknown (awvalid,awaddr, awprot))
+  $info("IFAWVALIDGOESHIGH_THEN_AWADDRAWPROT_ARE_NOTUNKNOWN_AND_PREVIOUS_CLK_AWADDRAWPROT_ARE_UNKNOWN : COVERED");
 
-  IFWVALIDGOESHIGH_THEN_WDATA_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_WDATA_IS_UNKNOWN : cover property  
-  (WhenValidGoesHighThenInformationNotUnknownAndPreviousClkInformationUnknown(wvalid, wdata, wstrb))
-  $info("IFWVALIDGOESHIGH_THEN_WDATA_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_WDATA_IS_UNKNOWN : COVERED");
+  IFWVALIDGOESHIGH_THEN_WDATAWSTRB_ARE_NOTUNKNOWN_AND_PREVIOUS_CLK_WDATAWSTRB_ARE_UNKNOWN : cover property  
+  (WhenValidGoesHighThenInformationControlSignalAreNotUnknownAndPreviousClkInformationControlSignalAreUnknown(wvalid, wdata, wstrb))
+  $info("IFWVALIDGOESHIGH_THEN_WDATAWSTRB_ARE_NOTUNKNOWN_AND_PREVIOUS_CLK_WDATAWSTRB_ARE_UNKNOWN : COVERED");
 
   property ifBvalidHighThenBrespNotUnknownAndPreviousClkBrespIsUnknown(logic bvalid, logic bresp);
 	  @(posedge aclk) disable iff (!aresetn)
@@ -54,21 +54,21 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   (ifBvalidHighThenBrespNotUnknownAndPreviousClkBrespIsUnknown(bvalid,bresp))
   $info("IFBVALIDASSERTED_THEN_BRESP_NOTUNKNOWN_AND_PREVIOUS_CLK_BRESP_IS_UNKNOWN : COVERED");
 
-   property WhenValidAssertedThenInformationNotUnknownAndPrevious2ClkInformationUnknwon(logic valid, logic information, logic controlSignal);
-	 @(posedge aclk) disable iff (!aresetn)
-     valid |-> !($isunknown(information)) ##0 !($isunknown(controlSignal))
-                ##0 ($past(information,2) === 1'bx)
-                ##0 ($past(controlSignal,2) === 1'bx);
+  property WhenValidGoesHighThenInformationControlSignalAreNotUnknownAndPrevious2ClkInformationControlSignalAreUnknown(logic valid, logic information, logic controlSignal); 
+   @(posedge aclk) disable iff (!aresetn) 
+       $rose(valid) |-> !($isunknown(information)) ##0 !($isunknown(controlSignal)) 
+                    ##0 ($past(information,2) === 1'bx)  
+                    ##0 ($past(controlSignal,2) === 1'bx);    
  endproperty 
 
-  IFAWVALIDASSERTED_THEN_AWADDR_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_AWADDR_IS_UNKNOWN: cover property  
-  (WhenValidAssertedThenInformationNotUnknownAndPrevious2ClkInformationUnknwon(awvalid, awaddr,awprot))
-  $info("IFAWVALIDGOESHIGH_THEN_AWADDR_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_AWADDR_IS_UNKNOWN : COVERED");
+  IFAWVALIDGOESHIGH_THEN_AWADDRAWPROT_ARE_NOTUNKNOWN_AND_PREVIOUS_2CLK_AWADDRAWPROT_ARE_UNKNOWN : cover property
+  (WhenValidGoesHighThenInformationControlSignalAreNotUnknownAndPrevious2ClkInformationControlSignalAreUnknown (awvalid,awaddr, awprot))
+  $info("IFAWVALIDGOESHIGH_THEN_AWADDRAWPROT_ARE_NOTUNKNOWN_AND_PREVIOUS_2CLK_AWADDRAWPROT_ARE_UNKNOWN : COVERED");
 
-  IFWVALIDASSERTED_THEN_WDATA_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_WDATA_IS_UNKNOWN: cover property  
-  (WhenValidAssertedThenInformationNotUnknownAndPrevious2ClkInformationUnknwon(wvalid, wdata, wstrb))
-  $info("IFWVALIDGOESHIGH_THEN_WDATA_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_WDATA_IS_UNKNOWN : COVERED");
-  
+  IFWVALIDGOESHIGH_THEN_WDATAWSTRB_ARE_NOTUNKNOWN_AND_PREVIOUS_2CLK_WDATAWSTRB_ARE_UNKNOWN : cover property  
+  (WhenValidGoesHighThenInformationControlSignalAreNotUnknownAndPrevious2ClkInformationControlSignalAreUnknown(wvalid, wdata, wstrb))
+  $info("IFWVALIDGOESHIGH_THEN_WDATAWSTRB_ARE_NOTUNKNOWN_AND_PREVIOUS_2CLK_WDATAWSTRB_ARE_UNKNOWN : COVERED");
+ 
   property ifBvalidHighThenBrespNotUnknownAndPrevious2ClkBrespIsUnknown(logic bvalid, logic bresp);
 	  @(posedge aclk) disable iff (!aresetn)
       bvalid |-> !($isunknown(bresp)) 

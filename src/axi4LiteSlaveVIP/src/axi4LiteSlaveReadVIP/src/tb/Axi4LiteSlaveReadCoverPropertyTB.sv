@@ -44,10 +44,10 @@ module Axi4LiteSlaveReadCoverPropertyTB;
   end
 
   initial begin
-    When_arvalidIsAsserted_Then_araddrIsNotUnknownAndPrevious1ClkAraddrIsUnknown();
-    When_rvalidIsAsserted_Then_rdataIsNotUnknownAndPrevious1ClkRdataIsUnknown();
-    When_arvalidIsAsserted_Then_araddrIsNotUnknownAndPrevious2ClkAraddrIsUnknown();
-    When_rvalidIsAsserted_Then_rdataIsNotUnknownAndPrevious2ClkRdataIsUnknown();
+    When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious1ClkAraddrArprotAreUnknown();
+    When_rvalidRrespAreAsserted_Then_rdataRrespAreNotUnknownAndPrevious1ClkRdataIsUnknown();
+    When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious2ClkAraddrArprotAreUnknown();
+    When_rvalidRrespAreAsserted_Then_rdataRrespAreNotUnknownAndPrevious2ClkRdataIsUnknown();
     When_arreadyIsLow_Then_arvalidIsAssertedAfter3Clk();
     When_rreadyIsLow_Then_rvalidIsAssertedAfter3Clk();
     When_arreadyIsLow_Then_anyClkArvalidIsAssertedThenArreadyCanBeAssertAnyTime();
@@ -108,8 +108,8 @@ module Axi4LiteSlaveReadCoverPropertyTB;
   end
 
 
-  task When_arvalidIsAsserted_Then_araddrIsNotUnknownAndPrevious1ClkAraddrIsUnknown();
-    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddrIsNotUnknownAndPrevious1ClkAraddrIsUnknown Task started"),UVM_NONE);
+  task When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious1ClkAraddrArprotAreUnknown();
+    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious1ClkAraddrArprotAreUnknown Task started"),UVM_NONE);
       @(posedge aclk);  
       aresetn <= 1'b1;
       arvalid <= 1'b0;
@@ -121,11 +121,11 @@ module Axi4LiteSlaveReadCoverPropertyTB;
       arvalid <= 1'b1;
       araddr  <= 32'h2222_1234;
       arprot  <= 3'b111;
-   `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddrIsNotUnknownAndPrevious1ClkAraddrIsUnknown Task Ended"),UVM_NONE);
+   `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious1ClkAraddrArprotAreUnknown Task Ended"),UVM_NONE);
   endtask
 
-  task When_rvalidIsAsserted_Then_rdataIsNotUnknownAndPrevious1ClkRdataIsUnknown();
-    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_rdataIsNotUnknownAndPrevious1ClkRdataIsUnknown Task started"),UVM_NONE);
+  task When_rvalidRrespAreAsserted_Then_rdataRrespAreNotUnknownAndPrevious1ClkRdataIsUnknown();
+    `uvm_info(name,$sformatf("When_rvalidRrespAreAsserted_Then_rdataRrespAreNotUnknownAndPrevious1ClkRdataIsUnknown Task started"),UVM_NONE);
       @(posedge aclk);  
       aresetn <= 1'b1;
       rvalid  <= 1'b0;
@@ -137,11 +137,11 @@ module Axi4LiteSlaveReadCoverPropertyTB;
       rvalid  <= 1'b1;
       rdata   <= 32'h2222_3333;
       rresp   <= 2'b00;
-    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_rdataIsNotUnknownAndPrevious1ClkRdataIsUnknown Task Ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_rvalidRrespAreAsserted_Then_rdataRrespAreNotUnknownAndPrevious1ClkRdataIsUnknown Task Ended"),UVM_NONE);
   endtask
 
-  task When_arvalidIsAsserted_Then_araddrIsNotUnknownAndPrevious2ClkAraddrIsUnknown();
-    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddrIsNotUnknownAndPrevious2ClkAraddrIsUnknown Task started"),UVM_NONE);
+  task When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious2ClkAraddrArprotAreUnknown();
+    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious2ClkAraddrArprotAreUnknown Task started"),UVM_NONE);
       @(posedge aclk);
       aresetn <= 1'b1;
       arvalid <= 1'b0;
@@ -153,11 +153,11 @@ module Axi4LiteSlaveReadCoverPropertyTB;
       arvalid <= 1'b1;
       araddr  <= 32'h1122_3344;
       arprot  <= 3'b111;
-    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddrIsNotUnknownAndPrevious2ClkAraddrIsUnknown Task Ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious2ClkAraddrArprotAreUnknown Task Ended"),UVM_NONE);
   endtask
 
-  task When_rvalidIsAsserted_Then_rdataIsNotUnknownAndPrevious2ClkRdataIsUnknown();
-   `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_rdataIsNotUnknownAndPrevious2ClkRdataIsUnknown Task started"),UVM_NONE);
+  task When_rvalidRrespAreAsserted_Then_rdataRrespAreNotUnknownAndPrevious2ClkRdataIsUnknown();
+   `uvm_info(name,$sformatf("When_rvalidRrespAreAsserted_Then_rdataRrespAreNotUnknownAndPrevious2ClkRdataIsUnknown Task started"),UVM_NONE);
       @(posedge aclk);
       aresetn <= 1'b1;
       rvalid  <= 1'b0;
@@ -169,7 +169,7 @@ module Axi4LiteSlaveReadCoverPropertyTB;
       rvalid  <= 1'b1;
       rdata   <= 32'h2222_3333;
       rresp   <= 2'b00;
-    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_rdataIsNotUnknownAndPrevious2ClkRdataIsUnknown Task Ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_rvalidRrespAreAsserted_Then_rdataRrespAreNotUnknownAndPrevious2ClkRdataIsUnknown Task Ended"),UVM_NONE);
   endtask
 
   task When_arreadyIsLow_Then_arvalidIsAssertedAfter3Clk();
