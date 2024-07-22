@@ -48,6 +48,11 @@ package Axi4LiteTestPkg;
   `include "Axi4LiteBackToBackTransfersWith1ClkDelayTest.sv"
   `include "Axi4Lite32bitWriteDataTest.sv"
   `include "Axi4Lite32bitReadDataTest.sv"
+  `include "Axi4LiteAwvalidAssertedInbetween2To5ClkAwreadyAssertedTest.sv"
+  `include "Axi4LiteWvalidAssertedInbetween2To5ClkWreadyAssertedTest.sv"
+  `include "Axi4LiteBvalidAssertedInbetween2To5ClkBreadyAssertedTest.sv"
+  `include "Axi4LiteArvalidAssertedInbetween2To5ClkArreadyAssertedTest.sv"
+  `include "Axi4LiteRvalidAssertedInbetween2To5ClkRreadyAssertedTest.sv"
 
 endpackage : Axi4LiteTestPkg
 
