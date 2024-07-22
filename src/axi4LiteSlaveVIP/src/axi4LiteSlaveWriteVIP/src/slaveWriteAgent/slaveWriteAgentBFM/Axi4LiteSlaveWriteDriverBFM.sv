@@ -130,7 +130,13 @@ task writeResponseChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWri
     @(posedge aclk);
   end
   bvalid <= 1'b1;
-  bresp  <= slaveWritePacketStruct.bresp;
+  if(!(awaddr inside {[slaveWriteConfigStruct.minAddressRange:slaveWriteConfigStruct.maxAddressRange]})) begin
+    bresp <= WRITE_SLVERR;
+  end else begin
+    bresp <= WRITE_OKAY;
+  end
+
+  //bresp  <= slaveWritePacketStruct.bresp;
 
   do begin
     @(posedge aclk);

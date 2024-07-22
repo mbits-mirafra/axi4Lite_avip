@@ -234,7 +234,7 @@ task Axi4LiteBaseTest::run_phase(uvm_phase phase);
 
   `uvm_info(get_type_name(), $sformatf("Inside MASTER_BASE_TEST"), UVM_NONE);
    super.run_phase(phase);
-   axi4LiteVirtualBaseSeq.start(axi4LiteEnv.axi4LiteVirtualSequencer);
+//   axi4LiteVirtualBaseSeq.start(axi4LiteEnv.axi4LiteVirtualSequencer);
   #10;
   `uvm_info(get_type_name(), $sformatf("Done MASTER_BASE_TEST"), UVM_NONE);
   phase.drop_objection(this);

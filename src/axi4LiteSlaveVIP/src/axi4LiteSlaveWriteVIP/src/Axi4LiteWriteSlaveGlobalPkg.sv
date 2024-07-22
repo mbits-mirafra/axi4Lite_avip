@@ -69,6 +69,9 @@ package Axi4LiteWriteSlaveGlobalPkg;
     int maxDelayForBready;
     bit defaultStateReady;
 
+    bit [ADDRESS_WIDTH-1:0] maxAddressRange;
+    bit [ADDRESS_WIDTH-1:0] minAddressRange;
+
   } axi4LiteWriteSlaveTransferCfgStruct;
 
 endpackage : Axi4LiteWriteSlaveGlobalPkg 

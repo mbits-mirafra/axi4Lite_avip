@@ -97,6 +97,7 @@ task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
        `uvm_info(get_type_name(),$sformatf("SLAVE_WRITE_RESPONSE_CHANNEL_TASK::Before writeResponse struct packet = %p",
                                             slaveWritePacketStruct),UVM_MEDIUM);
        Axi4LiteSlaveWriteSeqItemConverter::fromWriteClass(reqWrite, slaveWritePacketStruct);
+
        axi4LiteSlaveWriteDriverBFM.writeResponseChannelTask(slaveWriteConfigStruct, slaveWritePacketStruct);
        Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,slaveWriteResponseTx);
        `uvm_info(get_type_name(),$sformatf("SLAVE_WRITE_RESPONSE_CHANNEL_TASK::Received writeResponse packet from driverBFM = %p",
