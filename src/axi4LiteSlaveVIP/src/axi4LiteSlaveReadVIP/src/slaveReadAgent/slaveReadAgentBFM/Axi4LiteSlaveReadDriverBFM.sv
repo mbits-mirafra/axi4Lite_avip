@@ -89,6 +89,11 @@ task readDataChannelTask(input axi4LiteReadSlaveTransferCfgStruct slaveReadConfi
      end
       rvalid <= 1'b1;
       rdata  <= slaveReadPacketStruct.rdata;
+      if(!(araddr inside {[slaveReadConfigStruct.minAddressRange:slaveReadConfigStruct.maxAddressRange]})) begin
+        rresp <= READ_SLVERR;
+      end else begin
+        rresp <= READ_OKAY;
+      end
    
      do begin
        @(posedge aclk);
