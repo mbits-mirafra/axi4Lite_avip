@@ -103,7 +103,7 @@ task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
        `uvm_info(get_type_name(),$sformatf("SLAVE_WRITE_RESPONSE_CHANNEL_TASK::Received writeResponse packet from driverBFM = %p",
                                             slaveWritePacketStruct),UVM_MEDIUM);
      end
-   join
+   join_any
 
    axi4LiteSlaveWriteSeqItemPort.item_done();
  end

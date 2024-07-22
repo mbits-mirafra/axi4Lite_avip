@@ -119,7 +119,7 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
                                                masterWritePacketStruct),UVM_MEDIUM); 
       end
 
-    join
+    join_any
 
     axi4LiteMasterWriteSeqItemPort.item_done();
   end

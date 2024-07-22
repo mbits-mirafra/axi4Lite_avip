@@ -99,7 +99,7 @@ task Axi4LiteMasterReadDriverProxy::readTransferTask();
                                                masterReadPacketStruct),UVM_MEDIUM); 
       end
 
-    join
+    join_any
 
     axi4LiteMasterReadSeqItemPort.item_done();
   end

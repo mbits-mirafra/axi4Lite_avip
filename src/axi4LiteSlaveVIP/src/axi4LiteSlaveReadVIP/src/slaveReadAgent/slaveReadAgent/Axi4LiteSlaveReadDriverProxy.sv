@@ -100,7 +100,7 @@ task Axi4LiteSlaveReadDriverProxy::readTransferTask();
       `uvm_info(get_type_name(),$sformatf("SLAVE_READ_DATA_TASK::Received read data packet From driverBFM = %p",
                                           slaveReadPacketStruct),UVM_MEDIUM);
       end
-    join 
+    join_any 
    axi4LiteSlaveReadSeqItemPort.item_done();
   end
 endtask : readTransferTask
