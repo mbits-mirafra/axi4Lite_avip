@@ -53,6 +53,7 @@ package Axi4LiteTestPkg;
   `include "Axi4LiteBvalidAssertedInbetween2To5ClkBreadyAssertedTest.sv"
   `include "Axi4LiteArvalidAssertedInbetween2To5ClkArreadyAssertedTest.sv"
   `include "Axi4LiteRvalidAssertedInbetween2To5ClkRreadyAssertedTest.sv"
+  `include "Axi4Lite32bitWriteDataWithDelayForValidReadyTest.sv"
 
 endpackage : Axi4LiteTestPkg
 

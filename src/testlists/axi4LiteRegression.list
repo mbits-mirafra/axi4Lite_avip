@@ -18,3 +18,4 @@ Axi4LiteRvalidAssertedAndNextClkRreadyAssertedTest
 
 Axi4Lite32bitWriteDataTest
 Axi4Lite32bitReadDataTest
+Axi4Lite32bitWriteDataWithDelayForValidReadyTest

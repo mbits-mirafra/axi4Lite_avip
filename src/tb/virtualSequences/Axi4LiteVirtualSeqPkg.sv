@@ -45,6 +45,7 @@ package Axi4LiteVirtualSeqPkg;
   `include "Axi4LiteVirtualBvalidAssertedInbetween2To5ClkBreadyAssertedSeq.sv"
   `include "Axi4LiteVirtualArvalidAssertedInbetween2To5ClkArreadyAssertedSeq.sv"
   `include "Axi4LiteVirtualRvalidAssertedInbetween2To5ClkRreadyAssertedSeq.sv"
+  `include "Axi4LiteVirtual32bitWriteDataWithDelayForValidReadySeq.sv"
 
 endpackage : Axi4LiteVirtualSeqPkg
 
