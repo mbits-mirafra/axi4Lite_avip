@@ -165,7 +165,7 @@ IFARVALIDANDARREADYAREASSERTED_THEN_WITHIN10CLK_RVALIDASSERTED: assert property(
 
     property arvalidAndArreadyAssertedThenWithin10ClkRvalidAssertedAndRdataNotUnknown;
       @(posedge aclk) disable iff (!aresetn)
-        (arvalid && arready && !rvalid) |=> ##[0:10] (rvalid && !($isunknown(rdata)));
+        (arvalid && arready && !rvalid) |=> ##[0:MAX_DELAY_RVALID] (rvalid && !($isunknown(rdata)));
     endproperty
 
 IFARVALIDANDARREADYAREASSERTED_THEN_WITHIN10CLK_RVALIDASSERTEDANDRDATANOTUNKNOWN: assert property(arvalidAndArreadyAssertedThenWithin10ClkRvalidAssertedAndRdataNotUnknown)
