@@ -758,24 +758,24 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   (WhenWvalidIsAssertedThenSameClkAwreadyAndWreadyWillBeAssert)
   $info("IFWVALIDISASSERTED_THEN_SAMECLK_AWREADYANDWREADYWILLBEASSERT : COVERED");
 
-   property WhenWvalidIsAssertedAndWstrbOfHigherLanesOfWdataIsValidData;
+   property WhenWvalidAndWreadyAreAssertedAndWstrbOfHigherLanesOfWdataIsValidData;
    @(posedge aclk) disable iff (!aresetn)
     (wvalid && wready) |-> ((wstrb === 4'b1100) && (wdata[15:0] === 16'b0));
    endproperty
 
-   IFWVALIDISASSERTED_THEN_WSTRBOFHIGHERLANESAREASSERTED_THEN_L3ANDL2OFWDATAISVALIDDATA: cover property
-   (WhenWvalidIsAssertedAndWstrbOfHigherLanesOfWdataIsValidData)
-   $info("IFWVALIDISASSERTED_THEN_WSTRBOFHIGHERLANESAREASSERTED_THEN_L3ANDL2OFWDATAISVALIDDATA : COVERED");
+   IFWVALIDANDWREADYAREASSERTED_THEN_WSTRBOFHIGHERLANESAREASSERTED_THEN_L3ANDL2OFWDATAISVALIDDATA cover property
+   (WhenWvalidAndWreadyAreAssertedAndWstrbOfHigherLanesOfWdataIsValidData)
+   $info("IFWVALIDANDWREADYAREASSERTED_THEN_WSTRBOFHIGHERLANESAREASSERTED_THEN_L3ANDL2OFWDATAISVALIDDATA : COVERED");
 
 
-   property WhenWvalidAssertedAndWstrbOfLowerLanesOfWdataIsValidData;
+   property WhenWvalidAndWreadyAreAssertedAndWstrbOfLowerLanesOfWdataIsValidData;
    @(posedge aclk) disable iff (!aresetn)
    (wvalid && wready) |-> ((wstrb == 4'b0011) && (wdata[31:16] == 16'h0000));
    endproperty
   
-   IFWVALIDISASSERTED_THEN_WSTRBOFHIGHERLANESAREASSERTED_THEN_L1ANDL0OFWDATAISVALIDDATA: cover property
-   (WhenWvalidAssertedAndWstrbOfLowerLanesOfWdataIsValidData)
-   $info("IFWVALIDISASSERTED_THEN_WSTRBOFHIGHERLANESAREASSERTED_THEN_L1ANDL0OFWDATAISVALIDDATA : COVERED");
+   IFWVALIDANDWREADYAREASSERTED_THEN_WSTRBOFHIGHERLANESAREASSERTED_THEN_L1ANDL0OFWDATAISVALIDDATA: cover property
+   (WhenWvalidAndWreadyAreAssertedAndWstrbOfLowerLanesOfWdataIsValidData)
+   $info("IFWVALIDANDWREADYAREASSERTED_THEN_WSTRBOFHIGHERLANESAREASSERTED_THEN_L1ANDL0OFWDATAISVALIDDATA : COVERED");
 
    property WhenWvalidAndWreadyAreAssertedThenSameClkWstrbValueIsAllOnesThenWdataIsNotUnknown; 
      @(posedge aclk) disable iff (!aresetn)

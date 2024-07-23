@@ -174,8 +174,8 @@ module Axi4LiteSlaveWriteCoverPropertyTB;
     When_wvalidIsAsserted_Then_awreadyAndWreadyAreLow();
     When_wvalidAndAwreadyAreAsserted_Then_wreadyIsLow();
     When_wvalidAndWreadyAreAsserted_Then_awreadyIsLow();
-    When_wvalidIsAsserted_Then_wstrbOfL3AndL2AreAsserted();
-    When_wvalidIsAsserted_Then_wstrbOfL1AndL0AreAsserted();
+    When_wvalidAndWreadyAreAsserted_Then_wstrbOfL3AndL2AreAsserted();
+    When_wvalidAndWreadyAreAsserted_Then_wstrbOfL1AndL0AreAsserted();
     When_wvalidAndWreadyAreAsserted_Then_wstrbValueIsAllOnes_Then_wdataIsNotUnknown();
     When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbIsActiveByte_Then_inbetween1To15ClkWdataIsPreviousValues();
 end
@@ -2136,8 +2136,8 @@ end
       `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_awreadyIsLow Fail Scenario Task  ended"),UVM_NONE);
   endtask
 
-    task When_wvalidIsAsserted_Then_wstrbOfL3AndL2AreAsserted();
-   `uvm_info(name,$sformatf(" When_wvalidIsAsserted_Then_wstrbOfL3AndL2AreAsserted Task started"),UVM_NONE);
+    task When_wvalidAndWreadyAreAsserted_Then_wstrbOfL3AndL2AreAsserted();
+   `uvm_info(name,$sformatf(" When_wvalidAndWreadyAreAsserted_Then_wstrbOfL3AndL2AreAsserted Task started"),UVM_NONE);
       @(posedge aclk); 
       aresetn <= 1'b1;
       wvalid  <= 1'b0;
@@ -2155,11 +2155,11 @@ end
       wready  <= 1'b0;
       wstrb   <= 4'b0000;
       wdata   <= 32'h0000_0000;
-      `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wstrbOfL3AndL2AreAsserted Task  ended"),UVM_NONE);
+      `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_wstrbOfL3AndL2AreAsserted Task  ended"),UVM_NONE);
   endtask
 
-    task When_wvalidIsAsserted_Then_wstrbOfL1AndL0AreAsserted();
-   `uvm_info(name,$sformatf(" When_wvalidIsAsserted_Then_wstrbOfL1AndL0AreAsserted Task started"),UVM_NONE);
+    task When_wvalidAndWreadyAreAsserted_Then_wstrbOfL1AndL0AreAsserted();
+   `uvm_info(name,$sformatf(" When_wvalidAndWreadyAreAsserted_Then_wstrbOfL1AndL0AreAsserted Task started"),UVM_NONE);
       @(posedge aclk); 
       aresetn <= 1'b1;
       wvalid  <= 1'b0;
@@ -2177,7 +2177,7 @@ end
       wready  <= 1'b0;
       wstrb   <= 4'b0000;
       wdata   <= 32'h0000_0000;
-      `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wstrbOfL1AndL0AreAsserted Task  ended"),UVM_NONE);
+      `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_wstrbOfL1AndL0AreAsserted Task  ended"),UVM_NONE);
   endtask
 
   task When_wvalidAndWreadyAreAsserted_Then_wstrbValueIsAllOnes_Then_wdataIsNotUnknown();
