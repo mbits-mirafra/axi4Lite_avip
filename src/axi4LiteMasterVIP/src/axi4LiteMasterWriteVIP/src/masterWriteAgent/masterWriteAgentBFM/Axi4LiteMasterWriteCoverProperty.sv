@@ -98,7 +98,7 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
 
   property WhenReadyLowAndValidAssertedAfterAnyClkThenReadyWillAssertedAnyClk(logic valid, logic ready);
    @(posedge aclk) disable iff (!aresetn)
-   !ready |-> ##[1:MAX_DELAY_VALID] (valid && !ready);
+   !ready |-> ##[1:MAX_DELAY_VALID] (valid && !ready) ##[1:MAX_DELAY_READY] ready;
   endproperty
   
   IFAWREADYLOW_THEN_AFTERANYCLK_AWVALIDASSERTED_THENAWREADYWILLASSERTEDANYCLK: cover property
