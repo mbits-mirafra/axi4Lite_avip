@@ -145,7 +145,7 @@ IFRVALIDANDRREADYASSERTED_THEN_INFORMATIONNOTUNKNOWN_THENTRANSFEROCCUR : assert 
 
     property rvalidWillAssertAfterMasterSenttheRequest; 
       @(posedge aclk) disable iff (!aresetn)
-        (arvalid && arready && !($isunknown(araddr)) && !rvalid) |=> (rvalid && !($isunknown(rdata)));
+        (arvalid && arready && !($isunknown(araddr)) && !rvalid) |=> ##[0:MAX_DELAY_RVALID] (rvalid && !($isunknown(rdata)));
     endproperty  
 
 EVEN_SUBORDINATEONLYONESOURCERDATA_THEN_MASTERNEEDTOSENDTHEREQUEST_FORRDATA : assert property(rvalidWillAssertAfterMasterSenttheRequest)

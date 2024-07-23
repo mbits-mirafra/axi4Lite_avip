@@ -24,14 +24,14 @@ task Axi4LiteVirtualAwvalidAwreadyNextClkWvalidWreadyAssertedThen1To12ClkBvalidA
    if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprot == 1;
                                                               delayForAwvalid == 2;
                                                               delayForWvalid == 3;
-                                                              delayForBready == 1;
+                                                              delayForBready == 0;
                                                             }) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualAwvalidAwreadyNextClkWvalidWreadyAssertedThen1To12ClkBvalidAssertedSeq")
   end
 
    if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize() with {delayForBvalid == 8;
-                                                             delayForAwready == 1;
-                                                             delayForWready == 1;
+                                                             delayForAwready == 0;
+                                                             delayForWready == 0;
                                                            }) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualAwvalidAwreadyNextClkWvalidWreadyAssertedThen1To12ClkBvalidAssertedSeq")
   end
