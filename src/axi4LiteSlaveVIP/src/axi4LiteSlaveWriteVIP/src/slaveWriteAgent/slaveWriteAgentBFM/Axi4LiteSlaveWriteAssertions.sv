@@ -29,20 +29,35 @@ interface Axi4LiteSlaveWriteAssertions (input  aclk,
     `uvm_info("Axi4LiteSlaveWriteAssertions","Axi4LiteSlaveWriteAssertions",UVM_LOW);
   end
 
-  property ifValidHighThenInformationNotUnknown(logic valid, logic information, logic controlSignal);
+  property ifValidHighThenInformationNotUnknown(logic valid, logic information);
 	  @(posedge aclk) disable iff (!aresetn)
-      valid |-> (!($isunknown(information)) && !($isunknown(controlSignal)));
+      valid |-> !($isunknown(information));
   endproperty
 
-IFAWVALIDASSERTED_THEN_AWADDRANDAWPROT_NOTUNKNOWN: assert property (ifValidHighThenInformationNotUnknown(awvalid,awaddr,awprot))
-  $info("IFAWVALIDASSERTED_THEN_AWADDRANDAWPROT_NOTUNKNOWN : ASSERTED");
+IFAWVALIDASSERTED_THEN_AWADDR_NOTUNKNOWN: assert property (ifValidHighThenInformationNotUnknown(awvalid,awaddr))
+  $info("IFAWVALIDASSERTED_THEN_AWADDR_NOTUNKNOWN : ASSERTED");
   else
-    $error("IFAWVALIDASSERTED_THEN_AWADDRANDAWPROT_NOTUNKNOWN : NOT ASSERTED");
+    $error("IFAWVALIDASSERTED_THEN_AWADDR_NOTUNKNOWN : NOT ASSERTED");
 
-IFWVALIDASSERTED_THEN_WDATAANDWSTRB_NOTUNKNOWN: assert property (ifValidHighThenInformationNotUnknown(wvalid,wdata,wstrb))
-  $info("IFWVALIDASSERTED_THEN_WDATAANDWSTRB_NOTUNKNOWN : ASSERTED");
+IFWVALIDASSERTED_THEN_WDATA_NOTUNKNOWN: assert property (ifValidHighThenInformationNotUnknown(wvalid,wdata))
+  $info("IFWVALIDASSERTED_THEN_WDATA_NOTUNKNOWN : ASSERTED");
   else
-    $error("IFWVALIDASSERTED_THEN_WDATAANDWSTRB_NOTUNKNOWN : NOT ASSERTED");
+    $error("IFWVALIDASSERTED_THEN_WDATA_NOTUNKNOWN : NOT ASSERTED");
+
+  property ifValidHighThenControlSignalsNotUnknown(logic valid, logic controlSignal);
+	  @(posedge aclk) disable iff (!aresetn)
+      valid |-> !($isunknown(controlSignal));
+  endproperty
+
+IFAWVALIDASSERTED_THEN_AWPROT_NOTUNKNOWN: assert property (ifValidHighThenControlSignalsNotUnknown(awvalid,awprot))
+  $info("IFAWVALIDASSERTED_THEN_AWPROT_NOTUNKNOWN : ASSERTED");
+  else
+    $error("IFAWVALIDASSERTED_THEN_AWPROT_NOTUNKNOWN : NOT ASSERTED");
+
+IFWVALIDASSERTED_THEN_WSTRB_NOTUNKNOWN: assert property (ifValidHighThenControlSignalsNotUnknown(wvalid,wstrb))
+  $info("IFWVALIDASSERTED_THEN_WSTRB_NOTUNKNOWN : ASSERTED");
+  else
+    $error("IFWVALIDASSERTED_THEN_WSTRB_NOTUNKNOWN : NOT ASSERTED");
 
   property ifBvalidHighThenBrespNotUnknown(logic bvalid, logic bresp);
 	  @(posedge aclk) disable iff (!aresetn)
@@ -93,6 +108,7 @@ IFBVALIDASSERTED_THENWITHIN16CLK_BREADYASSERTED: assert property (validAssertedT
   $info("IFBVALIDASSERTED_THENWITHIN16CLK_BREADYASSERTED : ASSERTED");
   else
     $error("IFBVALIDASSERTED_THENWITHIN16CLK_BREADYASSERTED : NOT ASSERTED");
+
 
     property WhenResetAssertedThenReadyWillGoDefaultState(logic ready);
      @(negedge aresetn) disable iff (aresetn === 1)
@@ -238,7 +254,6 @@ IFBVALIDANDBREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY: assert property(bvalidAnd
   else
     $error("IFBVALIDANDBREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY : NOT ASSERTED");
 
- 
 endinterface : Axi4LiteSlaveWriteAssertions
 
 `endif

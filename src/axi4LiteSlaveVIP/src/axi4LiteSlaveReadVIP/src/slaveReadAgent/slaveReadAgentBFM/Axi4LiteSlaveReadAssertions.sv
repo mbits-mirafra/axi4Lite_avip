@@ -25,20 +25,36 @@ interface Axi4LiteSlaveReadAssertions (input aclk,
     `uvm_info("Axi4LiteSlaveReadAssertions","Axi4LiteSlaveReadAssertions",UVM_LOW);
   end
 
-property ifValidHighThenInformationAreNotUnknown(logic valid, logic information, logic controlSignal);
+property ifValidHighThenInformationAreNotUnknown(logic valid, logic information);
 	  @(posedge aclk) disable iff (!aresetn)
-      valid |-> (!($isunknown(information)) && !($isunknown(controlSignal)));
+      valid |-> !($isunknown(information));
   endproperty
 
-IFARVALIDASSERTED_THEN_ARADDRARPROT_NOTUNKNOWN: assert property (ifValidHighThenInformationAreNotUnknown(arvalid,araddr,arprot))
-  $info("IFARVALIDASSERTED_THEN_ARADDRARPROT_NOTUNKNOWN : ASSERTED");
+IFARVALIDASSERTED_THEN_ARADDR_NOTUNKNOWN: assert property (ifValidHighThenInformationAreNotUnknown(arvalid,araddr))
+  $info("IFARVALIDASSERTED_THEN_ARADDR_NOTUNKNOWN : ASSERTED");
   else
-    $error("IFARVALIDASSERTED_THEN_ARADDRARPROT_NOTUNKNOWN : NOT ASSERTED");
+    $error("IFARVALIDASSERTED_THEN_ARADDR_NOTUNKNOWN : NOT ASSERTED");
 
-IFRVALIDASSERTED_THEN_RDATARRESP_NOTUNKNOWN: assert property (ifValidHighThenInformationAreNotUnknown(rvalid,rdata,rresp))
-  $info("IFRVALIDASSERTED_THEN_RDATARRESP_NOTUNKNOWN : ASSERTED");
+IFRVALIDASSERTED_THEN_RDATA_NOTUNKNOWN: assert property (ifValidHighThenInformationAreNotUnknown(rvalid,rdata))
+  $info("IFRVALIDASSERTED_THEN_RDATA_NOTUNKNOWN : ASSERTED");
   else
-    $error("IFRVALIDASSERTED_THEN_RDATARRESP_NOTUNKNOWN : NOT ASSERTED");
+    $error("IFRVALIDASSERTED_THEN_RDATA_NOTUNKNOWN : NOT ASSERTED");
+
+IFRVALIDASSERTED_THEN_RRESP_NOTUNKNOWN: assert property (ifValidHighThenInformationAreNotUnknown(rvalid,rresp))
+  $info("IFRVALIDASSERTED_THEN_RRESP_NOTUNKNOWN : ASSERTED");
+  else
+    $error("IFRVALIDASSERTED_THEN_RRESP_NOTUNKNOWN : NOT ASSERTED");
+
+property ifValidHighThenControlSignalsAreNotUnknown(logic valid, logic controlSignal);
+	  @(posedge aclk) disable iff (!aresetn)
+      valid |-> !($isunknown(controlSignal));
+  endproperty
+
+IFARVALIDASSERTED_THEN_ARPROT_NOTUNKNOWN: assert property (ifValidHighThenControlSignalsAreNotUnknown(arvalid,arprot))
+  $info("IFARVALIDASSERTED_THEN_ARPROT_NOTUNKNOWN : ASSERTED");
+  else
+    $error("IFARVALIDASSERTED_THEN_ARPROT_NOTUNKNOWN : NOT ASSERTED");
+
 
     property validAssertedAndStableWithin16ClkReadyAsserted(logic valid, logic ready);
       @(posedge aclk) disable iff (!aresetn)
@@ -165,7 +181,7 @@ IFARVALIDANDARREADYAREASSERTED_THEN_WITHIN10CLK_RVALIDASSERTED: assert property(
 
     property arvalidAndArreadyAssertedThenWithin10ClkRvalidAssertedAndRdataNotUnknown;
       @(posedge aclk) disable iff (!aresetn)
-        (arvalid && arready && !rvalid) |=> ##[0:10] (rvalid && !($isunknown(rdata)));
+        (arvalid && arready && !rvalid) |=> ##[0:MAX_DELAY_RVALID] (rvalid && !($isunknown(rdata)));
     endproperty
 
 IFARVALIDANDARREADYAREASSERTED_THEN_WITHIN10CLK_RVALIDASSERTEDANDRDATANOTUNKNOWN: assert property(arvalidAndArreadyAssertedThenWithin10ClkRvalidAssertedAndRdataNotUnknown)

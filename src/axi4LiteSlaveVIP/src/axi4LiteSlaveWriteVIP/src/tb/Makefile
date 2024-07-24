@@ -48,6 +48,11 @@ usage:
 	echo "To compile use:"
 	echo "make compile";
 	echo "";
+	echo "To provide compilation argument:";
+	echo "make compile args_addr=<macro_name> args_data=<macro_name>";
+	echo "";
+	echo "make compile args_addr=ADDR_WIDTH_64 args_data=DATA_WIDTH_64";
+	echo "";
 	echo "To simulate individual test:"
 	echo "make simulate test=<test_name> uvm_verbosity=<VERBOSITY_LEVEL>";
 	echo "";

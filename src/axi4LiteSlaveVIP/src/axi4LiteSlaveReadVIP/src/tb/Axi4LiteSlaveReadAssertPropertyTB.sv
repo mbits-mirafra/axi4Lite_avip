@@ -44,10 +44,14 @@ module Axi4LiteSlaveReadAssertPropertyTB;
   end
 
   initial begin
-    When_arvalidIsAsserted_Then_sameClkAraddrAndArprotIsNotUnknown_Expect_AssertionPass();
-    When_rvalidIsAsserted_Then_sameClkRdataAndRrespIsNotUnknown_Expect_AssertionPass();
-    When_arvalidIsAsserted_Then_sameClkAraddrAndArprotIsUnknown_Expect_AssertionFail();
-    When_rvalidIsAsserted_Then_sameClkRdataAndRrespIsUnknown_Expect_AssertionFail();
+    When_arvalidIsAsserted_Then_sameClkAraddrIsNotUnknown_Expect_AssertionPass();
+    When_arvalidIsAsserted_Then_sameClkArprotIsNotUnknown_Expect_AssertionPass();
+    When_rvalidIsAsserted_Then_sameClkRdataIsNotUnknown_Expect_AssertionPass();
+    When_rvalidIsAsserted_Then_sameClkRrespIsNotUnknown_Expect_AssertionPass();
+    When_arvalidIsAsserted_Then_sameClkAraddrIsUnknown_Expect_AssertionFail();
+    When_arvalidIsAsserted_Then_sameClkArprotIsUnknown_Expect_AssertionFail();
+    When_rvalidIsAsserted_Then_sameClkRdataIsUnknown_Expect_AssertionFail();
+    When_rvalidIsAsserted_Then_sameClkRrespIsUnknown_Expect_AssertionFail();
 
     When_arvalidAsserted_Then_arvalidHighAndWithin16ClkArreadyAsserted_Expect_AssertionPass();
     When_rvalidAsserted_Then_rvalidHighAndWithin16ClkRreadyAsserted_Expect_AssertionPass();
@@ -97,51 +101,116 @@ module Axi4LiteSlaveReadAssertPropertyTB;
   
   end
 
-  task When_arvalidIsAsserted_Then_sameClkAraddrAndArprotIsNotUnknown_Expect_AssertionPass();
-    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_sameClkAraddrAndArprotIsNotUnknown_Expect_AssertionPass Task started"),UVM_NONE);
+  task When_arvalidIsAsserted_Then_sameClkAraddrIsNotUnknown_Expect_AssertionPass();
+    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_sameClkAraddrIsNotUnknown_Expect_AssertionPass Task started"),UVM_NONE);
       aresetn <= 1'b1;
       arvalid <= 1'b0;
       araddr <= 32'bx;
-      arprot <= 3'bxxx;
       repeat(2) begin
       @(posedge aclk);
       end
       arvalid <= 1'b1;
       araddr <= 32'h1122_3344;
+
+      repeat(2) begin
+       @(posedge aclk);
+      end
+      arvalid <= 1'b0;
+    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_sameClkAraddrIsNotUnknown_Expect_AssertionPass Task Ended"),UVM_NONE);
+  endtask
+
+  task When_rvalidIsAsserted_Then_sameClkRdataIsNotUnknown_Expect_AssertionPass();
+    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_sameClkRdataIsNotUnknown_Expect_AssertionPass Task started"),UVM_NONE);
+      aresetn <= 1'b1;
+      rvalid <= 1'b0;
+      rdata <= 32'bx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      rvalid <= 1'b1;
+      rdata <= 32'h1111_3333;
+
+      repeat(2) begin
+       @(posedge aclk);
+      end
+      rvalid <= 1'b0;
+    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_sameClkRdataIsNotUnknown_Expect_AssertionPass Task Ended"),UVM_NONE);
+  endtask
+
+  task When_arvalidIsAsserted_Then_sameClkArprotIsNotUnknown_Expect_AssertionPass();
+    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_sameClkArprotIsNotUnknown_Expect_AssertionPass Task started"),UVM_NONE);
+      aresetn <= 1'b1;
+      arvalid <= 1'b0;
+      arprot <= 3'bxxx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      arvalid <= 1'b1;
       arprot <= 3'b000;
 
       repeat(2) begin
        @(posedge aclk);
       end
       arvalid <= 1'b0;
-    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_sameClkAraddrAndArprotIsNotUnknown_Expect_AssertionPass Task Ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_sameClkArprotIsNotUnknown_Expect_AssertionPass Task Ended"),UVM_NONE);
   endtask
 
-  task When_rvalidIsAsserted_Then_sameClkRdataAndRrespIsNotUnknown_Expect_AssertionPass();
-    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_sameClkRdataAndRrespIsNotUnknown_Expect_AssertionPass Task started"),UVM_NONE);
+  task When_rvalidIsAsserted_Then_sameClkRrespIsNotUnknown_Expect_AssertionPass();
+    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_sameClkRrespIsNotUnknown_Expect_AssertionPass Task started"),UVM_NONE);
       aresetn <= 1'b1;
       rvalid <= 1'b0;
-      rdata <= 32'bx;
       rresp <= 2'bxx;
       repeat(2) begin
       @(posedge aclk);
       end
       rvalid <= 1'b1;
-      rdata <= 32'h1111_3333;
       rresp <= 2'b00;
 
       repeat(2) begin
        @(posedge aclk);
       end
       rvalid <= 1'b0;
-    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_sameClkRdataAndRrespIsNotUnknown_Expect_AssertionPass Task Ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_sameClkRrespIsNotUnknown_Expect_AssertionPass Task Ended"),UVM_NONE);
   endtask
 
-  task When_arvalidIsAsserted_Then_sameClkAraddrAndArprotIsUnknown_Expect_AssertionFail();
-    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_sameClkAraddrAndArprotIsUnknown_Expect_AssertionFail Task started"),UVM_NONE);
+  task When_arvalidIsAsserted_Then_sameClkAraddrIsUnknown_Expect_AssertionFail();
+    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_sameClkAraddrIsUnknown_Expect_AssertionFail Task started"),UVM_NONE);
       aresetn <= 1'b1;
       arvalid <= 1'b0;
       araddr <= 32'bx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      arvalid <= 1'b1;
+
+      repeat(2) begin
+       @(posedge aclk);
+      end
+      arvalid <= 1'b0;
+    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_sameClkAraddrIsUnknown_Expect_AssertionFail Task Ended"),UVM_NONE);
+  endtask
+
+  task When_rvalidIsAsserted_Then_sameClkRdataIsUnknown_Expect_AssertionFail();
+    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_sameClkRdataIsUnknown_Expect_AssertionFail Task started"),UVM_NONE);
+      aresetn <= 1'b1;
+      rvalid <= 1'b0;
+      rdata <= 32'bx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      rvalid <= 1'b1;
+
+      repeat(2) begin
+       @(posedge aclk);
+      end
+      rvalid <= 1'b0;
+    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_sameClkRdataIsUnknown_Expect_AssertionFail Task Ended"),UVM_NONE);
+  endtask
+
+  task When_arvalidIsAsserted_Then_sameClkArprotIsUnknown_Expect_AssertionFail();
+    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_sameClkArprotIsUnknown_Expect_AssertionFail Task started"),UVM_NONE);
+      aresetn <= 1'b1;
+      arvalid <= 1'b0;
       arprot <= 3'bxxx;
       repeat(2) begin
       @(posedge aclk);
@@ -152,14 +221,13 @@ module Axi4LiteSlaveReadAssertPropertyTB;
        @(posedge aclk);
       end
       arvalid <= 1'b0;
-    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_sameClkAraddrAndArprotIsUnknown_Expect_AssertionFail Task Ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_sameClkArprotIsUnknown_Expect_AssertionFail Task Ended"),UVM_NONE);
   endtask
 
-  task When_rvalidIsAsserted_Then_sameClkRdataAndRrespIsUnknown_Expect_AssertionFail();
-    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_sameClkRdataAndRrespIsUnknown_Expect_AssertionFail Task started"),UVM_NONE);
+  task When_rvalidIsAsserted_Then_sameClkRrespIsUnknown_Expect_AssertionFail();
+    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_sameClkRrespIsUnknown_Expect_AssertionFail Task started"),UVM_NONE);
       aresetn <= 1'b1;
       rvalid <= 1'b0;
-      rdata <= 32'bx;
       rresp <= 2'bxx;
       repeat(2) begin
       @(posedge aclk);
@@ -170,9 +238,8 @@ module Axi4LiteSlaveReadAssertPropertyTB;
        @(posedge aclk);
       end
       rvalid <= 1'b0;
-    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_sameClkRdataAndRrespIsUnknown_Expect_AssertionFail Task Ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_sameClkRrespIsUnknown_Expect_AssertionFail Task Ended"),UVM_NONE);
   endtask
-
 
   task When_arvalidAsserted_Then_arvalidHighAndWithin16ClkArreadyAsserted_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_arvalidAsserted_Then_arvalidHighAndWithin16ClkArreadyAsserted_Expect_AssertionPass Task started"),UVM_NONE);
