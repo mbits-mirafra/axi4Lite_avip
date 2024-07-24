@@ -44,10 +44,14 @@ module Axi4LiteSlaveReadCoverPropertyTB;
   end
 
   initial begin
-    When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious1ClkAraddrArprotAreUnknown();
-    When_rvalidRrespAreAsserted_Then_rdataRrespAreNotUnknownAndPrevious1ClkRdataIsUnknown();
-    When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious2ClkAraddrArprotAreUnknown();
-    When_rvalidRrespAreAsserted_Then_rdataRrespAreNotUnknownAndPrevious2ClkRdataIsUnknown();
+    When_arvalidIsAsserted_Then_araddrIsNotUnknownAndPrevious1ClkAraddrIsUnknown();
+    When_arvalidIsAsserted_Then_arprotIsNotUnknownAndPrevious1ClkArprotIsUnknown();
+    When_arvalidIsAsserted_Then_araddrIsNotUnknownAndPrevious2ClkAraddrIsUnknown();
+    When_arvalidIsAsserted_Then_arprotIsNotUnknownAndPrevious2ClkArprotIsUnknown();
+    When_rvalidIsAsserted_Then_rdataIsNotUnknownAndPrevious1ClkRdataIsUnknown();
+    When_rvalidIsAsserted_Then_rrespIsNotUnknownAndPrevious1ClkRrespIsUnknown();
+    When_rvalidIsAsserted_Then_rdataIsNotUnknownAndPrevious2ClkRdataIsUnknown();
+    When_rvalidIsAsserted_Then_rrespIsNotUnknownAndPrevious2ClkRrespIsUnknown();
     When_arreadyIsLow_Then_arvalidIsAssertedAfter3Clk();
     When_rreadyIsLow_Then_rvalidIsAssertedAfter3Clk();
     When_arreadyIsLow_Then_anyClkArvalidIsAssertedThenArreadyCanBeAssertAnyTime();
@@ -111,68 +115,117 @@ module Axi4LiteSlaveReadCoverPropertyTB;
 end
 
 
-  task When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious1ClkAraddrArprotAreUnknown();
-    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious1ClkAraddrArprotAreUnknown Task started"),UVM_NONE);
+  task When_arvalidIsAsserted_Then_araddrIsNotUnknownAndPrevious1ClkAraddrIsUnknown();
+    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddrIsNotUnknownAndPrevious1ClkAraddrIsUnknown Task started"),UVM_NONE);
       @(posedge aclk);  
       aresetn <= 1'b1;
       arvalid <= 1'b0;
       araddr  <= 32'hxxxx_xxxx;
-      arprot  <= 3'bxxx;
       repeat(1) begin
       @(posedge aclk);
       end
       arvalid <= 1'b1;
       araddr  <= 32'h2222_1234;
-      arprot  <= 3'b111;
-   `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious1ClkAraddrArprotAreUnknown Task Ended"),UVM_NONE);
+   `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddrIsNotUnknownAndPrevious1ClkAraddrIsUnknown Task Ended"),UVM_NONE);
   endtask
 
-  task When_rvalidRrespAreAsserted_Then_rdataRrespAreNotUnknownAndPrevious1ClkRdataIsUnknown();
-    `uvm_info(name,$sformatf("When_rvalidRrespAreAsserted_Then_rdataRrespAreNotUnknownAndPrevious1ClkRdataIsUnknown Task started"),UVM_NONE);
+  task When_arvalidIsAsserted_Then_arprotIsNotUnknownAndPrevious1ClkArprotIsUnknown();
+    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_arprotIsNotUnknownAndPrevious1ClkArprotIsUnknown Task started"),UVM_NONE);
+      @(posedge aclk);  
+      aresetn <= 1'b1;
+      arvalid <= 1'b0;
+      arprot  <= 3'bxxx;
+      repeat(1) begin
+      @(posedge aclk);
+      end
+      arvalid <= 1'b1;
+      arprot  <= 3'b111;
+   `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_arprotIsNotUnknownAndPrevious1ClkArprotIsUnknown Task Ended"),UVM_NONE);
+  endtask
+
+  task When_arvalidIsAsserted_Then_araddrIsNotUnknownAndPrevious2ClkAraddrIsUnknown();
+    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddrIsNotUnknownAndPrevious2ClkAraddrIsUnknown Task started"),UVM_NONE);
+      @(posedge aclk);  
+      aresetn <= 1'b1;
+      arvalid <= 1'b0;
+      araddr  <= 32'hxxxx_xxxx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      arvalid <= 1'b1;
+      araddr  <= 32'h2222_1234;
+   `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddrIsNotUnknownAndPrevious2ClkAraddrIsUnknown Task Ended"),UVM_NONE);
+  endtask
+
+  task When_arvalidIsAsserted_Then_arprotIsNotUnknownAndPrevious2ClkArprotIsUnknown();
+    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_arprotIsNotUnknownAndPrevious2ClkArprotIsUnknown Task started"),UVM_NONE);
+      @(posedge aclk);  
+      aresetn <= 1'b1;
+      arvalid <= 1'b0;
+      arprot  <= 3'bxxx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      arvalid <= 1'b1;
+      arprot  <= 3'b111;
+   `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_arprotIsNotUnknownAndPrevious2ClkArprotIsUnknown Task Ended"),UVM_NONE);
+  endtask
+
+
+  task When_rvalidIsAsserted_Then_rdataIsNotUnknownAndPrevious1ClkRdataIsUnknown();
+    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_rdataIsNotUnknownAndPrevious1ClkRdataIsUnknown  Task started"),UVM_NONE);
       @(posedge aclk);  
       aresetn <= 1'b1;
       rvalid  <= 1'b0;
       rdata   <= 32'hxxxx_xxxx;
-      rready  <= 3'bxxx;
+      repeat(1) begin
+      @(posedge aclk);
+      end
+      rvalid  <= 1'b1;
+      rdata   <= 32'h2222_3333;
+    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_rdataIsNotUnknownAndPrevious1ClkRdataIsUnknown Task Ended"),UVM_NONE);
+  endtask
+
+  task When_rvalidIsAsserted_Then_rrespIsNotUnknownAndPrevious1ClkRrespIsUnknown();
+    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_rrespIsNotUnknownAndPrevious1ClkRrespIsUnknown Task started"),UVM_NONE);
+      @(posedge aclk);  
+      aresetn <= 1'b1;
+      rvalid  <= 1'b0;
+      rresp   <= 2'bxx;
+      repeat(1) begin
+      @(posedge aclk);
+      end
+      rvalid  <= 1'b1;
+      rresp   <= 2'b00;
+    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_rrespIsNotUnknownAndPrevious1ClkRrespIsUnknown Task Ended"),UVM_NONE);
+  endtask
+
+  task When_rvalidIsAsserted_Then_rdataIsNotUnknownAndPrevious2ClkRdataIsUnknown();
+    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_rdataIsNotUnknownAndPrevious2ClkRdataIsUnknown  Task started"),UVM_NONE);
+      @(posedge aclk);  
+      aresetn <= 1'b1;
+      rvalid  <= 1'b0;
+      rdata   <= 32'hxxxx_xxxx;
       repeat(2) begin
       @(posedge aclk);
       end
       rvalid  <= 1'b1;
       rdata   <= 32'h2222_3333;
-      rresp   <= 2'b00;
-    `uvm_info(name,$sformatf("When_rvalidRrespAreAsserted_Then_rdataRrespAreNotUnknownAndPrevious1ClkRdataIsUnknown Task Ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_rdataIsNotUnknownAndPrevious2ClkRdataIsUnknown Task Ended"),UVM_NONE);
   endtask
 
-  task When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious2ClkAraddrArprotAreUnknown();
-    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious2ClkAraddrArprotAreUnknown Task started"),UVM_NONE);
-      @(posedge aclk);
-      aresetn <= 1'b1;
-      arvalid <= 1'b0;
-      araddr  <= 32'hxxxx_xxxx;
-      arprot  <= 3'bxxx;
-      repeat(3) begin
-      @(posedge aclk);
-      end
-      arvalid <= 1'b1;
-      araddr  <= 32'h1122_3344;
-      arprot  <= 3'b111;
-    `uvm_info(name,$sformatf("When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious2ClkAraddrArprotAreUnknown Task Ended"),UVM_NONE);
-  endtask
-
-  task When_rvalidRrespAreAsserted_Then_rdataRrespAreNotUnknownAndPrevious2ClkRdataIsUnknown();
-   `uvm_info(name,$sformatf("When_rvalidRrespAreAsserted_Then_rdataRrespAreNotUnknownAndPrevious2ClkRdataIsUnknown Task started"),UVM_NONE);
-      @(posedge aclk);
+  task When_rvalidIsAsserted_Then_rrespIsNotUnknownAndPrevious2ClkRrespIsUnknown();
+    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_rrespIsNotUnknownAndPrevious2ClkRrespIsUnknown Task started"),UVM_NONE);
+      @(posedge aclk);  
       aresetn <= 1'b1;
       rvalid  <= 1'b0;
-      rdata   <= 32'hxxxx_xxxx;
       rresp   <= 2'bxx;
-      repeat(3) begin
+      repeat(2) begin
       @(posedge aclk);
       end
       rvalid  <= 1'b1;
-      rdata   <= 32'h2222_3333;
       rresp   <= 2'b00;
-    `uvm_info(name,$sformatf("When_rvalidRrespAreAsserted_Then_rdataRrespAreNotUnknownAndPrevious2ClkRdataIsUnknown Task Ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_rvalidIsAsserted_Then_rrespIsNotUnknownAndPrevious2ClkRrespIsUnknown Task Ended"),UVM_NONE);
   endtask
 
   task When_arreadyIsLow_Then_arvalidIsAssertedAfter3Clk();
@@ -1107,6 +1160,8 @@ task When_arreadyDefaultValueIs1AndTransferOccur_Then_nextClkArreadyValueWillGoD
       araddr  <= 32'h1000_1002;
     `uvm_info(name,$sformatf("When_rdataIsAsserted_Then_inbetween1To10ClkAraddrIsAsserted Task  ended"),UVM_NONE);
   endtask
+
+
 endmodule : Axi4LiteSlaveReadCoverPropertyTB
 
 `endif

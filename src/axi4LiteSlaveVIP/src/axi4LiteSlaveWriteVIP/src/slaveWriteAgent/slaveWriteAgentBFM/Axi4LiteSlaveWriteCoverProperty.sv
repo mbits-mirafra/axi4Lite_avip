@@ -35,9 +35,9 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
                     &&  ($isunknown($past(information,1)));
  endproperty 
 
-  IFAWVALIDGOESHIGH_THEN_AWADDR_ARE_NOTUNKNOWN_AND_PREVIOUS_CLK_AWADDR_ARE_UNKNOWN : cover property
+  IFAWVALIDGOESHIGH_THEN_AWADDR_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_AWADDR_IS_UNKNOWN : cover property
   (WhenValidGoesHighThenInformationIsNotUnknownAndPreviousClkInformationIsUnknown (awvalid, awaddr))
-  $info("IFAWVALIDGOESHIGH_THEN_AWADDR_ARE_NOTUNKNOWN_AND_PREVIOUS_CLK_AWADDR_ARE_UNKNOWN : COVERED");
+  $info("IFAWVALIDGOESHIGH_THEN_AWADDR_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_AWADDR_IS_UNKNOWN : COVERED");
 
   IFWVALIDGOESHIGH_THEN_WDATA_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_WDATA_IS_UNKNOWN : cover property  
   (WhenValidGoesHighThenInformationIsNotUnknownAndPreviousClkInformationIsUnknown (wvalid, wdata))
@@ -49,9 +49,9 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
                     &&  ($isunknown($past(information,2)));
  endproperty 
 
-  IFAWVALIDGOESHIGH_THEN_AWADDR_ARE_NOTUNKNOWN_AND_PREVIOUS_2CLK_AWADDR_ARE_UNKNOWN : cover property
+  IFAWVALIDGOESHIGH_THEN_AWADDR_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_AWADDR_IS_UNKNOWN : cover property
   (WhenValidGoesHighThenInformationIsNotUnknownAndPrevious2ClkInformationIsUnknown (awvalid, awaddr))
-  $info("IFAWVALIDGOESHIGH_THEN_AWADDR_ARE_NOTUNKNOWN_AND_PREVIOUS_2CLK_AWADDR_ARE_UNKNOWN : COVERED");
+  $info("IFAWVALIDGOESHIGH_THEN_AWADDR_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_AWADDR_IS_UNKNOWN : COVERED");
 
   IFWVALIDGOESHIGH_THEN_WDATA_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_WDATA_IS_UNKNOWN : cover property  
   (WhenValidGoesHighThenInformationIsNotUnknownAndPrevious2ClkInformationIsUnknown (wvalid, wdata))
@@ -63,9 +63,9 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
         &&  ($isunknown($past(controlSignal,1)));
  endproperty 
 
-  IFAWVALIDGOESHIGH_THEN_AWPROT_ARE_NOTUNKNOWN_AND_PREVIOUS_CLK_AWPROT_ARE_UNKNOWN : cover property
+  IFAWVALIDGOESHIGH_THEN_AWPROT_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_AWPROT_IS_UNKNOWN : cover property
   (WhenValidGoesHighThenControlSignalIsNotUnknownAndPreviousClkControlSignalIsUnknown (awvalid, awprot))
-  $info("IFAWVALIDGOESHIGH_THEN_AWPROT_ARE_NOTUNKNOWN_AND_PREVIOUS_CLK_AWPROT_ARE_UNKNOWN :COVERED");
+  $info("IFAWVALIDGOESHIGH_THEN_AWPROT_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_AWPROT_IS_UNKNOWN :COVERED");
   
   IFWVALIDGOESHIGH_THEN_WSTRB_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_WSTRB_IS_UNKNOWN : cover property  
   (WhenValidGoesHighThenInformationIsNotUnknownAndPreviousClkInformationIsUnknown (wvalid, wstrb))
@@ -77,9 +77,9 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
         &&  ($isunknown($past(controlSignal,2)));
  endproperty 
 
-  IFAWVALIDGOESHIGH_THEN_AWPROT_ARE_NOTUNKNOWN_AND_PREVIOUS_2CLK_AWPROT_ARE_UNKNOWN : cover property
+  IFAWVALIDGOESHIGH_THEN_AWPROT_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_AWPROT_IS_UNKNOWN : cover property
   (WhenValidGoesHighThenControlSignalIsNotUnknownAndPrevious2ClkControlSignalIsUnknown (awvalid, awprot))
-  $info("IFAWVALIDGOESHIGH_THEN_AWPROT_ARE_NOTUNKNOWN_AND_PREVIOUS_2CLK_AWPROT_ARE_UNKNOWN :COVERED");
+  $info("IFAWVALIDGOESHIGH_THEN_AWPROT_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_AWPROT_IS_UNKNOWN :COVERED");
   
   IFWVALIDGOESHIGH_THEN_WSTRB_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_WSTRB_IS_UNKNOWN : cover property  
   (WhenValidGoesHighThenInformationIsNotUnknownAndPrevious2ClkInformationIsUnknown (wvalid, wstrb))

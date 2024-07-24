@@ -24,36 +24,62 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   initial begin
     `uvm_info("Axi4LiteMasterReadCoverProperty","Axi4LiteMasterReadCoverProperty",UVM_LOW);
   end
-  
-  property WhenValidGoesHighThenInformationControlSignalAreNotUnknownAndPreviousClkInformationControlSignalAreUnknown(logic valid, logic information, logic controlSignal); 
+
+  property WhenValidGoesHighThenInformationIsNotUnknownAndPreviousClkInformationIsUnknown(logic valid, logic information); 
    @(posedge aclk) disable iff (!aresetn) 
-         $rose(valid) |-> !($isunknown(information)) ##0 !($isunknown(controlSignal)) 
-                    ##0 ($past(information,1) === 1'bx)  
-                    ##0 ($past(controlSignal,1) === 1'bx);    
-  endproperty 
-
-  IFARVALIDGOESHIGH_THEN_ARADDRARPROT_ARE_NOTUNKNOWN_AND_PREVIOUS_CLK_ARADDRARPROT_ARE_UNKNOWN : cover property
-  (WhenValidGoesHighThenInformationControlSignalAreNotUnknownAndPreviousClkInformationControlSignalAreUnknown(arvalid,araddr,arprot))
-  $info("IFARVALIDGOESHIGH_THEN_ARADDRARPROT_ARE_NOTUNKNOWN_AND_PREVIOUS_CLK_ARADDRARPROT_ARE_UNKNOWN : COVERED");
-
-  IFRVALIDGOESHIGH_THEN_RDATARRESP_ARE_NOTUNKNOWN_AND_PREVIOUS_CLK_RDATARRESP_ARE_UNKNOWN : cover property
-  (WhenValidGoesHighThenInformationControlSignalAreNotUnknownAndPreviousClkInformationControlSignalAreUnknown(rvalid, rdata, rresp))
-  $info("IFRVALIDGOESHIGH_THEN_RDATARRESP_ARE_NOTUNKNOWN_AND_PREVIOUS_CLK_RDATARRESP_ARE_UNKNOWN : COVERED");
-
-  property WhenValidGoesHighThenInformationControlSignalAreNotUnknownAndPrevious2ClkInformationControlSignalAreUnknown(logic valid, logic information, logic controlSignal);
-	 	 @(posedge aclk) disable iff (!aresetn)
-     valid |-> !($isunknown(information)) ##0 !($isunknown(controlSignal))
-                ##0 ($past(information,2) === 1'bx)
-                ##0 ($past(controlSignal,2) === 1'bx);
+       $rose(valid) |-> !($isunknown(information)) 
+                    &&  ($isunknown($past(information,1)));
  endproperty 
 
-  IFARVALIDGOESHIGH_THEN_ARADDRARRESP_ARE_NOTUNKNOWN_AND_PREVIOUS_2CLK_ARADDRARRESP_ARE_UNKNOWN : cover property  
-  (WhenValidGoesHighThenInformationControlSignalAreNotUnknownAndPrevious2ClkInformationControlSignalAreUnknown(arvalid, araddr, arprot))
-  $info("IFARVALIDGOESHIGH_THEN_ARADDRARRESP_ARE_NOTUNKNOWN_AND_PREVIOUS_2CLK_ARADDRARRESP_ARE_UNKNOWN : COVERED");
+  IFARVALIDGOESHIGH_THEN_ARADDR_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_ARADDR_IS_UNKNOWN : cover property
+  (WhenValidGoesHighThenInformationIsNotUnknownAndPreviousClkInformationIsUnknown (arvalid, araddr))
+  $info("IFARVALIDGOESHIGH_THEN_ARADDR_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_ARADDR_IS_UNKNOWN : COVERED");
 
-  IFRVALIDGOESHIGH_THEN_RDATARRESP_ARE_NOTUNKNOWN_AND_PREVIOUS_2CLK_RDATARRESP_ARE_UNKNOWN : cover property  
-  (WhenValidGoesHighThenInformationControlSignalAreNotUnknownAndPrevious2ClkInformationControlSignalAreUnknown(rvalid, rdata, rresp))
-  $info("IFRVALIDGOESHIGH_THEN_RDATARRESP_ARE_NOTUNKNOWN_AND_PREVIOUS_2CLK_RDATARRESP_ARE_UNKNOWN : COVERED");
+  IFRVALIDGOESHIGH_THEN_RDATA_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_RDATA_IS_UNKNOWN : cover property  
+  (WhenValidGoesHighThenInformationIsNotUnknownAndPreviousClkInformationIsUnknown (rvalid, rdata))
+  $info("IFRVALIDGOESHIGH_THEN_RDATA_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_RDATA_IS_UNKNOWN : COVERED");
+
+  property WhenValidGoesHighThenInformationIsNotUnknownAndPrevious2ClkInformationIsUnknown(logic valid, logic information); 
+   @(posedge aclk) disable iff (!aresetn) 
+       $rose(valid) |-> !($isunknown(information)) 
+                    &&  ($isunknown($past(information,2)));
+ endproperty 
+
+  IFARVALIDGOESHIGH_THEN_ARADDR_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_ARADDR_IS_UNKNOWN : cover property
+  (WhenValidGoesHighThenInformationIsNotUnknownAndPrevious2ClkInformationIsUnknown (arvalid, araddr))
+  $info("IFARVALIDGOESHIGH_THEN_ARADDR_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_ARADDR_IS_UNKNOWN : COVERED");
+
+  IFRVALIDGOESHIGH_THEN_RDATA_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_RDATA_IS_UNKNOWN : cover property  
+  (WhenValidGoesHighThenInformationIsNotUnknownAndPrevious2ClkInformationIsUnknown (rvalid, rdata))
+  $info("IFRVALIDGOESHIGH_THEN_RDATA_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_RDATA_IS_UNKNOWN : COVERED");
+
+   property WhenValidGoesHighThenControlSignalIsNotUnknownAndPreviousClkControlSignalIsUnknown(logic valid, logic controlSignal); 
+   @(posedge aclk) disable iff (!aresetn) 
+       $rose(valid) |-> !($isunknown(controlSignal))  
+        &&  ($isunknown($past(controlSignal,1)));
+   endproperty 
+
+  IFARVALIDGOESHIGH_THEN_ARPROT_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_ARPROT_IS_UNKNOWN : cover property
+  (WhenValidGoesHighThenControlSignalIsNotUnknownAndPreviousClkControlSignalIsUnknown (arvalid, arprot))
+  $info("IFARVALIDGOESHIGH_THEN_ARPROT_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_ARPROT_IS_UNKNOWN :COVERED");
+  
+  IFRVALIDGOESHIGH_THEN_RRESP_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_RRESP_IS_UNKNOWN : cover property  
+  (WhenValidGoesHighThenInformationIsNotUnknownAndPreviousClkInformationIsUnknown (rvalid, rresp))
+  $info("IFRVALIDGOESHIGH_THEN_RRESP_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_RRESP_IS_UNKNOWN : COVERED");
+
+  property WhenValidGoesHighThenControlSignalIsNotUnknownAndPrevious2ClkControlSignalIsUnknown(logic valid, logic controlSignal); 
+   @(posedge aclk) disable iff (!aresetn) 
+       $rose(valid) |-> !($isunknown(controlSignal))  
+        &&  ($isunknown($past(controlSignal,2)));
+ endproperty 
+
+  IFARVALIDGOESHIGH_THEN_ARPROT_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_ARPROT_IS_UNKNOWN : cover property
+  (WhenValidGoesHighThenControlSignalIsNotUnknownAndPrevious2ClkControlSignalIsUnknown (arvalid, arprot))
+  $info("IFARVALIDGOESHIGH_THEN_ARPROT_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_ARPROT_IS_UNKNOWN :COVERED");
+  
+  IFRVALIDGOESHIGH_THEN_RRESP_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_RRESP_IS_UNKNOWN : cover property  
+  (WhenValidGoesHighThenInformationIsNotUnknownAndPrevious2ClkInformationIsUnknown (rvalid, rresp))
+  $info("IFRVALIDGOESHIGH_THEN_RRESP_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_RRESP_IS_UNKNOWN : COVERED");
 
   property WhenReadyLowAndValidAssertedAfter3Clk(logic valid, logic ready);
    @(posedge aclk) disable iff (!aresetn)
