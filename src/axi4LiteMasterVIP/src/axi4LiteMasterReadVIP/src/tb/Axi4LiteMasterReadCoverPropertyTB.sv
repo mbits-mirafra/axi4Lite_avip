@@ -42,6 +42,7 @@ module Axi4LiteMasterReadCoverPropertyTB;
     #8000;
     $finish;
   end
+
   initial begin
     When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious1ClkAraddrArprotAreUnknown();
     When_rvalidRrespAreAsserted_Then_rdataRrespAreNotUnknownAndPrevious1ClkRdataIsUnknown();
@@ -100,11 +101,14 @@ module Axi4LiteMasterReadCoverPropertyTB;
     When_arvalidAndArreadyAsserted_Then_nextClkRvalidIsAsserted();
     When_arvalidAndArreadyAsserted_Then_at3ClkRvalidIsAsserted();
     When_arvalidAndArreadyAsserted_Then_inbetween1To10ClkRvalidIsAsserted();
-    When_arvalidAndArreadyAsserted_Then_anyClkRvalidIsAsserted();
     When_arvalidAndArreadyAsserted_Then_anyClkRvalidIsLow();
-    When_arvalidAndArreadyAreAsserted_Then_anyCkkRvalidIsAssertedAndRdataIsNotUnknown();
+    When_arvalidAndArreadyAreAsserted_Then_inbetween1To10ClkRvalidIsAssertedAndRdataIsNotUnknown();
     When_arvalidAndArreadyAreAsserted_Then_rdataOflowerLanesIsValidData();
-  end
+    When_araddrIsAsserted_Then_nextClkRdataIsAsserted();
+    When_araddrIsAsserted_Then_inbetween1To10ClkRdataIsAsserted();
+    When_rdataIsAsserted_Then_nextClkAraddrIsAsserted();
+    When_rdataIsAsserted_Then_inbetween1To10ClkAraddrIsAsserted(); 
+end
 
 
   task When_arvalidIsAsserted_Then_araddrArprotAreNotUnknownAndPrevious1ClkAraddrArprotAreUnknown();
@@ -945,26 +949,9 @@ task When_arreadyDefaultValueIs1AndTransferOccur_Then_nextClkArreadyValueWillGoD
       rvalid  <= 1'b1;
       `uvm_info(name,$sformatf("When_arvalidAndArreadyAsserted_Then_at3ClkRvalidIsAsserted Task ended"),UVM_NONE);
     endtask
- 
+  
     task When_arvalidAndArreadyAsserted_Then_inbetween1To10ClkRvalidIsAsserted();
     `uvm_info(name,$sformatf("When_arvalidAndArreadyAsserted_Then_inbetween1To10ClkRvalidIsAsserted Task started"),UVM_NONE);
-      @(posedge aclk);
-      aresetn <= 1'b1;
-      arvalid <= 1'b0;
-      arready <= 1'b0;
-      rvalid  <= 1'b0;
-      @(posedge aclk);
-      arvalid <= 1'b1;
-      arready <= 1'b1;
-      repeat(5) begin;  //Here we can give any value inbetween 1 to 10
-      @(posedge aclk);
-      end
-      rvalid  <= 1'b1;
-      `uvm_info(name,$sformatf("When_arvalidAndArreadyAsserted_Then_inbetween1To10ClkRvalidIsAsserted Task ended"),UVM_NONE);
-    endtask
-   
-    task When_arvalidAndArreadyAsserted_Then_anyClkRvalidIsAsserted();
-    `uvm_info(name,$sformatf("When_arvalidAndArreadyAsserted_Then_anyClkRvalidIsAsserted Task started"),UVM_NONE);
       @(posedge aclk);
       aresetn <= 1'b1;
       arvalid <= 1'b0;
@@ -977,11 +964,11 @@ task When_arreadyDefaultValueIs1AndTransferOccur_Then_nextClkArreadyValueWillGoD
       @(posedge aclk);
       end
       rvalid  <= 1'b1;
-      `uvm_info(name,$sformatf("When_arvalidAndArreadyAsserted_Then_anyClkRvalidIsAsserted Task ended"),UVM_NONE);
+      `uvm_info(name,$sformatf("When_arvalidAndArreadyAsserted_Then_inbetween1To10ClkRvalidIsAsserted Task ended"),UVM_NONE);
     endtask
    
     task  When_arvalidAndArreadyAsserted_Then_anyClkRvalidIsLow();
-    `uvm_info(name,$sformatf("When_arvalidAndArreadyAsserted_Then_anyClkRvalidIsLow Task started"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_arvalidAndArreadyAsserted_Then_anyClkRvalidIsLow Fail_Scenario Task started"),UVM_NONE);
       @(posedge aclk);
       aresetn <= 1'b1;
       arvalid <= 1'b0;
@@ -993,11 +980,11 @@ task When_arreadyDefaultValueIs1AndTransferOccur_Then_nextClkArreadyValueWillGoD
       repeat(10) begin;  //Here we can give any value inbetween 1 to 10
       @(posedge aclk);
       end
-      `uvm_info(name,$sformatf("When_arvalidAndArreadyAsserted_Then_anyClkRvalidIsLow Task ended"),UVM_NONE);
+      `uvm_info(name,$sformatf("When_arvalidAndArreadyAsserted_Then_anyClkRvalidIsLow Fail_Scenario Task ended"),UVM_NONE);
     endtask    
 
-    task When_arvalidAndArreadyAreAsserted_Then_anyCkkRvalidIsAssertedAndRdataIsNotUnknown();
-    `uvm_info(name,$sformatf("When_arvalidAndArreadyAreAsserted_Then_anyCkkRvalidIsAssertedAndRdataIsNotUnknown Task started"),UVM_NONE);
+    task When_arvalidAndArreadyAreAsserted_Then_inbetween1To10ClkRvalidIsAssertedAndRdataIsNotUnknown();
+    `uvm_info(name,$sformatf("When_arvalidAndArreadyAreAsserted_Then_inbetween1To10ClkRvalidIsAssertedAndRdataIsNotUnknown Task started"),UVM_NONE);
      @(posedge aclk);
       aresetn <= 1'b1;
       arvalid <= 1'b0;
@@ -1012,7 +999,7 @@ task When_arreadyDefaultValueIs1AndTransferOccur_Then_nextClkArreadyValueWillGoD
       end
       rvalid  <= 1'b1;
       rdata   <= 32'b1;
-      `uvm_info(name,$sformatf("When_arvalidAndArreadyAreAsserted_Then_anyCkkRvalidIsAssertedAndRdataIsNotUnknown Task ended"),UVM_NONE);
+      `uvm_info(name,$sformatf("When_arvalidAndArreadyAreAsserted_Then_inbetween1To10ClkRvalidIsAssertedAndRdataIsNotUnknown Task ended"),UVM_NONE);
     endtask 
 
     
@@ -1032,6 +1019,94 @@ task When_arreadyDefaultValueIs1AndTransferOccur_Then_nextClkArreadyValueWillGoD
       rdata[15:0]    <= 16'h1234;;
       `uvm_info(name,$sformatf("When_arvalidAndArreadyAreAsserted_Then_rdataOflowerLanesIsValidData Task ended"),UVM_NONE);
     endtask
+
+     task When_araddrIsAsserted_Then_nextClkRdataIsAsserted();
+  `uvm_info(name,$sformatf("When_araddrIsAsserted_Then_nextClkRdataIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      arvalid <= 1'b0;
+      arready <= 1'b0;
+      araddr  <= 32'hxxxx_xxxx;
+      rvalid  <= 1'b0;
+      rready  <= 1'b0;
+      rdata   <= 32'hxxxx_xxxx;
+      @(posedge aclk);
+      arvalid <= 1'b1;
+      arready <= 1'b1;
+      araddr  <= 32'h1000_1002;
+      @(posedge aclk);
+      rvalid  <= 1'b1;
+      rready  <= 1'b1;
+      rdata   <= 32'h1234_5678;
+    `uvm_info(name,$sformatf("When_araddrIsAsserted_Then_nextClkRdataIsAsserted Task  ended"),UVM_NONE);
+  endtask
+
+  task When_araddrIsAsserted_Then_inbetween1To10ClkRdataIsAsserted();
+  `uvm_info(name,$sformatf("When_araddrIsAsserted_Then_inbetween1To10ClkRdataIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      arvalid <= 1'b0;
+      arready <= 1'b0;
+      araddr  <= 32'hxxxx_xxxx;
+      rvalid  <= 1'b0;
+      rready  <= 1'b0;
+      rdata   <= 32'hxxxx_xxxx;
+      @(posedge aclk);
+      arvalid <= 1'b1;
+      arready <= 1'b1;
+      araddr  <= 32'h1000_1002;
+      repeat(8) begin //Here you can give any value inbetween 1-10 example 8
+      @(posedge aclk);
+      end
+      rvalid  <= 1'b1;
+      rready  <= 1'b1;
+      rdata   <= 32'h1234_5678;
+    `uvm_info(name,$sformatf("When_araddrIsAsserted_Then_inbetween1To10ClkRdataIsAsserted Task  ended"),UVM_NONE);
+  endtask
+
+  task When_rdataIsAsserted_Then_nextClkAraddrIsAsserted();
+  `uvm_info(name,$sformatf("When_rdataIsAsserted_Then_nextClkAraddrIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      arvalid <= 1'b0;
+      arready <= 1'b0;
+      araddr  <= 32'hxxxx_xxxx;
+      rvalid  <= 1'b0;
+      rready  <= 1'b0;
+      rdata   <= 32'hxxxx_xxxx;
+      @(posedge aclk);
+      rvalid  <= 1'b1;
+      rready  <= 1'b1;
+      rdata   <= 32'h1234_5678;
+      @(posedge aclk);
+      arvalid <= 1'b1;
+      arready <= 1'b1;
+      araddr  <= 32'h1000_1002;
+    `uvm_info(name,$sformatf("When_rdataIsAsserted_Then_nextClkAraddrIsAsserted Task  ended"),UVM_NONE);
+  endtask
+
+  task When_rdataIsAsserted_Then_inbetween1To10ClkAraddrIsAsserted();
+  `uvm_info(name,$sformatf("When_rdataIsAsserted_Then_inbetween1To10ClkAraddrIsAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      arvalid <= 1'b0;
+      arready <= 1'b0;
+      araddr  <= 32'hxxxx_xxxx;
+      rvalid  <= 1'b0;
+      rready  <= 1'b0;
+      rdata   <=  32'hxxxx_xxxx;
+      @(posedge aclk);
+      rvalid  <= 1'b1;
+      rready  <= 1'b1;
+      rdata   <= 32'h1234_5678;
+      repeat(8) begin //Here you can give any value inbetween 1-10 example 8
+      @(posedge aclk);
+      end
+      arvalid <= 1'b1;
+      arready <= 1'b1;
+      araddr  <= 32'h1000_1002;
+    `uvm_info(name,$sformatf("When_rdataIsAsserted_Then_inbetween1To10ClkAraddrIsAsserted Task  ended"),UVM_NONE);
+  endtask
 
 endmodule : Axi4LiteMasterReadCoverPropertyTB
 

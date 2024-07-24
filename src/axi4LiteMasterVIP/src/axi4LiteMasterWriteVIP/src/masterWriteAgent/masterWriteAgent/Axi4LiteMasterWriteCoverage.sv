@@ -22,6 +22,7 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
    WRITEDATA_CP : coverpoint packet.wdata {
    option.comment                                   = "writeDATA value";
    bins WRITE_DATAMAX                               = {32'hFFFF_FFFF};
+   bins WRITE_DATTZERO                              = {32'h0000_0000};
    bins WRITE_DATTOGGLE1                            = {32'hAAAA_AAAA};
    bins WRITE_ANYDATA                               = {[1:$]};
    }

@@ -32,6 +32,8 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
   property WhenValidGoesHighThenInformationControlSignalAreNotUnknownAndPreviousClkInformationControlSignalAreUnknown(logic valid, logic information, logic controlSignal); 
    @(posedge aclk) disable iff (!aresetn) 
        $rose(valid) |-> !($isunknown(information)) ##0 !($isunknown(controlSignal)) 
+       //TODO $isunknown ($past(information,1) 
+       //2 property will there
                     ##0 ($past(information,1) === 1'bx)  
                     ##0 ($past(controlSignal,1) === 1'bx);    
  endproperty 
