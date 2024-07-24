@@ -51,12 +51,16 @@ module Axi4LiteSlaveWriteCoverPropertyTB;
   end
 
   initial begin
-    When_awvalidIsAsserted_Then_AwprotAreNotUnknownAndPrevious1ClkAwaddrAwprotAreUnknown();
-    When_wvalidIsAsserted_Then_wdataWstrbIsNotUnknownAndPrevious1ClkWdataWstrbIsUnknown();
-    When_bvalidIsAsserted_Then_BrespIsNotUnknownAndPrevious1ClkBrespIsUnknown();
-    When_awvalidIsAsserted_Then_AwprotAreNotUnknownAndPrevious2ClkAwaddrAwprotAreUnknown();
-    When_wvalidIsAsserted_Then_wdataWstrbIsNotUnknownAndPrevious2ClkWdataWstrbIsUnknown();
-    When_bvalidIsAsserted_Then_BrespIsNotUnknownAndPrevious2ClkBrespIsUnknown();
+    When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious1ClkAwaddrIsUnknown();
+    When_awvalidIsAsserted_Then_awprotIsNotUnknownAndPrevious1ClkAwprotIsUnknown();
+    When_wvalidIsAsserted_Then_wdataIsNotUnknownAndPrevious1ClkWdataIsUnknown();
+    When_wvalidIsAsserted_Then_wstrbIsNotUnknownAndPrevious1ClkWstrbIsUnknown();
+    When_bvalidIsAsserted_Then_brespIsNotUnknownAndPrevious1ClkBrespIsUnknown();
+    When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious2ClkAwaddrIsUnknown();
+    When_awvalidIsAsserted_Then_awprotIsNotUnknownAndPrevious2ClkAwprotIsUnknown();
+    When_wvalidIsAsserted_Then_wdataIsNotUnknownAndPrevious2ClkWdataIsUnknown();
+    When_wvalidIsAsserted_Then_wstrbIsNotUnknownAndPrevious2ClkWstrbIsUnknown();
+    When_bvalidIsAsserted_Then_brespIsNotUnknownAndPrevious2ClkBrespIsUnknown();
     When_awreadyIsLow_Then_awvalidIsAssertedAfter3Clk();
     When_wreadyIsLow_Then_wvalidIsAssertedAfter3Clk();
     When_breadyIsLow_Then_bvalidIsAssertedAfter3Clk();
@@ -127,19 +131,18 @@ module Axi4LiteSlaveWriteCoverPropertyTB;
     When_breadyDefaultValueIs1AndTransferOccur_Then_nextClkBreadyValueWillGoDefaultState();
     When_awreadyDefaultValueIs0AndTransferOccur_Then_nextClkAwreadyValueWillGoDefaultState();
     When_wreadyDefaultValueIs0AndTransferOccur_Then_nextClkWreadyValueWillGoDefaultState();
-    When_breadyDefaultValueIs0AndTransferOccur_Then_nextClkBreadyValueWillGoDefaultState();
-    When_awreadyIsHighAndWritingValidAndWdataOnSlaveLocation_Then_brespWillGiveOkayResponse();
+    When_awreadyIsHighAndWritingValidAwaddrAndWdataOnSlaveLocation_Then_brespWillGiveOkayResponse();
     When_awvalidAwreadyWvalidWreadyAreAssertedSameClk_Then_NextClkBvalidIsAsserted();
     When_awvalidAwreadyAreAsserted_Then_nextClkWvalidWreadyAreAsserted_Then_nextClkBvalidIsAsserted();
     When_awvalidAwreadyAreAsserted_Then_nextClkWvalidWreadyAreAsserted_Then_inbetween1To12ClkBvalidIsAsserted();
     When_awvalidAwreadyAreAsserted_Then_inbetween1To10ClkWvalidWreadyAreAsserted_Then_inbetween1To12ClkBvalidIsAsserted();
-    When_IsAsserted_Then_sameClkWdataIsAsserted();
-    When_IsAsserted_Then_sameClkWdataIsAssertedButWdataIsUnknownValue();
-    When_IsAsserted_Then_sameClkWdataIsAssertedButWvalidIsLow();
-    When_IsAsserted_Then_nextClkWdataIsAsserted();
-    When_IsAsserted_Then_inbetween1To10ClkWdataIsAsserted();
-    When_wdataIsAsserted_Then_nextClkIsAsserted();
-    When_wdataIsAsserted_Then_inbetween1To10ClkIsAsserted();
+    When_awaddrIsAsserted_Then_sameClkWdataIsAsserted();
+    When_awaddrIsAsserted_Then_sameClkWdataIsAssertedButWdataIsUnknownValue();
+    When_awaddrIsAsserted_Then_sameClkWdataIsAssertedButWvalidIsLow();
+    When_awaddrIsAsserted_Then_nextClkWdataIsAsserted();
+    When_awaddrIsAsserted_Then_inbetween1To10ClkWdataIsAsserted();
+    When_wdataIsAsserted_Then_nextClkAwaddrIsAsserted();
+    When_wdataIsAsserted_Then_inbetween1To10ClkAwaddrIsAsserted();
     When_awvalidIsAsserted_Then_nextClkAwreadyAndWreadyAreAsserted();
     When_awvalidIsAsserted_Then_inbetween1To15ClkAwreadyAndWreadyAreAsserted();
     When_awvalidIsAsserted_Then_sameClkAwreadyAndWreadyAreAsserted();
@@ -172,54 +175,134 @@ module Axi4LiteSlaveWriteCoverPropertyTB;
     When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbIsActiveByte_Then_inbetween1To15ClkWdataIsPreviousValues();
 end
 
-  task When_awvalidIsAsserted_Then_awaddrAwprotAreNotUnknownAndPrevious1ClkAwaddrAwprotAreUnknown();
-    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awaddrAwprotAreNotUnknownAndPrevious1ClkAwaddrAwprotAreUnknown Task started"),UVM_NONE);
+  task When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious1ClkAwaddrIsUnknown();
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious1ClkAwaddrIsUnknown Task started"),UVM_NONE);
       @(posedge aclk);  
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awaddr  <= 32'hxxxx_xxxx;
-      awprot  <= 3'bxxx;
       repeat(1) begin
       @(posedge aclk);
       end
       awvalid <= 1'b1;
       awaddr  <= 32'h2222_1234;
-      awprot  <= 3'b111;
-    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awaddrAwprotAreNotUnknownAndPrevious1ClkAwaddrAwprotAreUnknown Task Ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious1ClkAwaddrIsUnknown Task Ended"),UVM_NONE);
   endtask
-  
-  task When_wvalidIsAsserted_Then_wdataWstrbIsNotUnknownAndPrevious1ClkWdataWstrbIsUnknown();
-    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wdataWstrbIsNotUnknownAndPrevious1ClkWdataWstrbIsUnknown Task started"),UVM_NONE);
+
+  task When_awvalidIsAsserted_Then_awprotIsNotUnknownAndPrevious1ClkAwprotIsUnknown();
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awprotIsNotUnknownAndPrevious1ClkAwprotIsUnknown Task started"),UVM_NONE);
+      @(posedge aclk);  
+      aresetn <= 1'b1;
+      awvalid <= 1'b0;
+      awprot  <= 3'bxxx;
+      repeat(1) begin
+      @(posedge aclk);
+      end
+      awvalid <= 1'b1;
+      awprot  <= 3'b111;
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awprotIsNotUnknownAndPrevious1ClkAwprotIsUnknown Task Ended"),UVM_NONE);
+  endtask
+   
+  task When_wvalidIsAsserted_Then_wdataIsNotUnknownAndPrevious1ClkWdataIsUnknown();
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wdataIsNotUnknownAndPrevious1ClkWdataIsUnknown Task started"),UVM_NONE);
       @(posedge aclk);  
       aresetn<= 1'b1;
       wvalid <= 1'b0;
       wdata  <= 32'hxxxx_xxxx;
-      wstrb  <= 4'bxxxx;
       repeat(1) begin
       @(posedge aclk);
       end
       wvalid <= 1'b1;
       wdata  <= 32'h2222_3333;
-      wstrb  <= 4'b1111;
-    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wdataWstrbIsNotUnknownAndPrevious1ClkWdataWstrbIsUnknown Task Ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wdataIsNotUnknownAndPrevious1ClkWdataIsUnknown Task Ended"),UVM_NONE);
   endtask
     
-   task When_bvalidIsAsserted_Then_BrespIsNotUnknownAndPrevious1ClkBrespIsUnknown();
+  task When_wvalidIsAsserted_Then_wstrbIsNotUnknownAndPrevious1ClkWstrbIsUnknown();
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wstrbIsNotUnknownAndPrevious1ClkWstrbIsUnknown Task started"),UVM_NONE);
+      @(posedge aclk);  
+      aresetn<= 1'b1;
+      wvalid <= 1'b0;
+      wstrb  <= 4'bxxxx;
+      repeat(1) begin
+      @(posedge aclk);
+      end
+      wvalid <= 1'b1;
+      wstrb  <= 4'b1111;
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wstrbIsNotUnknownAndPrevious1ClkWstrbIsUnknown Task Ended"),UVM_NONE);
+  endtask
+
+    task When_bvalidIsAsserted_Then_brespIsNotUnknownAndPrevious1ClkBrespIsUnknown();
       `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_BrespIsNotUnknownAndPrevious1ClkBrespIsUnknown Task started"),UVM_NONE);
       aresetn <= 1'b1;
       bvalid <= 1'b0;
       bresp  <= 2'bxx;
-      repeat(2) begin
+      repeat(1) begin
       @(posedge aclk);
       end
       bvalid <= 1'b1;
-      bresp <= 2'b00;
-      repeat(2) begin
+      bresp  <= 2'b00;
+      repeat(1) begin
        @(posedge aclk);
       end
       bvalid <= 1'b0;
      `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_BrespIsNotUnknownAndPrevious1ClkBrespIsUnknown Task Ended"),UVM_NONE); 
    endtask
+
+  task When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious2ClkAwaddrIsUnknown();
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious2ClkAwaddrIsUnknown Task started"),UVM_NONE);
+      @(posedge aclk);  
+      aresetn <= 1'b1;
+      awvalid <= 1'b0;
+      awaddr  <= 32'hxxxx_xxxx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      awvalid <= 1'b1;
+      awaddr  <= 32'h2222_1234;
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious2ClkAwaddrIsUnknown Task Ended"),UVM_NONE);
+  endtask
+
+  task When_awvalidIsAsserted_Then_awprotIsNotUnknownAndPrevious2ClkAwprotIsUnknown();
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awprotIsNotUnknownAndPrevious2ClkAwprotIsUnknown Task started"),UVM_NONE);
+      @(posedge aclk);  
+      aresetn <= 1'b1;
+      awvalid <= 1'b0;
+      awprot  <= 3'bxxx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      awvalid <= 1'b1;
+      awprot  <= 3'b111;
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awprotIsNotUnknownAndPrevious2ClkAwprotIsUnknown Task Ended"),UVM_NONE);
+  endtask
+   
+  task When_wvalidIsAsserted_Then_wdataIsNotUnknownAndPrevious2ClkWdataIsUnknown();
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wdataIsNotUnknownAndPrevious2ClkWdataIsUnknown Task started"),UVM_NONE);
+      @(posedge aclk);  
+      aresetn<= 1'b1;
+      wvalid <= 1'b0;
+      wdata  <= 32'hxxxx_xxxx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      wvalid <= 1'b1;
+      wdata  <= 32'h2222_3333;
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wdataIsNotUnknownAndPrevious2ClkWdataIsUnknown Task Ended"),UVM_NONE);
+  endtask
+    
+  task When_wvalidIsAsserted_Then_wstrbIsNotUnknownAndPrevious2ClkWstrbIsUnknown();
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wstrbIsNotUnknownAndPrevious2ClkWstrbIsUnknown Task started"),UVM_NONE);
+      @(posedge aclk);  
+      aresetn<= 1'b1;
+      wvalid <= 1'b0;
+      wstrb  <= 4'bxxxx;
+      repeat(1) begin
+      @(posedge aclk);
+      end
+      wvalid <= 1'b1;
+      wstrb  <= 4'b1111;
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wstrbIsNotUnknownAndPrevious2ClkWstrbIsUnknown Task Ended"),UVM_NONE);
+  endtask
 
   task When_awvalidIsAsserted_Then_awaddrAwprotAreNotUnknownAndPrevious2ClkAwaddrAwprotAreUnknown();
     `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_awaddrAwprotAreNotUnknownAndPrevious2ClkAwaddrAwprotAreUnknown Task started"),UVM_NONE);
@@ -253,8 +336,8 @@ end
     `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_wdataWstrbIsNotUnknownAndPrevious2ClkWdataWstrbIsUnknown Task Ended"),UVM_NONE);
   endtask
 
-   task When_bvalidIsAsserted_Then_BrespIsNotUnknownAndPrevious2ClkBrespIsUnknown();
-      `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_BrespIsNotUnknownAndPrevious2ClkBrespIsUnknown Task started"),UVM_NONE);
+   task When_bvalidIsAsserted_Then_brespIsNotUnknownAndPrevious2ClkBrespIsUnknown();
+      `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_brespIsNotUnknownAndPrevious2ClkBrespIsUnknown Task started"),UVM_NONE);
       aresetn <= 1'b1;
       bvalid <= 1'b0;
       bresp  <= 2'bxx;
@@ -267,7 +350,7 @@ end
        @(posedge aclk);
       end
       bvalid <= 1'b0;
-     `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_BrespIsNotUnknownAndPrevious2ClkBrespIsUnknown Task Ended"),UVM_NONE); 
+     `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_brespIsNotUnknownAndPrevious2ClkBrespIsUnknown Task Ended"),UVM_NONE); 
    endtask
 
   task When_awreadyIsLow_Then_awvalidIsAssertedAfter3Clk();
@@ -2093,6 +2176,7 @@ end
       wdata   <= 32'h4455_2255; 
       `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbIsActiveByte_Then_inbetween1To15ClkWdataIsPreviousValues  Task ended"),UVM_NONE);
   endtask
+
 
 endmodule : Axi4LiteSlaveWriteCoverPropertyTB
 

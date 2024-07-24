@@ -71,6 +71,8 @@ compile:
 	+acc \
 	+cover \
 	+fcover \
+	+define+$(args_addr) \
+	+define+$(args_data) \
 	-l Axi4LiteMasterWriteAssertCoverPropertyCompile.log \
 	-f ./Axi4LiteWriteMasterAssertCover.f 
 
@@ -90,6 +92,15 @@ endif
 ifndef uvm_verbosity
 override uvm_verbosity = UVM_MEDIUM
 endif
+
+ifndef args_addr
+override args_addr = ADDR_WIDTH_32
+endif
+
+ifndef args_data
+override args_data = DATA_WIDTH_32
+endif
+
 
 # Setting the default test folder to test name 
 ifndef test_folder
