@@ -7,9 +7,21 @@ package Axi4LiteReadMasterGlobalPkg;
 
   parameter int NO_OF_READMASTERS = 1;
 
-  parameter int ADDRESS_WIDTH = 32;
+  `ifdef ADDR_WIDTH_32
+    `define ADDRESS_WIDTH 32
+      parameter int ADDRESS_WIDTH = `ADDRESS_WIDTH;
+  `elsif ADDR_WIDTH_64
+    `define ADDRESS_WIDTH 64
+      parameter int ADDRESS_WIDTH = `ADDRESS_WIDTH;
+  `endif
 
-  parameter int DATA_WIDTH = 32;
+  `ifdef DATA_WIDTH_32
+    `define DATA_WIDTH 32
+      parameter int DATA_WIDTH = `DATA_WIDTH;
+  `elsif DATA_WIDTH_64
+    `define DATA_WIDTH 64
+      parameter int DATA_WIDTH = `DATA_WIDTH;
+  `endif
 
   parameter int DELAY_WIDTH = 5;
 
