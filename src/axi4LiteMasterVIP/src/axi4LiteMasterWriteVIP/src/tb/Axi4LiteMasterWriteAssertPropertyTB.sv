@@ -51,12 +51,16 @@ module Axi4LiteMasterWriteAssertPropertyTB;
   end
 
   initial begin
-    When_awvalidIsAsserted_Then_sameClkAwaddrAndAwprotIsNotUnknown_Expect_AssertionPass();
-    When_wvalidIsAsserted_Then_sameClkWdataAndWstrbIsNotUnknown_Expect_AssertionPass();
+    When_awvalidIsAsserted_Then_sameClkAwaddrIsNotUnknown_Expect_AssertionPass();
+    When_wvalidIsAsserted_Then_sameClkWdataIsNotUnknown_Expect_AssertionPass();
+    When_awvalidIsAsserted_Then_sameClkAwprotIsNotUnknown_Expect_AssertionPass();
+    When_wvalidIsAsserted_Then_sameClkWstrbIsNotUnknown_Expect_AssertionPass();
     When_bvalidIsAsserted_Then_sameClkBrespIsNotUnknown_Expect_AssertionPass();
 
-    When_awvalidIsAsserted_Then_sameClkAwaddrAndAwprotIsUnknown_Expect_AssertionFail();
-    When_wvalidIsAsserted_Then_sameClkWdataAndWstrbIsUnknown_Expect_AssertionFail();
+    When_awvalidIsAsserted_Then_sameClkAwaddrIsUnknown_Expect_AssertionFail();
+    When_wvalidIsAsserted_Then_sameClkWdataIsUnknown_Expect_AssertionFail();
+    When_awvalidIsAsserted_Then_sameClkAwprotIsUnknown_Expect_AssertionFail();
+    When_wvalidIsAsserted_Then_sameClkWstrbIsUnknown_Expect_AssertionFail();
     When_bvalidIsAsserted_Then_sameClkBrespIsUnknown_Expect_AssertionFail();
 
     When_awvalidAsserted_Then_awvalidHighAndWithin16ClkAwreadyAsserted_Expect_AssertionPass();
@@ -123,44 +127,76 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   end
 
-  task When_awvalidIsAsserted_Then_sameClkAwaddrAndAwprotIsNotUnknown_Expect_AssertionPass();
-    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwaddrAndAwprotIsNotUnknown_Expect_AssertionPass Task started"),UVM_NONE);
+  task When_awvalidIsAsserted_Then_sameClkAwaddrIsNotUnknown_Expect_AssertionPass();
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwaddrIsNotUnknown_Expect_AssertionPass Task started"),UVM_NONE);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awaddr <= 32'bx;
-      awprot <= 3'bxxx;
       repeat(2) begin
       @(posedge aclk);
       end
       awvalid <= 1'b1;
       awaddr <= 32'h1122_3344;
+
+      repeat(2) begin
+       @(posedge aclk);
+      end
+      awvalid <= 1'b0;
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwaddrIsNotUnknown_Expect_AssertionPass Task Ended"),UVM_NONE);
+  endtask
+
+  task When_wvalidIsAsserted_Then_sameClkWdataIsNotUnknown_Expect_AssertionPass();
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWdataIsNotUnknown_Expect_AssertionPass Task started"),UVM_NONE);
+      aresetn <= 1'b1;
+      wvalid <= 1'b0;
+      wdata <= 32'bx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      wvalid <= 1'b1;
+      wdata <= 32'h1111_3333;
+
+      repeat(2) begin
+       @(posedge aclk);
+      end
+      wvalid <= 1'b0;
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWdataIsNotUnknown_Expect_AssertionPass Task Ended"),UVM_NONE);
+  endtask
+
+  task When_awvalidIsAsserted_Then_sameClkAwprotIsNotUnknown_Expect_AssertionPass();
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwprotIsNotUnknown_Expect_AssertionPass Task started"),UVM_NONE);
+      aresetn <= 1'b1;
+      awvalid <= 1'b0;
+      awprot <= 3'bxxx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      awvalid <= 1'b1;
       awprot <= 3'b000;
 
       repeat(2) begin
        @(posedge aclk);
       end
       awvalid <= 1'b0;
-    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwaddrAndAwprotIsNotUnknown_Expect_AssertionPass Task Ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwprotIsNotUnknown_Expect_AssertionPass Task Ended"),UVM_NONE);
   endtask
 
-  task When_wvalidIsAsserted_Then_sameClkWdataAndWstrbIsNotUnknown_Expect_AssertionPass();
-    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWdataAndWstrbIsNotUnknown_Expect_AssertionPass Task started"),UVM_NONE);
+  task When_wvalidIsAsserted_Then_sameClkWstrbIsNotUnknown_Expect_AssertionPass();
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWstrbIsNotUnknown_Expect_AssertionPass Task started"),UVM_NONE);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
-      wdata <= 32'bx;
       wstrb <= 4'hx;
       repeat(2) begin
       @(posedge aclk);
       end
       wvalid <= 1'b1;
-      wdata <= 32'h1111_3333;
       wstrb <= 4'hf;
 
       repeat(2) begin
        @(posedge aclk);
       end
       wvalid <= 1'b0;
-    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWdataAndWstrbIsNotUnknown_Expect_AssertionPass Task Ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWstrbIsNotUnknown_Expect_AssertionPass Task Ended"),UVM_NONE);
   endtask
 
   task When_bvalidIsAsserted_Then_sameClkBrespIsNotUnknown_Expect_AssertionPass();
@@ -181,11 +217,44 @@ module Axi4LiteMasterWriteAssertPropertyTB;
     `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_sameClkBrespIsNotUnknown_Expect_AssertionPass Task Ended"),UVM_NONE);
   endtask
 
-  task When_awvalidIsAsserted_Then_sameClkAwaddrAndAwprotIsUnknown_Expect_AssertionFail();
-    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwaddrAndAwprotIsUnknown_Expect_AssertionFail Task started"),UVM_NONE);
+  task When_awvalidIsAsserted_Then_sameClkAwaddrIsUnknown_Expect_AssertionFail();
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwaddrIsUnknown_Expect_AssertionFail Task started"),UVM_NONE);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awaddr <= 32'bx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      awvalid <= 1'b1;
+
+      repeat(2) begin
+       @(posedge aclk);
+      end
+      awvalid <= 1'b0;
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwaddrIsUnknown_Expect_AssertionFail Task Ended"),UVM_NONE);
+  endtask
+
+  task When_wvalidIsAsserted_Then_sameClkWdataIsUnknown_Expect_AssertionFail();
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWdataIsUnknown_Expect_AssertionFail Task started"),UVM_NONE);
+      aresetn <= 1'b1;
+      wvalid <= 1'b0;
+      wdata <= 32'bx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      wvalid <= 1'b1;
+
+      repeat(2) begin
+       @(posedge aclk);
+      end
+      wvalid <= 1'b0;
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWdataIsUnknown_Expect_AssertionFail Task Ended"),UVM_NONE);
+  endtask
+
+  task When_awvalidIsAsserted_Then_sameClkAwprotIsUnknown_Expect_AssertionFail();
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwprotIsUnknown_Expect_AssertionFail Task started"),UVM_NONE);
+      aresetn <= 1'b1;
+      awvalid <= 1'b0;
       awprot <= 3'bxxx;
       repeat(2) begin
       @(posedge aclk);
@@ -196,14 +265,13 @@ module Axi4LiteMasterWriteAssertPropertyTB;
        @(posedge aclk);
       end
       awvalid <= 1'b0;
-    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwaddrAndAwprotIsUnknown_Expect_AssertionFail Task Ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwprotIsUnknown_Expect_AssertionFail Task Ended"),UVM_NONE);
   endtask
 
-  task When_wvalidIsAsserted_Then_sameClkWdataAndWstrbIsUnknown_Expect_AssertionFail();
-    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWdataAndWstrbIsUnknown_Expect_AssertionFail Task started"),UVM_NONE);
+  task When_wvalidIsAsserted_Then_sameClkWstrbIsUnknown_Expect_AssertionFail();
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWstrbIsUnknown_Expect_AssertionFail Task started"),UVM_NONE);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
-      wdata <= 32'bx;
       wstrb <= 4'hx;
       repeat(2) begin
       @(posedge aclk);
@@ -214,7 +282,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
        @(posedge aclk);
       end
       wvalid <= 1'b0;
-    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWdataAndWstrbIsUnknown_Expect_AssertionFail Task Ended"),UVM_NONE);
+    `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWstrbIsUnknown_Expect_AssertionFail Task Ended"),UVM_NONE);
   endtask
 
   task When_bvalidIsAsserted_Then_sameClkBrespIsUnknown_Expect_AssertionFail();
