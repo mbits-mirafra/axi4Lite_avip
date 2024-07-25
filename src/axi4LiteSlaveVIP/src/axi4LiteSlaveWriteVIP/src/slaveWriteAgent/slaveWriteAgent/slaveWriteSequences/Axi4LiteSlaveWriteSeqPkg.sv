@@ -11,10 +11,6 @@ package Axi4LiteSlaveWriteSeqPkg;
  
   `include "Axi4LiteSlaveWriteBaseSeq.sv"
   `include "Axi4LiteSlaveWriteRandomTransferSeq.sv"
-  `include "Axi4LiteSlaveWriteDelayForAwreadySeq.sv"
-  `include "Axi4LiteSlaveWriteDelayForWreadySeq.sv"
-  `include "Axi4LiteSlaveWriteDelayForBvalidSeq.sv"
-  `include "Axi4LiteSlaveWriteAddressInsideMinAndMaxRangeSeq.sv"
   `include "Axi4LiteSlaveWrite32bitsTransferSeq.sv"
 
 endpackage : Axi4LiteSlaveWriteSeqPkg
