@@ -14,6 +14,7 @@ package Axi4LiteSlaveReadTestPkg;
 
   //including base_test for testing
   `include "Axi4LiteSlaveReadBaseTest.sv"
+  `include "Axi4LiteSlaveRead32bitsTransferTest.sv"
   `include "Axi4LiteSlaveReadRandomTransferTest.sv"
   `include "Axi4LiteSlaveReadDelayForArreadyTest.sv"
   `include "Axi4LiteSlaveReadDelayForRvalidTest.sv"

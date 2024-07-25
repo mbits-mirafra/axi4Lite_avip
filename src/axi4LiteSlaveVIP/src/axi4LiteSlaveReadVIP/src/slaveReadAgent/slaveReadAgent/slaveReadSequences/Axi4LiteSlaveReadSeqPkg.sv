@@ -10,12 +10,8 @@ package Axi4LiteSlaveReadSeqPkg;
   import Axi4LiteSlaveReadPkg::*;
  
   `include "Axi4LiteSlaveReadBaseSeq.sv"
-  `include "Axi4LiteSlaveReadRandomTransferSeq.sv"
-  `include "Axi4LiteSlaveReadDelayForArreadySeq.sv"
-  `include "Axi4LiteSlaveReadDelayForRvalidSeq.sv"
-  `include "Axi4LiteSlaveReadAddressInsideMinAndMaxRangeSeq.sv"
-  `include "Axi4LiteSlaveReadRdataSeq.sv"
   `include "Axi4LiteSlaveRead32bitsTransferSeq.sv"
+  `include "Axi4LiteSlaveReadRandomTransferSeq.sv"
 
 endpackage : Axi4LiteSlaveReadSeqPkg
 `endif
