@@ -21,7 +21,7 @@ task Axi4LiteVirtual32bitWriteDataSeq::body();
 
   `uvm_info(get_type_name(), $sformatf("Insdie Body Seq start Axi4LiteVirtual32bitWriteDataSeq"), UVM_NONE); 
 
-   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprot == 1;}) begin
+   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprotSeq == 1;}) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtual32bitWriteDataSeq")
   end
 

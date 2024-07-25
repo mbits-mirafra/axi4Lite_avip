@@ -22,6 +22,8 @@ package Axi4LiteVirtualSeqPkg;
 
   `include "Axi4LiteVirtualBaseSeq.sv"
   `include "Axi4LiteVirtualRandomWriteReadTransferSeq.sv"
+  `include "Axi4LiteVirtual32bitWriteDataSeq.sv"
+  `include "Axi4LiteVirtual32bitReadDataSeq.sv"
   `include "Axi4LiteVirtualDelayForAwvalidAndAwreadySeq.sv"
   `include "Axi4LiteVirtualDelayForWvalidAndWreadySeq.sv"
   `include "Axi4LiteVirtualDelayForBvalidAndBreadySeq.sv"
@@ -38,8 +40,6 @@ package Axi4LiteVirtualSeqPkg;
   `include "Axi4LiteVirtualRvalidAssertedAndSameClkRreadyAssertedSeq.sv"
   `include "Axi4LiteVirtualRvalidAssertedAndNextClkRreadyAssertedSeq.sv"
   `include "Axi4LiteVirtualBackToBackTransfersWith1ClkDelaySeq.sv"
-  `include "Axi4LiteVirtual32bitWriteDataSeq.sv"
-  `include "Axi4LiteVirtual32bitReadDataSeq.sv"
   `include "Axi4LiteVirtualAwvalidAssertedInbetween2To5ClkAwreadyAssertedSeq.sv"
   `include "Axi4LiteVirtualWvalidAssertedInbetween2To5ClkWreadyAssertedSeq.sv"
   `include "Axi4LiteVirtualBvalidAssertedInbetween2To5ClkBreadyAssertedSeq.sv"

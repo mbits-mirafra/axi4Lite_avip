@@ -21,7 +21,7 @@ task Axi4LiteVirtual32bitReadDataSeq::body();
 
   `uvm_info(get_type_name(), $sformatf("Insdie Body Seq start Axi4LiteVirtual32bitReadDataSeq"), UVM_NONE); 
 
-   if(!axi4LiteMasterRead32bitsTransferSeq.randomize() with { arprot == 1;}) begin
+   if(!axi4LiteMasterRead32bitsTransferSeq.randomize() with {arprotSeq == 1;}) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtual32bitReadDataSeq")
   end
 

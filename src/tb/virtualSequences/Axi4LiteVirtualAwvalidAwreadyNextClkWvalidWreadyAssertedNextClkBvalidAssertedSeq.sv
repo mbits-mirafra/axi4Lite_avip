@@ -1,12 +1,9 @@
 `ifndef AXI4LITEVIRTUALAWVALIDAWREADYNEXTCLKWVALIDWREADYASSERTEDNEXTCLKBVALIDASSERTEDSEQ_INCLUDED_
 `define AXI4LITEVIRTUALAWVALIDAWREADYNEXTCLKWVALIDWREADYASSERTEDNEXTCLKBVALIDASSERTEDSEQ_INCLUDED_
 
-class Axi4LiteVirtualAwvalidAwreadyNextClkWvalidWreadyAssertedNextClkBvalidAssertedSeq extends Axi4LiteVirtualBaseSeq;
+class Axi4LiteVirtualAwvalidAwreadyNextClkWvalidWreadyAssertedNextClkBvalidAssertedSeq extends Axi4LiteVirtual32bitWriteDataSeq;
   `uvm_object_utils(Axi4LiteVirtualAwvalidAwreadyNextClkWvalidWreadyAssertedNextClkBvalidAssertedSeq)
 
-  Axi4LiteMasterWrite32bitsTransferSeq axi4LiteMasterWrite32bitsTransferSeq;
-  Axi4LiteSlaveWrite32bitsTransferSeq axi4LiteSlaveWrite32bitsTransferSeq;
- 
   extern function new(string name = "Axi4LiteVirtualAwvalidAwreadyNextClkWvalidWreadyAssertedNextClkBvalidAssertedSeq");
   extern task body();
 endclass : Axi4LiteVirtualAwvalidAwreadyNextClkWvalidWreadyAssertedNextClkBvalidAssertedSeq
@@ -21,17 +18,17 @@ task Axi4LiteVirtualAwvalidAwreadyNextClkWvalidWreadyAssertedNextClkBvalidAssert
 
   `uvm_info(get_type_name(), $sformatf("Insdie Body Seq start Axi4LiteVirtualAwvalidAwreadyNextClkWvalidWreadyAssertedNextClkBvalidAssertedSeq"), UVM_NONE); 
 
-   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprot == 1;
-                                                              delayForAwvalid == 2;
-                                                              delayForWvalid == 3;
-                                                              delayForBready == 0;
+   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprotSeq == 1;
+                                                              delayForAwvalidSeq == 2;
+                                                              delayForWvalidSeq == 3;
+                                                              delayForBreadySeq == 0;
                                                             }) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualAwvalidAwreadyNextClkWvalidWreadyAssertedNextClkBvalidAssertedSeq")
   end
 
-   if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize() with {delayForBvalid == 1;
-                                                             delayForAwready == 0;
-                                                             delayForWready == 0;
+   if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize() with {delayForBvalidSeq == 1;
+                                                             delayForAwreadySeq == 0;
+                                                             delayForWreadySeq == 0;
                                                            }) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualAwvalidAwreadyNextClkWvalidWreadyAssertedNextClkBvalidAssertedSeq")
   end

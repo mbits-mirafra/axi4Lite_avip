@@ -21,14 +21,14 @@ task Axi4LiteVirtual32bitWriteDataWithDelayForValidReadySeq::body();
 
   `uvm_info(get_type_name(), $sformatf("Insdie Body Seq start Axi4LiteVirtual32bitWriteDataWithDelayForValidReadySeq"), UVM_NONE); 
 
-   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprot == 1;
-                                                              delayForAwvalid == 2;
-                                                              delayForWvalid == 4;
+   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprotSeq == 1;
+                                                              delayForAwvalidSeq == 2;
+                                                              delayForWvalidSeq == 4;
                                                             }) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtual32bitWriteDataWithDelayForValidReadySeq")
   end
 
-   if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize() with {delayForBvalid == 2;}) begin
+   if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize() with {delayForBvalidSeq == 2;}) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtual32bitWriteDataWithDelayForValidReadySeq")
   end
 

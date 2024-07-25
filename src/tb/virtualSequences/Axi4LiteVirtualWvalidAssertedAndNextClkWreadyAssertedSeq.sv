@@ -1,7 +1,7 @@
 `ifndef AXI4LITEVIRTUALWVALIDASSERTEDANDNEXTCLKWREADYASSERTEDSEQ_INCLUDED_
 `define AXI4LITEVIRTUALWVALIDASSERTEDANDNEXTCLKWREADYASSERTEDSEQ_INCLUDED_
 
-class Axi4LiteVirtualWvalidAssertedAndNextClkWreadyAssertedSeq extends Axi4LiteVirtualDelayForWvalidAndWreadySeq;
+class Axi4LiteVirtualWvalidAssertedAndNextClkWreadyAssertedSeq extends Axi4LiteVirtual32bitWriteDataSeq;
   `uvm_object_utils(Axi4LiteVirtualWvalidAssertedAndNextClkWreadyAssertedSeq)
 
   extern function new(string name = "Axi4LiteVirtualWvalidAssertedAndNextClkWreadyAssertedSeq");
@@ -13,24 +13,24 @@ function Axi4LiteVirtualWvalidAssertedAndNextClkWreadyAssertedSeq::new(string na
 endfunction : new
 
 task Axi4LiteVirtualWvalidAssertedAndNextClkWreadyAssertedSeq::body();
-  axi4LiteMasterWriteDelayForWvalidSeq = Axi4LiteMasterWriteDelayForWvalidSeq::type_id::create("axi4LiteMasterWriteDelayForWvalidSeq");
-  axi4LiteSlaveWriteDelayForWreadySeq = Axi4LiteSlaveWriteDelayForWreadySeq::type_id::create("axi4LiteSlaveWriteDelayForWreadySeq");
+  axi4LiteMasterWrite32bitsTransferSeq = Axi4LiteMasterWrite32bitsTransferSeq::type_id::create("axi4LiteMasterWrite32bitsTransferSeq");
+  axi4LiteSlaveWrite32bitsTransferSeq = Axi4LiteSlaveWrite32bitsTransferSeq::type_id::create("axi4LiteSlaveWrite32bitsTransferSeq");
 
   `uvm_info(get_type_name(), $sformatf("Insdie Body Seq start Axi4LiteVirtualWvalidAssertedAndNextClkWreadyAssertedSeq"), UVM_NONE); 
 
-   if(!axi4LiteMasterWriteDelayForWvalidSeq.randomize() with {delayForWvalid == 3;}) begin
+   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {delayForWvalidSeq == 3;}) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualWvalidAssertedAndNextClkWreadyAssertedSeq")
   end
-       `uvm_info(get_type_name(),$sformatf("Axi4LiteVirtualWvalidAssertedAndNextClkWreadyAssertedSeq delayForWvalid :%0d", axi4LiteMasterWriteDelayForWvalidSeq.delayForWvalid),UVM_LOW);
+       `uvm_info(get_type_name(),$sformatf("Axi4LiteVirtualWvalidAssertedAndNextClkWreadyAssertedSeq delayForWvalidSeq :%0d", axi4LiteMasterWrite32bitsTransferSeq.delayForWvalidSeq),UVM_LOW);
 
-   if(!axi4LiteSlaveWriteDelayForWreadySeq.randomize() with {delayForWready == 1;}) begin
+   if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize() with {delayForWreadySeq == 1;}) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualWvalidAssertedAndNextClkWreadyAssertedSeq")
   end
-       `uvm_info(get_type_name(),$sformatf("Axi4LiteVirtualWvalidAssertedAndNextClkWreadyAssertedSeq delayForWready :%0d", axi4LiteSlaveWriteDelayForWreadySeq.delayForWready),UVM_LOW);
+       `uvm_info(get_type_name(),$sformatf("Axi4LiteVirtualWvalidAssertedAndNextClkWreadyAssertedSeq delayForWreadySeq :%0d", axi4LiteSlaveWrite32bitsTransferSeq.delayForWreadySeq),UVM_LOW);
 
   fork
-    axi4LiteSlaveWriteDelayForWreadySeq.start(p_sequencer.axi4LiteSlaveVirtualSequencer.axi4LiteSlaveWriteSequencer);
-    axi4LiteMasterWriteDelayForWvalidSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterWriteSequencer);
+    axi4LiteSlaveWrite32bitsTransferSeq.start(p_sequencer.axi4LiteSlaveVirtualSequencer.axi4LiteSlaveWriteSequencer);
+    axi4LiteMasterWrite32bitsTransferSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterWriteSequencer);
   join
 
  endtask : body
