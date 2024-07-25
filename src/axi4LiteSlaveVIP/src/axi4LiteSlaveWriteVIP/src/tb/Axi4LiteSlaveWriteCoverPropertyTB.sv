@@ -171,8 +171,13 @@ module Axi4LiteSlaveWriteCoverPropertyTB;
     When_wvalidAndWreadyAreAsserted_Then_awreadyIsLow();
     When_wvalidAndWreadyAreAsserted_Then_wstrbOfL3AndL2AreAsserted();
     When_wvalidAndWreadyAreAsserted_Then_wstrbOfL1AndL0AreAsserted();
+    When_wvalidAndWreadyAreAsserted_Then_wdataIs64BitsAndWstrbOfL2AndL0AreAsserted();
     When_wvalidAndWreadyAreAsserted_Then_wstrbValueIsAllOnes_Then_wdataIsNotUnknown();
-    When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbIsActiveByte_Then_inbetween1To15ClkWdataIsPreviousValues();
+    When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbValueIsAllOne_Then_nextClkWstrbIsActiveByte_Then_WdataIsPreviousValues();
+    When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbValueIsAllOne_Then_nextClkWstrbIsActiveByte_Then_64BitsOfWdataIsPreviousValues();
+    When_wvalidAndWreadyAreAsserted_Then_wstrbValueIsAllOnes_Then_64BitsOfWdataIsNotUnknown();
+    When_wvalisIsAsserted_Then_wstrbValueIsAllOnes_Then_nextClkWvalidIsLow_Then_wstrbValueIsPreviousValues();
+    When_wvalisIsAsserted_Then_wstrbValueIsAllOnes_Then_nextClkWvalidIsLow_Then_wstrbValuesZeros();
 end
 
   task When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious1ClkAwaddrIsUnknown();
@@ -2133,6 +2138,23 @@ end
       `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_wstrbOfL1AndL0AreAsserted Task  ended"),UVM_NONE);
   endtask
 
+  task When_wvalidAndWreadyAreAsserted_Then_wdataIs64BitsAndWstrbOfL2AndL0AreAsserted();
+   `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_wdataIs64BitsAndWstrbOfL2AndL0AreAsserted Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      wvalid  <= 1'b0;
+      wready  <= 1'b0;
+      wstrb   <= 8'b0000_0000;
+      wdata   <= 64'hxxxx_xxxx_xxxx_xxxx;
+      @(posedge aclk);
+      wvalid  <= 1'b1;
+      wready  <= 1'b1;
+      wdata[15:8]  <= 8'h00;
+      wdata[63:24] <= 40'h0000_0000_00;
+      wstrb   <= 8'b0000_0101;
+      `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_wdataIs64BitsAndWstrbOfL2AndL0AreAsserted Task ended"),UVM_NONE); 
+  endtask
+
   task When_wvalidAndWreadyAreAsserted_Then_wstrbValueIsAllOnes_Then_wdataIsNotUnknown();
    `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_wstrbValueIsAllOnes_Then_wdataIsNotUnknown Task started"),UVM_NONE);
       @(posedge aclk); 
@@ -2149,8 +2171,8 @@ end
       `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_wstrbValueIsAllOnes_Then_wdataIsNotUnknown Task  ended"),UVM_NONE);
   endtask
  
-  task When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbIsActiveByte_Then_inbetween1To15ClkWdataIsPreviousValues();
-   `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbIsActiveByte_Then_inbetween1To15ClkWdataIsPreviousValues( Task started"),UVM_NONE);
+  task When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbValueIsAllOne_Then_nextClkWstrbIsActiveByte_Then_WdataIsPreviousValues();
+   `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbValueIsAllOne_Then_nextClkWstrbIsActiveByte_Then_WdataIsPreviousValues Task started"),UVM_NONE);
       @(posedge aclk); 
       aresetn <= 1'b1;
       wvalid  <= 1'b0;
@@ -2162,21 +2184,92 @@ end
       wready  <= 1'b1;
       wstrb   <= 4'b1111;
       wdata   <= 32'h4433_2211; 
-      @(posedge aclk);
-      wvalid  <= 1'b0;
-      wready  <= 1'b0;
-      wstrb   <= 4'b0000;
-      wdata   <= 32'hxxxx_xxxx; 
-      repeat(10) begin
+      repeat(1) begin
       @(posedge aclk);
       end
       wvalid  <= 1'b1;
       wready  <= 1'b1;
       wstrb   <= 4'b0101;
-      wdata   <= 32'h4455_2255; 
-      `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbIsActiveByte_Then_inbetween1To15ClkWdataIsPreviousValues  Task ended"),UVM_NONE);
+      wdata[31:24] <= 8'h44;
+      wdata[15:8]  <= 8'h22; 
+      `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbValueIsAllOne_Then_nextClkWstrbIsActiveByte_Then_WdataIsPreviousValues  Task ended"),UVM_NONE);
   endtask
 
+  task When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbValueIsAllOne_Then_nextClkWstrbIsActiveByte_Then_64BitsOfWdataIsPreviousValues();
+   `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbValueIsAllOne_Then_nextClkWstrbIsActiveByte_Then_64BitsOfWdataIsPreviousValues Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      wvalid  <= 1'b0;
+      wready  <= 1'b0;
+      wstrb   <= 8'b0000_0000;
+      wdata   <= 64'hxxxx_xxxx_xxxx_xxxx;
+      @(posedge aclk);
+      wvalid  <= 1'b1;
+      wready  <= 1'b1;
+      wstrb   <= 8'b1111_1111;
+      wdata   <= 64'h1122_3344_5566_7788;
+      repeat(1) begin
+      @(posedge aclk);
+      end
+      wvalid  <= 1'b1;
+      wready  <= 1'b1;
+      wstrb   <= 8'b0111_0000;
+      wdata[63:56] <= 8'h11;
+      wdata[31:0]  <= 32'h5566_7788; 
+      `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_sameClkWstrbValueIsAllOne_Then_nextClkWstrbIsActiveByte_Then_64BitsOfWdataIsPreviousValues Task ended"),UVM_NONE);
+  endtask
+
+
+  task When_wvalidAndWreadyAreAsserted_Then_wstrbValueIsAllOnes_Then_64BitsOfWdataIsNotUnknown();
+   `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_wstrbValueIsAllOnes_Then_64BitsOfWdataIsNotUnknown Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      wvalid  <= 1'b0;
+      wready  <= 1'b0;
+      wstrb   <= 8'b0000_0000;
+      wdata   <= 64'hxxxx_xxxx_xxxx_xxxx;
+      @(posedge aclk);
+      wvalid  <= 1'b1;
+      wready  <= 1'b1;
+      wstrb   <= 8'b1111_1111;
+      wdata   <= 64'h4433_2211_AB21_11BC; 
+      `uvm_info(name,$sformatf("When_wvalidAndWreadyAreAsserted_Then_wstrbValueIsAllOnes_Then_64BitsOfWdataIsNotUnknown Task  ended"),UVM_NONE);
+  endtask
+ 
+  task When_wvalisIsAsserted_Then_wstrbValueIsAllOnes_Then_nextClkWvalidIsLow_Then_wstrbValueIsPreviousValues();
+  `uvm_info(name,$sformatf("When_wvalisIsAsserted_Then_wstrbValueIsAllOnes_Then_nextClkWvalidIsLow_Then_wstrbValueIsPreviousValues Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      wvalid  <= 1'b0;
+      wstrb   <= 4'b0000;
+      wdata   <= 32'hxxxx_xxxx;
+      @(posedge aclk);
+      wvalid  <= 1'b1;
+      wstrb   <= 4'b1111;
+      wdata   <= 32'h4331_11BC; 
+      @(posedge aclk);
+      wvalid  <= 1'b0;
+      wstrb   <= 4'b1111;
+      `uvm_info(name,$sformatf("When_wvalisIsAsserted_Then_wstrbValueIsAllOnes_Then_nextClkWvalidIsLow_Then_wstrbValueIsPreviousValues Task  ended"),UVM_NONE);
+  endtask
+ 
+  task When_wvalisIsAsserted_Then_wstrbValueIsAllOnes_Then_nextClkWvalidIsLow_Then_wstrbValuesZeros();
+  `uvm_info(name,$sformatf("When_wvalisIsAsserted_Then_wstrbValueIsAllOnes_Then_nextClkWvalidIsLow_Then_wstrbValuesZeros Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      wvalid  <= 1'b0;
+      wstrb   <= 4'b0000;
+      wdata   <= 32'hxxxx_xxxx;
+      @(posedge aclk);
+      wvalid  <= 1'b1;
+      wstrb   <= 4'b1111;
+      wdata   <= 32'h4331_11BC; 
+      @(posedge aclk);
+      wvalid  <= 1'b0;
+      wstrb   <= 4'b0000;
+      `uvm_info(name,$sformatf("When_wvalisIsAsserted_Then_wstrbValueIsAllOnes_Then_nextClkWvalidIsLow_Then_wstrbValuesZeros Task  ended"),UVM_NONE);
+  endtask
+ 
 
 endmodule : Axi4LiteSlaveWriteCoverPropertyTB
 
