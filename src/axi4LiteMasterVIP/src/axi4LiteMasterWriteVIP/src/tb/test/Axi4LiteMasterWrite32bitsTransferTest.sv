@@ -24,11 +24,11 @@ task Axi4LiteMasterWrite32bitsTransferTest::run_phase(uvm_phase phase);
 
   `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteMasterWrite32bitsTransferTest"),UVM_LOW);
     
-   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize()with { awprot == 3'b010;
+   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize()with { awprotSeq == 3'b010;
                                                             }) begin
        `uvm_error(get_type_name(), "Randomization failed")
    end
-       `uvm_info(get_type_name(),$sformatf("Axi4LiteMasterWrite32bitsTransferTest wdata :%0d", axi4LiteMasterWrite32bitsTransferSeq.wdata),UVM_LOW);
+       `uvm_info(get_type_name(),$sformatf("Axi4LiteMasterWrite32bitsTransferTest wdataSeq :%0h", axi4LiteMasterWrite32bitsTransferSeq.wdataSeq),UVM_LOW);
 
   phase.raise_objection(this);
   super.run_phase(phase);

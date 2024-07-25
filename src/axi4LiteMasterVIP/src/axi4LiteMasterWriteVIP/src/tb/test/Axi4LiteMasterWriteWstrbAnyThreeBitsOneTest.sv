@@ -1,7 +1,7 @@
 `ifndef AXI4LITEMASTERWRITEWSTRBANYTHREEBITSONETEST_INCLUDED_
 `define AXI4LITEMASTERWRITEWSTRBANYTHREEBITSONETEST_INCLUDED_
 
-class Axi4LiteMasterWriteWstrbAnyThreeBitsOneTest extends Axi4LiteMasterWriteWstrbSingleBitOneTest;
+class Axi4LiteMasterWriteWstrbAnyThreeBitsOneTest extends Axi4LiteMasterWrite32bitsTransferTest;
   `uvm_component_utils(Axi4LiteMasterWriteWstrbAnyThreeBitsOneTest)
 
   extern function new(string name = "Axi4LiteMasterWriteWstrbAnyThreeBitsOneTest", uvm_component parent = null);
@@ -22,13 +22,13 @@ task Axi4LiteMasterWriteWstrbAnyThreeBitsOneTest::run_phase(uvm_phase phase);
 
   `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteMasterWriteWstrbAnyThreeBitsOneTest"),UVM_LOW);
     
-   if(!axi4LiteMasterWriteWstrbSeq.randomize() with {$countones(wstrb) == 3;}) begin
+   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {$countones(wstrbSeq) == 3;}) begin
        `uvm_error(get_type_name(), "Randomization failed")
    end
-       `uvm_info(get_type_name(),$sformatf("Axi4LiteMasterWriteWstrbAnyThreeBitsOneTest wstrb :%0h", axi4LiteMasterWriteWstrbSeq.wstrb),UVM_LOW);
+       `uvm_info(get_type_name(),$sformatf("Axi4LiteMasterWriteWstrbAnyThreeBitsOneTest wstrbSeq :%0h", axi4LiteMasterWrite32bitsTransferSeq.wstrbSeq),UVM_LOW);
 
   phase.raise_objection(this);
-  axi4LiteMasterWriteWstrbSeq.start(axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent[0].axi4LiteMasterWriteSequencer); 
+  axi4LiteMasterWrite32bitsTransferSeq.start(axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent[0].axi4LiteMasterWriteSequencer); 
   #10;
   phase.drop_objection(this);
   `uvm_info(get_type_name(),$sformatf("After drop_objection Axi4LiteMasterWriteWstrbAnyThreeBitsOneTest"),UVM_LOW);

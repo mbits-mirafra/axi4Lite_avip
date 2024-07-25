@@ -11,12 +11,6 @@ package Axi4LiteMasterWriteSeqPkg;
  
   `include "Axi4LiteMasterWriteBaseSeq.sv"
   `include "Axi4LiteMasterWriteRandomTransferSeq.sv"
-  `include "Axi4LiteMasterWriteDelayForWvalidSeq.sv"
-  `include "Axi4LiteMasterWriteDelayForBreadySeq.sv"
-  `include "Axi4LiteMasterWriteAddressInsideMinAndMaxRangeSeq.sv"
-  `include "Axi4LiteMasterWriteDelayForAwvalidSeq.sv"
-  `include "Axi4LiteMasterWriteWdataSeq.sv"
-  `include "Axi4LiteMasterWriteWstrbSeq.sv"
   `include "Axi4LiteMasterWrite32bitsTransferSeq.sv"
 
 endpackage : Axi4LiteMasterWriteSeqPkg
