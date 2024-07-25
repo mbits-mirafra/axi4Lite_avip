@@ -4,14 +4,14 @@
 class Axi4LiteMasterRead32bitsTransferSeq extends Axi4LiteMasterReadBaseSeq;
   `uvm_object_utils(Axi4LiteMasterRead32bitsTransferSeq)
  
-  rand bit [ADDRESS_WIDTH-1:0] araddr;
-  rand arprotEnum arprot;
-  rand bit [DELAY_WIDTH-1:0] delayForArvalid;
-  rand bit [DELAY_WIDTH-1:0] delayForRready;
+  rand bit [ADDRESS_WIDTH-1:0] araddrSeq;
+  rand arprotEnum arprotSeq;
+  rand bit [DELAY_WIDTH-1:0] delayForArvalidSeq;
+  rand bit [DELAY_WIDTH-1:0] delayForRreadySeq;
 
-  constraint araddr_c {soft araddr <= MAX_ADDRESS;}
-  constraint delayForArvalid_c {soft delayForArvalid <= MAX_DELAY_RVALID;}
-  constraint delayForRready_c {soft delayForRready  <= MAX_DELAY_READY;}
+  constraint araddrSeq_c {soft araddrSeq inside {[MIN_ADDRESS:MAX_ADDRESS]};}
+  constraint delayForArvalidSeq_c {soft delayForArvalidSeq <= MAX_DELAY_RVALID;}
+  constraint delayForRreadySeq_c {soft delayForRreadySeq  <= MAX_DELAY_READY;}
 
   extern function new(string name = "Axi4LiteMasterRead32bitsTransferSeq");
   extern task body();
@@ -24,13 +24,13 @@ endfunction : new
 task Axi4LiteMasterRead32bitsTransferSeq::body();
   super.body();
   start_item(req);
-  if(!req.randomize()) begin 
+  if(!req.randomize() with {araddr == araddrSeq;
+                            arprot == arprotSeq;
+                            delayForArvalid == delayForArvalidSeq;
+                            delayForRready == delayForRreadySeq;
+                          }) begin 
       `uvm_error(get_type_name(), "Randomization failed")
   end
-  req.araddr = this.araddr;
-  req.arprot = this.arprot;
-  req.delayForArvalid = this.delayForArvalid;
-  req.delayForRready = this.delayForRready;
   req.print();
   finish_item(req);
 

@@ -14,12 +14,13 @@ package Axi4LiteMasterReadTestPkg;
 
   //including base_test for testing
   `include "Axi4LiteMasterReadBaseTest.sv"
+  `include "Axi4LiteMasterRead32bitsTransferTest.sv"
   `include "Axi4LiteMasterReadRandomTransferTest.sv"
   `include "Axi4LiteMasterReadDelayForRreadyTest.sv"
   `include "Axi4LiteMasterReadDelayForArvalidTest.sv"
-  `include "Axi4LiteMasterReadAddressInsideMinAndMaxRangeTest.sv"
   `include "Axi4LiteMasterReadEvenAddressTest.sv"
   `include "Axi4LiteMasterReadOddAddressTest.sv"
+  `include "Axi4LiteMasterReadModBy4AddressTest.sv"
 
 endpackage : Axi4LiteMasterReadTestPkg
 
