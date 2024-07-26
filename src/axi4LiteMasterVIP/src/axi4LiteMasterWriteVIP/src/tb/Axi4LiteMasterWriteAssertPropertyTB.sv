@@ -73,15 +73,22 @@ module Axi4LiteMasterWriteAssertPropertyTB;
     When_wvalidAsserted_Then_sameClkWreadyAsserted_Expect_AssertionPass();
     When_bvalidAsserted_Then_sameClkBreadyAsserted_Expect_AssertionPass();
 
-  //  When_aresetnAsserted_Then_awreadyWillGoDefaultState1_Expect_AssertionPass();
-  //  When_aresetnAsserted_Then_wreadyWillGoDefaultState1_Expect_AssertionPass();
-  //  When_aresetnAsserted_Then_breadyWillGoDefaultState1_Expect_AssertionPass();
+    When_aresetnAsserted_Then_awvalidWillGoLow_Expect_AssertionPass();
+    When_aresetnAsserted_Then_wvalidWillGoLow_Expect_AssertionPass();
+    When_aresetnAsserted_Then_bvalidWillGoLow_Expect_AssertionPass();
+    When_aresetnAsserted_Then_awvalidWillNotGoLow_Expect_AssertionFail();
+    When_aresetnAsserted_Then_wvalidWillNotGoLow_Expect_AssertionFail();
+    When_aresetnAsserted_Then_bvalidWillNotGoLow_Expect_AssertionFail();
+
+    When_aresetnAsserted_Then_awreadyWillGoDefaultState1_Expect_AssertionPass();
+    When_aresetnAsserted_Then_wreadyWillGoDefaultState1_Expect_AssertionPass();
+    When_aresetnAsserted_Then_breadyWillGoDefaultState1_Expect_AssertionPass();
   //  When_aresetnAsserted_Then_awreadyWillGoDefaultState0_Expect_AssertionPass();
   //  When_aresetnAsserted_Then_wreadyWillGoDefaultState0_Expect_AssertionPass();
   //  When_aresetnAsserted_Then_breadyWillGoDefaultState0_Expect_AssertionPass();
-  //  When_aresetnAsserted_Then_awreadyWillNotGoDefaultState1_Expect_AssertionFail();
-  //  When_aresetnAsserted_Then_wreadyWillNotGoDefaultState1_Expect_AssertionFail();
-  //  When_aresetnAsserted_Then_breadyWillNotGoDefaultState1_Expect_AssertionFail();
+    When_aresetnAsserted_Then_awreadyWillNotGoDefaultState1_Expect_AssertionFail();
+    When_aresetnAsserted_Then_wreadyWillNotGoDefaultState1_Expect_AssertionFail();
+    When_aresetnAsserted_Then_breadyWillNotGoDefaultState1_Expect_AssertionFail();
   //  When_aresetnAsserted_Then_awreadyWillNotGoDefaultState0_Expect_AssertionFail();
   //  When_aresetnAsserted_Then_wreadyWillNotGoDefaultState0_Expect_AssertionFail();
   //  When_aresetnAsserted_Then_breadyWillNotGoDefaultState0_Expect_AssertionFail();
@@ -129,6 +136,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_awvalidIsAsserted_Then_sameClkAwaddrIsNotUnknown_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwaddrIsNotUnknown_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awaddr <= 32'bx;
@@ -147,6 +155,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_wvalidIsAsserted_Then_sameClkWdataIsNotUnknown_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWdataIsNotUnknown_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
       wdata <= 32'bx;
@@ -165,6 +174,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_awvalidIsAsserted_Then_sameClkAwprotIsNotUnknown_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwprotIsNotUnknown_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awprot <= 3'bxxx;
@@ -183,6 +193,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_wvalidIsAsserted_Then_sameClkWstrbIsNotUnknown_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWstrbIsNotUnknown_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
       wstrb <= 4'hx;
@@ -201,6 +212,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_bvalidIsAsserted_Then_sameClkBrespIsNotUnknown_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_sameClkBrespIsNotUnknown_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bvalid <= 1'b0;
       bresp <= 2'bxx;
@@ -219,6 +231,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_awvalidIsAsserted_Then_sameClkAwaddrIsUnknown_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwaddrIsUnknown_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awaddr <= 32'bx;
@@ -236,6 +249,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_wvalidIsAsserted_Then_sameClkWdataIsUnknown_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWdataIsUnknown_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
       wdata <= 32'bx;
@@ -253,6 +267,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_awvalidIsAsserted_Then_sameClkAwprotIsUnknown_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_sameClkAwprotIsUnknown_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awprot <= 3'bxxx;
@@ -270,6 +285,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_wvalidIsAsserted_Then_sameClkWstrbIsUnknown_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_wvalidIsAsserted_Then_sameClkWstrbIsUnknown_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
       wstrb <= 4'hx;
@@ -287,6 +303,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_bvalidIsAsserted_Then_sameClkBrespIsUnknown_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_bvalidIsAsserted_Then_sameClkBrespIsUnknown_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bvalid <= 1'b0;
       bresp <= 2'bxx;
@@ -304,6 +321,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_awvalidAsserted_Then_awvalidHighAndWithin16ClkAwreadyAsserted_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_awvalidAsserted_Then_awvalidHighAndWithin16ClkAwreadyAsserted_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
@@ -325,6 +343,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_wvalidAsserted_Then_wvalidHighAndWithin16ClkWreadyAsserted_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_wvalidAsserted_Then_wvalidHighAndWithin16ClkWreadyAsserted_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
@@ -346,6 +365,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_bvalidAsserted_Then_bvalidHighAndWithin16ClkBreadyAsserted_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_bvalidAsserted_Then_bvalidHighAndWithin16ClkBreadyAsserted_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
@@ -366,6 +386,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_awvalidAsserted_Then_awvalidHighAndAfter16ClkAwreadyAsserted_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_awvalidAsserted_Then_awvalidHighAndAfter16ClkAwreadyAsserted_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
@@ -387,6 +408,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_wvalidAsserted_Then_wvalidHighAndAfter16ClkWreadyAsserted_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_wvalidAsserted_Then_wvalidHighAndAfter16ClkWreadyAsserted_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
@@ -408,6 +430,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_bvalidAsserted_Then_bvalidHighAndAfter16ClkBreadyAsserted_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_bvalidAsserted_Then_bvalidHighAndAfter16ClkBreadyAsserted_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
@@ -428,6 +451,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_awvalidAsserted_Then_sameClkAwreadyAsserted_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_awvalidAsserted_Then_sameClkAwreadyAsserted_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
@@ -446,6 +470,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_wvalidAsserted_Then_sameClkWreadyAsserted_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_wvalidAsserted_Then_sameClkWreadyAsserted_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
@@ -464,6 +489,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_bvalidAsserted_Then_sameClkBreadyAsserted_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_bvalidAsserted_Then_sameClkBreadyAsserted_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
@@ -479,8 +505,93 @@ module Axi4LiteMasterWriteAssertPropertyTB;
     `uvm_info(name,$sformatf("When_bvalidAsserted_Then_sameClkBreadyAsserted_Expect_AssertionPass Task Ended"),UVM_NONE);
   endtask
   
+  task When_aresetnAsserted_Then_awvalidWillGoLow_Expect_AssertionPass();
+    `uvm_info(name,$sformatf("When_aresetnAsserted_Then_awvalidWillGoLow_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
+      aresetn <= 1'b1;
+      awvalid <= 1'bx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      aresetn <= 1'b0;
+      awvalid <= 1'b0;
+
+    `uvm_info(name,$sformatf("When_aresetnAsserted_Then_awvalidWillGoLow_Expect_AssertionPass Task Ended"),UVM_NONE);
+  endtask
+
+  task When_aresetnAsserted_Then_wvalidWillGoLow_Expect_AssertionPass();
+    `uvm_info(name,$sformatf("When_aresetnAsserted_Then_wvalidWillGoLow_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
+      aresetn <= 1'b1;
+      wvalid <= 1'bx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      aresetn <= 1'b0;
+      wvalid <= 1'b0;
+
+    `uvm_info(name,$sformatf("When_aresetnAsserted_Then_wvalidWillGoLow_Expect_AssertionPass Task Ended"),UVM_NONE);
+  endtask
+
+  task When_aresetnAsserted_Then_bvalidWillGoLow_Expect_AssertionPass();
+    `uvm_info(name,$sformatf("When_aresetnAsserted_Then_bvalidWillGoLow_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
+      aresetn <= 1'b1;
+      bvalid <= 1'bx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      aresetn <= 1'b0;
+      bvalid <= 1'b0;
+
+    `uvm_info(name,$sformatf("When_aresetnAsserted_Then_bvalidWillGoLow_Expect_AssertionPass Task Ended"),UVM_NONE);
+  endtask
+
+  task When_aresetnAsserted_Then_awvalidWillNotGoLow_Expect_AssertionFail();
+    `uvm_info(name,$sformatf("When_aresetnAsserted_Then_awvalidWillNotGoLow_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
+      aresetn <= 1'b1;
+      awvalid <= 1'bx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      aresetn <= 1'b0;
+      awvalid <= 1'b1;
+
+    `uvm_info(name,$sformatf("When_aresetnAsserted_Then_awvalidWillNotGoLow_Expect_AssertionFail Task Ended"),UVM_NONE);
+  endtask
+
+  task When_aresetnAsserted_Then_wvalidWillNotGoLow_Expect_AssertionFail();
+    `uvm_info(name,$sformatf("When_aresetnAsserted_Then_wvalidWillNotGoLow_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
+      aresetn <= 1'b1;
+      wvalid <= 1'bx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      aresetn <= 1'b0;
+      wvalid <= 1'b1;
+
+    `uvm_info(name,$sformatf("When_aresetnAsserted_Then_wvalidWillNotGoLow_Expect_AssertionFail Task Ended"),UVM_NONE);
+  endtask
+
+  task When_aresetnAsserted_Then_bvalidWillNotGoLow_Expect_AssertionFail();
+    `uvm_info(name,$sformatf("When_aresetnAsserted_Then_bvalidWillNotGoLow_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
+      aresetn <= 1'b1;
+      bvalid <= 1'bx;
+      repeat(2) begin
+      @(posedge aclk);
+      end
+      aresetn <= 1'b0;
+      bvalid <= 1'b1;
+
+    `uvm_info(name,$sformatf("When_aresetnAsserted_Then_bvalidWillNotGoLow_Expect_AssertionFail Task Ended"),UVM_NONE);
+  endtask
+
   task When_aresetnAsserted_Then_awreadyWillGoDefaultState1_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_aresetnAsserted_Then_awreadyWillGoDefaultState1_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awready <= 1'bx;
       repeat(2) begin
@@ -494,6 +605,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_aresetnAsserted_Then_wreadyWillGoDefaultState1_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_aresetnAsserted_Then_wreadyWillGoDefaultState1_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wready <= 1'bx;
       repeat(2) begin
@@ -507,6 +619,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_aresetnAsserted_Then_breadyWillGoDefaultState1_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_aresetnAsserted_Then_breadyWillGoDefaultState1_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bready <= 1'bx;
       repeat(2) begin
@@ -520,6 +633,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_aresetnAsserted_Then_awreadyWillGoDefaultState0_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_aresetnAsserted_Then_awreadyWillGoDefaultState0_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awready <= 1'bx;
       repeat(2) begin
@@ -533,6 +647,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_aresetnAsserted_Then_wreadyWillGoDefaultState0_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_aresetnAsserted_Then_wreadyWillGoDefaultState0_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wready <= 1'bx;
       repeat(2) begin
@@ -546,6 +661,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_aresetnAsserted_Then_breadyWillGoDefaultState0_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_aresetnAsserted_Then_breadyWillGoDefaultState0_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bready <= 1'bx;
       repeat(2) begin
@@ -559,6 +675,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_aresetnAsserted_Then_awreadyWillNotGoDefaultState1_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_aresetnAsserted_Then_awreadyWillNotGoDefaultState1_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awready <= 1'bx;
       repeat(2) begin
@@ -573,6 +690,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_aresetnAsserted_Then_wreadyWillNotGoDefaultState1_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_aresetnAsserted_Then_wreadyWillNotGoDefaultState1_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wready <= 1'bx;
       repeat(2) begin
@@ -587,6 +705,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_aresetnAsserted_Then_breadyWillNotGoDefaultState1_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_aresetnAsserted_Then_breadyWillNotGoDefaultState1_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bready <= 1'bx;
       repeat(2) begin
@@ -601,6 +720,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_aresetnAsserted_Then_awreadyWillNotGoDefaultState0_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_aresetnAsserted_Then_awreadyWillNotGoDefaultState0_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awready <= 1'bx;
       repeat(2) begin
@@ -615,6 +735,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_aresetnAsserted_Then_wreadyWillNotGoDefaultState0_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_aresetnAsserted_Then_wreadyWillNotGoDefaultState0_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wready <= 1'bx;
       repeat(2) begin
@@ -629,6 +750,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_aresetnAsserted_Then_breadyWillNotGoDefaultState0_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_aresetnAsserted_Then_breadyWillNotGoDefaultState0_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bready <= 1'bx;
       repeat(2) begin
@@ -643,6 +765,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_transferOccur_Then_nextClkAwreadyWillGoDefaultStateHigh_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_transferOccur_Then_nextClkAwreadyWillGoDefaultStateHigh_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
@@ -660,6 +783,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_transferOccur_Then_nextClkWreadyWillGoDefaultStateHigh_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_transferOccur_Then_nextClkWreadyWillGoDefaultStateHigh_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
@@ -677,6 +801,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_transferOccur_Then_nextClkBreadyWillGoDefaultStateHigh_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_transferOccur_Then_nextClkBreadyWillGoDefaultStateHigh_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
@@ -693,6 +818,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_transferOccur_Then_nextClkAwreadyWillGoDefaultStateLow_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_transferOccur_Then_nextClkAwreadyWillGoDefaultStateLow_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
@@ -711,6 +837,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_transferOccur_Then_nextClkWreadyWillGoDefaultStateLow_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_transferOccur_Then_nextClkWreadyWillGoDefaultStateLow_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
@@ -729,6 +856,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_transferOccur_Then_nextClkBreadyWillGoDefaultStateLow_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_transferOccur_Then_nextClkBreadyWillGoDefaultStateLow_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
@@ -746,6 +874,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_transferOccur_Then_nextClkAwreadyWillNotGoDefaultStateHigh_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_transferOccur_Then_nextClkAwreadyWillNotGoDefaultStateHigh_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
@@ -764,6 +893,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_transferOccur_Then_nextClkWreadyWillNotGoDefaultStateHigh_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_transferOccur_Then_nextClkWreadyWillNotGoDefaultStateHigh_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
@@ -782,6 +912,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_transferOccur_Then_nextClkBreadyWillNotGoDefaultStateHigh_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_transferOccur_Then_nextClkBreadyWillNotGoDefaultStateHigh_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
@@ -799,6 +930,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_transferOccur_Then_nextClkAwreadyWillNotGoDefaultStateLow_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_transferOccur_Then_nextClkAwreadyWillNotGoDefaultStateLow_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
@@ -817,6 +949,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_transferOccur_Then_nextClkWreadyWillNotGoDefaultStateLow_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_transferOccur_Then_nextClkWreadyWillNotGoDefaultStateLow_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
@@ -835,6 +968,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_transferOccur_Then_nextClkBreadyWillNotGoDefaultStateLow_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_transferOccur_Then_nextClkBreadyWillNotGoDefaultStateLow_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
@@ -852,6 +986,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_awvalidIsHigh_Then_awvalidAndAwaddrAndAwprotStableUntilAwreadyAsserted_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_awvalidIsHigh_Then_awvalidAndAwaddrAndAwprotStableUntilAwreadyAsserted_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
@@ -869,6 +1004,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_wvalidIsHigh_Then_wvalidAndWdataAndWstrbStableUntilWreadyAsserted_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_wvalidIsHigh_Then_wvalidAndWdataAndWstrbStableUntilWreadyAsserted_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
@@ -886,6 +1022,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_bvalidIsHigh_Then_bvalidAndBrespStableUntilBreadyAsserted_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_bvalidIsHigh_Then_bvalidAndBrespStableUntilBreadyAsserted_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
@@ -902,6 +1039,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_awvalidIsHigh_Then_awaddrAndAwprotStable2ClkThenNextClkAwreadyAsserted_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_awvalidIsHigh_Then_awaddrAndAwprotStable2ClkThenNextClkAwreadyAsserted_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
@@ -922,6 +1060,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_wvalidIsHigh_Then_wdataAndWstrbStable2ClkThenNextClkWreadyAsserted_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_wvalidIsHigh_Then_wdataAndWstrbStable2ClkThenNextClkWreadyAsserted_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
@@ -942,6 +1081,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
  task When_bvalidIsHigh_Then_brespStable2ClkThenNextClkBreadyAsserted_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_bvalidIsHigh_Then_brespStable2ClkThenNextClkBreadyAsserted_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
@@ -960,6 +1100,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_awvalidAndAwreadyAsserted_Then_awaddrAndAwprotNotUnknownAndTransferOccur_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_awvalidAndAwreadyAsserted_Then_awaddrAndAwprotNotUnknownAndTransferOccur_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
@@ -976,6 +1117,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_wvalidAndWreadyAsserted_Then_wdataAndWstrbNotUnknownAndTransferOccur_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_wvalidAndWreadyAsserted_Then_wdataAndWstrbNotUnknownAndTransferOccur_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
@@ -992,6 +1134,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_bvalidAndBreadyAsserted_Then_brespNotUnknownAndTransferOccur_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_bvalidAndBreadyAsserted_Then_brespNotUnknownAndTransferOccur_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
@@ -1007,6 +1150,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_awvalidAndAwreadyAsserted_Then_awaddrAndAwprotUnknown_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_awvalidAndAwreadyAsserted_Then_awaddrAndAwprotUnknown_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
@@ -1023,6 +1167,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_wvalidAndWreadyAsserted_Then_wdataAndWstrbUnknown_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_wvalidAndWreadyAsserted_Then_wdataAndWstrbUnknown_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
@@ -1039,6 +1184,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_bvalidAndBreadyAsserted_Then_brespUnknown_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_bvalidAndBreadyAsserted_Then_brespUnknown_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
@@ -1054,6 +1200,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_awvalidAwreadyHighAndWithin10ClkWvalidHighAndWreadyAsserted_Then_wthin12ClkBValidAsserted_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_awvalidAwreadyHighAndWithin10ClkWvalidHighAndWreadyAsserted_Then_wthin12ClkBValidAsserted_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       awvalid <= 1'b0;
       awready <= 1'b0;
       wvalid <= 1'b0;
@@ -1089,6 +1236,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_awvalidAwreadyHighSameClkBvalidHighAndWithin10ClkWvalidHighAndWreadyAsserted_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_awvalidAwreadyHighSameClkBvalidHighAndWithin10ClkWvalidHighAndWreadyAsserted_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       awvalid <= 1'b0;
       awready <= 1'b0;
       wvalid <= 1'b0;
@@ -1120,6 +1268,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_wvalidWreadyAsserted_Then_within12ClkKBValidAsserted_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_wvalidWreadyAsserted_Then_within12ClkKBValidAsserted_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
@@ -1144,6 +1293,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_wvalidWreadyAsserted_Then_after12ClkBValidAsserted_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_wvalidWreadyAsserted_Then_after12ClkBValidAsserted_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       wvalid <= 1'b0;
       wready <= 1'b0;
@@ -1167,6 +1317,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_awvalidIsAsserted_Then_within10ClkWValidIsAsserted_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_within10ClkWValidIsAsserted_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
@@ -1201,6 +1352,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_awvalidIsAsserted_Then_after10ClkWValidIsAsserted_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_awvalidIsAsserted_Then_after10ClkWValidIsAsserted_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       awvalid <= 1'b0;
       awready <= 1'b0;
@@ -1235,6 +1387,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_bvalidAndBreadyAsserted_Then_ResponseIsNotExokay_Expect_AssertionPass();
     `uvm_info(name,$sformatf("When_bvalidAndBreadyAsserted_Then_ResponseIsNotExokay_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
@@ -1252,6 +1405,7 @@ module Axi4LiteMasterWriteAssertPropertyTB;
 
   task When_bvalidAndBreadyAsserted_Then_ResponseIsExokay_Expect_AssertionFail();
     `uvm_info(name,$sformatf("When_bvalidAndBreadyAsserted_Then_ResponseIsExokay_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
       aresetn <= 1'b1;
       bvalid <= 1'b0;
       bready <= 1'b0;
