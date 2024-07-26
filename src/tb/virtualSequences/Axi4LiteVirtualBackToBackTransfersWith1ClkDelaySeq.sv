@@ -52,7 +52,7 @@ task Axi4LiteVirtualBackToBackTransfersWith1ClkDelaySeq::body();
       repeat(2) begin 
         if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize() with {delayForAwreadySeq == 0;
                                                                   delayForWreadySeq  == 0;
-                                                                  delayForBvalidSeq  == 1;
+                                                                  delayForBvalidSeq  == 0;
                                                                  }) begin
           `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualBackToBackTransfersWith1ClkDelaySeq")
         end
@@ -63,8 +63,8 @@ task Axi4LiteVirtualBackToBackTransfersWith1ClkDelaySeq::body();
     end
 
    repeat(2) begin : MASTER_SEQ_START
-     if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {delayForAwvalidSeq == 1;
-                                                                delayForWvalidSeq  == 1;
+     if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {delayForAwvalidSeq == 0;
+                                                                delayForWvalidSeq  == 0;
                                                                 delayForBreadySeq  == 0;
                                                                }) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualBackToBackTransfersWith1ClkDelaySeq")

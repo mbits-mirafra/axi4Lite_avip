@@ -102,38 +102,33 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
 
   fork
     begin
-      do begin
+      while(awvalid !==1 || awready !==1) begin
         @(posedge aclk);
         `uvm_info("FROM MASTER WRITE DRIVER BFM",$sformatf("Inside write response channel waiting for awvalid and awready"),UVM_HIGH)
       end
-      while(awvalid!==1 || awready!==1);
        `uvm_info("FROM MASTER WRITE DRIVER BFM",$sformatf("After write response channel asserted awvalid and awready"),UVM_HIGH)
    end
 
    begin
-      do begin
+      while(wvalid!==1 || wready!==1) begin
         @(posedge aclk);
         `uvm_info("FROM MASTER WRITE DRIVER BFM",$sformatf("Inside write response channel waiting for wvalid and wready"),UVM_HIGH)
       end
-      while(wvalid!==1 || wready!==1);
        `uvm_info("FROM MASTER WRITE DRIVER BFM",$sformatf("After write response channel asserted wvalid and wready"),UVM_HIGH)
    end
  join
 
-    do begin
+    while(bvalid === 0) begin
       @(posedge aclk);
       masterWritePacketStruct.waitCounterForBvalid++;
       if(masterWritePacketStruct.waitCounterForBvalid > masterWriteConfigStruct.maxDelayForBvalid) begin
        `uvm_error (name, $sformatf ("bvalid count comparisions are failed"));
+      end
     end
-  end
-    while(bvalid === 0);
 
     `uvm_info(name , $sformatf("After while loop bvalid asserted "),UVM_HIGH)
 
-    //FIXME
-    //What if user given the delayForBready as 0 
-    repeat(masterWritePacketStruct.delayForBready-1) begin 
+    repeat(masterWritePacketStruct.delayForBready) begin 
       @(posedge aclk);
       bready <= 1'b0;
     end

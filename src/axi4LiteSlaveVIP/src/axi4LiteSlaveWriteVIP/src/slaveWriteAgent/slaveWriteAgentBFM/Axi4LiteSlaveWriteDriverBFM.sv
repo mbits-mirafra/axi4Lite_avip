@@ -47,15 +47,13 @@ task writeAddressChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWrit
                              inout axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct
                              );
   `uvm_info(name,$sformatf("SLAVE_WRITE_ADDRESS_CHANNEL_TASK_STARTED"),UVM_HIGH)
-  do begin
+  while(awvalid === 0) begin
     @(posedge aclk);
-  end while(awvalid !== 1);
+  end
 
   `uvm_info(name , $sformatf("After while loop awvalid asserted "),UVM_HIGH)
 
-  //FIXME
-  //What if user given the delayForAwready as 0
-  repeat(slaveWritePacketStruct.delayForAwready-1) begin 
+  repeat(slaveWritePacketStruct.delayForAwready) begin 
     @(posedge aclk);
   end
 
@@ -74,19 +72,18 @@ task writeDataChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteCo
                           inout axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct
                          );
    `uvm_info(name,$sformatf("SLAVE_WRITE_DATA_CHANNEL_TASK_STARTED"),UVM_HIGH)
-    do begin
-      @(posedge aclk);
-      slaveWritePacketStruct.waitCounterForWvalid++;
-      if(slaveWritePacketStruct.waitCounterForWvalid > slaveWriteConfigStruct.maxDelayForWvalid) begin
-        `uvm_error (name, $sformatf ("wvalid count comparisions are failed"));
-      end 
-    end while(wvalid !== 1);
+
+   while(wvalid === 0) begin
+     @(posedge aclk);
+     slaveWritePacketStruct.waitCounterForWvalid++;
+     if(slaveWritePacketStruct.waitCounterForWvalid > slaveWriteConfigStruct.maxDelayForWvalid) begin
+       `uvm_error (name, $sformatf ("wvalid count comparisions are failed"));
+     end 
+   end
 
     `uvm_info(name , $sformatf("After while loop wvalid asserted "),UVM_HIGH)
 
-    //FIXME
-    //What if user given the delayForWready as 0
-    repeat(slaveWritePacketStruct.delayForWready-1) begin 
+    repeat(slaveWritePacketStruct.delayForWready) begin 
       @(posedge aclk);
     end
     wready <= 1'b1;
@@ -106,27 +103,23 @@ task writeResponseChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWri
   `uvm_info(name,$sformatf("SLAVE_WRITE_RESPONSE_CHANNEL_TASK_STARTED"),UVM_HIGH)
   fork
     begin
-      do begin
+      while(awvalid !==1 || awready !==1) begin
         @(posedge aclk);
         `uvm_info("FROM SLAVE WRITE DRIVER BFM",$sformatf("Inside write response channel waiting for awvalid and awready"),UVM_HIGH)
       end
-      while(awvalid!==1 || awready!==1);
        `uvm_info("FROM SLAVE WRITE DRIVER BFM",$sformatf("After write response channel asserted awvalid and awready"),UVM_HIGH)
-   end
+    end
 
-   begin
-      do begin
+    begin
+      while(wvalid!==1 || wready!==1) begin
         @(posedge aclk);
         `uvm_info("FROM SLAVE WRITE DRIVER BFM",$sformatf("Inside write response channel waiting for wvalid and wready"),UVM_HIGH)
       end
-      while(wvalid!==1 || wready!==1);
        `uvm_info("FROM SLAVE WRITE DRIVER BFM",$sformatf("After write response channel asserted wvalid and wready"),UVM_HIGH)
-   end
+    end
  join
 
-  //FIXME
-  //What if user given the delayForBvalid as 0
-  repeat(slaveWritePacketStruct.delayForBvalid-1) begin
+  repeat(slaveWritePacketStruct.delayForBvalid) begin
     @(posedge aclk);
   end
   bvalid <= 1'b1;

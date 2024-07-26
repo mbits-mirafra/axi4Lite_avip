@@ -45,9 +45,7 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
                               );
     `uvm_info(name,$sformatf("READ_ADDRESS_CHANNEL_TASK_STARTED"),UVM_HIGH)
     
-    //FIXME
-    //What if user given the delayForArvalid as 0 
-    repeat(masterReadPacketStruct.delayForArvalid-1) begin
+    repeat(masterReadPacketStruct.delayForArvalid) begin
      @(posedge aclk);
     end
     arvalid <= 1'b1;
@@ -58,10 +56,10 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
       @(posedge aclk);
       masterReadPacketStruct.waitCounterForArready++;
       if(masterReadPacketStruct.waitCounterForArready > masterReadConfigStruct.maxDelayForArready) begin
-       `uvm_error (name, $sformatf ("arready count comparisions are failed"));
+         `uvm_error (name, $sformatf ("arready count comparisions are failed"));
+      end
     end
-  end
-    while(arready !== 1);
+    while(arready === 0);
 
     arvalid <= 1'b0;
     
@@ -73,27 +71,24 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
                            );
     `uvm_info(name,$sformatf("READ_DATA_CHANNEL_TASK_STARTED"),UVM_HIGH)
 
-    do begin
+    while(arvalid!==1 || arready!==1) begin
       @(posedge aclk);
       `uvm_info("FROM MASTER READ DRIVER BFM",$sformatf("Inside read data channel waiting for arvalid and arready"),UVM_HIGH)
     end
-    while(arvalid!==1 || arready!==1);
-    `uvm_info("FROM MASTER READ DRIVER BFM",$sformatf("After read data channel asserted arvalid and arready"),UVM_HIGH)
+      `uvm_info("FROM MASTER READ DRIVER BFM",$sformatf("After read data channel asserted arvalid and arready"),UVM_HIGH)
 
     do begin
       @(posedge aclk);
       masterReadPacketStruct.waitCounterForRvalid++;
       if(masterReadPacketStruct.waitCounterForRvalid > masterReadConfigStruct.maxDelayForRvalid) begin
-       `uvm_error (name, $sformatf ("rvalid count comparisions are failed"));
+        `uvm_error (name, $sformatf ("rvalid count comparisions are failed"));
+      end
     end
-  end
     while(rvalid === 0);
     
     `uvm_info(name , $sformatf("After while loop rvalid asserted "),UVM_HIGH)
 
-    //FIXME
-    //What if user given the delayForRready as 0
-    repeat(masterReadPacketStruct.delayForRready-1) begin 
+    repeat(masterReadPacketStruct.delayForRready) begin 
       @(posedge aclk);
     end
     rready <= 1'b1;
