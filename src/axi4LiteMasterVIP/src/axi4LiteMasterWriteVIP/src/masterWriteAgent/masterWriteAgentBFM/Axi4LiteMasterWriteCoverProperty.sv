@@ -810,6 +810,29 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
    (WhenWvalidIsAssertedAndWstrbOfAllBitAreHighThenNextClkWvalidGoesToLowThenWstrbValuesWillZeros)
    $info("IFWVALIDISASSERTED_THEN_SAMECLK_WSTRBISALLONES_THEN_NEXTCLK_WVALIDISDISASSERTED_THEN_WSTRBVALUEISZEROS :COVERED");
 
+   property WhenMasterIssuesMultipleTxThenSlaveNeedToSupportsMultipleOutstandingTx;
+     @(posedge aclk) disable iff(!aresetn)
+     (awvalid && awready) |-> ##[1:15] (awvalid && awready) [->2]
+      ##[1:15] (bvalid && bready && bresp == 2'b00) [->3];
+  endproperty 
+
+   IFMASTERISSUES_MULTIPLETX_THEN_SLAVENEEDTOSUPPORTS_MULTIPLEOUTSTANDINGTX: cover property
+   (WhenMasterIssuesMultipleTxThenSlaveNeedToSupportsMultipleOutstandingTx)
+   $info("IFMASTERISSUES_MULTIPLETX_THEN_SLAVENEEDTOSUPPORTS_MULTIPLEOUTSTANDINGTX :COVERED");
+
+ property WhenMasterIssuesMultipleTxThenSlaveIsNotSupportMultipleOutstandingTx;
+    @(posedge aclk) disable iff(!aresetn)
+     (awvalid && awready) |-> 
+      ##[1:15] ($stable(awvalid) && awready == 0)  && (bvalid && bready)
+      ##1 (awvalid && awready) && ($fell(bvalid && bready))
+      ##[1:15] ($stable(awvalid) && awready == 0) && (bvalid && bready)
+      ##1 ($stable(awvalid) && awready == 1) && ($fell(bvalid && bready))
+      ##[1:15] ($stable(awvalid) && awready == 0) && (bvalid && bready)
+endproperty
+
+ IFMASTERISSUES_MULTIPLETX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX : cover property 
+ (WhenMasterIssuesMultipleTxThenSlaveIsNotSupportMultipleOutstandingTx) 
+ $info("IFMASTERISSUES_MULTIPLETX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX : COVERED");
 
  endinterface : Axi4LiteMasterWriteCoverProperty
 

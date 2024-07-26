@@ -49,7 +49,7 @@ module Axi4LiteSlaveWriteCoverPropertyTB;
     #14000;
     $finish;
   end
-
+  
   initial begin
     When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious1ClkAwaddrIsUnknown();
     When_awvalidIsAsserted_Then_awprotIsNotUnknownAndPrevious1ClkAwprotIsUnknown();
@@ -178,6 +178,8 @@ module Axi4LiteSlaveWriteCoverPropertyTB;
     When_wvalidAndWreadyAreAsserted_Then_wstrbValueIsAllOnes_Then_64BitsOfWdataIsNotUnknown();
     When_wvalisIsAsserted_Then_wstrbValueIsAllOnes_Then_nextClkWvalidIsLow_Then_wstrbValueIsPreviousValues();
     When_wvalisIsAsserted_Then_wstrbValueIsAllOnes_Then_nextClkWvalidIsLow_Then_wstrbValuesZeros();
+    When_masterIssuesMulipleTxThenSlaveNeedToSupportsMultipleOutstanding();
+    When_masterIssuesMulipleTxThenSlaveIsNotSupportsMultipleOutstanding();
 end
 
   task When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious1ClkAwaddrIsUnknown();
@@ -2268,8 +2270,98 @@ end
       wvalid  <= 1'b0;
       wstrb   <= 4'b0000;
       `uvm_info(name,$sformatf("When_wvalisIsAsserted_Then_wstrbValueIsAllOnes_Then_nextClkWvalidIsLow_Then_wstrbValuesZeros Task  ended"),UVM_NONE);
-  endtask
- 
+endtask
+
+task When_masterIssuesMulipleTxThenSlaveNeedToSupportsMultipleOutstanding(); 
+  `uvm_info(name,$sformatf("When_masterIssuesMulipleTxThenSlaveNeedToSupportsMultipleOutstanding Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      awvalid <= 1'b0;
+      awready <= 1'b0;
+      bvalid  <= 1'b0;
+      bready  <= 1'b0;
+      bresp   <= 1'b0;
+      @(posedge aclk);
+      awvalid <= 1'b1;
+      awready <= 1'b1;
+      @(posedge aclk);
+      awready <= 1'b0;
+      @(posedge aclk);
+      repeat(10) begin
+      end
+      awready <= 1'b1;
+      @(posedge aclk);
+      awready <= 1'b0;
+      @(posedge aclk);
+      awready <= 1'b1;
+      @(posedge aclk);
+      awvalid <= 1'b0;
+      awready <= 1'b0;
+      @(posedge aclk);
+      repeat(10) begin
+      end
+      bvalid  <= 1'b1;
+      bready  <= 1'b1;
+      bresp   <= 2'b00;
+      @(posedge aclk);
+      bvalid  <= 1'b0;
+      bready  <= 1'b0;
+      bresp   <= 2'b00;
+      @(posedge aclk);
+      bvalid  <= 1'b1;
+      bready  <= 1'b1;
+      bresp   <= 2'b00; 
+      @(posedge aclk);
+      bvalid  <= 1'b0;
+      bready  <= 1'b0;
+      bresp   <= 2'b00;
+      @(posedge aclk);
+      bvalid  <= 1'b1;
+      bready  <= 1'b1;
+      bresp   <= 2'b00; 
+  `uvm_info(name,$sformatf("When_masterIssuesMulipleTxThenSlaveNeedToSupportsMultipleOutstanding Task  ended"),UVM_NONE);
+    endtask 
+
+    task When_masterIssuesMulipleTxThenSlaveIsNotSupportsMultipleOutstanding();
+      `uvm_info(name,$sformatf("When_masterIssuesMulipleTxThenSlaveIsNotSupportsMultipleOutstanding Task started"),UVM_NONE);
+       @(posedge aclk); 
+       aresetn <= 1'b1;
+       awvalid <= 1'b0;
+       awready <= 1'b0;
+       bvalid  <= 1'b0;
+       bready  <= 1'b0;
+       @(posedge aclk);
+       awvalid <= 1'b1;
+       awready <= 1'b1; 
+       @(posedge aclk);
+       repeat(10) begin 
+       end
+       awready <= 1'b0; 
+       bvalid  <= 1'b1;
+       bready  <= 1'b1;
+       @(posedge aclk); 
+       awready <= 1'b1;
+       bvalid  <= 1'b0;
+       bready  <= 1'b0;
+       @(posedge aclk);
+       repeat(10) begin
+       end
+       awready <= 1'b0;
+       bvalid  <= 1'b1;
+       bready  <= 1'b1;
+       @(posedge aclk);
+       awready <= 1'b1;
+       bvalid  <= 1'b0;
+       bready  <= 1'b0;
+       @(posedge aclk);
+       repeat(10) begin
+       end
+       awready <= 1'b0;
+       bvalid  <= 1'b1;
+       bready  <= 1'b1;
+      `uvm_info(name,$sformatf("When_masterIssuesMulipleTxThenSlaveIsNotSupportsMultipleOutstanding Task  ended"),UVM_NONE);
+    endtask
+
 
 endmodule : Axi4LiteSlaveWriteCoverPropertyTB
 
