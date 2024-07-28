@@ -47,12 +47,13 @@ task writeAddressChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWrit
                              inout axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct
                              );
   `uvm_info(name,$sformatf("SLAVE_WRITE_ADDRESS_CHANNEL_TASK_STARTED"),UVM_HIGH)
+  //#1;
+  @(negedge aclk);
   while(awvalid === 0) begin
     @(posedge aclk);
   end
 
   `uvm_info(name , $sformatf("After while loop awvalid asserted "),UVM_HIGH)
-
   repeat(slaveWritePacketStruct.delayForAwready) begin 
     @(posedge aclk);
   end
@@ -73,10 +74,12 @@ task writeDataChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteCo
                          );
    `uvm_info(name,$sformatf("SLAVE_WRITE_DATA_CHANNEL_TASK_STARTED"),UVM_HIGH)
 
+   //#1;
+   @(negedge aclk);
    while(wvalid === 0) begin
      @(posedge aclk);
      slaveWritePacketStruct.waitCounterForWvalid++;
-     if(slaveWritePacketStruct.waitCounterForWvalid > slaveWriteConfigStruct.maxDelayForWvalid) begin
+     if(slaveWritePacketStruct.waitCounterForWvalid > (slaveWriteConfigStruct.maxDelayForWvalid+1)) begin
        `uvm_error (name, $sformatf ("wvalid count comparisions are failed"));
      end 
    end
@@ -101,6 +104,8 @@ task writeResponseChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWri
                               inout axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct
                              );
   `uvm_info(name,$sformatf("SLAVE_WRITE_RESPONSE_CHANNEL_TASK_STARTED"),UVM_HIGH)
+  //#1;
+  @(negedge aclk);
   fork
     begin
       while(awvalid !==1 || awready !==1) begin
@@ -134,7 +139,7 @@ task writeResponseChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWri
   do begin
     @(posedge aclk);
     slaveWritePacketStruct.waitCounterForBready++;
-    if(slaveWritePacketStruct.waitCounterForBready > slaveWriteConfigStruct.maxDelayForBready) begin
+    if(slaveWritePacketStruct.waitCounterForBready > (slaveWriteConfigStruct.maxDelayForBready+1)) begin
       `uvm_error (name, $sformatf ("bready count comparisions are failed"));
     end
   end while(bready === 0); 

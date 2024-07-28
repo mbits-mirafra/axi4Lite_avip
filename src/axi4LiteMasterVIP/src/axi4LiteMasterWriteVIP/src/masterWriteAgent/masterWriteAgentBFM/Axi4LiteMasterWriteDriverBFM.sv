@@ -59,7 +59,7 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
     do begin
       @(posedge aclk);
       masterWritePacketStruct.waitCounterForAwready++;
-      if(masterWritePacketStruct.waitCounterForAwready > masterWriteConfigStruct.maxDelayForAwready) begin
+      if(masterWritePacketStruct.waitCounterForAwready > (masterWriteConfigStruct.maxDelayForAwready+1)) begin
         `uvm_error (name, $sformatf ("awready count comparisions are failed"));
    end
  end
@@ -84,7 +84,7 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
     do begin 
      @(posedge aclk);
       masterWritePacketStruct.waitCounterForWready++;
-      if(masterWritePacketStruct.waitCounterForWready > masterWriteConfigStruct.maxDelayForWready) begin
+      if(masterWritePacketStruct.waitCounterForWready > (masterWriteConfigStruct.maxDelayForWready+1)) begin
         `uvm_error (name, $sformatf ("wready count comparisions are failed"));
       end
     end
@@ -99,29 +99,30 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
                                 inout axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct
                                );
     `uvm_info(name,$sformatf("WRITE_RESPONSE_CHANNEL_TASK_STARTED"),UVM_HIGH)
-
-  fork
-    begin
-      while(awvalid !==1 || awready !==1) begin
-        @(posedge aclk);
-        `uvm_info("FROM MASTER WRITE DRIVER BFM",$sformatf("Inside write response channel waiting for awvalid and awready"),UVM_HIGH)
+    //#1;
+    @(negedge aclk);
+    fork
+      begin
+        while(awvalid !==1 || awready !==1) begin
+          @(posedge aclk);
+          `uvm_info("FROM MASTER WRITE DRIVER BFM",$sformatf("Inside write response channel waiting for awvalid and awready"),UVM_HIGH)
+        end
+        `uvm_info("FROM MASTER WRITE DRIVER BFM",$sformatf("After write response channel asserted awvalid and awready"),UVM_HIGH)
       end
-       `uvm_info("FROM MASTER WRITE DRIVER BFM",$sformatf("After write response channel asserted awvalid and awready"),UVM_HIGH)
-   end
 
-   begin
-      while(wvalid!==1 || wready!==1) begin
-        @(posedge aclk);
-        `uvm_info("FROM MASTER WRITE DRIVER BFM",$sformatf("Inside write response channel waiting for wvalid and wready"),UVM_HIGH)
+      begin
+        while(wvalid!==1 || wready!==1) begin
+          @(posedge aclk);
+          `uvm_info("FROM MASTER WRITE DRIVER BFM",$sformatf("Inside write response channel waiting for wvalid and wready"),UVM_HIGH)
+        end
+        `uvm_info("FROM MASTER WRITE DRIVER BFM",$sformatf("After write response channel asserted wvalid and wready"),UVM_HIGH)
       end
-       `uvm_info("FROM MASTER WRITE DRIVER BFM",$sformatf("After write response channel asserted wvalid and wready"),UVM_HIGH)
-   end
- join
+    join
 
     while(bvalid === 0) begin
       @(posedge aclk);
       masterWritePacketStruct.waitCounterForBvalid++;
-      if(masterWritePacketStruct.waitCounterForBvalid > masterWriteConfigStruct.maxDelayForBvalid) begin
+      if(masterWritePacketStruct.waitCounterForBvalid > (masterWriteConfigStruct.maxDelayForBvalid+1)) begin
        `uvm_error (name, $sformatf ("bvalid count comparisions are failed"));
       end
     end

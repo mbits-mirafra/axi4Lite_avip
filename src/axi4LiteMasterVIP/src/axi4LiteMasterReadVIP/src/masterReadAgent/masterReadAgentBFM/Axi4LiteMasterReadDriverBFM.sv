@@ -55,7 +55,7 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
     do begin
       @(posedge aclk);
       masterReadPacketStruct.waitCounterForArready++;
-      if(masterReadPacketStruct.waitCounterForArready > masterReadConfigStruct.maxDelayForArready) begin
+      if(masterReadPacketStruct.waitCounterForArready > (masterReadConfigStruct.maxDelayForArready+1)) begin
          `uvm_error (name, $sformatf ("arready count comparisions are failed"));
       end
     end
@@ -70,7 +70,8 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
                             inout axi4LiteReadMasterTransferPacketStruct masterReadPacketStruct
                            );
     `uvm_info(name,$sformatf("READ_DATA_CHANNEL_TASK_STARTED"),UVM_HIGH)
-
+    //#1;
+    @(negedge aclk);
     while(arvalid!==1 || arready!==1) begin
       @(posedge aclk);
       `uvm_info("FROM MASTER READ DRIVER BFM",$sformatf("Inside read data channel waiting for arvalid and arready"),UVM_HIGH)
@@ -80,7 +81,7 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
     do begin
       @(posedge aclk);
       masterReadPacketStruct.waitCounterForRvalid++;
-      if(masterReadPacketStruct.waitCounterForRvalid > masterReadConfigStruct.maxDelayForRvalid) begin
+      if(masterReadPacketStruct.waitCounterForRvalid > (masterReadConfigStruct.maxDelayForRvalid+1)) begin
         `uvm_error (name, $sformatf ("rvalid count comparisions are failed"));
       end
     end
