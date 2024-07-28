@@ -39,7 +39,6 @@ package Axi4LiteVirtualSeqPkg;
   `include "Axi4LiteVirtualArvalidAssertedAndNextClkArreadyAssertedSeq.sv"
   `include "Axi4LiteVirtualRvalidAssertedAndSameClkRreadyAssertedSeq.sv"
   `include "Axi4LiteVirtualRvalidAssertedAndNextClkRreadyAssertedSeq.sv"
-  `include "Axi4LiteVirtualBackToBackTransfersWith1ClkDelaySeq.sv"
   `include "Axi4LiteVirtualAwvalidAssertedInbetween2To5ClkAwreadyAssertedSeq.sv"
   `include "Axi4LiteVirtualWvalidAssertedInbetween2To5ClkWreadyAssertedSeq.sv"
   `include "Axi4LiteVirtualBvalidAssertedInbetween2To5ClkBreadyAssertedSeq.sv"
@@ -49,6 +48,10 @@ package Axi4LiteVirtualSeqPkg;
   `include "Axi4LiteVirtualAwvalidAwreadyAndWvalidWreadyAssertedSameClkNextClkBvalidAssertedSeq.sv"
   `include "Axi4LiteVirtualAwvalidAwreadyNextClkWvalidWreadyAssertedNextClkBvalidAssertedSeq.sv"
   `include "Axi4LiteVirtualAwvalidAwreadyNextClkWvalidWreadyAssertedThen1To12ClkBvalidAssertedSeq.sv"
+  `include "Axi4LiteVirtualBackToBackTransfersWithoutDelaySeq.sv"
+  `include "Axi4LiteVirtualBackToBackTransfersWith1ClkDelaySeq.sv"
+  `include "Axi4LiteVirtualBackToBackTransfersWith2ClkDelaySeq.sv"
+  `include "Axi4LiteVirtualBackToBackTransfersWith3To16ClkDelaySeq.sv"
 
 endpackage : Axi4LiteVirtualSeqPkg
 

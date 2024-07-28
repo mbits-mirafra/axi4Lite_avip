@@ -45,7 +45,6 @@ package Axi4LiteTestPkg;
   `include "Axi4LiteArvalidAssertedAndNextClkArreadyAssertedTest.sv"
   `include "Axi4LiteRvalidAssertedAndSameClkRreadyAssertedTest.sv"
   `include "Axi4LiteRvalidAssertedAndNextClkRreadyAssertedTest.sv"
-  `include "Axi4LiteBackToBackTransfersWith1ClkDelayTest.sv"
   `include "Axi4Lite32bitWriteDataTest.sv"
   `include "Axi4Lite32bitReadDataTest.sv"
   `include "Axi4LiteAwvalidAssertedInbetween2To5ClkAwreadyAssertedTest.sv"
@@ -57,6 +56,10 @@ package Axi4LiteTestPkg;
   `include "Axi4LiteAwvalidAwreadyAndWvalidWreadyAssertedSameClkNextClkBvalidAssertedTest.sv"
   `include "Axi4LiteAwvalidAwreadyNextClkWvalidWreadyAssertedNextClkBvalidAssertedTest.sv"
   `include "Axi4LiteAwvalidAwreadyNextClkWvalidWreadyAssertedThen1To12ClkBvalidAssertedTest.sv"
+  `include "Axi4LiteBackToBackTransfersWithoutDelayTest.sv"
+  `include "Axi4LiteBackToBackTransfersWith1ClkDelayTest.sv"
+  `include "Axi4LiteBackToBackTransfersWith2ClkDelayTest.sv"
+  `include "Axi4LiteBackToBackTransfersWith3To16ClkDelayTest.sv"
 
 endpackage : Axi4LiteTestPkg
 
