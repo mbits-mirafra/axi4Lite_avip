@@ -25,7 +25,13 @@ package Axi4LiteReadSlaveGlobalPkg;
 
   parameter int DELAY_WIDTH = 5;
 
-  parameter int DEFAULT_READY = 1;
+  `ifdef DEFAULT_READY_1
+    `define DEFAULT_READY 1
+      parameter int DEFAULT_READY = `DEFAULT_READY;
+  `elsif DEFAULT_READY_0
+    `define DEFAULT_READY 0
+      parameter int DEFAULT_READY = `DEFAULT_READY;
+  `endif
 
   parameter int MIN_ADDRESS = 8'h01;
   parameter int MAX_ADDRESS = 8'hff;

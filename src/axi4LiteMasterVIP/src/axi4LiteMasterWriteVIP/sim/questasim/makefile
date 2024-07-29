@@ -52,9 +52,9 @@ usage:
 	echo "make compile";
 	echo "";
 	echo "To provide compilation argument:";
-	echo "make compile args_addr=<macro_name> args_data=<macro_name>";
+	echo "make compile args_addr=<macro_name> args_data=<macro_name> args_defaultReady=<macro_name>";
 	echo "";
-	echo "make compile args_addr=ADDR_WIDTH_64 args_data=DATA_WIDTH_64";
+	echo "make compile args_addr=ADDR_WIDTH_64 args_data=DATA_WIDTH_64 args_defaultReady=DEFAULT_READY_0";
 	echo "";
 	echo "To simulate individual test:"
 	echo "make simulate test=<test_name> uvm_verbosity=<VERBOSITY_LEVEL>";
@@ -87,6 +87,7 @@ compile:
 	+fcover \
 	+define+$(args_addr) \
 	+define+$(args_data) \
+	+define+$(args_defaultReady) \
 	-l Axi4LiteWriteMasterCompile.log \
 	-f $(AXI4LITE_MASTERWRITE)/sim/Axi4LiteWriteMaster.f \
 	-f $(AXI4LITE_MASTERWRITE)/sim/Axi4LiteWriteMasterProject.f
@@ -114,6 +115,10 @@ endif
 
 ifndef args_data
 override args_data = DATA_WIDTH_32
+endif
+
+ifndef args_defaultReady
+override args_defaultReady = DEFAULT_READY_1
 endif
 
 ## For randomized seed
