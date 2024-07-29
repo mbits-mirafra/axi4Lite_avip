@@ -104,20 +104,12 @@ task writeResponseChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWri
                               inout axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct
                              );
   `uvm_info(name,$sformatf("SLAVE_WRITE_RESPONSE_CHANNEL_TASK_STARTED"),UVM_HIGH)
-  //#1;
-  @(negedge aclk);
 
   repeat(slaveWritePacketStruct.delayForBvalid) begin
     @(posedge aclk);
   end
   bvalid <= 1'b1;
-  if(!(awaddr inside {[slaveWriteConfigStruct.minAddressRange:slaveWriteConfigStruct.maxAddressRange]})) begin
-    bresp <= WRITE_SLVERR;
-  end else begin
-    bresp <= WRITE_OKAY;
-  end
-
-  //bresp  <= slaveWritePacketStruct.bresp;
+  bresp  <= slaveWritePacketStruct.bresp;
 
   do begin
     @(posedge aclk);

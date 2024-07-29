@@ -70,13 +70,6 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
                             inout axi4LiteReadMasterTransferPacketStruct masterReadPacketStruct
                            );
     `uvm_info(name,$sformatf("READ_DATA_CHANNEL_TASK_STARTED"),UVM_HIGH)
-    //#1;
-    @(negedge aclk);
-    while(arvalid!==1 || arready!==1) begin
-      @(posedge aclk);
-      `uvm_info("FROM MASTER READ DRIVER BFM",$sformatf("Inside read data channel waiting for arvalid and arready"),UVM_HIGH)
-    end
-      `uvm_info("FROM MASTER READ DRIVER BFM",$sformatf("After read data channel asserted arvalid and arready"),UVM_HIGH)
 
     do begin
       @(posedge aclk);

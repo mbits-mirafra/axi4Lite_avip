@@ -10,13 +10,15 @@ class Axi4LiteSlaveReadDriverProxy extends uvm_driver#(Axi4LiteSlaveReadTransact
   REQ reqRead;
   RSP rspRead;
 
+  semaphore readDataKey;
+
   Axi4LiteSlaveReadAgentConfig axi4LiteSlaveReadAgentConfig;
   Axi4LiteSlaveReadSeqItemConverter axi4LiteSlaveReadSeqItemConverter;
 
   virtual Axi4LiteSlaveReadDriverBFM axi4LiteSlaveReadDriverBFM;
 
   uvm_tlm_fifo #(Axi4LiteSlaveReadTransaction) axi4LiteSlaveReadAddressFIFO;
-  uvm_tlm_fifo #(Axi4LiteSlaveReadTransaction) axi4LiteSlaveWriteDataInFIFO;
+  uvm_tlm_fifo #(Axi4LiteSlaveReadTransaction) axi4LiteSlaveReadDataFIFO;
 
   extern function new(string name = "Axi4LiteSlaveReadDriverProxy", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
@@ -30,10 +32,11 @@ endclass : Axi4LiteSlaveReadDriverProxy
 function Axi4LiteSlaveReadDriverProxy::new(string name = "Axi4LiteSlaveReadDriverProxy",
                                       uvm_component parent = null);
   super.new(name, parent);
-  axi4LiteSlaveReadSeqItemPort       = new("axi4LiteSlaveReadSeqItemPort", this);
-  axi4LiteSlaveReadRspPort           = new("axi4LiteSlaveReadRspPort", this);
-  axi4LiteSlaveReadAddressFIFO       = new("axi4LiteSlaveReadAddressFIFO",this,16);
-  axi4LiteSlaveWriteDataInFIFO       = new("axi4LiteSlaveWriteDataInFIFO",this,16);
+  axi4LiteSlaveReadSeqItemPort = new("axi4LiteSlaveReadSeqItemPort", this);
+  axi4LiteSlaveReadRspPort     = new("axi4LiteSlaveReadRspPort", this);
+  axi4LiteSlaveReadAddressFIFO = new("axi4LiteSlaveReadAddressFIFO",this,16);
+  axi4LiteSlaveReadDataFIFO    = new("axi4LiteSlaveReadDataFIFO",this,16);
+  readDataKey                  = new();     
 endfunction : new
 
 function void Axi4LiteSlaveReadDriverProxy::build_phase(uvm_phase phase);
@@ -70,6 +73,13 @@ task Axi4LiteSlaveReadDriverProxy::readTransferTask();
     axi4LiteSlaveReadSeqItemPort.get_next_item(reqRead);
     `uvm_info(get_type_name(),$sformatf("Inside SlaveWriteTransferTask after get_next_item Axi4LitSlaveReadDriverProxy"),UVM_LOW);
 
+    if(!axi4LiteSlaveReadDataFIFO.is_full()) begin
+      axi4LiteSlaveReadDataFIFO.put(reqRead);
+    end
+    else begin
+      `uvm_error(get_type_name(),$sformatf("SLAVE_READ_TASK::Cannot write into FIFO as axi4LiteSlaveReadDataFIFO IS FULL"));
+    end
+
     `uvm_info(get_type_name(),$sformatf("SLAVE_READ_TASK::Before Sending_Req_Read_Packet = \n%s",reqRead.sprint()),UVM_HIGH);
   
     `uvm_info(get_type_name(),$sformatf("Inside writeTransferTask before fromClass Axi4LiteSlaveReadDriverProxy"),UVM_LOW);
@@ -87,14 +97,48 @@ task Axi4LiteSlaveReadDriverProxy::readTransferTask();
       Axi4LiteSlaveReadSeqItemConverter::toReadClass(slaveReadPacketStruct,slaveReadAddressTx);
       `uvm_info(get_type_name(),$sformatf("SLAVE_READ_ADDRESS_TASK::Received read address packet From driverBFM = %p",
                                           slaveReadPacketStruct),UVM_MEDIUM);  
+
+       if(!axi4LiteSlaveReadAddressFIFO.is_full()) begin
+         axi4LiteSlaveReadAddressFIFO.put(slaveReadAddressTx);
+       end
+       else begin
+         `uvm_error(get_type_name(),$sformatf("SLAVE_READ_TASK::Cannot write into FIFO as axi4LiteSlaveReadAddressFIFO IS FULL"));
+       end
+
+        readDataKey.put(1);
       end
 
       begin : SLAVE_READ_DATA_TASK
+      Axi4LiteSlaveReadTransaction slaveReadAddressTx;
       Axi4LiteSlaveReadTransaction slaveReadDataTx;
       axi4LiteReadSlaveTransferPacketStruct slaveReadPacketStruct;
-      Axi4LiteSlaveReadSeqItemConverter::fromReadClass(reqRead, slaveReadPacketStruct);
+
+      readDataKey.get(1);
+
+      if(!axi4LiteSlaveReadDataFIFO.is_empty()) begin
+        axi4LiteSlaveReadDataFIFO.get(slaveReadDataTx);
+      end
+      else begin
+        `uvm_error(get_type_name(),$sformatf("SLAVE_READ_DATA_THREAD::Cannot get into FIFO as READ_DATA_FIFO IS EMPTY"));
+      end
+
+      Axi4LiteSlaveReadSeqItemConverter::fromReadClass(slaveReadDataTx, slaveReadPacketStruct);
       `uvm_info(get_type_name(),$sformatf("SLAVE_READ_DATA_TASK::After the FromClass read Data struct packet = %p",
                                           slaveReadPacketStruct),UVM_MEDIUM);    
+
+        if(!axi4LiteSlaveReadAddressFIFO.is_empty()) begin
+          axi4LiteSlaveReadAddressFIFO.get(slaveReadAddressTx);
+        end
+        else begin
+          `uvm_error(get_type_name(),$sformatf("SLAVE_READ_DATA_THREAD::Cannot get into FIFO as READ_ADDR_FIFO IS EMPTY"));
+        end
+
+       if(!(slaveReadAddressTx.araddr inside {[slaveReadConfigStruct.minAddressRange:slaveReadConfigStruct.maxAddressRange]})) begin
+         slaveReadPacketStruct.rresp = READ_SLVERR;
+       end else begin
+         slaveReadPacketStruct.rresp = READ_OKAY;
+       end
+
       axi4LiteSlaveReadDriverBFM.readDataChannelTask(slaveReadConfigStruct, slaveReadPacketStruct);
       Axi4LiteSlaveReadSeqItemConverter::toReadClass(slaveReadPacketStruct,slaveReadDataTx);
       `uvm_info(get_type_name(),$sformatf("SLAVE_READ_DATA_TASK::Received read data packet From driverBFM = %p",

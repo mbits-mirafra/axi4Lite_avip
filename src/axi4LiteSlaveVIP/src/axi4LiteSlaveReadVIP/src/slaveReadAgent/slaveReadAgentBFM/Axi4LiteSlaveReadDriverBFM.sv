@@ -74,24 +74,13 @@ task readDataChannelTask(input axi4LiteReadSlaveTransferCfgStruct slaveReadConfi
                          inout axi4LiteReadSlaveTransferPacketStruct slaveReadPacketStruct
                         );
    `uvm_info(name,$sformatf("SLAVE_READ_DATA_CHANNEL_TASK_STARTED"),UVM_HIGH)
-    //#1;
-    @(negedge aclk);
-    while(arvalid!==1 || arready!==1) begin
-      @(posedge aclk);
-      `uvm_info("FROM SLAVE READ DRIVER BFM",$sformatf("Inside read data channel waiting for arvalid and arready"),UVM_HIGH)
-    end
-      `uvm_info("FROM SLAVE READ DRIVER BFM",$sformatf("After read data channel asserted arvalid and arready"),UVM_HIGH)
 
      repeat(slaveReadPacketStruct.delayForRvalid) begin 
       @(posedge aclk);
      end
      rvalid <= 1'b1;
      rdata  <= slaveReadPacketStruct.rdata;
-     if(!(araddr inside {[slaveReadConfigStruct.minAddressRange:slaveReadConfigStruct.maxAddressRange]})) begin
-       rresp <= READ_SLVERR;
-     end else begin
-       rresp <= READ_OKAY;
-     end
+     rresp  <= slaveReadPacketStruct.rresp;
    
      do begin
        @(posedge aclk);

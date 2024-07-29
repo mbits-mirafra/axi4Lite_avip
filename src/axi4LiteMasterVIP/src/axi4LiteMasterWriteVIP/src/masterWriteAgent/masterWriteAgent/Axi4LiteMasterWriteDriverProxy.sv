@@ -132,7 +132,7 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
           `uvm_error(get_type_name(),$sformatf("MASTER_WRITE_RESPONSE_THREAD::Cannot get into FIFO as WRITE_RESP_FIFO IS EMPTY"));
         end
 
-        Axi4LiteMasterWriteSeqItemConverter::fromWriteClass(reqWrite, masterWritePacketStruct);
+        Axi4LiteMasterWriteSeqItemConverter::fromWriteClass(masterWriteResponseTx, masterWritePacketStruct);
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_RESPONSE_THREAD::Checking write response struct packet = %p",
                                                masterWritePacketStruct),UVM_MEDIUM); 
         axi4LiteMasterWriteDriverBFM.writeResponseChannelTask(masterWriteConfigStruct, masterWritePacketStruct);
