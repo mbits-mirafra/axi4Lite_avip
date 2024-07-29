@@ -23,11 +23,12 @@ task Axi4LiteVirtual32bitWriteDataSeq::body();
 
    if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprotSeq == 1;
                                                               delayForAwvalidSeq == 1;
-                                                              delayForWvalidSeq  == 2; }) begin
+                                                              delayForWvalidSeq  == 2;
+                                                            }) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtual32bitWriteDataSeq")
   end
 
-   if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize()) begin
+   if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize() with {delayForBvalidSeq == 1;}) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtual32bitWriteDataSeq")
   end
 

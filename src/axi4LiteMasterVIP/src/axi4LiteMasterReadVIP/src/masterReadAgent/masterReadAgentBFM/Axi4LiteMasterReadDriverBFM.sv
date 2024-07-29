@@ -54,12 +54,11 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
 
     do begin
       @(posedge aclk);
-      masterReadPacketStruct.waitCounterForArready++;
       if(masterReadPacketStruct.waitCounterForArready > (masterReadConfigStruct.maxDelayForArready+1)) begin
          `uvm_error (name, $sformatf ("arready count comparisions are failed"));
       end
-    end
-    while(arready === 0);
+      masterReadPacketStruct.waitCounterForArready++;
+    end while(arready === 0);
 
     arvalid <= 1'b0;
     
@@ -73,12 +72,11 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
 
     do begin
       @(posedge aclk);
-      masterReadPacketStruct.waitCounterForRvalid++;
       if(masterReadPacketStruct.waitCounterForRvalid > (masterReadConfigStruct.maxDelayForRvalid+1)) begin
         `uvm_error (name, $sformatf ("rvalid count comparisions are failed"));
       end
-    end
-    while(rvalid === 0);
+      masterReadPacketStruct.waitCounterForRvalid++;
+    end while(rvalid === 0);
     
     `uvm_info(name , $sformatf("After while loop rvalid asserted "),UVM_HIGH)
 

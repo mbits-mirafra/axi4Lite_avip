@@ -8,9 +8,9 @@ class Axi4LiteSlaveWrite32bitsTransferSeq extends Axi4LiteSlaveWriteBaseSeq;
   rand bit [DELAY_WIDTH-1:0] delayForWreadySeq;
   rand bit [DELAY_WIDTH-1:0] delayForBvalidSeq;
 
-  constraint delayForAwreadySeq_c {soft delayForAwreadySeq <= MAX_DELAY_READY;}
-  constraint delayForWreadySeq_c {soft delayForWreadySeq <= MAX_DELAY_READY;}
-  constraint delayForBvalidSeq_c {soft delayForBvalidSeq  <= MAX_DELAY_BVALID;}
+  constraint delayForAwreadySeq_c {soft delayForAwreadySeq < MAX_DELAY_READY;}
+  constraint delayForWreadySeq_c {soft delayForWreadySeq < MAX_DELAY_READY;}
+  constraint delayForBvalidSeq_c {soft delayForBvalidSeq  < MAX_DELAY_BVALID;}
 
   extern function new(string name = "Axi4LiteSlaveWrite32bitsTransferSeq");
   extern task body();

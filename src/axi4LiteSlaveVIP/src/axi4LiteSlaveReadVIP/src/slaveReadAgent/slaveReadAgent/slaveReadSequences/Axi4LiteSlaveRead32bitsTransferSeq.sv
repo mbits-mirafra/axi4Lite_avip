@@ -8,8 +8,8 @@ class Axi4LiteSlaveRead32bitsTransferSeq extends Axi4LiteSlaveReadBaseSeq;
   rand bit [DELAY_WIDTH-1:0] delayForArreadySeq;
   rand bit [DELAY_WIDTH-1:0] delayForRvalidSeq;
 
-  constraint delayForArreadySeq_c {soft delayForArreadySeq  <= MAX_DELAY_READY;}
-  constraint delayForRvalidSeq_c {soft delayForRvalidSeq <= MAX_DELAY_RVALID;}
+  constraint delayForArreadySeq_c {soft delayForArreadySeq  < MAX_DELAY_READY;}
+  constraint delayForRvalidSeq_c {soft delayForRvalidSeq < MAX_DELAY_RVALID;}
 
   extern function new(string name = "Axi4LiteSlaveRead32bitsTransferSeq");
   extern task body();

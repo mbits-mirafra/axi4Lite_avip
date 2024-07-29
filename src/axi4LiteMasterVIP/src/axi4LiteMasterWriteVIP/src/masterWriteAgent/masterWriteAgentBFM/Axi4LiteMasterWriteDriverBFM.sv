@@ -58,12 +58,11 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
 
     do begin
       @(posedge aclk);
-      masterWritePacketStruct.waitCounterForAwready++;
       if(masterWritePacketStruct.waitCounterForAwready > (masterWriteConfigStruct.maxDelayForAwready+1)) begin
         `uvm_error (name, $sformatf ("awready count comparisions are failed"));
-   end
- end
-    while(awready !== 1'b1);
+      end
+      masterWritePacketStruct.waitCounterForAwready++;
+    end while(awready !== 1'b1);
 
     awvalid <= 1'b0;
 
@@ -83,12 +82,11 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
   
     do begin 
      @(posedge aclk);
-      masterWritePacketStruct.waitCounterForWready++;
       if(masterWritePacketStruct.waitCounterForWready > (masterWriteConfigStruct.maxDelayForWready+1)) begin
         `uvm_error (name, $sformatf ("wready count comparisions are failed"));
       end
-    end
-    while(wready !== 1'b1);
+      masterWritePacketStruct.waitCounterForWready++;
+    end while(wready !== 1'b1);
 
     wvalid <= 1'b0;
 
@@ -102,10 +100,10 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
 
     do begin
       @(posedge aclk);
-      masterWritePacketStruct.waitCounterForBvalid++;
       if(masterWritePacketStruct.waitCounterForBvalid > (masterWriteConfigStruct.maxDelayForBvalid+1)) begin
        `uvm_error (name, $sformatf ("bvalid count comparisions are failed"));
       end
+      masterWritePacketStruct.waitCounterForBvalid++;
     end while(bvalid === 0);
 
     `uvm_info(name , $sformatf("After while loop bvalid asserted "),UVM_HIGH)

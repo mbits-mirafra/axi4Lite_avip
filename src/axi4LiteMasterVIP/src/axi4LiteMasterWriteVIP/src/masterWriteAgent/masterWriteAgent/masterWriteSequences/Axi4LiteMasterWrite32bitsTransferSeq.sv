@@ -14,9 +14,9 @@ class Axi4LiteMasterWrite32bitsTransferSeq extends Axi4LiteMasterWriteBaseSeq;
 
   constraint awaddrSeq_c {soft awaddrSeq inside {[MIN_ADDRESS:MAX_ADDRESS]};}
   constraint wstrbSeq_c {soft wstrbSeq == 4'b1111;}
-  constraint delayForAwvalidSeq_c {soft delayForAwvalidSeq <= MAX_DELAY_WVALID;}
-  constraint delayForWvalidSeq_c {soft delayForWvalidSeq <= MAX_DELAY_WVALID;}
-  constraint delayForBreadySeq_c {soft delayForBreadySeq  <= MAX_DELAY_READY;}
+  constraint delayForAwvalidSeq_c {soft delayForAwvalidSeq < MAX_DELAY_WVALID;}
+  constraint delayForWvalidSeq_c {soft delayForWvalidSeq < MAX_DELAY_WVALID;}
+  constraint delayForBreadySeq_c {soft delayForBreadySeq  < MAX_DELAY_READY;}
 
   extern function new(string name = "Axi4LiteMasterWrite32bitsTransferSeq");
   extern task body();

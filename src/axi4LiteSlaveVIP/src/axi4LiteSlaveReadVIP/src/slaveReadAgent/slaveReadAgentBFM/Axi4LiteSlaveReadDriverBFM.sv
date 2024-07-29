@@ -84,11 +84,11 @@ task readDataChannelTask(input axi4LiteReadSlaveTransferCfgStruct slaveReadConfi
    
      do begin
        @(posedge aclk);
-       slaveReadPacketStruct.waitCounterForRready++;
        if(slaveReadPacketStruct.waitCounterForRready > (slaveReadConfigStruct.maxDelayForRready+1)) begin
          `uvm_error (name, $sformatf ("rready count comparisions are failed"));
        end
-    end while(rready === 0);
+       slaveReadPacketStruct.waitCounterForRready++;
+     end while(rready === 0);
  
     rvalid <= 1'b0;
    `uvm_info(name,$sformatf("SLAVE_READ_DATA_CHANNEL_TASK_ENDED"),UVM_HIGH)
