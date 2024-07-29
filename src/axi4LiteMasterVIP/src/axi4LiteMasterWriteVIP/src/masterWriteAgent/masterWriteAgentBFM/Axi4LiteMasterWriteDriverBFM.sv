@@ -101,23 +101,6 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
     `uvm_info(name,$sformatf("WRITE_RESPONSE_CHANNEL_TASK_STARTED"),UVM_HIGH)
     //#1;
     @(negedge aclk);
-    fork
-      begin
-        while(awvalid !==1 || awready !==1) begin
-          @(posedge aclk);
-          `uvm_info("FROM MASTER WRITE DRIVER BFM",$sformatf("Inside write response channel waiting for awvalid and awready"),UVM_HIGH)
-        end
-        `uvm_info("FROM MASTER WRITE DRIVER BFM",$sformatf("After write response channel asserted awvalid and awready"),UVM_HIGH)
-      end
-
-      begin
-        while(wvalid!==1 || wready!==1) begin
-          @(posedge aclk);
-          `uvm_info("FROM MASTER WRITE DRIVER BFM",$sformatf("Inside write response channel waiting for wvalid and wready"),UVM_HIGH)
-        end
-        `uvm_info("FROM MASTER WRITE DRIVER BFM",$sformatf("After write response channel asserted wvalid and wready"),UVM_HIGH)
-      end
-    join
 
     while(bvalid === 0) begin
       @(posedge aclk);

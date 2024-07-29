@@ -6,9 +6,13 @@ class Axi4LiteSlaveWriteDriverProxy extends uvm_driver#(Axi4LiteSlaveWriteTransa
 
   uvm_seq_item_pull_port #(REQ, RSP) axi4LiteSlaveWriteSeqItemPort;
   uvm_analysis_port #(RSP) axi4LiteSlaveWriteRspPort;
+  uvm_tlm_analysis_fifo #(Axi4LiteSlaveWriteTransaction) axi4LiteSlaveWriteAddressFIFO;
+  uvm_tlm_analysis_fifo #(Axi4LiteSlaveWriteTransaction) axi4LiteSlaveWriteResponseFIFO;
 
   REQ reqWrite;
   RSP rspWrite;
+
+  semaphore writeResponseKey;
 
   Axi4LiteSlaveWriteAgentConfig axi4LiteSlaveWriteAgentConfig;
   Axi4LiteSlaveWriteSeqItemConverter axi4LiteSlaveWriteSeqItemConverter;
@@ -27,8 +31,11 @@ class Axi4LiteSlaveWriteDriverProxy extends uvm_driver#(Axi4LiteSlaveWriteTransa
 function Axi4LiteSlaveWriteDriverProxy::new(string name = "Axi4LiteSlaveWriteDriverProxy",
                                       uvm_component parent = null);
   super.new(name, parent);
-  axi4LiteSlaveWriteSeqItemPort        = new("axi4LiteSlaveWriteSeqItemPort", this);
-  axi4LiteSlaveWriteRspPort            = new("axi4LiteSlaveWriteRspPort", this);
+  axi4LiteSlaveWriteSeqItemPort  = new("axi4LiteSlaveWriteSeqItemPort", this);
+  axi4LiteSlaveWriteRspPort      = new("axi4LiteSlaveWriteRspPort", this);
+  axi4LiteSlaveWriteAddressFIFO  = new("axi4LiteSlaveWriteAddressFIFO",this);
+  axi4LiteSlaveWriteResponseFIFO = new("axi4LiteSlaveWriteResponseFIFO",this);
+  writeResponseKey               = new();
  endfunction : new
 
 function void Axi4LiteSlaveWriteDriverProxy::build_phase(uvm_phase phase);
@@ -63,6 +70,13 @@ task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
     axi4LiteSlaveWriteSeqItemPort.get_next_item(reqWrite);
    `uvm_info(get_type_name(), $sformatf("SLAVE_WRITE_TASK::Before Sending_Req_Write_Packet = \n%s", reqWrite.sprint()),UVM_HIGH);
 
+   if(!axi4LiteSlaveWriteResponseFIFO.is_full()) begin
+     axi4LiteSlaveWriteResponseFIFO.write(reqWrite);
+   end
+   else begin
+     `uvm_error(get_type_name(),$sformatf("SLAVE_WRITE_TASK::Cannot write into FIFO as axi4LiteSlaveWriteResponseFIFO IS FULL"));
+   end
+
  
     Axi4LiteSlaveWriteConfigConverter::fromClass(axi4LiteSlaveWriteAgentConfig, slaveWriteConfigStruct);
 
@@ -76,6 +90,15 @@ task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
         axi4LiteSlaveWriteDriverBFM.writeAddressChannelTask(slaveWriteConfigStruct, slaveWritePacketStruct);
         Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,slaveWriteAddressTx);
        `uvm_info(get_type_name(),$sformatf("SLAVE_WRITE_ADDRESS_CHANNEL_TASK:: Received WriteAddress struct packet form DriverBFM = %p",slaveWritePacketStruct),UVM_MEDIUM);
+
+       if(!axi4LiteSlaveWriteAddressFIFO.is_full()) begin
+         axi4LiteSlaveWriteAddressFIFO.put(slaveWriteAddressTx);
+       end
+       else begin
+         `uvm_error(get_type_name(),$sformatf("SLAVE_WRITE_TASK::Cannot write into FIFO as axi4LiteSlaveWriteAddressFIFO IS FULL"));
+       end
+
+        writeResponseKey.put(1);
      end
 
      begin : SLAVE_WRITE_DATA_CHANNEL
@@ -89,14 +112,40 @@ task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
         Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,slaveWriteDataTx);
        `uvm_info(get_type_name(),$sformatf("SLAVE_WRITE_DATA_CHANNEL_TASK::Received WriteData packet from driverBFM = %p",
                                             slaveWritePacketStruct),UVM_MEDIUM);
+
+        writeResponseKey.put(1);
      end
 
      begin : SLAVE_WRITE_RESPONSE_CHANNEL
+       Axi4LiteSlaveWriteTransaction slaveWriteAddressTx;
        Axi4LiteSlaveWriteTransaction slaveWriteResponseTx;
        axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct;
+
+        writeResponseKey.get(2);
+
+        if(!axi4LiteSlaveWriteResponseFIFO.is_empty()) begin
+          axi4LiteSlaveWriteResponseFIFO.get(slaveWriteResponseTx);
+        end
+        else begin
+          `uvm_error(get_type_name(),$sformatf("SLAVE_WRITE_RESPONSE_THREAD::Cannot get into FIFO as WRITE_RESP_FIFO IS EMPTY"));
+        end
+
        `uvm_info(get_type_name(),$sformatf("SLAVE_WRITE_RESPONSE_CHANNEL_TASK::Before writeResponse struct packet = %p",
                                             slaveWritePacketStruct),UVM_MEDIUM);
        Axi4LiteSlaveWriteSeqItemConverter::fromWriteClass(reqWrite, slaveWritePacketStruct);
+
+        if(!axi4LiteSlaveWriteAddressFIFO.is_empty()) begin
+          axi4LiteSlaveWriteAddressFIFO.get(slaveWriteAddressTx);
+        end
+        else begin
+          `uvm_error(get_type_name(),$sformatf("SLAVE_WRITE_RESPONSE_THREAD::Cannot get into FIFO as WRITE_ADDR_FIFO IS EMPTY"));
+        end
+
+       if(!(slaveWriteAddressTx.awaddr inside {[slaveWriteConfigStruct.minAddressRange:slaveWriteConfigStruct.maxAddressRange]})) begin
+         slaveWritePacketStruct.bresp = WRITE_SLVERR;
+       end else begin
+         slaveWritePacketStruct.bresp = WRITE_OKAY;
+       end
 
        axi4LiteSlaveWriteDriverBFM.writeResponseChannelTask(slaveWriteConfigStruct, slaveWritePacketStruct);
        Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,slaveWriteResponseTx);

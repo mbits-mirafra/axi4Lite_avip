@@ -6,10 +6,12 @@ class Axi4LiteMasterWriteDriverProxy extends uvm_driver #(Axi4LiteMasterWriteTra
 
   uvm_seq_item_pull_port #(REQ,RSP) axi4LiteMasterWriteSeqItemPort;
   uvm_analysis_port #(RSP) axi4LiteMasterWriteRspPort;
-  uvm_tlm_analysis_fifo #(Axi4LiteMasterWriteTransaction) axi4LiteMasterWriteFIFO;
+  uvm_tlm_analysis_fifo #(Axi4LiteMasterWriteTransaction) axi4LiteMasterWriteResponseFIFO;
 
   REQ reqWrite;
   RSP rspWrite;
+
+  semaphore writeResponseKey;
 
   Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfig;
 
@@ -27,9 +29,10 @@ endclass : Axi4LiteMasterWriteDriverProxy
 function Axi4LiteMasterWriteDriverProxy::new(string name = "Axi4LiteMasterWriteDriverProxy",
                                              uvm_component parent = null);
   super.new(name, parent);
-  axi4LiteMasterWriteSeqItemPort = new("axi4LiteMasterWriteSeqItemPort", this);
-  axi4LiteMasterWriteRspPort     = new("axi4LiteMasterWriteRspPort", this);
-  axi4LiteMasterWriteFIFO        = new("axi4LiteMasterWriteFIFO", this);
+  axi4LiteMasterWriteSeqItemPort  = new("axi4LiteMasterWriteSeqItemPort", this);
+  axi4LiteMasterWriteRspPort      = new("axi4LiteMasterWriteRspPort", this);
+  axi4LiteMasterWriteResponseFIFO = new("axi4LiteMasterWriteResponseFIFO", this);
+  writeResponseKey                = new();
 endfunction : new
 
 function void Axi4LiteMasterWriteDriverProxy::build_phase(uvm_phase phase);
@@ -75,6 +78,12 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
     `uvm_info(get_type_name(), $sformatf(
               "MASTER_WRITE_TASK::Before Sending_Req_Write_Packet = \n%s", reqWrite.sprint()),
               UVM_HIGH);
+   if(!axi4LiteMasterWriteResponseFIFO.is_full()) begin
+     axi4LiteMasterWriteResponseFIFO.write(reqWrite);
+   end
+   else begin
+     `uvm_error(get_type_name(),$sformatf("MASTER_WRITE_TASK::Cannot write into FIFO as axi4LiteMasterWriteResponseFIFO IS FULL"));
+   end
 
   `uvm_info(get_type_name(),$sformatf("Inside writeTransferTask before fromClass Axi4LiteMasterWriteDriverProxy"),UVM_LOW);
     Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteConfigStruct);
@@ -91,6 +100,8 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
         axi4LiteMasterWriteDriverBFM.writeAddressChannelTask(masterWriteConfigStruct, masterWritePacketStruct);
         Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,masterWriteAddressTx);
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_ADDRESS_THREAD::Received write address packet From driverBFM = %p",masterWritePacketStruct),UVM_MEDIUM); 
+
+        writeResponseKey.put(1);
       end
 
       begin : MASTER_WRITE_DATA_CHANNEL
@@ -104,11 +115,22 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
         Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,masterWriteDataTx);
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_DATA_THREAD::Received write data packet From driverBFM = %p",
                                                masterWritePacketStruct),UVM_MEDIUM); 
+
+        writeResponseKey.put(1);
       end
 
       begin : MASTER_WRITE_RESPONSE_CHANNEL
         Axi4LiteMasterWriteTransaction  masterWriteResponseTx;
         axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
+
+        writeResponseKey.get(2);
+
+        if(!axi4LiteMasterWriteResponseFIFO.is_empty()) begin
+          axi4LiteMasterWriteResponseFIFO.get(masterWriteResponseTx);
+        end
+        else begin
+          `uvm_error(get_type_name(),$sformatf("MASTER_WRITE_RESPONSE_THREAD::Cannot get into FIFO as WRITE_RESP_FIFO IS EMPTY"));
+        end
 
         Axi4LiteMasterWriteSeqItemConverter::fromWriteClass(reqWrite, masterWritePacketStruct);
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_RESPONSE_THREAD::Checking write response struct packet = %p",
