@@ -104,6 +104,8 @@ module Axi4LiteMasterReadAssertPropertyTB;
     When_arvalidAndArreadyAsserted_Then_within10ClkRvalidAssertedAndRdataNotUnknown_Expect_AssertionPass();
     When_arvalidAndArreadyAsserted_Then_after10ClkRvalidAssertedAndRdataNotUnknown_Expect_AssertionFail();
   
+    When_rvalidAndRreadyAsserted_Then_ResponseIsNotExokay_Expect_AssertionPass();
+    When_rvalidAndRreadyAsserted_Then_ResponseIsExokay_Expect_AssertionFail();
   end
 
   task When_arvalidIsAsserted_Then_sameClkAraddrIsNotUnknown_Expect_AssertionPass();
@@ -1019,7 +1021,43 @@ module Axi4LiteMasterReadAssertPropertyTB;
     `uvm_info(name,$sformatf("When_arvalidAndArreadyAsserted_Then_after10ClkRvalidAssertedAndRdataNotUnknown_Expect_AssertionFail Task Ended"),UVM_NONE);
   endtask
 
-endmodule : Axi4LiteMasterReadAssertPropertyTB
+  task When_rvalidAndRreadyAsserted_Then_ResponseIsNotExokay_Expect_AssertionPass();
+    `uvm_info(name,$sformatf("When_rvalidAndRreadyAsserted_Then_ResponseIsNotExokay_Expect_AssertionPass Task started"),UVM_NONE);
+      @(posedge aclk);
+      aresetn <= 1'b1;
+      rvalid <= 1'b0;
+      rready <= 1'b0;
+      repeat(2) begin
+        @(posedge aclk);
+      end
+      rvalid <= 1'b1;
+      rready <= 1'b1;
+      rresp <= 2'b00;
+      @(posedge aclk);
+      rvalid <= 1'b0;
+
+    `uvm_info(name,$sformatf("When_rvalidAndRreadyAsserted_Then_ResponseIsNotExokay_Expect_AssertionPass Task Ended"),UVM_NONE);
+  endtask
+
+  task When_rvalidAndRreadyAsserted_Then_ResponseIsExokay_Expect_AssertionFail();
+    `uvm_info(name,$sformatf("When_rvalidAndRreadyAsserted_Then_ResponseIsExokay_Expect_AssertionFail Task started"),UVM_NONE);
+      @(posedge aclk);
+      aresetn <= 1'b1;
+      rvalid <= 1'b0;
+      rready <= 1'b0;
+      repeat(2) begin
+        @(posedge aclk);
+      end
+      rvalid <= 1'b1;
+      rready <= 1'b1;
+      rresp <= 2'b01;
+      @(posedge aclk);
+      rvalid <= 1'b0;
+
+    `uvm_info(name,$sformatf("When_rvalidAndRreadyAsserted_Then_ResponseIsExokay_Expect_AssertionFail Task Ended"),UVM_NONE);
+  endtask
+
+endmodule : Axi4LiteSlaveReadAssertPropertyTB
 
 `endif
 
