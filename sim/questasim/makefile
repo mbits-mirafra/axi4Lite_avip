@@ -62,6 +62,9 @@ usage:
 	echo "Example:":
 	echo "make simulate test=base_test uvm_verbosity=UVM_HIGH";
 	echo "";
+	echo "To provide seed number (default is random):"
+	echo "make simulate test=<test_name> uvm_verbosity=<VERBOSITY_LEVEL> seed=<value>";
+	echo "";
 	echo "To run regression:"
 	echo "make regression testlist_name=<regression_testlist_name.list>";
 	echo "";
@@ -112,6 +115,11 @@ ifndef uvm_verbosity
 override uvm_verbosity = UVM_MEDIUM
 endif
 
+# Setting the default seed value to random
+ifndef seed
+override seed = random
+endif
+
 ifndef args_addr
 override args_addr = ADDR_WIDTH_32
 endif
@@ -144,6 +152,7 @@ simulate:
 	work.Axi4LiteHvlTop \
 	work.Axi4LiteHdlTop \
 	-voptargs=+acc=npr \
+	-sv_seed $(seed) \
 	-assertdebug \
 	+UVM_TESTNAME=$(test) \
 	+UVM_VERBOSITY=$(uvm_verbosity) \
@@ -191,7 +200,8 @@ clean:
 ##
 regression:
 	# Run compilation
-	make compile
+	#make compile
+	make compile args_defaultReady=DEFAULT_READY_0
 	#make clean_simulate
 	# Run simualtion - regression 
 	python regression_handling.py $(testlist_name)

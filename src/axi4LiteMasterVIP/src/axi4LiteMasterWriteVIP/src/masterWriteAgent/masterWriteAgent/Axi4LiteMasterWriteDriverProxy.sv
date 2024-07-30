@@ -32,7 +32,7 @@ function Axi4LiteMasterWriteDriverProxy::new(string name = "Axi4LiteMasterWriteD
   axi4LiteMasterWriteSeqItemPort  = new("axi4LiteMasterWriteSeqItemPort", this);
   axi4LiteMasterWriteRspPort      = new("axi4LiteMasterWriteRspPort", this);
   axi4LiteMasterWriteResponseFIFO = new("axi4LiteMasterWriteResponseFIFO", this);
-  writeResponseKey                = new();
+  writeResponseKey                = new(2);
 endfunction : new
 
 function void Axi4LiteMasterWriteDriverProxy::build_phase(uvm_phase phase);
@@ -78,6 +78,8 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
     `uvm_info(get_type_name(), $sformatf(
               "MASTER_WRITE_TASK::Before Sending_Req_Write_Packet = \n%s", reqWrite.sprint()),
               UVM_HIGH);
+
+   writeResponseKey.get(2);
    if(!axi4LiteMasterWriteResponseFIFO.is_full()) begin
      axi4LiteMasterWriteResponseFIFO.write(reqWrite);
    end
@@ -143,6 +145,7 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
 
     join_any
 
+    writeResponseKey.put(2);
     axi4LiteMasterWriteSeqItemPort.item_done();
   end
 endtask : writeTransferTask

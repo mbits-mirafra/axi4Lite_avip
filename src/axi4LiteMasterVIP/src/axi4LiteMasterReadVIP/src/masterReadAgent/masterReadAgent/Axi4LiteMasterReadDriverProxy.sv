@@ -32,7 +32,7 @@ function Axi4LiteMasterReadDriverProxy::new(string name = "Axi4LiteMasterReadDri
   axi4LiteMasterReadSeqItemPort  = new("axi4LiteMasterReadSeqItemPort", this);
   axi4LiteMasterReadRspPort      = new("axi4LiteMasterReadRspPort", this);
   axi4LiteMasterReadDataFIFO     = new("axi4LiteMasterReadDataFIFO", this);
-  readDataKey                    = new();
+  readDataKey                    = new(1);
 endfunction : new
 
 function void Axi4LiteMasterReadDriverProxy::build_phase(uvm_phase phase);
@@ -72,6 +72,8 @@ task Axi4LiteMasterReadDriverProxy::readTransferTask();
     `uvm_info(get_type_name(), $sformatf(
               "MASTER_READ_TASK::Before Sending_Req_Read_Packet = \n%s", reqRead.sprint()),
               UVM_HIGH);
+
+    readDataKey.get(1);
 
     if(!axi4LiteMasterReadDataFIFO.is_full()) begin
       axi4LiteMasterReadDataFIFO.write(reqRead);
@@ -120,6 +122,8 @@ task Axi4LiteMasterReadDriverProxy::readTransferTask();
       end
 
     join_any
+
+    readDataKey.put(1);
 
     axi4LiteMasterReadSeqItemPort.item_done();
   end

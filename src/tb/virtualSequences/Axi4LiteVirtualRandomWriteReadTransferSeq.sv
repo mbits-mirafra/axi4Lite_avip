@@ -42,12 +42,12 @@ task Axi4LiteVirtualRandomWriteReadTransferSeq::body();
 
   fork 
     begin: MASTER_WRITE
-      repeat(1) begin
+      repeat(10) begin
         axi4LiteMasterWriteRandomTransferSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterWriteSequencer);
       end
     end
     begin: MASTER_READ
-      repeat(1) begin
+      repeat(10) begin
         axi4LiteMasterReadRandomTransferSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterReadSequencer);
       end
     end

@@ -36,7 +36,7 @@ function Axi4LiteSlaveReadDriverProxy::new(string name = "Axi4LiteSlaveReadDrive
   axi4LiteSlaveReadRspPort     = new("axi4LiteSlaveReadRspPort", this);
   axi4LiteSlaveReadAddressFIFO = new("axi4LiteSlaveReadAddressFIFO",this,16);
   axi4LiteSlaveReadDataFIFO    = new("axi4LiteSlaveReadDataFIFO",this,16);
-  readDataKey                  = new();     
+  readDataKey                  = new(1);     
 endfunction : new
 
 function void Axi4LiteSlaveReadDriverProxy::build_phase(uvm_phase phase);
@@ -72,6 +72,8 @@ task Axi4LiteSlaveReadDriverProxy::readTransferTask();
     `uvm_info(get_type_name(),$sformatf("Inside SlavewriteTransferTask before get_next_item Axi4LiteSlaveReadDriverProxy"),UVM_LOW);
     axi4LiteSlaveReadSeqItemPort.get_next_item(reqRead);
     `uvm_info(get_type_name(),$sformatf("Inside SlaveWriteTransferTask after get_next_item Axi4LitSlaveReadDriverProxy"),UVM_LOW);
+
+    readDataKey.get(1);
 
     if(!axi4LiteSlaveReadDataFIFO.is_full()) begin
       axi4LiteSlaveReadDataFIFO.put(reqRead);
@@ -145,6 +147,8 @@ task Axi4LiteSlaveReadDriverProxy::readTransferTask();
                                           slaveReadPacketStruct),UVM_MEDIUM);
       end
     join_any 
+
+   readDataKey.put(1);
    axi4LiteSlaveReadSeqItemPort.item_done();
   end
 endtask : readTransferTask

@@ -78,6 +78,7 @@ compile:
 	+fcover \
 	+define+$(args_addr) \
 	+define+$(args_data) \
+	+define+$(args_defaultReady) \
 	-l Axi4LiteSlaveReadAssertCoverPropertyCompile.log \
 	-f ./Axi4LiteReadSlaveAssertCover.f 
 
@@ -109,6 +110,10 @@ endif
 
 ifndef args_data
 override args_data = DATA_WIDTH_32
+endif
+
+ifndef args_defaultReady
+override args_defaultReady = DEFAULT_READY_1
 endif
 
 

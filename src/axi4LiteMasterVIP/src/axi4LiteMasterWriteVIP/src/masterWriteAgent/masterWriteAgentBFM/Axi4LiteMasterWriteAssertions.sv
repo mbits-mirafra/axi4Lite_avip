@@ -109,8 +109,13 @@ IFBVALIDASSERTED_THENWITHIN16CLK_BREADYASSERTED: assert property (validAssertedT
   else
     $error("IFBVALIDASSERTED_THENWITHIN16CLK_BREADYASSERTED : NOT ASSERTED");
 
-/*
-    property WhenResetAssertedThenReadyWillGoDefaultState(logic ready);
+    //TODO we tried this immediate assrtion and while running assertTb it's working but running test and sequens it's not working
+ /*   always @(negedge aresetn) assert (awready===DEFAULT_READY)
+      $info("IFRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE : ASSERTED");
+    else
+      $error("IFRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
+*/
+/*    property WhenResetAssertedThenReadyWillGoDefaultState(logic ready);
      @(negedge aresetn) disable iff (aresetn === 1)
         1 |-> (ready===DEFAULT_READY);
     endproperty
