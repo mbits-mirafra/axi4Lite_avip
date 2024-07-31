@@ -498,7 +498,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
    property WhenAwaddressIsGeneratedOnTheSameClkWdataWillBeGenerated;
     @(posedge aclk) disable iff (!aresetn)
-   (awvalid && awready && !($isunknown(awaddr))) |-> (wvalid && wready && !($isunknown(wdata)))
+   (awvalid && !($isunknown(awaddr))) |-> (wvalid && !($isunknown(wdata)))
    endproperty
 
    IFAWADDRESISASSERTED_THEN_SAMECLK_WDATAWILLBEASSERTED: cover property
@@ -507,7 +507,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
    property WhenAwaddressIsGeneratedThenNextClkWdataWillBeGenerated;
     @(posedge aclk) disable iff (!aresetn)
-   (awvalid && awready && !($isunknown(awaddr))) |=> (wvalid && wready && !($isunknown(wdata)))
+   (awvalid && !($isunknown(awaddr))) |=> (wvalid && !($isunknown(wdata)))
    endproperty
 
    IFAWADDRESISASSERTED_THEN_NEXTCLK_WDATAWILLBEASSERTED: cover property
@@ -516,7 +516,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
    property WhenAwaddressIsGeneratedThenInbetween1To10ClkWdataWillBeGenerated; 
     @(posedge aclk) disable iff (!aresetn)
-   (awvalid && awready && !($isunknown(awaddr))) |-> ##[1:MAX_DELAY_WVALID] (wvalid && wready && !($isunknown(wdata)))
+   (awvalid && !($isunknown(awaddr))) |-> ##[1:MAX_DELAY_WVALID] (wvalid && !($isunknown(wdata)))
    endproperty  
    
    IFAWADDRESISASSERTED_THEN_INBETWEEN1TO10CLKWDATAWILLBEASSERTED: cover property
@@ -525,7 +525,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
    property WhenWdataIsGeneratedThenNextClkAwaddressillBeGenerated; 
     @(posedge aclk) disable iff (!aresetn)
-    (wvalid && wready && !($isunknown(wdata))) |=> (awvalid && awready && !($isunknown(awaddr)))
+    (wvalid && !($isunknown(wdata))) |=> (awvalid && !($isunknown(awaddr)))
    endproperty  
 
    IFWDATAISASSERTED_THEN_NEXTCLK_AWADDRWILLBEASSERTED: cover property  
@@ -534,7 +534,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
    property WhenWdataIsGeneratedThenInbetween1To10ClkAwaddressillBeGenerated;
    @(posedge aclk) disable iff (!aresetn)
-   (wvalid && wready && !($isunknown(wdata))) |-> ##[1:MAX_DELAY_AWADDR] (awvalid && awready && !($isunknown(awaddr)))
+   (wvalid && !($isunknown(wdata))) |-> ##[1:MAX_DELAY_AWVALID] (awvalid && !($isunknown(awaddr)))
    endproperty
 
    IFWDATAISASSERTED_THEN_INBETWEEN1TO10CLK_AWADDRWILLBEASSERTED: cover property

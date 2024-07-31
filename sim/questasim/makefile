@@ -54,7 +54,7 @@ usage:
 	echo "To provide compilation argument:";
 	echo "make compile args_addr=<macro_name> args_data=<macro_name> args_defaultReady=<macro_name>";
 	echo "";
-	echo "make compile args_addr=ADDR_WIDTH_64 args_data=DATA_WIDTH_64 args_defaultReady=DEFAULT_READY_0";
+	echo "make compile args_addr=ADDR_WIDTH_64 args_data=DATA_WIDTH_64 args_defaultReady=DEFAULT_READY_1";
 	echo "";
 	echo "To simulate individual test:"
 	echo "make simulate test=<test_name> uvm_verbosity=<VERBOSITY_LEVEL>";
@@ -129,7 +129,7 @@ override args_data = DATA_WIDTH_32
 endif
 
 ifndef args_defaultReady
-override args_defaultReady = DEFAULT_READY_1
+override args_defaultReady = DEFAULT_READY_0
 endif
 
 
