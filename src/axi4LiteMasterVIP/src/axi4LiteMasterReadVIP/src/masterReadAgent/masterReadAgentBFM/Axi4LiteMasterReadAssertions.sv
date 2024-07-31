@@ -218,6 +218,16 @@ IFARVALIDANDARREADYAREASSERTED_THEN_WITHIN10CLK_RVALIDASSERTEDANDRDATANOTUNKNOWN
   else
     $error("IFARVALIDANDARREADYAREASSERTED_THEN_WITHIN10CLK_RVALIDASSERTEDANDRDATANOTUNKNOWN : NOT ASSERTED");
 
+    property rvalidAndRreadyAssertedThenResponseIsNotExokay;
+      @(posedge aclk) disable iff (!aresetn)
+       (rvalid && rready) |-> (rresp !== 2'b01);
+    endproperty
+
+IFRVALIDANDRREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY: assert property(rvalidAndRreadyAssertedThenResponseIsNotExokay)
+  $info("IFRVALIDANDRREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY : ASSERTED");
+  else
+    $error("IFRVALIDANDRREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY : NOT ASSERTED");
+
 endinterface : Axi4LiteMasterReadAssertions
 
 `endif
