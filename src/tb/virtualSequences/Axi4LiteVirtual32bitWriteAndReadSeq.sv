@@ -28,7 +28,10 @@ task Axi4LiteVirtual32bitWriteAndReadSeq::body();
    fork
    begin : SLAVE_WRITE_SEQ
      forever begin
-          if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize() with {delayForBvalidSeq == 1;}) begin
+          if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize() with {delayForBvalidSeq == 1; 
+                                                                    delayForAwreadySeq == 0;
+                                                                    delayForWreadySeq == 0;
+                                                                    }) begin
              `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtual32bitWriteDataSeq")
           end
           axi4LiteSlaveRead32bitsTransferSeq.start(p_sequencer.axi4LiteSlaveVirtualSequencer.axi4LiteSlaveReadSequencer);
@@ -36,7 +39,9 @@ task Axi4LiteVirtual32bitWriteAndReadSeq::body();
     end
   begin : SLAVE_READ_SEQ
     forever begin
-        if(!axi4LiteSlaveRead32bitsTransferSeq.randomize()) begin
+        if(!axi4LiteSlaveRead32bitsTransferSeq.randomize() with { delayForArreadySeq == 0;
+                                                                  delayForRvalidSeq == 2;
+                                                                }) begin
           `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtual32bitWriteAndReadSeq")
         end
         axi4LiteSlaveWrite32bitsTransferSeq.start(p_sequencer.axi4LiteSlaveVirtualSequencer.axi4LiteSlaveWriteSequencer);
@@ -47,7 +52,7 @@ task Axi4LiteVirtual32bitWriteAndReadSeq::body();
 
   fork
     begin: MASTER_WRITE_SEQ
-      repeat(2) begin
+      repeat(1) begin
           if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprotSeq == 1;
                                                               delayForAwvalidSeq == 1;
                                                               delayForWvalidSeq  == 2;
@@ -58,8 +63,11 @@ task Axi4LiteVirtual32bitWriteAndReadSeq::body();
       end 
     end
   begin: MASTER_READ_SEQ
-      repeat(2) begin
-        if(!axi4LiteMasterRead32bitsTransferSeq.randomize() with {arprotSeq == 1;}) begin
+      repeat(1) begin
+        if(!axi4LiteMasterRead32bitsTransferSeq.randomize() with {arprotSeq == 1;
+                                                                  delayForArvalidSeq == 2;
+                                                                  delayForRreadySeq == 0;
+                                                                  }) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtual32bitWriteAndReadSeq")
       end
         axi4LiteMasterRead32bitsTransferSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterReadSequencer);

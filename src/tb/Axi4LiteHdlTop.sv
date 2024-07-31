@@ -15,6 +15,8 @@ module Axi4LiteHdlTop;
   import Axi4LiteWriteSlaveGlobalPkg::*;
   import Axi4LiteReadSlaveGlobalPkg::*;
 
+  `include "Axi4LiteCoverProperty.sv"
+
   bit aclk;
   bit aresetn;
 
@@ -36,7 +38,6 @@ module Axi4LiteHdlTop;
     end
     aresetn = 1'b1;
   end
-
   Axi4LiteInterface axi4LiteInterface(.aclk(aclk),
                                       .aresetn(aresetn)
                                      );
@@ -130,6 +131,31 @@ module Axi4LiteHdlTop;
                                                                );
     end
   endgenerate
+
+  bind axi4LiteInterface Axi4LiteCoverProperty AXI4LITE_COVERPROPERTY (.aclk(aclk),
+                                                                       .aresetn(aresetn),
+                                                                       .awvalid(`AXI4LITE_MASTERWRITEINTERFACE.awvalid),
+                                                                       .awready(`AXI4LITE_SLAVEWRITEINTERFACE.awready),
+                                                                       .awaddr(`AXI4LITE_MASTERWRITEINTERFACE.awaddr),
+                                                                       .awprot(`AXI4LITE_MASTERWRITEINTERFACE.awprot),
+                                                                       .wvalid(`AXI4LITE_MASTERWRITEINTERFACE.wvalid),
+                                                                       .wready(`AXI4LITE_SLAVEWRITEINTERFACE.wready),
+                                                                       .wdata(`AXI4LITE_MASTERWRITEINTERFACE.wdata),
+                                                                       .wstrb(`AXI4LITE_MASTERWRITEINTERFACE.wstrb),
+
+                                                                       .bvalid(`AXI4LITE_SLAVEWRITEINTERFACE.bvalid),
+                                                                       .bready(`AXI4LITE_MASTERWRITEINTERFACE.bready),
+                                                                       .bresp(`AXI4LITE_SLAVEWRITEINTERFACE.bresp), 
+                                                                       .arvalid(`AXI4LITE_MASTERREADINTERFACE.arvalid),
+                                                                       .arready(`AXI4LITE_SLAVEREADINTERFACE.arready),
+                                                                       .araddr(`AXI4LITE_MASTERREADINTERFACE.araddr),
+                                                                       .arprot(`AXI4LITE_MASTERREADINTERFACE.arprot),
+                                                                       .rvalid(`AXI4LITE_SLAVEREADINTERFACE.rvalid),
+                                                                       .rready(`AXI4LITE_MASTERREADINTERFACE.rready),
+                                                                       .rdata(`AXI4LITE_SLAVEREADINTERFACE.rdata),
+                                                                       .rresp(`AXI4LITE_SLAVEREADINTERFACE.rresp)
+                                                                       );
+  
 
 endmodule : Axi4LiteHdlTop
 
