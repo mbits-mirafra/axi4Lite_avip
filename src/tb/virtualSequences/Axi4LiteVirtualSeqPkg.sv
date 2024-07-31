@@ -5,6 +5,8 @@ package Axi4LiteVirtualSeqPkg;
 
   `include "uvm_macros.svh"
   import uvm_pkg::*;
+  import Axi4LiteWriteMasterGlobalPkg::*;
+  import Axi4LiteReadMasterGlobalPkg::*;
   import Axi4LiteMasterWritePkg::*;
   import Axi4LiteMasterReadPkg::*;
   import Axi4LiteSlaveWritePkg::*;
@@ -54,6 +56,8 @@ package Axi4LiteVirtualSeqPkg;
   `include "Axi4LiteVirtualBackToBackTransfersWith3To16ClkDelaySeq.sv"
   `include "Axi4LiteVirtual32bitWriteAndReadRandomAddressAndDataSeq.sv"
   `include "Axi4LiteVirtualArvalidArreadyAndNextClkRvalidRreadyAssertedSeq.sv"
+  `include "Axi4LiteVirtualDelayForRvalidInside0To3Seq.sv"
+  `include "Axi4LiteVirtualAddressOutsideMinAndMaxRangeSeq.sv"
 
 endpackage : Axi4LiteVirtualSeqPkg
 

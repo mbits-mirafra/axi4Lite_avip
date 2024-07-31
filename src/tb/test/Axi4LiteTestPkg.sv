@@ -62,6 +62,8 @@ package Axi4LiteTestPkg;
   `include "Axi4LiteBackToBackTransfersWith3To16ClkDelayTest.sv"
   `include "Axi4Lite32bitWriteAndReadRandomAddressAndDataTest.sv"
   `include "Axi4LiteArvalidArreadyAndNextClkRvalidRreadyAssertedTest.sv"
+  `include "Axi4LiteDelayForRvalidInside0To3Test.sv"
+  `include "Axi4LiteAddressOutsideMinAndMaxRangeTest.sv"
 
 endpackage : Axi4LiteTestPkg
 
