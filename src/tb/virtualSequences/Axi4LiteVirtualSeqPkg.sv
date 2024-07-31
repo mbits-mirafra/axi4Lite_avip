@@ -52,7 +52,8 @@ package Axi4LiteVirtualSeqPkg;
   `include "Axi4LiteVirtualBackToBackTransfersWith1ClkDelaySeq.sv"
   `include "Axi4LiteVirtualBackToBackTransfersWith2ClkDelaySeq.sv"
   `include "Axi4LiteVirtualBackToBackTransfersWith3To16ClkDelaySeq.sv"
-  `include "Axi4LiteVirtual32bitWriteAndReadSeq.sv"
+  `include "Axi4LiteVirtual32bitWriteAndReadRandomAddressAndDataSeq.sv"
+  `include "Axi4LiteVirtualArvalidArreadyAndNextClkRvalidRreadyAssertedSeq.sv"
 
 endpackage : Axi4LiteVirtualSeqPkg
 
