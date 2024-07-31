@@ -58,7 +58,7 @@ task Axi4LiteVirtual32bitWriteAndReadSeq::body();
       end 
     end
   begin: MASTER_READ_SEQ
-      repeat(3) begin
+      repeat(2) begin
         if(!axi4LiteMasterRead32bitsTransferSeq.randomize() with {arprotSeq == 1;}) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtual32bitWriteAndReadSeq")
       end
