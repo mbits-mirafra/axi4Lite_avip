@@ -11,6 +11,7 @@ class Axi4LiteSlaveWriteDriverProxy extends uvm_driver#(Axi4LiteSlaveWriteTransa
   RSP rspWrite;
 
   semaphore writeResponseKey;
+  semaphore writeDataKey;
 
   Axi4LiteSlaveWriteAgentConfig axi4LiteSlaveWriteAgentConfig;
   Axi4LiteSlaveWriteSeqItemConverter axi4LiteSlaveWriteSeqItemConverter;
@@ -36,6 +37,7 @@ function Axi4LiteSlaveWriteDriverProxy::new(string name = "Axi4LiteSlaveWriteDri
   axi4LiteSlaveWriteRspPort      = new("axi4LiteSlaveWriteRspPort", this);
   axi4LiteSlaveWriteResponseFIFO = new("axi4LiteSlaveWriteResponseFIFO",this,16);
   axi4LiteSlaveWriteAddressFIFO  = new("axi4LiteSlaveWriteAddressFIFO",this,16);
+  writeDataKey                   = new(1);
   writeResponseKey               = new(2);
  endfunction : new
 
@@ -106,6 +108,7 @@ task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
        Axi4LiteSlaveWriteTransaction slaveWriteDataTx;
        axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct;
       
+       writeDataKey.get(1);
        `uvm_info(get_type_name(),$sformatf("SLAVE_WRITE_DATA_CHANNEL_TASK::Before WriteData struct packet = %p",
                                             slaveWritePacketStruct),UVM_MEDIUM);
         Axi4LiteSlaveWriteSeqItemConverter::fromWriteClass(reqWrite, slaveWritePacketStruct);
@@ -113,7 +116,7 @@ task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
         Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,slaveWriteDataTx);
        `uvm_info(get_type_name(),$sformatf("SLAVE_WRITE_DATA_CHANNEL_TASK::Received WriteData packet from driverBFM = %p",
                                             slaveWritePacketStruct),UVM_MEDIUM);
-
+        writeResponseKey.put(1);
         writeResponseKey.put(1);
      end
 

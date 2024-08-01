@@ -23,7 +23,6 @@ module Axi4LiteMasterWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
    
   import uvm_pkg::*;
   `include "uvm_macros.svh"
-
   Axi4LiteMasterWriteDriverBFM axi4LiteMasterWriteDriverBFM (.aclk(aclk), 
                                                              .aresetn(aresetn),
                                                              .awvalid(awvalid),

@@ -77,7 +77,7 @@ interface Axi4LiteCoverProperty (input aclk,
     @(posedge aclk) disable iff (!aresetn)
        (awvalid && awready && (!$isunknown(awaddr))) |-> 
           ##1 (arvalid && arready && (araddr == awaddr)) 
-          ##1 (wvalid && wready && (wstrb == 8'b1111_1111) && (!$isunknown(wdata))) 
+          ##1 (wvalid && wready && (wstrb == 'hff) && (!$isunknown(wdata))) 
           ##1 (rvalid && rready && (rdata == wdata));
   endproperty
 
@@ -92,7 +92,7 @@ interface Axi4LiteCoverProperty (input aclk,
   property WhenWrite64BitsAddressAndDataIsNotEqualToRead64BitsAddressAndData;
     @(posedge aclk) disable iff (!aresetn)
        (awvalid && awready && (!$isunknown(awaddr))) |-> 
-          ##1 (arvalid && arready && (wstrb == 8'b1111_1111) && (araddr !== awaddr)) 
+          ##1 (arvalid && arready && (wstrb == 'hff) && (araddr !== awaddr)) 
           ##1 (wvalid && wready && (!$isunknown(wdata))) 
           ##1 (rvalid && rready && (rdata !== wdata));
   endproperty
