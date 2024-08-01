@@ -142,7 +142,7 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
 
   property WhenValidAssertedThenSameClkReadyAsserted(logic valid, logic ready);
    @(posedge aclk) disable iff (!aresetn)
-   $rose(valid) |-> ready;
+   (valid) |-> ready;
   endproperty
 
   IFAWVALIDASSERTED_THEN_SAMECLK_AWREADYASSERTED: cover property

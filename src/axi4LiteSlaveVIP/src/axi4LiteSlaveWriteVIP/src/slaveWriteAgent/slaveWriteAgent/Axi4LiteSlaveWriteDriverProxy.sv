@@ -117,7 +117,7 @@ task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
        `uvm_info(get_type_name(),$sformatf("SLAVE_WRITE_DATA_CHANNEL_TASK::Received WriteData packet from driverBFM = %p",
                                             slaveWritePacketStruct),UVM_MEDIUM);
         writeResponseKey.put(1);
-        writeResponseKey.put(1);
+        writeDataKey.put(1);
      end
 
      begin : SLAVE_WRITE_RESPONSE_CHANNEL
