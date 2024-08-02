@@ -12,6 +12,7 @@ class Axi4LiteSlaveWriteDriverProxy extends uvm_driver#(Axi4LiteSlaveWriteTransa
 
   semaphore writeResponseKey;
   semaphore writeDataKey;
+  semaphore writeAddressKey;
 
   Axi4LiteSlaveWriteAgentConfig axi4LiteSlaveWriteAgentConfig;
   Axi4LiteSlaveWriteSeqItemConverter axi4LiteSlaveWriteSeqItemConverter;
@@ -37,8 +38,9 @@ function Axi4LiteSlaveWriteDriverProxy::new(string name = "Axi4LiteSlaveWriteDri
   axi4LiteSlaveWriteRspPort      = new("axi4LiteSlaveWriteRspPort", this);
   axi4LiteSlaveWriteResponseFIFO = new("axi4LiteSlaveWriteResponseFIFO",this,16);
   axi4LiteSlaveWriteAddressFIFO  = new("axi4LiteSlaveWriteAddressFIFO",this,16);
+  writeAddressKey                = new(1);
   writeDataKey                   = new(1);
-  writeResponseKey               = new(2);
+  writeResponseKey               = new(1);
  endfunction : new
 
 function void Axi4LiteSlaveWriteDriverProxy::build_phase(uvm_phase phase);
@@ -65,7 +67,8 @@ task Axi4LiteSlaveWriteDriverProxy::waitForAresetnTask();
 endtask : waitForAresetnTask
 
 task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
-   writeResponseKey.get(2);
+   writeResponseKey.get(1);
+   writeAddressKey.get(1);
  forever begin
     Axi4LiteSlaveWriteTransaction slaveWriteTx;
     axi4LiteWriteSlaveTransferCfgStruct slaveWriteConfigStruct;
@@ -101,7 +104,7 @@ task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
          `uvm_error(get_type_name(),$sformatf("SLAVE_WRITE_ADDRESS_TASK::Cannot write into FIFO as axi4LiteSlaveWriteAddressFIFO IS FULL"));
        end
  
-        writeResponseKey.put(1);
+        writeAddressKey.put(1);
      end
 
      begin : SLAVE_WRITE_DATA_CHANNEL
@@ -125,7 +128,8 @@ task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
        Axi4LiteSlaveWriteTransaction slaveWriteResponseTx;
        axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct;
 
-        writeResponseKey.get(2);
+        writeAddressKey.get(1);
+        writeResponseKey.get(1);
 
         if(!axi4LiteSlaveWriteResponseFIFO.is_empty()) begin
           axi4LiteSlaveWriteResponseFIFO.get(slaveWriteResponseTx);

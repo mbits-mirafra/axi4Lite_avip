@@ -13,6 +13,7 @@ class Axi4LiteMasterWriteDriverProxy extends uvm_driver #(Axi4LiteMasterWriteTra
 
   semaphore writeResponseKey;
   semaphore writeDataKey;
+  semaphore writeAddressKey;
 
   Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfig;
 
@@ -33,8 +34,9 @@ function Axi4LiteMasterWriteDriverProxy::new(string name = "Axi4LiteMasterWriteD
   axi4LiteMasterWriteSeqItemPort  = new("axi4LiteMasterWriteSeqItemPort", this);
   axi4LiteMasterWriteRspPort      = new("axi4LiteMasterWriteRspPort", this);
   axi4LiteMasterWriteResponseFIFO = new("axi4LiteMasterWriteResponseFIFO", this);
+  writeAddressKey                 = new(1);
   writeDataKey                    = new(1);
-  writeResponseKey                = new(2);
+  writeResponseKey                = new(1);
 endfunction : new
 
 function void Axi4LiteMasterWriteDriverProxy::build_phase(uvm_phase phase);
@@ -68,7 +70,8 @@ task Axi4LiteMasterWriteDriverProxy::waitForAresetnTask();
 endtask : waitForAresetnTask
 
 task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
-   writeResponseKey.get(2);
+   writeResponseKey.get(1);
+   writeAddressKey.get(1);
   forever begin
     Axi4LiteMasterWriteTransaction  masterWriteTx;
     axi4LiteWriteMasterTransferCfgStruct  masterWriteConfigStruct;
@@ -104,7 +107,7 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
         Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,masterWriteAddressTx);
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_ADDRESS_THREAD::Received write address packet From driverBFM = %p",masterWritePacketStruct),UVM_MEDIUM); 
 
-        writeResponseKey.put(1);
+        writeAddressKey.put(1);
       end
 
       begin : MASTER_WRITE_DATA_CHANNEL
@@ -136,7 +139,8 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
         Axi4LiteMasterWriteTransaction  masterWriteResponseTx;
         axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
-        writeResponseKey.get(2);
+        writeAddressKey.get(1);
+        writeResponseKey.get(1);
 
         if(!axi4LiteMasterWriteResponseFIFO.is_empty()) begin
           axi4LiteMasterWriteResponseFIFO.get(masterWriteResponseTx);
