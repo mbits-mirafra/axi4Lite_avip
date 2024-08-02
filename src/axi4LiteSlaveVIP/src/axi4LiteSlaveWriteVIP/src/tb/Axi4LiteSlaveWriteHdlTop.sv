@@ -34,6 +34,9 @@ module Axi4LiteSlaveWriteHdlTop;
                                                           );
 
   initial begin
+    repeat (10) begin
+      @(posedge aclk);
+    end
    axi4LiteSlaveWriteInterface.awvalid  <= 1'b1; 
    axi4LiteSlaveWriteInterface.wvalid   <= 1'b1;    
    axi4LiteSlaveWriteInterface.bready   <= 1'b1;  

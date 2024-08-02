@@ -32,6 +32,7 @@ function void Axi4LiteSlaveWriteSeqItemConverter::fromWriteClass(input Axi4LiteS
   outputConv.delayForBvalid  = inputConv.delayForBvalid;
   `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting fromWriteClass delayForBvalid =  %0h",outputConv.delayForBvalid),UVM_HIGH);
 
+  outputConv.repeatToggleReady  = inputConv.repeatToggleReady;
 endfunction : fromWriteClass
 
 function void  Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(input axi4LiteWriteSlaveTransferPacketStruct inputConv, output Axi4LiteSlaveWriteTransaction outputConv);

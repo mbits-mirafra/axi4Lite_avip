@@ -17,8 +17,9 @@ function void Axi4LiteSlaveWriteConfigConverter::fromClass(input Axi4LiteSlaveWr
   outputConv.defaultStateReady = inputConv.defaultStateReady;
   outputConv.maxDelayForWvalid = inputConv.maxDelayForWvalid;
   outputConv.maxDelayForBready = inputConv.maxDelayForBready;
-  outputConv.minAddressRange = inputConv.minAddressRange;
-  outputConv.maxAddressRange = inputConv.maxAddressRange;
+  outputConv.minAddressRange   = inputConv.minAddressRange;
+  outputConv.maxAddressRange   = inputConv.maxAddressRange;
+  outputConv.toggleReady       = inputConv.toggleReady;
 endfunction: fromClass   
 
 function void Axi4LiteSlaveWriteConfigConverter:: do_print(uvm_printer printer);                            
@@ -28,6 +29,7 @@ function void Axi4LiteSlaveWriteConfigConverter:: do_print(uvm_printer printer);
    printer.print_field("maxDelayForBready",configStruct.maxDelayForBready,$bits(configStruct.maxDelayForBready),UVM_HEX);
    printer.print_field("minAddressRange",configStruct.minAddressRange,$bits(configStruct.minAddressRange),UVM_HEX);
    printer.print_field("maxAddressRange",configStruct.maxAddressRange,$bits(configStruct.maxAddressRange),UVM_HEX);
+   printer.print_field("toggleReady",configStruct.toggleReady,$bits(configStruct.toggleReady),UVM_HEX);
 endfunction : do_print                                                                              
 
 `endif

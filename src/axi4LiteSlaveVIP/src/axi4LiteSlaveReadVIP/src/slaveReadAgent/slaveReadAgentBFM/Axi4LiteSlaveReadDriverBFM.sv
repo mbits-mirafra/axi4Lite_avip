@@ -48,6 +48,19 @@ interface Axi4LiteSlaveReadDriverBFM(input bit                     aclk,
                               inout axi4LiteReadSlaveTransferPacketStruct slaveReadPacketStruct
                               );
     `uvm_info(name,$sformatf("SLAVE_READ_ADDRESS_CHANNEL_TASK_STARTED"),UVM_HIGH)
+
+  if(slaveReadConfigStruct.toggleReady) begin
+    repeat(slaveReadPacketStruct.repeatToggleReady) begin
+      if(arvalid === 1) begin
+        break;
+      end
+      else begin
+        @(posedge aclk);
+        arready <= ~arready;
+      end
+    end
+  end
+
     //#1;
     @(negedge aclk);
     while(arvalid === 0) begin

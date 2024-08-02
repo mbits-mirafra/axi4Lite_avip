@@ -82,6 +82,7 @@ package Axi4LiteReadSlaveGlobalPkg;
     int waitCounterForRready;
     bit [DELAY_WIDTH-1:0] delayForArready;
     bit [DELAY_WIDTH-1:0] delayForRvalid;
+    int repeatToggleReady;
 
   } axi4LiteReadSlaveTransferPacketStruct;
 
@@ -90,6 +91,7 @@ package Axi4LiteReadSlaveGlobalPkg;
     bit [ADDRESS_WIDTH-1:0] maxAddressRange;
     int maxDelayForRready;
     bit defaultStateReady;
+    bit toggleReady;
    } axi4LiteReadSlaveTransferCfgStruct;
 
 endpackage : Axi4LiteReadSlaveGlobalPkg

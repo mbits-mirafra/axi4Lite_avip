@@ -19,6 +19,7 @@ package Axi4LiteSlaveWriteTestPkg;
   `include "Axi4LiteSlaveWriteDelayForAwreadyTest.sv"
   `include "Axi4LiteSlaveWriteDelayForWreadyTest.sv"
   `include "Axi4LiteSlaveWriteDelayForBvalidTest.sv"
+  `include "Axi4LiteSlaveWrite32bitsTransferWithToggleReadyTest.sv"
 
 endpackage : Axi4LiteSlaveWriteTestPkg
 

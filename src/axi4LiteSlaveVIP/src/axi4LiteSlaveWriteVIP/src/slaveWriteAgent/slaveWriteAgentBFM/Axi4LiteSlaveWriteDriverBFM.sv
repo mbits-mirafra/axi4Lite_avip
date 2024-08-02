@@ -47,6 +47,19 @@ task writeAddressChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWrit
                              inout axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct
                              );
   `uvm_info(name,$sformatf("SLAVE_WRITE_ADDRESS_CHANNEL_TASK_STARTED"),UVM_HIGH)
+
+  if(slaveWriteConfigStruct.toggleReady) begin
+    repeat(slaveWritePacketStruct.repeatToggleReady) begin
+      if(awvalid === 1) begin
+        break;
+      end
+      else begin
+        @(posedge aclk);
+        awready <= ~awready;
+      end
+    end
+  end
+
   //#1;
   @(negedge aclk);
   while(awvalid === 0) begin
@@ -73,6 +86,22 @@ task writeDataChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteCo
                           inout axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct
                          );
    `uvm_info(name,$sformatf("SLAVE_WRITE_DATA_CHANNEL_TASK_STARTED"),UVM_HIGH)
+
+  if(slaveWriteConfigStruct.toggleReady) begin
+    repeat(slaveWritePacketStruct.repeatToggleReady) begin
+      if(wvalid === 1) begin
+        break;
+      end
+      else begin
+        @(posedge aclk);
+        wready <= ~wready;
+        if(slaveWritePacketStruct.waitCounterForWvalid > (slaveWriteConfigStruct.maxDelayForWvalid+1)) begin
+          `uvm_error (name, $sformatf ("wvalid count comparisions are failed"));
+        end 
+        slaveWritePacketStruct.waitCounterForWvalid++;
+      end
+    end
+  end
 
    //#1;
    @(negedge aclk);

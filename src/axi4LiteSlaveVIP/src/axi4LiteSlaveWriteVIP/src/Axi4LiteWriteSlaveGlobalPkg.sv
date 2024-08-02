@@ -80,6 +80,7 @@ package Axi4LiteWriteSlaveGlobalPkg;
     bit [DELAY_WIDTH-1:0] delayForAwready;
     bit [DELAY_WIDTH-1:0] delayForWready;
     bit [DELAY_WIDTH-1:0] delayForBvalid;
+    int repeatToggleReady;
   } axi4LiteWriteSlaveTransferPacketStruct;
 
   typedef struct {
@@ -89,6 +90,8 @@ package Axi4LiteWriteSlaveGlobalPkg;
 
     bit [ADDRESS_WIDTH-1:0] maxAddressRange;
     bit [ADDRESS_WIDTH-1:0] minAddressRange;
+
+    bit toggleReady;
 
   } axi4LiteWriteSlaveTransferCfgStruct;
 
