@@ -61,6 +61,8 @@ package Axi4LiteVirtualSeqPkg;
   `include "Axi4LiteVirtual32bitWriteAndReadSameAddressAndDataSeq.sv"
   `include "Axi4LiteVirtualToggleReadySeq.sv"
   `include "Axi4LiteVirtualReadyAssertedNextClkValidAssertedSeq.sv"
+  `include "Axi4LiteVirtualReadyAssertedAndDeAssertedAndNextClkValidAssertedSeq.sv"
+  `include "Axi4LiteVirtualReadyAssertedAndDeAsserted3TimesAndNextClkValidAssertedSeq.sv"
 
 endpackage : Axi4LiteVirtualSeqPkg
 

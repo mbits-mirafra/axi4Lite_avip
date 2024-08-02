@@ -67,6 +67,8 @@ package Axi4LiteTestPkg;
   `include "Axi4Lite32bitWriteAndReadSameAddressAndDataTest.sv"
   `include "Axi4LiteToggleReadyTest.sv"
   `include "Axi4LiteReadyAssertedNextClkValidAssertedTest.sv"
+  `include "Axi4LiteReadyAssertedAndDeAssertedAndNextClkValidAssertedTest.sv"
+  `include "Axi4LiteReadyAssertedAndDeAsserted3TimesAndNextClkValidAssertedTest.sv"
 
 endpackage : Axi4LiteTestPkg
 
