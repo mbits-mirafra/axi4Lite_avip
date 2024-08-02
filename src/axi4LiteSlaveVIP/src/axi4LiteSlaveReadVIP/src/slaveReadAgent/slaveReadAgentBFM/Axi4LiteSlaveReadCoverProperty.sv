@@ -109,7 +109,7 @@ interface Axi4LiteSlaveReadCoverProperty (input aclk,
 
   property WhenValidAssertedThenSameClkReadyAsserted(logic valid, logic ready);
    @(posedge aclk) disable iff (!aresetn)
-   $rose(valid) |-> ready;
+   (valid) |-> ready;
   endproperty
 
   IFARVALIDASSERTED_THEN_SAMECLK_ARREADYASSERTED: cover property
