@@ -70,6 +70,7 @@ package Axi4LiteTestPkg;
   `include "Axi4LiteReadyAssertedAndDeAssertedAndNextClkValidAssertedTest.sv"
   `include "Axi4LiteReadyAssertedAndDeAsserted3TimesAndNextClkValidAssertedTest.sv"
   `include "Axi4LiteWriteDataWithWstrbTest.sv"
+  `include "Axi4Lite32bitDataWithAnyValueTest.sv"
 
 endpackage : Axi4LiteTestPkg
 
