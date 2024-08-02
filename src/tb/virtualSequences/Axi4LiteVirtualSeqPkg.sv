@@ -59,6 +59,8 @@ package Axi4LiteVirtualSeqPkg;
   `include "Axi4LiteVirtualDelayForRvalidInside0To3Seq.sv"
   `include "Axi4LiteVirtualAddressOutsideMinAndMaxRangeSeq.sv"
   `include "Axi4LiteVirtual32bitWriteAndReadSameAddressAndDataSeq.sv"
+  `include "Axi4LiteVirtualToggleReadySeq.sv"
+  `include "Axi4LiteVirtualReadyAssertedNextClkValidAssertedSeq.sv"
 
 endpackage : Axi4LiteVirtualSeqPkg
 

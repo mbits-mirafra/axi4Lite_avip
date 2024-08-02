@@ -1,0 +1,5 @@
+var g_db_data = [
+{dummy:0},
+{name:'axi4LiteSlaveWriteCovergroup',f:1,type:6,id:1641,tb:'52',h:'14',m:'38',hp:'26.92%',cov:['33.02%','R'],g:'100.00%',gp:['33.02%','R'],opts:[[],['merge_instance','auto(true)']],hdlPath:'/Axi4LiteSlaveWritePkg/Axi4LiteSlaveWriteCoverage',parent:'1636'},
+{name:'axi4LiteSlaveWriteCovergroup',f:1,type:6,id:2274,tb:'52',h:'14',m:'38',hp:'26.92%',cov:['33.02%','R'],g:'100.00%',gp:['33.02%','R'],opts:[[],['merge_instance','true']],hdlPath:'work.Axi4LiteSlaveWritePkg::Axi4LiteSlaveWriteCoverage',parent:'2269'}];
+processConsCovergroupsData(g_db_data);
