@@ -7,9 +7,12 @@ The idea of using Accelerated VIP is to push the synthesizable part of the testb
 
 
 ## Key Features 
-1. 32-bit and 64-bit of data transfer.
-2. it will support the Handshaking Mechanism.
+1. This will support configurable data widths, typically 32-bit or 64-bit data transfer.
+2. it will support the Two-phase Handshaking Mechanism.
 3. Support multiple write-read operation
+4. Independent Valid and Ready Signals On each channel.
+5. it will support the Read and Write Response
+6. AXI4-Lite supports back-to-back transactions 
 
 
    
