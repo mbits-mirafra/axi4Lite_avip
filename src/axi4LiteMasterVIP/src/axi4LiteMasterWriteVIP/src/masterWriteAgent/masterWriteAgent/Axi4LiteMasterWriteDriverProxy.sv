@@ -12,6 +12,7 @@ class Axi4LiteMasterWriteDriverProxy extends uvm_driver #(Axi4LiteMasterWriteTra
   RSP rspWrite;
 
   semaphore writeResponseKey;
+  semaphore writeDataKey;
 
   Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfig;
 
@@ -32,6 +33,7 @@ function Axi4LiteMasterWriteDriverProxy::new(string name = "Axi4LiteMasterWriteD
   axi4LiteMasterWriteSeqItemPort  = new("axi4LiteMasterWriteSeqItemPort", this);
   axi4LiteMasterWriteRspPort      = new("axi4LiteMasterWriteRspPort", this);
   axi4LiteMasterWriteResponseFIFO = new("axi4LiteMasterWriteResponseFIFO", this);
+  writeDataKey                    = new(1);
   writeResponseKey                = new(2);
 endfunction : new
 
@@ -109,15 +111,25 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
         Axi4LiteMasterWriteTransaction  masterWriteDataTx;
         axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
+        writeDataKey.get(1);
+
         Axi4LiteMasterWriteSeqItemConverter::fromWriteClass(reqWrite, masterWritePacketStruct);
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_DATA_THREAD::Checking write data struct packet = %p",
                                                masterWritePacketStruct),UVM_MEDIUM); 
+
+       foreach(masterWritePacketStruct.wstrb[i]) begin
+         if(masterWritePacketStruct.wstrb[i] == 0) begin
+           masterWritePacketStruct.wdata[i*8+:8] = 'b0;
+         end
+       end
+
         axi4LiteMasterWriteDriverBFM.writeDataChannelTask(masterWriteConfigStruct, masterWritePacketStruct);
         Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,masterWriteDataTx);
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_DATA_THREAD::Received write data packet From driverBFM = %p",
                                                masterWritePacketStruct),UVM_MEDIUM); 
 
         writeResponseKey.put(1);
+        writeDataKey.put(1);
       end
 
       begin : MASTER_WRITE_RESPONSE_CHANNEL
