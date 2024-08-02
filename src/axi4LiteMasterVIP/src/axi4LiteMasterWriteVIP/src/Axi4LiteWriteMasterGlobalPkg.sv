@@ -86,6 +86,7 @@ package Axi4LiteWriteMasterGlobalPkg;
     bit [DELAY_WIDTH-1:0] delayForWvalid;
     bit [DELAY_WIDTH-1:0] delayForBready;
     
+    int repeatToggleReady;
   } axi4LiteWriteMasterTransferPacketStruct;
 
   typedef struct {
@@ -96,6 +97,7 @@ package Axi4LiteWriteMasterGlobalPkg;
     int maxDelayForBvalid;
     bit defaultStateReady;
 
+    bit toggleReady;
   } axi4LiteWriteMasterTransferCfgStruct;
 
 endpackage : Axi4LiteWriteMasterGlobalPkg

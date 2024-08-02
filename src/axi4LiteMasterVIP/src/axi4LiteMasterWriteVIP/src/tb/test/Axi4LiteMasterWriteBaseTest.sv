@@ -53,6 +53,7 @@ function void Axi4LiteMasterWriteBaseTest::setupAxi4LiteMasterWriteAgentConfig()
   axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].maxDelayForAwready = MAX_DELAY_READY;
   axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].maxDelayForWready = MAX_DELAY_READY;
   axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].maxDelayForBvalid = MAX_DELAY_BVALID;
+  axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].toggleReady = 0;
 
    uvm_config_db#(Axi4LiteMasterWriteAgentConfig)::set( this, "*", $sformatf("Axi4LiteMasterWriteAgentConfig[%0d]", i),
           axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i]);

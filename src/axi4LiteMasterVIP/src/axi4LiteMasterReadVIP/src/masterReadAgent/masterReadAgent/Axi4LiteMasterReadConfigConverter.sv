@@ -19,6 +19,7 @@ function void Axi4LiteMasterReadConfigConverter::fromClass(input Axi4LiteMasterR
   outputConv.defaultStateReady = inputConv.defaultStateReady;
   outputConv.maxDelayForArready = inputConv.maxDelayForArready;
   outputConv.maxDelayForRvalid = inputConv.maxDelayForRvalid;
+  outputConv.toggleReady = inputConv.toggleReady;
 endfunction: fromClass
 
 function void Axi4LiteMasterReadConfigConverter:: do_print(uvm_printer printer); 

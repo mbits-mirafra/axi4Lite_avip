@@ -52,6 +52,7 @@ function void Axi4LiteMasterReadBaseTest::setupAxi4LiteMasterReadAgentConfig();
   axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].maxAddressRange = MAX_ADDRESS;
   axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].maxDelayForArready = MAX_DELAY_READY;
   axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].maxDelayForRvalid = MAX_DELAY_RVALID;
+  axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].toggleReady = 0;
 
    uvm_config_db#(Axi4LiteMasterReadAgentConfig)::set( this, "*", $sformatf("Axi4LiteMasterReadAgentConfig[%0d]", i),
           axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i]);

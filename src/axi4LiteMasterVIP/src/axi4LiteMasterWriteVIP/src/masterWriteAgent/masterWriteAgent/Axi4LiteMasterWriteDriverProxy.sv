@@ -66,7 +66,7 @@ task Axi4LiteMasterWriteDriverProxy::waitForAresetnTask();
 endtask : waitForAresetnTask
 
 task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
-  
+   writeResponseKey.get(2);
   forever begin
     Axi4LiteMasterWriteTransaction  masterWriteTx;
     axi4LiteWriteMasterTransferCfgStruct  masterWriteConfigStruct;
@@ -79,7 +79,6 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
               "MASTER_WRITE_TASK::Before Sending_Req_Write_Packet = \n%s", reqWrite.sprint()),
               UVM_HIGH);
 
-   writeResponseKey.get(2);
    if(!axi4LiteMasterWriteResponseFIFO.is_full()) begin
      axi4LiteMasterWriteResponseFIFO.write(reqWrite);
    end
@@ -145,7 +144,6 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
 
     join_any
 
-    writeResponseKey.put(2);
     axi4LiteMasterWriteSeqItemPort.item_done();
   end
 endtask : writeTransferTask

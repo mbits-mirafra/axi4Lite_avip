@@ -19,6 +19,7 @@ class Axi4LiteMasterWriteTransaction extends uvm_sequence_item;
   rand bit [DELAY_WIDTH-1:0] delayForAwvalid;
   rand bit [DELAY_WIDTH-1:0] delayForWvalid;
   rand bit [DELAY_WIDTH-1:0] delayForBready;
+  rand int repeatToggleReady;
 
   constraint awaddr_c {soft awaddr <= MAX_ADDRESS;}
   constraint delayForWvalid_c {soft delayForWvalid <= MAX_DELAY_WVALID;}
@@ -54,6 +55,7 @@ function void Axi4LiteMasterWriteTransaction::do_copy(uvm_object rhs);
   delayForAwvalid = axi4LiteMasterWriteTxCopyObj.delayForAwvalid;
   delayForWvalid = axi4LiteMasterWriteTxCopyObj.delayForWvalid;
   delayForBready = axi4LiteMasterWriteTxCopyObj.delayForBready;
+  repeatToggleReady = axi4LiteMasterWriteTxCopyObj.repeatToggleReady;
 
 endfunction : do_copy
 
@@ -73,7 +75,8 @@ function bit Axi4LiteMasterWriteTransaction::do_compare (uvm_object rhs, uvm_com
   bresp   == axi4LiteMasterWriteTxCompareObj.bresp   &&
   delayForAwvalid == axi4LiteMasterWriteTxCompareObj.delayForAwvalid &&
   delayForWvalid == axi4LiteMasterWriteTxCompareObj.delayForWvalid &&
-  delayForBready == axi4LiteMasterWriteTxCompareObj.delayForBready;
+  delayForBready == axi4LiteMasterWriteTxCompareObj.delayForBready &&
+  repeatToggleReady == axi4LiteMasterWriteTxCompareObj.repeatToggleReady;
 
 endfunction : do_compare
 
@@ -87,6 +90,7 @@ function void Axi4LiteMasterWriteTransaction::do_print(uvm_printer printer);
    printer.print_field("delayForAwvalid",delayForAwvalid,$bits(delayForAwvalid),UVM_HEX);
    printer.print_field("delayForWvalid",delayForWvalid,$bits(delayForWvalid),UVM_HEX);
    printer.print_field("delayForBready",delayForBready,$bits(delayForBready),UVM_HEX);
+   printer.print_field("repeatToggleReady",repeatToggleReady,$bits(repeatToggleReady),UVM_HEX);
 
 endfunction : do_print
 `endif

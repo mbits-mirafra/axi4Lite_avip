@@ -70,13 +70,29 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
                            );
     `uvm_info(name,$sformatf("READ_DATA_CHANNEL_TASK_STARTED"),UVM_HIGH)
 
-    do begin
+  if(masterReadConfigStruct.toggleReady) begin
+    repeat(masterReadPacketStruct.repeatToggleReady) begin
+      if(rvalid === 1) begin
+        break;
+      end
+      else begin
+        @(posedge aclk);
+        rready <= ~rready;
+        if(masterReadPacketStruct.waitCounterForRvalid > (masterReadConfigStruct.maxDelayForRvalid+1)) begin
+          `uvm_error (name, $sformatf ("rvalid count comparisions are failed"));
+        end 
+        masterReadPacketStruct.waitCounterForRvalid++;
+      end
+    end
+  end
+
+    while(rvalid === 0) begin
       @(posedge aclk);
       if(masterReadPacketStruct.waitCounterForRvalid > (masterReadConfigStruct.maxDelayForRvalid+1)) begin
         `uvm_error (name, $sformatf ("rvalid count comparisions are failed"));
       end
       masterReadPacketStruct.waitCounterForRvalid++;
-    end while(rvalid === 0);
+    end
     
     `uvm_info(name , $sformatf("After while loop rvalid asserted "),UVM_HIGH)
 

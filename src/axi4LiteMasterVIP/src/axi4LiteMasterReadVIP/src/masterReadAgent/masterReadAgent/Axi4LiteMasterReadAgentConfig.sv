@@ -10,6 +10,7 @@ class Axi4LiteMasterReadAgentConfig extends uvm_object;
   //Used for enabling the master agent coverage
   bit hasCoverage;
   bit defaultStateReady;
+  bit toggleReady;
 
   bit [ADDRESS_WIDTH-1:0] maxAddressRange;
   bit [ADDRESS_WIDTH-1:0] minAddressRange;
@@ -35,6 +36,7 @@ function void Axi4LiteMasterReadAgentConfig::do_print(uvm_printer printer);
   printer.print_field ("minAddressRange", minAddressRange, 32,UVM_DEC);
   printer.print_field ("maxDelayForArready",  maxDelayForArready, $bits(maxDelayForArready),  UVM_DEC);
   printer.print_field ("maxDelayForRvalid",  maxDelayForRvalid, $bits(maxDelayForRvalid),  UVM_DEC);
+  printer.print_field ("toggleReady", toggleReady, $bits(toggleReady),  UVM_DEC);
 endfunction : do_print
 
 `endif

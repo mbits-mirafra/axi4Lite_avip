@@ -21,6 +21,7 @@ function void Axi4LiteMasterWriteConfigConverter::fromClass(input Axi4LiteMaster
   outputConv.maxDelayForAwready = inputConv.maxDelayForAwready;
   outputConv.maxDelayForWready  = inputConv.maxDelayForWready;
   outputConv.maxDelayForBvalid  = inputConv.maxDelayForBvalid;
+  outputConv.toggleReady       = inputConv.toggleReady;
 
 endfunction: fromClass
 

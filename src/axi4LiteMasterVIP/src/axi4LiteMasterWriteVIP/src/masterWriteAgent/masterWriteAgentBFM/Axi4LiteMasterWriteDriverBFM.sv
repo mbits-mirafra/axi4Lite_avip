@@ -98,6 +98,22 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
                                );
     `uvm_info(name,$sformatf("WRITE_RESPONSE_CHANNEL_TASK_STARTED"),UVM_HIGH)
 
+  if(masterWriteConfigStruct.toggleReady) begin
+    repeat(masterWritePacketStruct.repeatToggleReady) begin
+      if(bvalid === 1) begin
+        break;
+      end
+      else begin
+        @(posedge aclk);
+        bready <= ~bready;
+        if(masterWritePacketStruct.waitCounterForBvalid > (masterWriteConfigStruct.maxDelayForBvalid+1)) begin
+          `uvm_error (name, $sformatf ("bvalid count comparisions are failed"));
+        end 
+        masterWritePacketStruct.waitCounterForBvalid++;
+      end
+    end
+  end
+
     do begin
       @(posedge aclk);
       if(masterWritePacketStruct.waitCounterForBvalid > (masterWriteConfigStruct.maxDelayForBvalid+1)) begin

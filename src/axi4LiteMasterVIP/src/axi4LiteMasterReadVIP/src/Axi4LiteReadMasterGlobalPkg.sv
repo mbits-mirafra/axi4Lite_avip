@@ -83,6 +83,7 @@ package Axi4LiteReadMasterGlobalPkg;
     int waitCounterForRvalid;
     bit [DELAY_WIDTH-1:0] delayForArvalid;
     bit [DELAY_WIDTH-1:0] delayForRready;
+    int repeatToggleReady;
   } axi4LiteReadMasterTransferPacketStruct;
 
   typedef struct {
@@ -93,6 +94,7 @@ package Axi4LiteReadMasterGlobalPkg;
     int maxDelayForRvalid;
 
     bit defaultStateReady;
+    bit toggleReady;
   } axi4LiteReadMasterTransferCfgStruct;
 
 endpackage : Axi4LiteReadMasterGlobalPkg

@@ -42,6 +42,7 @@ function void Axi4LiteMasterReadSeqItemConverter::fromReadClass(input Axi4LiteMa
   outputConv.waitCounterForRvalid = inputConv.waitCounterForRvalid;
   `uvm_info("axi4Lite_masterRead_seq_item_conv_class",$sformatf("After converting fromReadClass waitCounterForRvalid =  %0d",outputConv.waitCounterForRvalid),UVM_HIGH);
 
+  outputConv.repeatToggleReady = inputConv.repeatToggleReady;
 endfunction : fromReadClass
 
 function void Axi4LiteMasterReadSeqItemConverter::toReadClass(input axi4LiteReadMasterTransferPacketStruct inputConv, output Axi4LiteMasterReadTransaction outputConv);
