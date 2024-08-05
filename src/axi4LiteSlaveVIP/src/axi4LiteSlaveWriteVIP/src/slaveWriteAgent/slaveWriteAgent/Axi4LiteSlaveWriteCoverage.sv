@@ -21,8 +21,9 @@ class Axi4LiteSlaveWriteCoverage extends uvm_subscriber#(Axi4LiteSlaveWriteTrans
    WRITEDATA_CP : coverpoint packet.wdata {
    option.comment                                  = "writeDATA value";
    bins WRITE_DATAMAX                              = {32'hFFFF_FFFF};
-   bins WRITE_DATTOGGLE1                           = {32'hAAAA_AAAA};
-   bins WRITE_ANYDATA                              = {[0:$]};
+   bins WRITE_DATAZERO                             = {32'h0000_0000};
+   bins WRITE_DATATOGGLE1                          = {32'hAAAA_AAAA};
+   bins WRITE_ANYDATA                              = {[1:$]};
   }
 
    WSTRB_CP : coverpoint packet.wstrb{
@@ -55,10 +56,17 @@ class Axi4LiteSlaveWriteCoverage extends uvm_subscriber#(Axi4LiteSlaveWriteTrans
 	}
 
    AWPROT_CP_X_BRESP_CP    : cross AWPROT_CP, BRESP_CP;
-   WRITEDATA_CP_X_WSTRB_CP : cross WRITEDATA_CP, WSTRB_CP;
+   WRITEDATA_CP_X_WSTRB_CP : cross WRITEDATA_CP, WSTRB_CP {
+     bins b1 = binsof(WRITEDATA_CP.WRITE_DATAMAX) && binsof(WSTRB_CP.ALL_ONES);
+     bins b2 = binsof(WRITEDATA_CP.WRITE_DATAZERO) && binsof(WSTRB_CP.ALL_ZEROS);
+     bins b3 = binsof(WRITEDATA_CP.WRITE_DATATOGGLE1) && binsof(WSTRB_CP.ALL_ONES);
+     bins b4 = binsof(WRITEDATA_CP.WRITE_ANYDATA) || binsof(WSTRB_CP.ALL_ONES) 
+               || binsof(WSTRB_CP.SINGLE_BIT) || binsof(WSTRB_CP.TWO_BITS) ||
+               binsof(WSTRB_CP.THREE_BITS);
+   }
    WRITEADDR_CP_X_BRESP_CP : cross WRITEADDR_CP,BRESP_CP{
-     bins b1 = binsof(WRITEADDR_CP.WRITE_ADDROUTOFRANGE) && binsof(BRESP_CP.WRITE_SLVERR);
-     bins b2 = binsof(WRITEADDR_CP.WRITE_ADDRRANGE) && binsof(BRESP_CP.WRITE_OKAY);
+     bins b5 = binsof(WRITEADDR_CP.WRITE_ADDROUTOFRANGE) && binsof(BRESP_CP.WRITE_SLVERR);
+     bins b6 = binsof(WRITEADDR_CP.WRITE_ADDRRANGE) && binsof(BRESP_CP.WRITE_OKAY);
    }
  
   endgroup: axi4LiteSlaveWriteCovergroup
