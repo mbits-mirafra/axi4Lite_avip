@@ -15,6 +15,8 @@ class Axi4LiteMasterWriteDriverProxy extends uvm_driver #(Axi4LiteMasterWriteTra
   semaphore writeDataKey;
   semaphore writeAddressKey;
 
+  process writeAddressProcess;
+
   Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfig;
 
   virtual Axi4LiteMasterWriteDriverBFM axi4LiteMasterWriteDriverBFM;
@@ -100,6 +102,8 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
         Axi4LiteMasterWriteTransaction  masterWriteAddressTx;
         axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
+        writeAddressProcess = process::self();
+
         Axi4LiteMasterWriteSeqItemConverter::fromWriteClass(reqWrite, masterWritePacketStruct);
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_ADDRESS_THREAD::Checking write address struct packet = %p",
                                                masterWritePacketStruct),UVM_MEDIUM); 
@@ -159,6 +163,8 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
       end
 
     join_any
+
+    writeAddressProcess.await();
 
     axi4LiteMasterWriteSeqItemPort.item_done();
   end

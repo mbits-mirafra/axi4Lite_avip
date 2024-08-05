@@ -12,6 +12,7 @@ class Axi4LiteMasterReadDriverProxy extends uvm_driver #(Axi4LiteMasterReadTrans
   RSP rspRead;
 
   semaphore readDataKey;
+  process readAddressProcess;
 
   Axi4LiteMasterReadAgentConfig axi4LiteMasterReadAgentConfig;
 
@@ -62,7 +63,7 @@ task Axi4LiteMasterReadDriverProxy::waitForAresetnTask();
 endtask : waitForAresetnTask
 
 task Axi4LiteMasterReadDriverProxy::readTransferTask();
-  
+  readDataKey.get(1);
   forever begin
     Axi4LiteMasterReadTransaction  masterReadTx;
     axi4LiteReadMasterTransferCfgStruct  masterReadConfigStruct;
@@ -72,8 +73,6 @@ task Axi4LiteMasterReadDriverProxy::readTransferTask();
     `uvm_info(get_type_name(), $sformatf(
               "MASTER_READ_TASK::Before Sending_Req_Read_Packet = \n%s", reqRead.sprint()),
               UVM_HIGH);
-
-    readDataKey.get(1);
 
     if(!axi4LiteMasterReadDataFIFO.is_full()) begin
       axi4LiteMasterReadDataFIFO.write(reqRead);
@@ -88,6 +87,8 @@ task Axi4LiteMasterReadDriverProxy::readTransferTask();
       begin : MASTER_READ_ADDRESS_CHANNEL
         Axi4LiteMasterReadTransaction  masterReadAddressTx;
         axi4LiteReadMasterTransferPacketStruct masterReadPacketStruct;
+
+        readAddressProcess = process::self();
 
         Axi4LiteMasterReadSeqItemConverter::fromReadClass(reqRead, masterReadPacketStruct);
         `uvm_info(get_type_name(),$sformatf("MASTER_READ_ADDRESS_THREAD::Checking read address struct packet = %p",
@@ -122,8 +123,10 @@ task Axi4LiteMasterReadDriverProxy::readTransferTask();
       end
 
     join_any
+    readAddressProcess.await();
 
-    readDataKey.put(1);
+    `uvm_info(get_type_name(), $sformatf("READ_TASK :: Out of fork_join_any : After await readAddress.status()=%s",
+                                            readAddressProcess.status()), UVM_NONE);
 
     axi4LiteMasterReadSeqItemPort.item_done();
   end
