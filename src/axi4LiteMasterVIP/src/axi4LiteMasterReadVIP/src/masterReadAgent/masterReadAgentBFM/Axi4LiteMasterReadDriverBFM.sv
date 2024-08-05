@@ -101,13 +101,17 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
         @(posedge aclk);
       end
       rready <= 1'b1;
+      masterReadPacketStruct.rdata <= rdata;
+      masterReadPacketStruct.rresp <= rresp;
+
+      @(posedge aclk);
+      rready <= masterReadConfigStruct.defaultStateReady;
     end
-
-    masterReadPacketStruct.rdata <= rdata;
-    masterReadPacketStruct.rresp <= rresp;
-
-    @(posedge aclk);
-    rready <= masterReadConfigStruct.defaultStateReady;
+    else begin
+      masterReadPacketStruct.rdata <= rdata;
+      masterReadPacketStruct.rresp <= rresp;
+      rready <= masterReadConfigStruct.defaultStateReady;
+    end
 
     `uvm_info(name,$sformatf("READ_DATA_CHANNEL_TASK_ENDED"),UVM_HIGH)
   endtask : readDataChannelTask

@@ -61,7 +61,7 @@ task writeAddressChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWrit
   end
 
   //#1;
-  @(negedge aclk);
+  //@(negedge aclk);
   while(awvalid === 0) begin
     @(posedge aclk);
   end
@@ -72,13 +72,17 @@ task writeAddressChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWrit
       @(posedge aclk);
     end
     awready <= 1'b1;
+    slaveWritePacketStruct.awaddr <= awaddr;
+    slaveWritePacketStruct.awprot <= awprot;
+    
+    @(posedge aclk);
+    awready <= slaveWriteConfigStruct.defaultStateReady;
   end
-
-  slaveWritePacketStruct.awaddr <= awaddr;
-  slaveWritePacketStruct.awprot <= awprot;
-  
-  @(posedge aclk);
-  awready <= slaveWriteConfigStruct.defaultStateReady;
+  else begin
+    slaveWritePacketStruct.awaddr <= awaddr;
+    slaveWritePacketStruct.awprot <= awprot;
+    awready <= slaveWriteConfigStruct.defaultStateReady;
+  end
 
   `uvm_info(name,$sformatf("SLAVE_WRITE_ADDRESS_CHANNEL_TASK_ENDED"),UVM_HIGH)
 endtask : writeAddressChannelTask
@@ -106,7 +110,7 @@ task writeDataChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteCo
   end
 
    //#1;
-   @(negedge aclk);
+   //@(negedge aclk);
    while(wvalid === 0) begin
      @(posedge aclk);
      if(slaveWritePacketStruct.waitCounterForWvalid > (slaveWriteConfigStruct.maxDelayForWvalid+1)) begin
@@ -122,13 +126,17 @@ task writeDataChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteCo
         @(posedge aclk);
       end
       wready <= 1'b1;
-    end
-
-    slaveWritePacketStruct.wdata <= wdata;
-    slaveWritePacketStruct.wstrb <= wstrb;
+      slaveWritePacketStruct.wdata <= wdata;
+      slaveWritePacketStruct.wstrb <= wstrb;
  
-    @(posedge aclk);
-    wready <= slaveWriteConfigStruct.defaultStateReady;
+      @(posedge aclk);
+      wready <= slaveWriteConfigStruct.defaultStateReady;
+    end
+    else begin
+      slaveWritePacketStruct.wdata <= wdata;
+      slaveWritePacketStruct.wstrb <= wstrb;
+      wready <= slaveWriteConfigStruct.defaultStateReady;
+    end
 
     `uvm_info(name,$sformatf("SLAVE_WRITE_DATA_CHANNEL_TASK_ENDED"),UVM_HIGH)
 endtask :writeDataChannelTask

@@ -74,13 +74,18 @@ interface Axi4LiteSlaveReadDriverBFM(input bit                     aclk,
         @(posedge aclk);
       end
       arready <= 1'b1;
+      slaveReadPacketStruct.araddr <= araddr;
+      slaveReadPacketStruct.arprot <= arprot;
+
+      @(posedge aclk);
+      arready  <= slaveReadConfigStruct.defaultStateReady;
     end
+    else begin
+      slaveReadPacketStruct.araddr <= araddr;
+      slaveReadPacketStruct.arprot <= arprot;
 
-    slaveReadPacketStruct.araddr <= araddr;
-    slaveReadPacketStruct.arprot <= arprot;
-
-    @(posedge aclk);
-    arready  <= slaveReadConfigStruct.defaultStateReady;
+      arready  <= slaveReadConfigStruct.defaultStateReady;
+    end
 
     `uvm_info(name,$sformatf("SLAVE_READ_ADDRESS_CHANNEL_TASK_ENDED"),UVM_HIGH)
   endtask : readAddressChannelTask
