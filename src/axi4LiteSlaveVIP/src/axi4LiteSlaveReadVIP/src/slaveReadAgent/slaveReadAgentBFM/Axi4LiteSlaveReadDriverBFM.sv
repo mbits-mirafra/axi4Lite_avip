@@ -69,10 +69,13 @@ interface Axi4LiteSlaveReadDriverBFM(input bit                     aclk,
 
     `uvm_info(name , $sformatf("After while loop arvalid asserted"),UVM_HIGH)
 
-    repeat(slaveReadPacketStruct.delayForArready) begin 
-      @(posedge aclk);
+    if(arready === 0) begin
+      repeat(slaveReadPacketStruct.delayForArready) begin 
+        @(posedge aclk);
+      end
+      arready <= 1'b1;
     end
-    arready <= 1'b1;
+
     slaveReadPacketStruct.araddr <= araddr;
     slaveReadPacketStruct.arprot <= arprot;
 

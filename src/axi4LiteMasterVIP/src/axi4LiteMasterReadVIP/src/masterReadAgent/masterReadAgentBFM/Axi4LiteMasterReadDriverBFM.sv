@@ -96,10 +96,13 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
     
     `uvm_info(name , $sformatf("After while loop rvalid asserted "),UVM_HIGH)
 
-    repeat(masterReadPacketStruct.delayForRready) begin 
-      @(posedge aclk);
+    if(rready === 0) begin
+      repeat(masterReadPacketStruct.delayForRready) begin 
+        @(posedge aclk);
+      end
+      rready <= 1'b1;
     end
-    rready <= 1'b1;
+
     masterReadPacketStruct.rdata <= rdata;
     masterReadPacketStruct.rresp <= rresp;
 

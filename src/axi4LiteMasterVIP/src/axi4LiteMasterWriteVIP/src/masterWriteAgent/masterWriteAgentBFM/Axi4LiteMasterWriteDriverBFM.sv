@@ -124,12 +124,14 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
 
     `uvm_info(name , $sformatf("After while loop bvalid asserted "),UVM_HIGH)
 
-    repeat(masterWritePacketStruct.delayForBready) begin 
-      @(posedge aclk);
-      bready <= 1'b0;
+    if(bready === 0) begin
+      repeat(masterWritePacketStruct.delayForBready) begin 
+        @(posedge aclk);
+        bready <= 1'b0;
+      end
+      bready <= 1'b1;
     end
 
-    bready <= 1'b1;
     masterWritePacketStruct.bresp <= bresp;
 
     @(posedge aclk);
