@@ -15,6 +15,8 @@ class Axi4LiteSlaveWriteDriverProxy extends uvm_driver#(Axi4LiteSlaveWriteTransa
   semaphore writeAddressKey;
 
   process writeAddressProcess;
+  process writeDataProcess;
+  process writeResponseProcess;
 
   Axi4LiteSlaveWriteAgentConfig axi4LiteSlaveWriteAgentConfig;
   Axi4LiteSlaveWriteSeqItemConverter axi4LiteSlaveWriteSeqItemConverter;
@@ -116,6 +118,7 @@ task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
        Axi4LiteSlaveWriteTransaction slaveWriteDataTx;
        axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct;
       
+       writeDataProcess = process::self();
        writeDataKey.get(1);
        `uvm_info(get_type_name(),$sformatf("SLAVE_WRITE_DATA_CHANNEL_TASK::Before WriteData struct packet = %p",
                                             slaveWritePacketStruct),UVM_MEDIUM);
@@ -132,6 +135,8 @@ task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
        Axi4LiteSlaveWriteTransaction slaveWriteAddressTx;
        Axi4LiteSlaveWriteTransaction slaveWriteResponseTx;
        axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct;
+
+       writeResponseProcess = process::self();
 
         writeAddressKey.get(1);
         writeResponseKey.get(1);
@@ -168,6 +173,7 @@ task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
    join_any
 
     writeAddressProcess.await();
+    writeDataProcess.await();
 
     `uvm_info(get_type_name(), $sformatf("WRITE_TASK :: Out of fork_join_any : After await writeAddress.status()=%s",
                                             writeAddressProcess.status()), UVM_NONE);

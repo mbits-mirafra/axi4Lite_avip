@@ -62,7 +62,7 @@ interface Axi4LiteSlaveReadDriverBFM(input bit                     aclk,
   end
 
     //#1;
-    @(negedge aclk);
+    //@(negedge aclk);
     while(arvalid === 0) begin
       @(posedge aclk);
     end
