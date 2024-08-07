@@ -52,9 +52,9 @@ usage:
 	echo "make compile";
 	echo "";
 	echo "To provide compilation argument:";
-	echo "make compile args_addr=<macro_name> args_data=<macro_name> args_defaultReady=<macro_name>";
+	echo "make compile comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value>\"";
 	echo "";
-	echo "make compile args_addr=ADDR_WIDTH_64 args_data=DATA_WIDTH_64 args_defaultReady=DEFAULT_READY_1";
+	echo "make compile comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_READY=1\"";
 	echo "";
 	echo "To simulate individual test:"
 	echo "make simulate test=<test_name> uvm_verbosity=<VERBOSITY_LEVEL>";
@@ -88,9 +88,7 @@ compile:
 	+acc \
 	+cover \
 	+fcover \
-	+define+$(args_addr) \
-	+define+$(args_data) \
-	+define+$(args_defaultReady) \
+	$(comp_args) \
 	-l Axi4LiteCompile.log \
 	-f $(AXI4LITE_PROJECT)/src/axi4LiteMasterVIP/src/axi4LiteMasterWriteVIP/sim/Axi4LiteWriteMaster.f \
 	-f $(AXI4LITE_PROJECT)/src/axi4LiteMasterVIP/src/axi4LiteMasterReadVIP/sim/Axi4LiteReadMaster.f \
@@ -120,19 +118,6 @@ ifndef seed
 override seed = random
 endif
 
-ifndef args_addr
-override args_addr = ADDR_WIDTH_32
-endif
-
-ifndef args_data
-override args_data = DATA_WIDTH_32
-endif
-
-ifndef args_defaultReady
-override args_defaultReady = DEFAULT_READY_0
-endif
-
-
 ## For randomized seed
 # TODO(mshariff): 
 #Add this line after -sva 
@@ -159,7 +144,7 @@ simulate:
 	-l $(test_folder)/$(test).log \
 	-sva \
   -coverage \
-	-c -do "log -r /*; add wave -r /*; coverage save -onexit -assert -directive -cvg -codeAll $(test_folder)/$(test)_coverage.ucdb; run -all; exit" \
+	-c -do "log -r /*; add wave -r /*; coverage save -onexit -assert -directive -cvg -codeAll $(test_folder)/$(test_folder)_coverage.ucdb; run -all; exit" \
 	-wlf $(test_folder)/waveform.wlf
 
 
@@ -200,8 +185,7 @@ clean:
 ##
 regression:
 	# Run compilation
-	#make compile
-	make compile args_defaultReady=DEFAULT_READY_0
+	make compile comp_args="$(comp_args)"
 	#make clean_simulate
 	# Run simualtion - regression 
 	python regression_handling.py $(testlist_name)
@@ -211,6 +195,10 @@ regression:
 	#	Merge coverage
 	make merge_cov_report
 		
+		#TODO Regression format for folder 
+		# add regression_date&time_compileOption/all_simulate_directories then merge_coveragre 
+		# add seperate folder with above name instead of compileOption 32-bit or 64-bit so it will merge seperate regression report
+
 # For merge to happen, the coverage names for each test must be different
 #
 merge_cov_report:

@@ -15,7 +15,7 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
    bins WRITE_EVENADDR                              = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %2 == 0);
    bins WRITE_ODDADDR                               = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %2 == 1);
    bins WRITE_MODEOF4ADDR                           = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %4 == 0);
-   bins WRITE_ADDROUTOFRANGE                        = {[12'h100:32'hffff_ffff]};
+   bins WRITE_ADDROUTOFRANGE                        = {[MAX_ADDRESS+1:$]};
    }
 
    WRITEDATA_CP : coverpoint packet.wdata {

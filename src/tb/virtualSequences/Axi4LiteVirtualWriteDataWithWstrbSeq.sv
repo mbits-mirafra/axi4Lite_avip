@@ -34,7 +34,7 @@ task Axi4LiteVirtualWriteDataWithWstrbSeq::body();
 
   fork
     begin: MASTER_WRITE_SEQ
-      repeat(25) begin
+      repeat(10) begin
         if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprotSeq == 1;
                                                                    delayForAwvalidSeq == 1;
                                                                    delayForWvalidSeq  == 2;

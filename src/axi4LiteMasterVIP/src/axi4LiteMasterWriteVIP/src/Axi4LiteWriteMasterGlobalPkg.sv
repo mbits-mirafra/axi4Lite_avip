@@ -7,31 +7,16 @@ package Axi4LiteWriteMasterGlobalPkg;
 
   parameter int NO_OF_WRITEMASTERS = 1;
 
-  `ifdef ADDR_WIDTH_32
-    `define ADDRESS_WIDTH 32
-      parameter int ADDRESS_WIDTH = `ADDRESS_WIDTH;
-  `elsif ADDR_WIDTH_64
-    `define ADDRESS_WIDTH 64
-      parameter int ADDRESS_WIDTH = `ADDRESS_WIDTH;
-  `endif
-
-  `ifdef DATA_WIDTH_32
-    `define DATA_WIDTH 32
-      parameter int DATA_WIDTH = `DATA_WIDTH;
-  `elsif DATA_WIDTH_64
-    `define DATA_WIDTH 64
-      parameter int DATA_WIDTH = `DATA_WIDTH;
-  `endif
-
   parameter int DELAY_WIDTH = 5;
 
-  `ifdef DEFAULT_READY_1
-    `define DEFAULT_READY 1
-      parameter int DEFAULT_READY = `DEFAULT_READY;
-  `elsif DEFAULT_READY_0
-    `define DEFAULT_READY 0
-      parameter int DEFAULT_READY = `DEFAULT_READY;
-  `endif
+  `define ADDRESS_WIDTH 32
+  parameter int ADDRESS_WIDTH = `ADDRESS_WIDTH;
+
+  `define DATA_WIDTH 32
+  parameter int DATA_WIDTH = `DATA_WIDTH;
+
+  `define DEFAULT_READY 0
+  parameter int DEFAULT_READY = `DEFAULT_READY;
 
   parameter int MIN_ADDRESS = 01;
   parameter int MAX_ADDRESS = 8'hff;
