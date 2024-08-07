@@ -1,5 +1,5 @@
-`ifndef AXI4LITEMASTERWRITEASSERTPROPERTYTB_INCLUDED_
-`define AXI4LITEMASTERWRITEASSERTPROPERTYTB_INCLUDED_
+`ifndef AXI4LITEMASTERREADASSERTPROPERTYTB_INCLUDED_
+`define AXI4LITEMASTERREADASSERTPROPERTYTB_INCLUDED_
 
 `include "uvm_macros.svh"
 import uvm_pkg::*;
@@ -1057,7 +1057,7 @@ module Axi4LiteMasterReadAssertPropertyTB;
     `uvm_info(name,$sformatf("When_rvalidAndRreadyAsserted_Then_ResponseIsExokay_Expect_AssertionFail Task Ended"),UVM_NONE);
   endtask
 
-endmodule : Axi4LiteSlaveReadAssertPropertyTB
+endmodule : Axi4LiteMasterReadAssertPropertyTB
 
 `endif
 

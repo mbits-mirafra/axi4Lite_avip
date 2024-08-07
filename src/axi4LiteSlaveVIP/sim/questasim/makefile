@@ -52,9 +52,10 @@ usage:
 	echo "make compile";
 	echo "";
 	echo "To provide compilation argument:";
-	echo "make compile args_addr=<macro_name> args_data=<macro_name> args_defaultReady=<macro_name>";
+	echo "make compile comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value>\"";
 	echo "";
-	echo "make compile args_addr=ADDR_WIDTH_64 args_data=DATA_WIDTH_64 args_defaultReady=DEFAULT_READY_0";
+	echo "Example:":
+	echo "make compile comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_READY=1\"";
 	echo "";
 	echo "To simulate individual test:"
 	echo "make simulate test=<test_name> uvm_verbosity=<VERBOSITY_LEVEL>";
@@ -85,9 +86,7 @@ compile:
 	+acc \
 	+cover \
 	+fcover \
-	+define+$(args_addr) \
-	+define+$(args_data) \
-	+define+$(args_defaultReady) \
+	$(comp_args) \
 	-l Axi4LiteSlaveCompile.log \
 	-f $(AXI4LITE_SLAVE)/src/axi4LiteSlaveWriteVIP/sim/Axi4LiteWriteSlave.f \
 	-f $(AXI4LITE_SLAVE)/src/axi4LiteSlaveReadVIP/sim/Axi4LiteReadSlave.f \
@@ -109,19 +108,6 @@ endif
 ifndef uvm_verbosity
 override uvm_verbosity = UVM_MEDIUM
 endif
-
-ifndef args_addr
-override args_addr = ADDR_WIDTH_32
-endif
-
-ifndef args_data
-override args_data = DATA_WIDTH_32
-endif
-
-ifndef args_defaultReady
-override args_defaultReady = DEFAULT_READY_1
-endif
-
 
 ## For randomized seed
 # TODO(mshariff): 
@@ -148,7 +134,7 @@ simulate:
 	-l $(test_folder)/$(test).log \
 	-sva \
   -coverage \
-	-c -do "log -r /*; add wave -r /*; coverage save -onexit -assert -directive -cvg -codeAll $(test_folder)/$(test)_coverage.ucdb; run -all; exit" \
+	-c -do "log -r /*; add wave -r /*; coverage save -onexit -assert -directive -cvg -codeAll $(test_folder)/$(test_folder)_coverage.ucdb; run -all; exit" \
 	-wlf $(test_folder)/waveform.wlf
 
 
