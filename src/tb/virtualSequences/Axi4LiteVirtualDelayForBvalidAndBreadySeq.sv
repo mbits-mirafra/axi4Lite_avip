@@ -18,12 +18,18 @@ task Axi4LiteVirtualDelayForBvalidAndBreadySeq::body();
 
   `uvm_info(get_type_name(), $sformatf("Insdie Body Seq start Axi4LiteVirtualDelayForBvalidAndBreadySeq"), UVM_NONE); 
 
-   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {delayForBreadySeq == 10;}) begin
+   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {delayForBreadySeq == 10;
+                                                              delayForAwvalidSeq == 2;
+                                                              delayForWvalidSeq == 4;
+                                                            }) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualDelayForBvalidAndBreadySeq")
   end
        `uvm_info(get_type_name(),$sformatf("Axi4LiteVirtualDelayForBvalidAndBreadySeq delayForBreadySeq :%0d", axi4LiteMasterWrite32bitsTransferSeq.delayForBreadySeq),UVM_LOW);
 
-   if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize() with {delayForBvalidSeq == 3;}) begin
+   if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize() with {delayForBvalidSeq == 3;
+                                                             delayForAwreadySeq == 1;
+                                                             delayForWreadySeq == 1;
+                                                           }) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualDelayForBvalidAndBreadySeq")
   end
        `uvm_info(get_type_name(),$sformatf("Axi4LiteVirtualDelayForBvalidAndBreadySeq delayForBvalidSeq :%0d", axi4LiteSlaveWrite32bitsTransferSeq.delayForBvalidSeq),UVM_LOW);

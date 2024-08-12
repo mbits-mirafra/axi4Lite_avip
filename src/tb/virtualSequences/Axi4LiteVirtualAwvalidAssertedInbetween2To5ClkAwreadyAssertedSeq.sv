@@ -18,12 +18,16 @@ task Axi4LiteVirtualAwvalidAssertedInbetween2To5ClkAwreadyAssertedSeq::body();
 
   `uvm_info(get_type_name(), $sformatf("Insdie Body Seq start Axi4LiteVirtualAwvalidAssertedInbetween2To5ClkAwreadyAssertedSeq"), UVM_NONE); 
 
-   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {delayForAwvalidSeq == 6;}) begin
+   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {delayForAwvalidSeq == 6;
+                                                              delayForWvalidSeq == 8;
+                                                            }) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualAwvalidAssertedInbetween2To5ClkAwreadyAssertedSeq")
   end
        `uvm_info(get_type_name(),$sformatf("Axi4LiteVirtualAwvalidAssertedInbetween2To5ClkAwreadyAssertedSeq delayForAwvalidSeq :%0d", axi4LiteMasterWrite32bitsTransferSeq.delayForAwvalidSeq),UVM_LOW);
 
-   if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize() with {delayForAwreadySeq == 3;}) begin
+   if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize() with {delayForAwreadySeq == 3;
+                                                             delayForWreadySeq == 1;
+                                                           }) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualAwvalidAssertedInbetween2To5ClkAwreadyAssertedSeq")
   end
        `uvm_info(get_type_name(),$sformatf("Axi4LiteVirtualAwvalidAssertedInbetween2To5ClkAwreadyAssertedSeq delayForAwreadySeq :%0d", axi4LiteSlaveWrite32bitsTransferSeq.delayForAwreadySeq),UVM_LOW);

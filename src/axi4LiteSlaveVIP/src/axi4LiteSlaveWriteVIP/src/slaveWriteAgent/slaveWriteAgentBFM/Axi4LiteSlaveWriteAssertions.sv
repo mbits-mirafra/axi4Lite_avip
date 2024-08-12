@@ -268,7 +268,7 @@ WVALIDANDWREADYASSERTED_THENWITHIN12CLK_BVALIDASSERTED: assert property(wvalidWr
 
     property awvalidIsAssertedThenWithin10ClkWValidIsAsserted;
      @(posedge aclk) disable iff (!aresetn)
-        awvalid |-> ##[0:MAX_DELAY_WVALID] (wvalid);
+        $rose(awvalid) |-> ##[0:MAX_DELAY_WVALID] (wvalid);
     endproperty
 
 IFAWVALIDISASSERTED_THEN_WITHIN10CLK_WVALIDWILLASSERT: assert property(awvalidIsAssertedThenWithin10ClkWValidIsAsserted) 

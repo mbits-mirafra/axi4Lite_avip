@@ -1,7 +1,6 @@
 `ifndef AXI4LITEVIRTUAL32BITWRITEANDREADSAMEADDRESSANDDATASEQ_INCLUDED_
 `define AXI4LITEVIRTUAL32BITWRITEANDREADSAMEADDRESSANDDATASEQ_INCLUDED_
 
-
 class Axi4LiteVirtual32bitWriteAndReadSameAddressAndDataSeq extends Axi4LiteVirtualBaseSeq;
   `uvm_object_utils(Axi4LiteVirtual32bitWriteAndReadSameAddressAndDataSeq)
 

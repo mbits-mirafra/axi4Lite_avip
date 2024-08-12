@@ -58,6 +58,7 @@ task Axi4LiteVirtual32bitDataWithAnyValueSeq::body();
           if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprotSeq == 1;
                                                                      delayForAwvalidSeq == 1;
                                                                      delayForWvalidSeq  == 2;
+                                                                     delayForBreadySeq  == 1;
                                                                      wdataSeq dist {32'hffff_ffff:/3, 32'haaaa_aaaa:/3, [0:$]:/4};
                                                                     }) begin
             `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtual32bitDataWithAnyValueSeq")
