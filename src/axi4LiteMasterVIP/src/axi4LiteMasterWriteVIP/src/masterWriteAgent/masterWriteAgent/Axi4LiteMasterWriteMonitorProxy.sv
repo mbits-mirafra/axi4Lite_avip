@@ -125,7 +125,7 @@ task Axi4LiteMasterWriteMonitorProxy::writeResponseSampleTask();
     $cast(masterWriteTx,reqWrite.clone());
 
     `uvm_info(get_type_name(),$sformatf("Packet Received OutsideWriteResponseSampleTask: from Master_Write_Monitor_BFM clone packet is \n %s",masterWriteTx.sprint()),UVM_HIGH)
-   axi4LiteMasterWriteDataAnalysisPort.write(masterWriteTx);
+   axi4LiteMasterWriteResponseAnalysisPort.write(masterWriteTx);
   end
 
 endtask : writeResponseSampleTask

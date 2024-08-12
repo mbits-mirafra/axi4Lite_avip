@@ -48,15 +48,7 @@ interface Axi4LiteCoverProperty (input aclk,
         ##1 (wvalid && wready && (!$isunknown(wdata))) 
         ##1 (rvalid && rready && (rdata == wdata));
   endproperty
-
-  IFMASTERWRITE_ADDRANDDATA_ISEQUALTO_MASTERREAD_ADDRANDDATA : cover property
-  (WhenWriteAddressAndDataIsEqualToReadAddressAndData)
-  $info("IFMASTERWRITE_ADDRANDDATA_ISEQUALTO_MASTERREAD_ADDRANDDATA : COVERED");
-
-   IFSLAVEWRITE_ADDRANDDATA_ISEQUALTO_SLAVEREAD_ADDRANDDATA : cover property
-   (WhenWriteAddressAndDataIsEqualToReadAddressAndData)
-   $info("IFSLAVEWRITE_ADDRANDDATA_ISEQUALTO_SLAVEREAD_ADDRANDDATA : COVERED");
-
+  
   property WhenWriteAddressAndDataIsNotEqualToReadAddressAndData;
     @(posedge aclk) disable iff (!aresetn)
        (awvalid && awready && (!$isunknown(awaddr))) |-> 
@@ -64,14 +56,7 @@ interface Axi4LiteCoverProperty (input aclk,
           ##1 (wvalid && wready && (!$isunknown(wdata))) 
           ##1 (rvalid && rready && (rdata !== wdata));
   endproperty
-
-    IFMASTERWRITE_ADDRANDDATA_ISNOTEQUALTO_MASTERREAD_ADDRANDDATA : cover property
-    (WhenWriteAddressAndDataIsNotEqualToReadAddressAndData)
-    $info("IFMASTERWRITE_ADDRANDDATA_ISNOTEQUALTO_MASTERREAD_ADDRANDDATA : COVERED");
-
-   IFSLAVEWRITE_ADDRANDDATA_ISNOTEQUALTO_SLAVEREAD_ADDRANDDATA : cover property
-   (WhenWriteAddressAndDataIsNotEqualToReadAddressAndData)
-   $info("IFSLAVEWRITE_ADDRANDDATA_ISNOTEQUALTO_SLAVEREAD_ADDRANDDATA : COVERED");
+   
 
   property WhenWrite64BitsAddressAndDataIsEqualToRead64BitsAddressAndData;
     @(posedge aclk) disable iff (!aresetn)
@@ -79,31 +64,51 @@ interface Axi4LiteCoverProperty (input aclk,
           ##1 (arvalid && arready && (araddr == awaddr)) 
           ##1 (wvalid && wready && (wstrb == 'hff) && (!$isunknown(wdata))) 
           ##1 (rvalid && rready && (rdata == wdata));
-  endproperty
+   endproperty
 
-    IFMASTERWRITE_64BITSOF_ADDRANDDATA_ISEQUALTO_MASTERREAD_64BITSOF_ADDRANDDATA : cover property
-    (WhenWrite64BitsAddressAndDataIsEqualToRead64BitsAddressAndData)
-    $info("IFMASTERWRITE_64BITSOF_ADDRANDDATA_ISEQUALTO_MASTERREAD_64BITSOF_ADDRANDDATA : COVERED");
-
-   IFSLAVEWRITE_64BITSOF_ADDRANDDATA_ISEQUALTO_SLAVEREAD_64BITSOF_ADDRANDDATA : cover property
-   (WhenWrite64BitsAddressAndDataIsEqualToRead64BitsAddressAndData)
-   $info("IFSLAVEWRITE_64BITSOF_ADDRANDDATA_ISEQUALTO_SLAVEREAD_64BITSOF_ADDRANDDATA : COVERED");
-
-  property WhenWrite64BitsAddressAndDataIsNotEqualToRead64BitsAddressAndData;
+   property WhenWrite64BitsAddressAndDataIsNotEqualToRead64BitsAddressAndData;
     @(posedge aclk) disable iff (!aresetn)
        (awvalid && awready && (!$isunknown(awaddr))) |-> 
           ##1 (arvalid && arready && (wstrb == 'hff) && (araddr !== awaddr)) 
           ##1 (wvalid && wready && (!$isunknown(wdata))) 
           ##1 (rvalid && rready && (rdata !== wdata));
-  endproperty
+   endproperty
+ 
+  `ifdef ADDR_WIDTH == 32 &&  DATA_WIDTH == 32
+  IFMASTERWRITE_ADDRANDDATA_ISEQUALTO_MASTERREAD_ADDRANDDATA : cover property
+  (WhenWriteAddressAndDataIsEqualToReadAddressAndData)
+  $info("IFMASTERWRITE_ADDRANDDATA_ISEQUALTO_MASTERREAD_ADDRANDDATA : COVERED");
 
-    IFMASTERWRITE_64BITSOF_ADDRANDDATA_ISNOTEQUALTO_MASTERREAD_64BITSOF_ADDRANDDATA : cover property
-    (WhenWrite64BitsAddressAndDataIsNotEqualToRead64BitsAddressAndData)
-    $info("IFMASTERWRITE_64BITSOF_ADDRANDDATA_ISNOTEQUALTO_MASTERREAD_64BITSOF_ADDRANDDATA : COVERED");
+  IFSLAVEWRITE_ADDRANDDATA_ISEQUALTO_SLAVEREAD_ADDRANDDATA : cover property
+  (WhenWriteAddressAndDataIsEqualToReadAddressAndData)
+  $info("IFSLAVEWRITE_ADDRANDDATA_ISEQUALTO_SLAVEREAD_ADDRANDDATA : COVERED");
 
-   IFSLAVEWRITE_64BITSOF_ADDRANDDATA_ISNOTEQUALTO_SLAVEREAD_64BITSOF_ADDRANDDATA : cover property
-   (WhenWrite64BitsAddressAndDataIsNotEqualToRead64BitsAddressAndData)
-   $info("IFSLAVEWRITE_64BITSOF_ADDRANDDATA_ISNOTEQUALTO_SLAVEREAD_64BITSOF_ADDRANDDATA : COVERED");
+  IFMASTERWRITE_ADDRANDDATA_ISNOTEQUALTO_MASTERREAD_ADDRANDDATA : cover property
+  (WhenWriteAddressAndDataIsNotEqualToReadAddressAndData)
+  $info("IFMASTERWRITE_ADDRANDDATA_ISNOTEQUALTO_MASTERREAD_ADDRANDDATA : COVERED");
+
+  IFSLAVEWRITE_ADDRANDDATA_ISNOTEQUALTO_SLAVEREAD_ADDRANDDATA : cover property
+  (WhenWriteAddressAndDataIsNotEqualToReadAddressAndData)
+  $info("IFSLAVEWRITE_ADDRANDDATA_ISNOTEQUALTO_SLAVEREAD_ADDRANDDATA : COVERED");
+
+ `elsif ADDR_WIDTH == 64 &&  DATA_WIDTH == 64
+
+  IFMASTERWRITE_64BITSOF_ADDRANDDATA_ISEQUALTO_MASTERREAD_64BITSOF_ADDRANDDATA : cover property
+  (WhenWrite64BitsAddressAndDataIsEqualToRead64BitsAddressAndData)
+  $info("IFMASTERWRITE_64BITSOF_ADDRANDDATA_ISEQUALTO_MASTERREAD_64BITSOF_ADDRANDDATA : COVERED");
+
+  IFSLAVEWRITE_64BITSOF_ADDRANDDATA_ISEQUALTO_SLAVEREAD_64BITSOF_ADDRANDDATA : cover property
+  (WhenWrite64BitsAddressAndDataIsEqualToRead64BitsAddressAndData)
+  $info("IFSLAVEWRITE_64BITSOF_ADDRANDDATA_ISEQUALTO_SLAVEREAD_64BITSOF_ADDRANDDATA : COVERED");
+
+  IFMASTERWRITE_64BITSOF_ADDRANDDATA_ISNOTEQUALTO_MASTERREAD_64BITSOF_ADDRANDDATA : cover property
+  (WhenWrite64BitsAddressAndDataIsNotEqualToRead64BitsAddressAndData)
+  $info("IFMASTERWRITE_64BITSOF_ADDRANDDATA_ISNOTEQUALTO_MASTERREAD_64BITSOF_ADDRANDDATA : COVERED");
+
+  IFSLAVEWRITE_64BITSOF_ADDRANDDATA_ISNOTEQUALTO_SLAVEREAD_64BITSOF_ADDRANDDATA : cover property
+  (WhenWrite64BitsAddressAndDataIsNotEqualToRead64BitsAddressAndData)
+  $info("IFSLAVEWRITE_64BITSOF_ADDRANDDATA_ISNOTEQUALTO_SLAVEREAD_64BITSOF_ADDRANDDATA : COVERED");
+`endif
 
 endinterface : Axi4LiteCoverProperty
 

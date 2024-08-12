@@ -397,7 +397,6 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
     (WhenReadyAssertedThenNextClkValidAsserted(bvalid,bready))
     $info("IFBREADYASSERTED_THEN_NEXTCLK_BVALIDASSERTED: COVERED");
 
-    
     property WhenReadyAssertedThenInbetween2To5ClkValidAsserted(logic valid, logic ready);
      @(posedge aclk) disable iff (!aresetn)
      ready |-> !valid ##[2:5] valid;
@@ -726,39 +725,16 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
     (wvalid && wready) |-> ((wstrb === 4'b1100) && (wdata[15:0] === 16'b0));
    endproperty
 
-   IFWVALIDANDWREADYAREASSERTED_THEN_WSTRBOFHIGHERLANESAREASSERTED_THEN_L3ANDL2OFWDATAISVALIDDATA: cover property
-   (WhenWvalidAndWreadyAreAssertedAndWstrbOfHigherLanesOfWdataIsValidData)
-   $info("IFWVALIDANDWREADYAREASSERTED_THEN_WSTRBOFHIGHERLANESAREASSERTED_THEN_L3ANDL2OFWDATAISVALIDDATA : COVERED");
-
-
    property WhenWvalidAndWreadyAreAssertedAndWstrbOfLowerLanesOfWdataIsValidData;
    @(posedge aclk) disable iff (!aresetn)
    (wvalid && wready) |-> ((wstrb == 4'b0011) && (wdata[31:16] == 16'h0000));
    endproperty
-  
-   IFWVALIDANDWREADYAREASSERTED_THEN_WSTRBOFLOWERLANESAREASSERTED_THEN_L1ANDL0OFWDATAISVALIDDATA: cover property
-   (WhenWvalidAndWreadyAreAssertedAndWstrbOfLowerLanesOfWdataIsValidData)
-   $info("IFWVALIDANDWREADYAREASSERTED_THEN_WSTRBOFLOWERLANESAREASSERTED_THEN_L1ANDL0OFWDATAISVALIDDATA : COVERED");
-
-    property WhenWvalidAndWreadyAreAssertedAndWdataIs64BitsAndWstrbLanesOfL2AndL0AreValidData;
-     @(posedge aclk) disable iff (!aresetn)
-     (wvalid && wready) |-> ((wstrb === 8'b0000_0101) 
-      && (wdata[63:24] === 40'b0) && (wdata[15:8] === 8'b0));
-    endproperty
-
-    IFWVALIDANDWREADYAREASSERTED_THEN_WDATA_IS_64BITS_THEN_WSTRBLANESOF_L2ANDL0ARE_VALIDWDATA :cover property
-    (WhenWvalidAndWreadyAreAssertedAndWdataIs64BitsAndWstrbLanesOfL2AndL0AreValidData)
-    $info("IFWVALIDANDWREADYAREASSERTED_THEN_WDATA_IS_64BITS_THEN_WSTRBLANESOF_L2ANDL0ARE_VALIDWDATA : COVERED");
-  
+   
    property WhenWvalidAndWreadyAreAssertedThenSameClkWstrbValueIsAllOnesThenWdataIsNotUnknown; 
      @(posedge aclk) disable iff (!aresetn)
      (wvalid && wready) |-> ((wstrb == 4'b1111) && (!$isunknown(wdata)));
    endproperty 
-
-   IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THENWDATAISNOTUNKNOWNVALUE: cover property 
-   (WhenWvalidAndWreadyAreAssertedThenSameClkWstrbValueIsAllOnesThenWdataIsNotUnknown)
-   $info("IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THENWDATAISNOTUNKNOWNVALUE :COVERED");
-
+   
    property WhenWvalidAndWreadyAreAssertedAndWstrbValueIsAllOnesThenNextClkWstrbIsInactiveByteThenWdataIsPreviousValues;
      @(posedge aclk) disable iff (!aresetn)
      (wvalid && wready) |-> ((wstrb == 4'b1111) && (!$isunknown(wdata))) 
@@ -766,49 +742,77 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
       && wdata[15:8] == $past(wdata[15:8]));   
    endproperty 
 
-   IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THEN_NEXTCLK_WSTRBISINACTIVEBYTE_THEN_WDATAISPREVIOUSVALUES: cover property
-   (WhenWvalidAndWreadyAreAssertedAndWstrbValueIsAllOnesThenNextClkWstrbIsInactiveByteThenWdataIsPreviousValues)
-  $info("IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THEN_NEXTCLK_WSTRBISINACTIVEBYTE_THEN_WDATAISPREVIOUSVALUES : COVERED");
-
-   property WhenWvalidAndWreadyAreAssertedAndWstrbValueIsAllOnesThenNextClkWstrbIsInactiveByteThen64BitsOfWdataIsPreviousValues;
-     @(posedge aclk) disable iff (!aresetn)
-     (wvalid && wready) |-> ((wstrb == 8'b1111_1111) && (!$isunknown(wdata))) 
-      ##1 ((wvalid && wready) && (wstrb == 8'b0111_0000) && (wdata[63:56] == $past(wdata[63:56])) 
-      && wdata[31:0] == $past(wdata[31:0]));   
-   endproperty 
-
-    IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THEN_NEXTCLK_WSTRBISINACTIVEBYTE_THEN_64BITSOFWDATAISPREVIOUSVALUES: cover property
-   (WhenWvalidAndWreadyAreAssertedAndWstrbValueIsAllOnesThenNextClkWstrbIsInactiveByteThen64BitsOfWdataIsPreviousValues)
-    $info("IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THEN_NEXTCLK_WSTRBISINACTIVEBYTE_THEN_64BITSOFWDATAISPREVIOUSVALUES: COVERED");
-
-   property WhenWvalidAndWreadyAreAssertedThenSameClkWstrbValueIsAllOnesThen64BitsOfWdataIsNotUnknown; 
-     @(posedge aclk) disable iff (!aresetn)
-       (wvalid && wready) |-> ((wstrb == 8'b1111_1111) && (!$isunknown(wdata)));
-   endproperty 
-
-   IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEIS_FF_THEN_64BITSOF_WDATAISNOTUNKNOWNVALUE: cover property 
-   (WhenWvalidAndWreadyAreAssertedThenSameClkWstrbValueIsAllOnesThen64BitsOfWdataIsNotUnknown)
-   $info("IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEIS_FF_THEN_64BITSOF_WDATAISNOTUNKNOWNVALUE :COVERED");
-
    property WhenWvalidIsAssertedAndWstrbOfAllBitAreHighThenNextClkWvalidGoesToLowThenWstrbValueIsContinuesWithPreviousWstrbValues;
     @(posedge aclk) disable iff (!aresetn)
      wvalid |-> ((wstrb == 4'b1111) && (!$isunknown(wdata)))
      ##1 $fell(wvalid) && (wstrb == $past(wstrb));
    endproperty
 
-   IFWVALIDISASSERTED_THEN_SAMECLK_WSTRBISALLONES_THEN_NEXTCLK_WVALIDISDISASSERTED_THEN_WSTRBVALUEISPREVIOUSVALUES: cover property
-   (WhenWvalidIsAssertedAndWstrbOfAllBitAreHighThenNextClkWvalidGoesToLowThenWstrbValueIsContinuesWithPreviousWstrbValues)
-  $info("IFWVALIDISASSERTED_THEN_SAMECLK_WSTRBISALLONES_THEN_NEXTCLK_WVALIDISDISASSERTED_THEN_WSTRBVALUEISPREVIOUSVALUES :COVERED");
-  
-  property WhenWvalidIsAssertedAndWstrbOfAllBitAreHighThenNextClkWvalidGoesToLowThenWstrbValuesWillZeros;
+   property WhenWvalidIsAssertedAndWstrbOfAllBitAreHighThenNextClkWvalidGoesToLowThenWstrbValuesWillZeros;
     @(posedge aclk) disable iff (!aresetn)
      wvalid |-> ((wstrb == 4'b1111) && (!$isunknown(wdata)))
      ##1 $fell(wvalid) && (wstrb == 4'b0000);
    endproperty
+    
 
+    property WhenWvalidAndWreadyAreAssertedAndWdataIs64BitsAndWstrbLanesOfL2AndL0AreValidData;
+     @(posedge aclk) disable iff (!aresetn)
+     (wvalid && wready) |-> ((wstrb === 8'b0000_0101) 
+      && (wdata[63:24] === 40'b0) && (wdata[15:8] === 8'b0));
+    endproperty
+   
+   property WhenWvalidAndWreadyAreAssertedAndWstrbValueIsAllOnesThenNextClkWstrbIsInactiveByteThen64BitsOfWdataIsPreviousValues;
+     @(posedge aclk) disable iff (!aresetn)
+     (wvalid && wready) |-> ((wstrb == 8'b1111_1111) && (!$isunknown(wdata))) 
+      ##1 ((wvalid && wready) && (wstrb == 8'b0111_0000) && (wdata[63:56] == $past(wdata[63:56])) 
+      && wdata[31:0] == $past(wdata[31:0]));   
+   endproperty 
+   
+   property WhenWvalidAndWreadyAreAssertedThenSameClkWstrbValueIsAllOnesThen64BitsOfWdataIsNotUnknown; 
+     @(posedge aclk) disable iff (!aresetn)
+       (wvalid && wready) |-> ((wstrb == 8'b1111_1111) && (!$isunknown(wdata)));
+   endproperty 
+
+  `ifdef ADDR_WIDTH == 32 &&  DATA_WIDTH == 32
+   IFWVALIDANDWREADYAREASSERTED_THEN_WSTRBOFHIGHERLANESAREASSERTED_THEN_L3ANDL2OFWDATAISVALIDDATA: cover property
+   (WhenWvalidAndWreadyAreAssertedAndWstrbOfHigherLanesOfWdataIsValidData)
+   $info("IFWVALIDANDWREADYAREASSERTED_THEN_WSTRBOFHIGHERLANESAREASSERTED_THEN_L3ANDL2OFWDATAISVALIDDATA : COVERED");
+
+   IFWVALIDANDWREADYAREASSERTED_THEN_WSTRBOFLOWERLANESAREASSERTED_THEN_L1ANDL0OFWDATAISVALIDDATA: cover property
+   (WhenWvalidAndWreadyAreAssertedAndWstrbOfLowerLanesOfWdataIsValidData)
+   $info("IFWVALIDANDWREADYAREASSERTED_THEN_WSTRBOFLOWERLANESAREASSERTED_THEN_L1ANDL0OFWDATAISVALIDDATA : COVERED");
+   
+   IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THENWDATAISNOTUNKNOWNVALUE: cover property 
+   (WhenWvalidAndWreadyAreAssertedThenSameClkWstrbValueIsAllOnesThenWdataIsNotUnknown)
+   $info("IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THENWDATAISNOTUNKNOWNVALUE :COVERED");
+  
+   IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THEN_NEXTCLK_WSTRBISINACTIVEBYTE_THEN_WDATAISPREVIOUSVALUES: cover property
+   (WhenWvalidAndWreadyAreAssertedAndWstrbValueIsAllOnesThenNextClkWstrbIsInactiveByteThenWdataIsPreviousValues)
+  $info("IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THEN_NEXTCLK_WSTRBISINACTIVEBYTE_THEN_WDATAISPREVIOUSVALUES : COVERED");
+   
+   IFWVALIDISASSERTED_THEN_SAMECLK_WSTRBISALLONES_THEN_NEXTCLK_WVALIDISDISASSERTED_THEN_WSTRBVALUEISPREVIOUSVALUES: cover property
+   (WhenWvalidIsAssertedAndWstrbOfAllBitAreHighThenNextClkWvalidGoesToLowThenWstrbValueIsContinuesWithPreviousWstrbValues)
+   $info("IFWVALIDISASSERTED_THEN_SAMECLK_WSTRBISALLONES_THEN_NEXTCLK_WVALIDISDISASSERTED_THEN_WSTRBVALUEISPREVIOUSVALUES :COVERED");
+   
    IFWVALIDISASSERTED_THEN_SAMECLK_WSTRBISALLONES_THEN_NEXTCLK_WVALIDISDISASSERTED_THEN_WSTRBVALUEISZEROS: cover property
    (WhenWvalidIsAssertedAndWstrbOfAllBitAreHighThenNextClkWvalidGoesToLowThenWstrbValuesWillZeros)
    $info("IFWVALIDISASSERTED_THEN_SAMECLK_WSTRBISALLONES_THEN_NEXTCLK_WVALIDISDISASSERTED_THEN_WSTRBVALUEISZEROS :COVERED");
+
+  `elsif ADDR_WIDTH == 64 &&  DATA_WIDTH == 64
+    
+    IFWVALIDANDWREADYAREASSERTED_THEN_WDATA_IS_64BITS_THEN_WSTRBLANESOF_L2ANDL0ARE_VALIDWDATA :cover property
+    (WhenWvalidAndWreadyAreAssertedAndWdataIs64BitsAndWstrbLanesOfL2AndL0AreValidData)
+    $info("IFWVALIDANDWREADYAREASSERTED_THEN_WDATA_IS_64BITS_THEN_WSTRBLANESOF_L2ANDL0ARE_VALIDWDATA : COVERED");
+
+    IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THEN_NEXTCLK_WSTRBISINACTIVEBYTE_THEN_64BITSOFWDATAISPREVIOUSVALUES: cover property
+   (WhenWvalidAndWreadyAreAssertedAndWstrbValueIsAllOnesThenNextClkWstrbIsInactiveByteThen64BitsOfWdataIsPreviousValues)
+    $info("IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THEN_NEXTCLK_WSTRBISINACTIVEBYTE_THEN_64BITSOFWDATAISPREVIOUSVALUES: COVERED");
+
+    IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEIS_FF_THEN_64BITSOF_WDATAISNOTUNKNOWNVALUE: cover property 
+    (WhenWvalidAndWreadyAreAssertedThenSameClkWstrbValueIsAllOnesThen64BitsOfWdataIsNotUnknown)
+    $info("IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEIS_FF_THEN_64BITSOF_WDATAISNOTUNKNOWNVALUE :COVERED");
+
+ `endif
 
    property WhenMasterIssuesMultipleTxThenSlaveNeedToSupportsMultipleOutstandingTx;
      @(posedge aclk) disable iff(!aresetn)
