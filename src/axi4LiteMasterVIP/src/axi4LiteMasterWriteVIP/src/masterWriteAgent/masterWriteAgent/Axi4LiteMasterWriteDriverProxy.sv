@@ -146,7 +146,7 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
         Axi4LiteMasterWriteTransaction  masterWriteResponseTx;
         axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
-       writeResponseProcess = process::self();
+        writeResponseProcess = process::self();
         writeAddressKey.get(1);
         writeResponseKey.get(1);
 

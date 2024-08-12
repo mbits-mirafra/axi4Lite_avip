@@ -28,7 +28,10 @@ task Axi4LiteVirtual32bitWriteDataSeq::body();
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtual32bitWriteDataSeq")
   end
 
-   if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize() with {delayForBvalidSeq == 1;}) begin
+   if(!axi4LiteSlaveWrite32bitsTransferSeq.randomize() with {delayForBvalidSeq == 1;
+                                                             delayForAwreadySeq == 2;
+                                                             delayForWreadySeq == 2;
+                                                           }) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtual32bitWriteDataSeq")
   end
 

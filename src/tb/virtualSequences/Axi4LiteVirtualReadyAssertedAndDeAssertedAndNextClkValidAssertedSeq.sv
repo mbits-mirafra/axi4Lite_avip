@@ -29,6 +29,8 @@ task Axi4LiteVirtualReadyAssertedAndDeAssertedAndNextClkValidAssertedSeq::body()
    begin : SLAVE_WRITE_SEQ
      forever begin
        if(!axi4LiteSlaveWrite32bitsTransferWithToggleReadySeq.randomize() with {delayForBvalidSeq == 3;
+                                                                                delayForAwreadySeq == 1;
+                                                                                delayForWreadySeq == 1;
                                                                                 repeatToggleReadySeq == 2;
                                                                               }) begin
          `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualReadyAssertedAndDeAssertedAndNextClkValidAssertedSeq")

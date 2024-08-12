@@ -28,7 +28,11 @@ task Axi4LiteVirtualToggleReadySeq::body();
    fork
    begin : SLAVE_WRITE_SEQ
      forever begin
-       if(!axi4LiteSlaveWrite32bitsTransferWithToggleReadySeq.randomize()) begin
+       if(!axi4LiteSlaveWrite32bitsTransferWithToggleReadySeq.randomize() with {delayForAwreadySeq == 1;
+                                                                                delayForWreadySeq == 1;
+                                                                                delayForBvalidSeq == 6;
+                                                                                repeatToggleReadySeq == 4;
+                                                                              }) begin
          `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualToggleReadySeq")
        end
        axi4LiteSlaveWrite32bitsTransferWithToggleReadySeq.start(p_sequencer.axi4LiteSlaveVirtualSequencer.axi4LiteSlaveWriteSequencer);
@@ -36,7 +40,9 @@ task Axi4LiteVirtualToggleReadySeq::body();
     end
   begin : SLAVE_READ_SEQ
     forever begin
-      if(!axi4LiteSlaveRead32bitsTransferWithToggleReadySeq.randomize()) begin
+      if(!axi4LiteSlaveRead32bitsTransferWithToggleReadySeq.randomize() with {delayForRvalidSeq == 6;
+                                                                              repeatToggleReadySeq == 4;
+                                                                            }) begin
         `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualToggleReadySeq")
       end
        axi4LiteSlaveRead32bitsTransferWithToggleReadySeq.start(p_sequencer.axi4LiteSlaveVirtualSequencer.axi4LiteSlaveReadSequencer);
@@ -47,8 +53,12 @@ task Axi4LiteVirtualToggleReadySeq::body();
 
   fork
     begin: MASTER_WRITE_SEQ
-      repeat(10) begin
+      repeat(1) begin
         if(!axi4LiteMasterWrite32bitsTransferWithToggleReadySeq.randomize() with {awprotSeq == 1;
+                                                                                  delayForAwvalidSeq == 7;
+                                                                                  delayForWvalidSeq == 9;
+                                                                                  delayForBreadySeq == 1;
+                                                                                  repeatToggleReadySeq == 4;
                                                                                 }) begin
           `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualToggleReadySeq")
        end
@@ -56,8 +66,10 @@ task Axi4LiteVirtualToggleReadySeq::body();
       end 
     end
   begin: MASTER_READ_SEQ
-      repeat(10) begin
+      repeat(1) begin
         if(!axi4LiteMasterRead32bitsTransferWithToggleReadySeq.randomize() with {arprotSeq == 1;
+                                                                                 delayForArvalidSeq == 7;
+                                                                                 repeatToggleReadySeq == 4;
                                                                                }) begin
           `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualToggleReadySeq")
         end

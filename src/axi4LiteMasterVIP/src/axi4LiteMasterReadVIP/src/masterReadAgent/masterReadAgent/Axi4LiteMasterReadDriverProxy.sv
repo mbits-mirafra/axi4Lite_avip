@@ -13,6 +13,7 @@ class Axi4LiteMasterReadDriverProxy extends uvm_driver #(Axi4LiteMasterReadTrans
 
   semaphore readDataKey;
   process readAddressProcess;
+  process readResponseProcess;
 
   Axi4LiteMasterReadAgentConfig axi4LiteMasterReadAgentConfig;
 
@@ -104,6 +105,7 @@ task Axi4LiteMasterReadDriverProxy::readTransferTask();
         Axi4LiteMasterReadTransaction  masterReadDataTx;
         axi4LiteReadMasterTransferPacketStruct masterReadPacketStruct;
 
+        readResponseProcess = process::self();
         readDataKey.get(1);
 
         if(!axi4LiteMasterReadDataFIFO.is_empty()) begin
