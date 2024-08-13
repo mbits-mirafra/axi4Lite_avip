@@ -52,8 +52,8 @@ task Axi4LiteVirtual32bitWriteAndReadRandomAddressAndDataSeq::body();
 
   fork
     begin: MASTER_WRITE_SEQ
-      repeat(1) begin
-          if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprotSeq == 1;
+      repeat(10) begin
+          if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprotSeq inside {[0:3]};
                                                               delayForAwvalidSeq == 1;
                                                               delayForWvalidSeq  == 3;
                                                               if(Axi4LiteMasterWritePkg::DATA_WIDTH == 64) {
@@ -67,8 +67,8 @@ task Axi4LiteVirtual32bitWriteAndReadRandomAddressAndDataSeq::body();
       end 
     end
   begin: MASTER_READ_SEQ
-      repeat(1) begin
-        if(!axi4LiteMasterRead32bitsTransferSeq.randomize() with {arprotSeq == 1;
+      repeat(10) begin
+        if(!axi4LiteMasterRead32bitsTransferSeq.randomize() with {arprotSeq inside {[0:3]};
                                                                   delayForArvalidSeq == 2;
                                                                   delayForRreadySeq == 0;
                                                                   }) begin
