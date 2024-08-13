@@ -37,7 +37,7 @@ task Axi4LiteVirtualWriteDataWithWstrbSeq::body();
 
   fork
     begin: MASTER_WRITE_SEQ
-      repeat(10) begin
+      repeat(15) begin
         if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprotSeq == 1;
                                                                    delayForAwvalidSeq == 1;
                                                                    delayForWvalidSeq  == 2;
@@ -45,7 +45,7 @@ task Axi4LiteVirtualWriteDataWithWstrbSeq::body();
                                                                    if(Axi4LiteMasterWritePkg::DATA_WIDTH == 64) {
                                                                    wstrbSeq dist {1:/3, 2:/3, [0:14]:/2, [16:254]:/2};}
                                                                    else if(Axi4LiteMasterWritePkg::DATA_WIDTH == 32) {
-                                                                   wstrbSeq dist {3:/4, 12:/4, [0:14]:/2};}
+                                                                   wstrbSeq dist {1:/2, 3:/2, 12:/2, [0:14]:/4};}
                                                                   }) begin
           `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualWriteDataWithWstrbSeq")
         end

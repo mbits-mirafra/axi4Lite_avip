@@ -54,6 +54,7 @@ usage:
 	echo "To provide compilation argument:";
 	echo "make compile comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value>\"";
 	echo "";
+	echo "Example:":
 	echo "make compile comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_READY=1\"";
 	echo "";
 	echo "To simulate individual test:"
@@ -70,6 +71,12 @@ usage:
 	echo "";
 	echo "Example:":
 	echo "make regression testlist_name=axi4LiteRegression.list";
+	echo "";
+	echo "To provide compilation argument in the regression:";
+	echo "make regression comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value>\" testlist_name=axi4LiteRegression.list";
+	echo "";
+	echo "Example:":
+	echo "make regression comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_READY=1\" testlist_name=axi4LiteRegression.list";
 	echo "";
 	echo "-----------------------------------------------------------------";
 	echo "-----------------------------------------------------------------";
