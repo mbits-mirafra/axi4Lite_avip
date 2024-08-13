@@ -45,14 +45,14 @@ class Axi4LiteSlaveWriteCoverage extends uvm_subscriber#(Axi4LiteSlaveWriteTrans
 
    AWPROT_CP : coverpoint packet.awprot {
    option.comment                                   = "Write Address Protection Values" ;
-   bins DATA_NONSECURE_UNPRIVILEGED                 = {3'b000};
-	 bins DATA_NONSECURE_PRIVILEGED                   = {3'b001};
-	 bins DATA_SECURE_UNPRIVILEGED                    = {3'b010};
-	 bins DATA_SECURE_PRIVILEGED                      = {3'b011};
-	 illegal_bins INSTRUCTION_NONSECURE_UNPRIVILEGED  = {3'b100};
-	 illegal_bins INSTRUCTION_NONSECURE_PRIVILEGED    = {3'b101};
-	 illegal_bins INSTRUCTION_SECURE_UNPRIVILEGED     = {3'b110};
-	 illegal_bins INSTRUCTION_SECURE_PRIVILEGED       = {3'b111};
+   bins DATA_SECURE_UNPRIVILEGED                    = {3'b000};  
+	 bins DATA_SECURE_PRIVILEGED                      = {3'b001};  
+	 bins DATA_NONSECURE_UNPRIVILEGED                 = {3'b010};  
+	 bins DATA_NONSECURE_PRIVILEGED                   = {3'b011};  
+	 illegal_bins INSTRUCTION_SECURE_UNPRIVILEGED     = {3'b100};  
+	 illegal_bins INSTRUCTION_SECURE_PRIVILEGED       = {3'b101};  
+	 illegal_bins INSTRUCTION_NONSECURE_UNPRIVILEGED  = {3'b110};  
+	 illegal_bins INSTRUCTION_NONSECURE_PRIVILEGED    = {3'b111};  
 	}
 
    AWPROT_CP_X_BRESP_CP    : cross AWPROT_CP, BRESP_CP;

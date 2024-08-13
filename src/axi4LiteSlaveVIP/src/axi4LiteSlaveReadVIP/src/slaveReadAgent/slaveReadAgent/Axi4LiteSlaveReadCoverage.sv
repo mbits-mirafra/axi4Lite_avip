@@ -35,15 +35,15 @@ class Axi4LiteSlaveReadCoverage extends uvm_subscriber#(Axi4LiteSlaveReadTransac
 
     ARPROT_CP : coverpoint packet.arprot {
     option.comment                                   = "Read Address Protection Values" ;
-    bins DATA_NONSECURE_UNPRIVILEGED                 = {3'b000};  
-	  bins DATA_NONSECURE_PRIVILEGED                   = {3'b001};  
-	  bins DATA_SECURE_UNPRIVILEGED                    = {3'b010};  
-	  bins DATA_SECURE_PRIVILEGED                      = {3'b011};  
-	  illegal_bins INSTRUCTION_NONSECURE_UNPRIVILEGED  = {3'b100};  
-	  illegal_bins INSTRUCTION_NONSECURE_PRIVILEGED    = {3'b101};  
-	  illegal_bins INSTRUCTION_SECURE_UNPRIVILEGED     = {3'b110};  
-	  illegal_bins INSTRUCTION_SECURE_PRIVILEGED       = {3'b111};  
-	 }
+    bins DATA_SECURE_UNPRIVILEGED                    = {3'b000};  
+	  bins DATA_SECURE_PRIVILEGED                      = {3'b001};  
+	  bins DATA_NONSECURE_UNPRIVILEGED                 = {3'b010};  
+	  bins DATA_NONSECURE_PRIVILEGED                   = {3'b011};  
+	  illegal_bins INSTRUCTION_SECURE_UNPRIVILEGED     = {3'b100};  
+	  illegal_bins INSTRUCTION_SECURE_PRIVILEGED       = {3'b101};  
+	  illegal_bins INSTRUCTION_NONSECURE_UNPRIVILEGED  = {3'b110};  
+	  illegal_bins INSTRUCTION_NONSECURE_PRIVILEGED    = {3'b111};  
+  }
 
     ARPROT_CP_X_RRESP_CP      : cross ARPROT_CP, RRESP_CP;
     READDATA_CP_X_RRESP_CP    : cross READDATA_CP, RRESP_CP;
