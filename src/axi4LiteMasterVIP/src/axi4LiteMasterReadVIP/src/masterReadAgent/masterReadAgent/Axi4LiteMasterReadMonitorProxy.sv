@@ -38,8 +38,8 @@ function Axi4LiteMasterReadMonitorProxy::new(string name = "Axi4LiteMasterReadMo
   super.new(name, parent);
   axi4LiteMasterReadAddressAnalysisPort  = new("axi4LiteMasterReadAddressAnalysisPort",this);
   axi4LiteMasterReadDataAnalysisPort     = new("axi4LiteMasterReadDataAnalysisPort",this);
-  axi4LiteMasterReadAddressFIFO= new("axi4LiteMasterReadAddressFIFO",this);
-  axi4LiteMasterReadDataFIFO= new("axi4LiteMasterReadDataFIFO",this);
+  axi4LiteMasterReadAddressFIFO          = new("axi4LiteMasterReadAddressFIFO",this);
+  axi4LiteMasterReadDataFIFO             = new("axi4LiteMasterReadDataFIFO",this);
 endfunction : new
 
 function void Axi4LiteMasterReadMonitorProxy::build_phase(uvm_phase phase);
@@ -80,8 +80,9 @@ task Axi4LiteMasterReadMonitorProxy::readAddressSampleTask();
   `uvm_info(get_type_name(), $sformatf("Master_Read_Monitor Converted packet from BFM  struct\n%p",masterReadPacketStruct), UVM_HIGH)
    Axi4LiteMasterReadSeqItemConverter::toReadClass(masterReadPacketStruct,reqRead);
 
-   // // Clone and publish the cloned item to the subscribers
-    $cast(masterReadTx,reqRead.clone());
+   axi4LiteMasterReadAddressFIFO.write(reqRead);
+
+   $cast(masterReadTx,reqRead.clone());
 
     `uvm_info(get_type_name(),$sformatf("Packet Received OutsideReadDataSampleTask: from Master_Read_Monitor_BFM clone packet is \n %s",masterReadTx.sprint()),UVM_HIGH)
     axi4LiteMasterReadAddressAnalysisPort.write(masterReadTx);
@@ -91,6 +92,7 @@ endtask : readAddressSampleTask
 task Axi4LiteMasterReadMonitorProxy::readDataSampleTask();
   forever begin
    Axi4LiteMasterReadTransaction masterReadTx;
+   Axi4LiteMasterReadTransaction masterReadAddressTx;
    axi4LiteReadMasterTransferCfgStruct masterReadConfigStruct;
    axi4LiteReadMasterTransferPacketStruct masterReadPacketStruct;
 
@@ -102,7 +104,10 @@ task Axi4LiteMasterReadMonitorProxy::readDataSampleTask();
    
    Axi4LiteMasterReadSeqItemConverter::toReadClass(masterReadPacketStruct,reqRead);
 
-   // // Clone and publish the cloned item to the subscribers
+   axi4LiteMasterReadAddressFIFO.get(masterReadAddressTx);
+   
+   Axi4LiteMasterReadSeqItemConverter::toReadAddrRespClass(masterReadAddressTx,masterReadPacketStruct,reqRead);
+
    $cast(masterReadTx,reqRead.clone());
     `uvm_info(get_type_name(),$sformatf("Packet Received OutsideReadDataSampleTask: from Master_Read_Monitor_BFM clone packet is \n %s",masterReadTx.sprint()),UVM_HIGH)
      axi4LiteMasterReadDataAnalysisPort.write(masterReadTx);

@@ -78,6 +78,8 @@ task Axi4LiteSlaveWriteMonitorProxy::writeAddressSampleTask();
 
    Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,reqWrite);
    
+   axi4LiteSlaveWriteAddressFIFO.write(reqWrite);
+
    $cast(slaveWriteAddressTx,reqWrite.clone());
 
   `uvm_info(get_type_name(),$sformatf("Packet Received OutsideWriteAddressSampleTask: from Master_Write_Monitor_BFM clone packet is\n %s",slaveWriteAddressTx.sprint()),UVM_HIGH)
@@ -107,6 +109,7 @@ endtask
 task Axi4LiteSlaveWriteMonitorProxy::writeResponseSampleTask();
   forever begin
    Axi4LiteSlaveWriteTransaction slaveWriteResponseTx;
+   Axi4LiteSlaveWriteTransaction slaveWriteAddressTx;
    axi4LiteWriteSlaveTransferCfgStruct slaveWriteConfigStruct;
    axi4LiteWriteSlaveTransferPacketStruct slaveWritePacketStruct;
 
@@ -115,6 +118,10 @@ task Axi4LiteSlaveWriteMonitorProxy::writeResponseSampleTask();
    axi4LiteSlaveWriteMonitorBFM.writeResponseChannelSampleTask(slaveWriteConfigStruct, slaveWritePacketStruct);
   `uvm_info(get_type_name(), $sformatf("Slave_Write_Monitor writeResponseTask Converted packet from BFM  struct\n%p",slaveWritePacketStruct), UVM_HIGH)
    Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,reqWrite);
+   
+   axi4LiteSlaveWriteAddressFIFO.get(slaveWriteAddressTx);
+   
+   Axi4LiteSlaveWriteSeqItemConverter::toWriteAddrRespClass(slaveWriteAddressTx,slaveWritePacketStruct,reqWrite);
   
    $cast(slaveWriteResponseTx,reqWrite.clone());
 

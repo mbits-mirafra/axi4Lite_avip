@@ -7,6 +7,8 @@ class Axi4LiteSlaveWriteSeqItemConverter extends uvm_object;
   extern function new(string name = "Axi4LiteSlaveWriteSeqItemConverter");
   extern static function void fromWriteClass(input Axi4LiteSlaveWriteTransaction inputConv, output axi4LiteWriteSlaveTransferPacketStruct outputConv);
   extern static function void toWriteClass(input axi4LiteWriteSlaveTransferPacketStruct inputConv, output Axi4LiteSlaveWriteTransaction outputConv);
+  extern static function void toWriteAddrRespClass(input Axi4LiteSlaveWriteTransaction addressInputConv, input axi4LiteWriteSlaveTransferPacketStruct inputConv, output Axi4LiteSlaveWriteTransaction outputConv);
+
   extern function void do_print(uvm_printer printer);
 
 endclass : Axi4LiteSlaveWriteSeqItemConverter
@@ -72,6 +74,24 @@ function void  Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(input axi4LiteWr
 
 
 endfunction : toWriteClass
+
+function void Axi4LiteSlaveWriteSeqItemConverter::toWriteAddrRespClass(input Axi4LiteSlaveWriteTransaction addressInputConv, input axi4LiteWriteSlaveTransferPacketStruct inputConv, output Axi4LiteSlaveWriteTransaction outputConv);
+
+  `uvm_info("axi4Lite_slaveWrite_seq_item_conv_class",$sformatf("----------------------------------------------------------------------"),UVM_HIGH);
+
+  outputConv = new();
+  
+  outputConv.awaddr = addressInputConv.awaddr; 
+  `uvm_info("axi4Lite_slaveWrite_seq_item_conv_class",$sformatf("After converting toWriteAddrRespClass awaddr =  %0h",outputConv.awaddr),UVM_HIGH);
+  
+  outputConv.awprot = addressInputConv.awprot;
+  `uvm_info("axi4Lite_slaveWrite_seq_item_conv_class",$sformatf("After converting toWriteAddrRespClass awprot =  %0d",outputConv.awprot),UVM_HIGH);
+ 
+  outputConv.bresp = brespEnum'(inputConv.bresp);
+  `uvm_info("axi4Lite_slaveWrite_seq_item_conv_class",$sformatf("After converting toWriteAddrRespClass bresp =  %0d",outputConv.bresp),UVM_HIGH);
+
+endfunction : toWriteAddrRespClass
+
 
 function void Axi4LiteSlaveWriteSeqItemConverter::do_print(uvm_printer printer);
   axi4LiteWriteSlaveTransferPacketStruct writePacketStruct; 

@@ -31,6 +31,7 @@ function Axi4LiteSlaveReadMonitorProxy::new(string name = "Axi4LiteSlaveReadMoni
   super.new(name, parent);
   axi4LiteSlaveReadAddressAnalysisPort  = new("axi4LiteSlaveReadAddressAnalysisPort",this);
   axi4LiteSlaveReadDataAnalysisPort     = new("axi4LiteSlaveReadDataAnalysisPort",this);
+  axi4LiteSlaveReadAddressFIFO          = new("axi4LiteSlaveReadAddressFIFO",this);
   axi4LiteSlaveReadDataFIFO             = new("axi4LiteSlaveReadDataFIFO",this);
 endfunction : new
 
@@ -61,13 +62,16 @@ task Axi4LiteSlaveReadMonitorProxy::ReadAddressSampleTask();
    axi4LiteReadSlaveTransferPacketStruct slaveReadPacketStruct;
 
    Axi4LiteSlaveReadConfigConverter::fromClass(axi4LiteSlaveReadAgentConfig, slaveReadConfigStruct);
+  
    `uvm_info(get_type_name(), $sformatf("Inside Slave_Read_Monitor Converted cfg struct\n%p",slaveReadConfigStruct), UVM_HIGH)
    axi4LiteSlaveReadMonitorBFM.readAddressChannelSampleTask(slaveReadConfigStruct, slaveReadPacketStruct);
-  `uvm_info(get_type_name(), $sformatf("Slave_Read_Monitor Converted packet from BFM  struct\n%p",slaveReadPacketStruct), UVM_HIGH)
+   `uvm_info(get_type_name(), $sformatf("Slave_Read_Monitor Converted packet from BFM  struct\n%p",slaveReadPacketStruct), UVM_HIGH)
+ 
    Axi4LiteSlaveReadSeqItemConverter::toReadClass(slaveReadPacketStruct,reqRead);
 
-    // Clone and publish the cloned item to the subscribers
-    $cast(slaveReadAddressTx,reqRead.clone());
+   axi4LiteSlaveReadAddressFIFO.write(reqRead);
+
+   $cast(slaveReadAddressTx,reqRead.clone());
 
     `uvm_info(get_type_name(),$sformatf("Packet received from slave read monitor BFM clone packet is \n %s",slaveReadAddressTx.sprint()),UVM_HIGH)
     axi4LiteSlaveReadAddressAnalysisPort.write(slaveReadAddressTx);
@@ -76,7 +80,8 @@ endtask
 
 task Axi4LiteSlaveReadMonitorProxy::ReadDataSampleTask();
   forever begin
-   Axi4LiteSlaveReadTransaction slaveReadDataTx;
+   Axi4LiteSlaveReadTransaction slaveReadTx;
+   Axi4LiteSlaveReadTransaction slaveReadAddressTx;
    axi4LiteReadSlaveTransferCfgStruct slaveReadConfigStruct;
    axi4LiteReadSlaveTransferPacketStruct slaveReadPacketStruct;
 
@@ -85,14 +90,17 @@ task Axi4LiteSlaveReadMonitorProxy::ReadDataSampleTask();
    axi4LiteSlaveReadMonitorBFM.readDataChannelSampleTask(slaveReadConfigStruct, slaveReadPacketStruct);
  `uvm_info(get_type_name(), $sformatf("Slave_Read_Monitor Converted  packet from BFM \n%p",slaveReadPacketStruct), UVM_HIGH)
    Axi4LiteSlaveReadSeqItemConverter::toReadClass(slaveReadPacketStruct,reqRead);
+  
+   axi4LiteSlaveReadAddressFIFO.get(slaveReadAddressTx);
+   
+   Axi4LiteSlaveReadSeqItemConverter::toReadAddrRespClass(slaveReadAddressTx,slaveReadPacketStruct,reqRead);
+   
+   $cast(slaveReadTx,reqRead.clone());
 
-    // Clone and publish the cloned item to the subscribers
-    $cast(slaveReadDataTx,reqRead.clone());
-
-    `uvm_info(get_type_name(),$sformatf("Packet received from slave read monitor BFM clone packet is \n %s",slaveReadDataTx.sprint()),UVM_HIGH)
-    axi4LiteSlaveReadDataAnalysisPort.write(slaveReadDataTx);
+    `uvm_info(get_type_name(),$sformatf("Packet received from slave read monitor BFM clone packet is \n %s",slaveReadTx.sprint()),UVM_HIGH)
+    axi4LiteSlaveReadDataAnalysisPort.write(slaveReadTx);
   end
-endtask
+endtask : ReadDataSampleTask
 
 
 `endif

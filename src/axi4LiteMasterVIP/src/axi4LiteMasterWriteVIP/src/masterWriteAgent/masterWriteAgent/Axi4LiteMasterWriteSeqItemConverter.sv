@@ -7,6 +7,8 @@ class Axi4LiteMasterWriteSeqItemConverter extends uvm_object;
   extern function new(string name = "Axi4LiteMasterWriteSeqItemConverter");
   extern static function void fromWriteClass(input Axi4LiteMasterWriteTransaction inputConv, output axi4LiteWriteMasterTransferPacketStruct outputConv);
   extern static function void toWriteClass(input axi4LiteWriteMasterTransferPacketStruct inputConv, output Axi4LiteMasterWriteTransaction outputConv);
+  extern static function void toWriteAddrRespClass(input Axi4LiteMasterWriteTransaction addressInputConv, input axi4LiteWriteMasterTransferPacketStruct inputConv, output Axi4LiteMasterWriteTransaction outputConv);
+
   extern function void do_print(uvm_printer printer);
 endclass : Axi4LiteMasterWriteSeqItemConverter
 
@@ -56,12 +58,12 @@ endfunction : fromWriteClass
 
 function void Axi4LiteMasterWriteSeqItemConverter::toWriteClass(input axi4LiteWriteMasterTransferPacketStruct inputConv, output Axi4LiteMasterWriteTransaction outputConv);
 
-  `uvm_info("axi4_master_seq_item_conv_class",$sformatf("----------------------------------------------------------------------"),UVM_HIGH);
+  `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("----------------------------------------------------------------------"),UVM_HIGH);
  
   outputConv = new();
 
   outputConv.awaddr = inputConv.awaddr;
-  `uvm_info("axi4_master_seq_item_conv_class",$sformatf("After converting toWriteClass awaddr =  %0h",outputConv.awaddr),UVM_HIGH);
+  `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting toWriteClass awaddr =  %0h",outputConv.awaddr),UVM_HIGH);
 
   outputConv.awprot = awprotEnum'(inputConv.awprot);
   `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting toWriteClass awprot =  %0b",outputConv.awprot),UVM_HIGH);
@@ -94,6 +96,23 @@ function void Axi4LiteMasterWriteSeqItemConverter::toWriteClass(input axi4LiteWr
   `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting toWriteClass waitCounterForBvalid =  %0d",outputConv.waitCounterForBvalid),UVM_HIGH);
 
 endfunction : toWriteClass
+  
+function void Axi4LiteMasterWriteSeqItemConverter::toWriteAddrRespClass(input Axi4LiteMasterWriteTransaction addressInputConv, input axi4LiteWriteMasterTransferPacketStruct inputConv, output Axi4LiteMasterWriteTransaction outputConv);
+
+  `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("----------------------------------------------------------------------"),UVM_HIGH);
+
+  outputConv = new();
+  
+  outputConv.awaddr = addressInputConv.awaddr; 
+  `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting toWriteAddrRespClass awaddr =  %0h",outputConv.awaddr),UVM_HIGH);
+  
+  outputConv.awprot = addressInputConv.awprot;
+  `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting toWriteAddrRespClass awprot =  %0d",outputConv.awprot),UVM_HIGH);
+ 
+  outputConv.bresp = brespEnum'(inputConv.bresp);
+  `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting toWriteAddrRespClass bresp =  %0d",outputConv.bresp),UVM_HIGH);
+
+endfunction : toWriteAddrRespClass
 
 
 function void Axi4LiteMasterWriteSeqItemConverter::do_print(uvm_printer printer);

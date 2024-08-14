@@ -41,8 +41,8 @@ function Axi4LiteMasterWriteMonitorProxy::new(string name = "Axi4LiteMasterWrite
   axi4LiteMasterWriteAddressAnalysisPort  = new("axi4LiteMasterWriteAddressAnalysisPort",this);
   axi4LiteMasterWriteDataAnalysisPort     = new("axi4LiteMasterWriteDataAnalysisPort",this);
   axi4LiteMasterWriteResponseAnalysisPort = new("axi4LiteMasterWriteResponseAnalysisPort",this);
-  axi4LiteMasterWriteAddressFIFO= new("axi4LiteMasterWriteAddressFIFO",this);
-  axi4LiteMasterWriteDataFIFO= new("axi4LiteMasterWriteDataFIFO",this);
+  axi4LiteMasterWriteAddressFIFO          = new("axi4LiteMasterWriteAddressFIFO",this);
+  axi4LiteMasterWriteDataFIFO             = new("axi4LiteMasterWriteDataFIFO",this);
 endfunction : new
 
 function void Axi4LiteMasterWriteMonitorProxy::build_phase(uvm_phase phase);
@@ -84,7 +84,9 @@ task Axi4LiteMasterWriteMonitorProxy::writeAddressSampleTask();
 
    Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,reqWrite);
 
-    $cast(masterWriteTx,reqWrite.clone());
+   axi4LiteMasterWriteAddressFIFO.write(reqWrite);
+
+   $cast(masterWriteTx,reqWrite.clone());
 
     `uvm_info(get_type_name(),$sformatf("Packet Received OutsideWriteAddressSampleTask: from Master_write_Monitor_BFM clone packet is \n %s",masterWriteTx.sprint()),UVM_HIGH)
     axi4LiteMasterWriteAddressAnalysisPort.write(masterWriteTx);
@@ -113,16 +115,21 @@ endtask : writeDataSampleTask
 task Axi4LiteMasterWriteMonitorProxy::writeResponseSampleTask();
   forever begin
    Axi4LiteMasterWriteTransaction masterWriteTx;
+   Axi4LiteMasterWriteTransaction masterWriteAddressTx;
    axi4LiteWriteMasterTransferCfgStruct masterWriteConfigStruct;
    axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
-
+   
    Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteConfigStruct);
    `uvm_info(get_type_name(), $sformatf("Inside Master_Write_Monitor writeResponseTask Converted cfg struct\n%p",masterWriteConfigStruct), UVM_HIGH)
    axi4LiteMasterWriteMonitorBFM.writeResponseChannelSampleTask(masterWriteConfigStruct, masterWritePacketStruct);
   `uvm_info(get_type_name(), $sformatf("Master_Write_Monitor writeResponseTask Converted packet from BFM  struct\n%p",masterWritePacketStruct), UVM_HIGH)
    Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,reqWrite);
+   
+   axi4LiteMasterWriteAddressFIFO.get(masterWriteAddressTx);
 
-    $cast(masterWriteTx,reqWrite.clone());
+   Axi4LiteMasterWriteSeqItemConverter::toWriteAddrRespClass(masterWriteAddressTx,masterWritePacketStruct,reqWrite);
+    
+   $cast(masterWriteTx,reqWrite.clone());
 
     `uvm_info(get_type_name(),$sformatf("Packet Received OutsideWriteResponseSampleTask: from Master_Write_Monitor_BFM clone packet is \n %s",masterWriteTx.sprint()),UVM_HIGH)
    axi4LiteMasterWriteResponseAnalysisPort.write(masterWriteTx);

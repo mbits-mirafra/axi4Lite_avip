@@ -7,6 +7,8 @@ class Axi4LiteMasterReadSeqItemConverter extends uvm_object;
   extern function new(string name = "Axi4LiteMasterReadSeqItemConverter");
   extern static function void fromReadClass(input Axi4LiteMasterReadTransaction inputConv, output axi4LiteReadMasterTransferPacketStruct outputConv);
   extern static function void toReadClass(input axi4LiteReadMasterTransferPacketStruct inputConv, output Axi4LiteMasterReadTransaction outputConv);
+  extern static function void toReadAddrRespClass(input Axi4LiteMasterReadTransaction addressInputConv, input axi4LiteReadMasterTransferPacketStruct inputConv, output Axi4LiteMasterReadTransaction outputConv);
+
   extern function void do_print(uvm_printer printer);
 endclass : Axi4LiteMasterReadSeqItemConverter
 
@@ -76,6 +78,26 @@ outputConv.delayForRready = inputConv.delayForRready;
   `uvm_info("axi4Lite_masterRead_seq_item_conv_class",$sformatf("After converting toReadClass waitCounterForRvalid =  %0d",outputConv.waitCounterForRvalid),UVM_HIGH);
 
 endfunction : toReadClass
+
+function void Axi4LiteMasterReadSeqItemConverter::toReadAddrRespClass(input Axi4LiteMasterReadTransaction addressInputConv, input axi4LiteReadMasterTransferPacketStruct inputConv, output Axi4LiteMasterReadTransaction outputConv);
+
+  `uvm_info("axi4Lite_masterRead_seq_item_conv_class",$sformatf("----------------------------------------------------------------------"),UVM_HIGH);
+
+  outputConv = new();
+  
+  outputConv.araddr = addressInputConv.araddr; 
+  `uvm_info("axi4Lite_masterRead_seq_item_conv_class",$sformatf("After converting toReadAddrRespClass araddr =  %0h",outputConv.araddr),UVM_HIGH);
+  
+  outputConv.arprot = addressInputConv.arprot;
+  `uvm_info("axi4Lite_masterRead_seq_item_conv_class",$sformatf("After converting toReadAddrRespClass arprot =  %0d",outputConv.arprot),UVM_HIGH);
+  
+  outputConv.rdata = inputConv.rdata; 
+  `uvm_info("axi4Lite_masterRead_seq_item_conv_class",$sformatf("After converting toReadAddrRespClass rdata =  %0h",outputConv.rdata),UVM_HIGH);
+ 
+  outputConv.rresp = rrespEnum'(inputConv.rresp);
+  `uvm_info("axi4Lite_masterRead_seq_item_conv_class",$sformatf("After converting toReadAddrRespClass rresp =  %0d",outputConv.rresp),UVM_HIGH);
+
+endfunction : toReadAddrRespClass
 
 
 function void Axi4LiteMasterReadSeqItemConverter::do_print(uvm_printer printer);
