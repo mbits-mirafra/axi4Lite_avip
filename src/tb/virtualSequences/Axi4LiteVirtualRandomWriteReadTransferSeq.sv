@@ -51,7 +51,7 @@ task Axi4LiteVirtualRandomWriteReadTransferSeq::body();
         axi4LiteMasterReadRandomTransferSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterReadSequencer);
       end
     end
-  join_none
+  join
 
  endtask : body
 

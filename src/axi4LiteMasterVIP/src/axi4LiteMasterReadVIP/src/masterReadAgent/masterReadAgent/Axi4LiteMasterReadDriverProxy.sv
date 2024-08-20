@@ -12,6 +12,7 @@ class Axi4LiteMasterReadDriverProxy extends uvm_driver #(Axi4LiteMasterReadTrans
   RSP rspRead;
 
   semaphore readDataKey;
+  semaphore readResponseKey;
   process readAddressProcess;
   process readResponseProcess;
 
@@ -35,6 +36,7 @@ function Axi4LiteMasterReadDriverProxy::new(string name = "Axi4LiteMasterReadDri
   axi4LiteMasterReadRspPort      = new("axi4LiteMasterReadRspPort", this);
   axi4LiteMasterReadDataFIFO     = new("axi4LiteMasterReadDataFIFO", this);
   readDataKey                    = new(1);
+  readResponseKey                = new(1);
 endfunction : new
 
 function void Axi4LiteMasterReadDriverProxy::build_phase(uvm_phase phase);
@@ -64,7 +66,7 @@ task Axi4LiteMasterReadDriverProxy::waitForAresetnTask();
 endtask : waitForAresetnTask
 
 task Axi4LiteMasterReadDriverProxy::readTransferTask();
-  readDataKey.get(1);
+  //readDataKey.get(1);
   forever begin
     Axi4LiteMasterReadTransaction  masterReadTx;
     axi4LiteReadMasterTransferCfgStruct  masterReadConfigStruct;
@@ -98,7 +100,7 @@ task Axi4LiteMasterReadDriverProxy::readTransferTask();
         Axi4LiteMasterReadSeqItemConverter::toReadClass(masterReadPacketStruct,masterReadAddressTx);
         `uvm_info(get_type_name(),$sformatf("MASTER_READ_ADDRESS_THREAD::Received read address packet From driverBFM = %p",
                                                masterReadPacketStruct),UVM_MEDIUM); 
-        readDataKey.put(1);
+        //readDataKey.put(1);
       end
 
       begin : MASTER_READ_DATA_CHANNEL
@@ -106,7 +108,8 @@ task Axi4LiteMasterReadDriverProxy::readTransferTask();
         axi4LiteReadMasterTransferPacketStruct masterReadPacketStruct;
 
         readResponseProcess = process::self();
-        readDataKey.get(1);
+        readResponseKey.get(1);
+        //readDataKey.get(1);
 
         if(!axi4LiteMasterReadDataFIFO.is_empty()) begin
           axi4LiteMasterReadDataFIFO.get(masterReadDataTx);
@@ -122,6 +125,7 @@ task Axi4LiteMasterReadDriverProxy::readTransferTask();
         Axi4LiteMasterReadSeqItemConverter::toReadClass(masterReadPacketStruct,masterReadDataTx);
         `uvm_info(get_type_name(),$sformatf("MASTER_READ_DATA_THREAD::Received read data packet From driverBFM = %p",
                                                masterReadPacketStruct),UVM_MEDIUM); 
+        readResponseKey.put(1);
       end
 
     join_any

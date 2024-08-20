@@ -11,6 +11,7 @@ class Axi4LiteSlaveReadDriverProxy extends uvm_driver#(Axi4LiteSlaveReadTransact
   RSP rspRead;
 
   semaphore readDataKey;
+  semaphore readResponseKey;
 
   process readAddressProcess;
 
@@ -39,6 +40,7 @@ function Axi4LiteSlaveReadDriverProxy::new(string name = "Axi4LiteSlaveReadDrive
   axi4LiteSlaveReadDataFIFO    = new("axi4LiteSlaveReadDataFIFO",this,16);
   axi4LiteSlaveReadAddressFIFO = new("axi4LiteSlaveReadAddressFIFO",this,16);
   readDataKey                  = new(1);     
+  readResponseKey              = new(1);     
 endfunction : new
 
 function void Axi4LiteSlaveReadDriverProxy::build_phase(uvm_phase phase);
@@ -118,6 +120,7 @@ task Axi4LiteSlaveReadDriverProxy::readTransferTask();
       Axi4LiteSlaveReadTransaction slaveReadDataTx;
       axi4LiteReadSlaveTransferPacketStruct slaveReadPacketStruct;
 
+      readResponseKey.get(1);
       readDataKey.get(1);
 
       if(!axi4LiteSlaveReadDataFIFO.is_empty()) begin
@@ -148,6 +151,7 @@ task Axi4LiteSlaveReadDriverProxy::readTransferTask();
       Axi4LiteSlaveReadSeqItemConverter::toReadClass(slaveReadPacketStruct,slaveReadDataTx);
       `uvm_info(get_type_name(),$sformatf("SLAVE_READ_DATA_TASK::Received read data packet From driverBFM = %p",
                                           slaveReadPacketStruct),UVM_MEDIUM);
+        readResponseKey.put(1);
       end
     join_any 
 

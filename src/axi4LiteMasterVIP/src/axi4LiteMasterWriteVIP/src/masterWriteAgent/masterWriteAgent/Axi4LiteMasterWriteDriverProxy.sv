@@ -74,7 +74,7 @@ task Axi4LiteMasterWriteDriverProxy::waitForAresetnTask();
 endtask : waitForAresetnTask
 
 task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
-   writeResponseKey.get(1);
+   //writeResponseKey.get(1);
    writeAddressKey.get(1);
   forever begin
     Axi4LiteMasterWriteTransaction  masterWriteTx;
@@ -120,7 +120,7 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
         Axi4LiteMasterWriteTransaction  masterWriteDataTx;
         axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
-       writeDataProcess = process::self();
+        writeDataProcess = process::self();
         writeDataKey.get(1);
 
         Axi4LiteMasterWriteSeqItemConverter::fromWriteClass(reqWrite, masterWritePacketStruct);
@@ -138,7 +138,7 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_DATA_THREAD::Received write data packet From driverBFM = %p",
                                                masterWritePacketStruct),UVM_MEDIUM); 
 
-        writeResponseKey.put(1);
+        //writeResponseKey.put(1);
         writeDataKey.put(1);
       end
 
@@ -147,7 +147,7 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
         axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
         writeResponseProcess = process::self();
-        writeAddressKey.get(1);
+      //  writeAddressKey.get(1);
         writeResponseKey.get(1);
 
         if(!axi4LiteMasterWriteResponseFIFO.is_empty()) begin
@@ -164,6 +164,7 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
         Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,masterWriteResponseTx);
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_RESPONSE_THREAD::Received write response packet From driverBFM = %p",
                                                masterWritePacketStruct),UVM_MEDIUM); 
+        writeResponseKey.put(1);
       end
 
     join_any

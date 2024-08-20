@@ -86,6 +86,7 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
     end
   end
 
+    @(negedge aclk);
     while(rvalid === 0) begin
       @(posedge aclk);
       if(masterReadPacketStruct.waitCounterForRvalid > (masterReadConfigStruct.maxDelayForRvalid+1)) begin

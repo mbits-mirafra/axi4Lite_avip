@@ -10,6 +10,7 @@ class Axi4LiteSlaveWriteDriverProxy extends uvm_driver#(Axi4LiteSlaveWriteTransa
   REQ reqWrite;
   RSP rspWrite;
 
+  semaphore writeResponseDataKey;
   semaphore writeResponseKey;
   semaphore writeDataKey;
   semaphore writeAddressKey;
@@ -44,6 +45,7 @@ function Axi4LiteSlaveWriteDriverProxy::new(string name = "Axi4LiteSlaveWriteDri
   axi4LiteSlaveWriteAddressFIFO  = new("axi4LiteSlaveWriteAddressFIFO",this,16);
   writeAddressKey                = new(1);
   writeDataKey                   = new(1);
+  writeResponseDataKey           = new(1);
   writeResponseKey               = new(1);
  endfunction : new
 
@@ -71,7 +73,7 @@ task Axi4LiteSlaveWriteDriverProxy::waitForAresetnTask();
 endtask : waitForAresetnTask
 
 task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
-   writeResponseKey.get(1);
+   writeResponseDataKey.get(1);
    writeAddressKey.get(1);
  forever begin
     Axi4LiteSlaveWriteTransaction slaveWriteTx;
@@ -127,7 +129,7 @@ task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
         Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,slaveWriteDataTx);
        `uvm_info(get_type_name(),$sformatf("SLAVE_WRITE_DATA_CHANNEL_TASK::Received WriteData packet from driverBFM = %p",
                                             slaveWritePacketStruct),UVM_MEDIUM);
-        writeResponseKey.put(1);
+        writeResponseDataKey.put(1);
         writeDataKey.put(1);
      end
 
@@ -138,8 +140,9 @@ task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
 
        writeResponseProcess = process::self();
 
-        writeAddressKey.get(1);
         writeResponseKey.get(1);
+        writeAddressKey.get(1);
+        writeResponseDataKey.get(1);
 
         if(!axi4LiteSlaveWriteResponseFIFO.is_empty()) begin
           axi4LiteSlaveWriteResponseFIFO.get(slaveWriteResponseTx);
@@ -169,6 +172,7 @@ task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
        Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,slaveWriteResponseTx);
        `uvm_info(get_type_name(),$sformatf("SLAVE_WRITE_RESPONSE_CHANNEL_TASK::Received writeResponse packet from driverBFM = %p",
                                             slaveWritePacketStruct),UVM_MEDIUM);
+        writeResponseKey.put(1);
      end
    join_any
 

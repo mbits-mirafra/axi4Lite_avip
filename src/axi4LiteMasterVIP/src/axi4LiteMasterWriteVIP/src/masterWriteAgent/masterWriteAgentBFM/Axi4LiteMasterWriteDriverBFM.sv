@@ -114,6 +114,7 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
     end
   end
 
+    @(negedge aclk);
     while(bvalid === 0) begin
       @(posedge aclk);
       if(masterWritePacketStruct.waitCounterForBvalid > (masterWriteConfigStruct.maxDelayForBvalid+1)) begin
