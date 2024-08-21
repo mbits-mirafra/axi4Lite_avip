@@ -66,7 +66,7 @@ task Axi4LiteMasterReadDriverProxy::waitForAresetnTask();
 endtask : waitForAresetnTask
 
 task Axi4LiteMasterReadDriverProxy::readTransferTask();
-  //readDataKey.get(1);
+  readDataKey.get(1);
   forever begin
     Axi4LiteMasterReadTransaction  masterReadTx;
     axi4LiteReadMasterTransferCfgStruct  masterReadConfigStruct;
@@ -100,7 +100,7 @@ task Axi4LiteMasterReadDriverProxy::readTransferTask();
         Axi4LiteMasterReadSeqItemConverter::toReadClass(masterReadPacketStruct,masterReadAddressTx);
         `uvm_info(get_type_name(),$sformatf("MASTER_READ_ADDRESS_THREAD::Received read address packet From driverBFM = %p",
                                                masterReadPacketStruct),UVM_MEDIUM); 
-        //readDataKey.put(1);
+        readDataKey.put(1);
       end
 
       begin : MASTER_READ_DATA_CHANNEL
@@ -109,7 +109,7 @@ task Axi4LiteMasterReadDriverProxy::readTransferTask();
 
         readResponseProcess = process::self();
         readResponseKey.get(1);
-        //readDataKey.get(1);
+        readDataKey.get(1);
 
         if(!axi4LiteMasterReadDataFIFO.is_empty()) begin
           axi4LiteMasterReadDataFIFO.get(masterReadDataTx);

@@ -146,6 +146,8 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   (WhenValidAssertedThenValidHighAndWithin1To16ClkReadyAsserted(rvalid, rready)) 
   $info("IFRVALIDASSERTED_ANDREMAINHIGH_THENWITHIN1TO16CLK_RREADYASSERTED : COVERED");
 
+  `ifdef DEFAULT_READY == 1 
+
   property WhenBackToBackValidAndReadyAssertedWithoutDelayInbetween2Transfer(logic valid, logic ready);
    @(posedge aclk) disable iff (!aresetn)
     (valid && ready) |=> ($stable(valid) && $stable(ready));
@@ -210,6 +212,8 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   IFBACKTOBACK_RVALIDANDRREADYASSERTED_WITHMORETHAN16CLKDELAY_INBETWEEN2TRANSFER: cover property
   (WhenBackToBackValidAndReadyAssertedWithMoreThan16ClkDelayInbetween2Transfer(rvalid, rready))
   $info("IFBACKTOBACK_RVALIDANDRREADYASSERTED_WITHMORETHAN16CLKDELAY_INBETWEEN2TRANSFER : COVERED");
+
+  `endif
 
   property readyAssertAtleastOnce(logic ready); 
   @(posedge aclk) disable iff (!aresetn) ready; 
@@ -369,14 +373,16 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     (WhenArvalidAndArreadyAreAssertedThenInbetween1To10ClkRvalidWillBeAsserted)
     $info("IFARVALIDANDARREADYBOTHAREASSERTED_THEN_INBETWEEN1TO10CLK_RVALIDWILLBEASSERT :  COVERED");
 
-   property WhenRvalidAndRreadyIsAssertedThenRdataOflowerLanesIsValidData;
-   @(posedge aclk) disable iff (!aresetn) 
-    (rvalid && rready) |-> (!($isunknown(rdata)) && (rdata[31:16] === 16'b0)); 
-   endproperty
+    //TODO need to add logic for internal data lanes calculation
+   
+ //  property WhenRvalidAndRreadyIsAssertedThenRdataOflowerLanesIsValidData;
+ //  @(posedge aclk) disable iff (!aresetn) 
+ //   (rvalid && rready) |-> (!($isunknown(rdata)) && (rdata[31:16] === 16'b0)); 
+ //  endproperty
 
-   IFRVALIDANDRREADYISASSERTED_THEN_RDATAOFLOWERLANES_L1ANDL0ISVALIDDATA: cover property
-   (WhenRvalidAndRreadyIsAssertedThenRdataOflowerLanesIsValidData)
-   $info("IFRVALIDANDRREADYISASSERTED_THEN_RDATAOFLOWERLANES_L1ANDL0ISVALIDDATA : COVERED");
+ //  IFRVALIDANDRREADYISASSERTED_THEN_RDATAOFLOWERLANES_L1ANDL0ISVALIDDATA: cover property
+ //  (WhenRvalidAndRreadyIsAssertedThenRdataOflowerLanesIsValidData)
+ //  $info("IFRVALIDANDRREADYISASSERTED_THEN_RDATAOFLOWERLANES_L1ANDL0ISVALIDDATA : COVERED");
 
    property WhenAraddressIsGeneratedThenNextClkRdataWillBeGenerated;
     @(posedge aclk) disable iff (!aresetn)

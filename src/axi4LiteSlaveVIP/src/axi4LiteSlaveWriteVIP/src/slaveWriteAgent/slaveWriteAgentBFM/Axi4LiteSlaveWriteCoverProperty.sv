@@ -22,13 +22,13 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
                                            );  
 
   import uvm_pkg::*;
-  `include "uvm_macros.svh";
   import Axi4LiteSlaveWriteAssertCoverParameter::*;
+  `include "uvm_macros.svh";
 
   initial begin
     `uvm_info("Axi4LiteSlaveWriteCoverProperty","Axi4LiteSlaveWriteCoverProperty",UVM_LOW);
   end
-  
+
   property WhenValidGoesHighThenInformationIsNotUnknownAndPreviousClkInformationIsUnknown(logic valid, logic information); 
    @(posedge aclk) disable iff (!aresetn) 
        $rose(valid) |-> !($isunknown(information)) 
@@ -197,6 +197,8 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
     (valid && ready) |=> ($stable(valid) && $stable(ready));
   endproperty
 
+  `ifdef DEFAULT_READY == 1 
+
   IFBACKTOBACK_AWVALIDANDAWREADYASSERTED_WITHOUTDELAY_INBETWEEN2TRANSFER: cover property
   (WhenBackToBackValidAndReadyAssertedWithoutDelayInbetween2Transfer(awvalid, awready))
   $info("IFBACKTOBACK_AWVALIDANDAWREADYASSERTED_WITHOUTDELAY_INBETWEEN2TRANSFER : COVERED");
@@ -276,6 +278,8 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   IFBACKTOBACK_BVALIDANDBREADYASSERTED_WITHMORETHAN16CLKDELAY_INBETWEEN2TRANSFER: cover property
   (WhenBackToBackValidAndReadyAssertedWithMoreThan16ClkDelayInbetween2Transfer(bvalid, bready))
   $info("IFBACKTOBACK_BVALIDANDBREADYASSERTED_WITHMORETHAN16CLKDELAY_INBETWEEN2TRANSFER : COVERED");
+
+  `endif
 
   property readyAssertAtleastOnce(logic ready); 
    @(posedge aclk) disable iff (!aresetn)
@@ -837,8 +841,6 @@ endproperty
  IFMASTERISSUES_MULTIPLETX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX : cover property 
  (WhenMasterIssuesMultipleTxThenSlaveIsNotSupportMultipleOutstandingTx) 
  $info("IFMASTERISSUES_MULTIPLETX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX : COVERED");
-
-
 
 endinterface : Axi4LiteSlaveWriteCoverProperty
 

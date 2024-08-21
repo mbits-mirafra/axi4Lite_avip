@@ -14,6 +14,7 @@ class Axi4LiteMasterWriteDriverProxy extends uvm_driver #(Axi4LiteMasterWriteTra
   semaphore writeResponseKey;
   semaphore writeDataKey;
   semaphore writeAddressKey;
+  semaphore writeDataResponseKey;
 
   process writeAddressProcess;
   process writeDataProcess;
@@ -41,6 +42,7 @@ function Axi4LiteMasterWriteDriverProxy::new(string name = "Axi4LiteMasterWriteD
   writeAddressKey                 = new(1);
   writeDataKey                    = new(1);
   writeResponseKey                = new(1);
+  writeDataResponseKey            = new(1);
 endfunction : new
 
 function void Axi4LiteMasterWriteDriverProxy::build_phase(uvm_phase phase);
@@ -74,7 +76,7 @@ task Axi4LiteMasterWriteDriverProxy::waitForAresetnTask();
 endtask : waitForAresetnTask
 
 task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
-   //writeResponseKey.get(1);
+   writeDataResponseKey.get(1);
    writeAddressKey.get(1);
   forever begin
     Axi4LiteMasterWriteTransaction  masterWriteTx;
@@ -138,7 +140,7 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_DATA_THREAD::Received write data packet From driverBFM = %p",
                                                masterWritePacketStruct),UVM_MEDIUM); 
 
-        //writeResponseKey.put(1);
+        writeDataResponseKey.put(1);
         writeDataKey.put(1);
       end
 
@@ -147,8 +149,9 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
         axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct;
 
         writeResponseProcess = process::self();
-      //  writeAddressKey.get(1);
         writeResponseKey.get(1);
+        writeAddressKey.get(1);
+        writeDataResponseKey.get(1);
 
         if(!axi4LiteMasterWriteResponseFIFO.is_empty()) begin
           axi4LiteMasterWriteResponseFIFO.get(masterWriteResponseTx);

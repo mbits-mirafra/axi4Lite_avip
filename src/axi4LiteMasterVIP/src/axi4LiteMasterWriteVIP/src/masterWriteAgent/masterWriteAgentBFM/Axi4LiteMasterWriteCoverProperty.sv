@@ -197,6 +197,8 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
     (valid && ready) |=> ($stable(valid) && $stable(ready));
   endproperty
 
+  `ifdef DEFAULT_READY == 1 
+
   IFBACKTOBACK_AWVALIDANDAWREADYASSERTED_WITHOUTDELAY_INBETWEEN2TRANSFER: cover property
   (WhenBackToBackValidAndReadyAssertedWithoutDelayInbetween2Transfer(awvalid, awready))
   $info("IFBACKTOBACK_AWVALIDANDAWREADYASSERTED_WITHOUTDELAY_INBETWEEN2TRANSFER : COVERED");
@@ -276,6 +278,8 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
   IFBACKTOBACK_BVALIDANDBREADYASSERTED_WITHMORETHAN16CLKDELAY_INBETWEEN2TRANSFER: cover property
   (WhenBackToBackValidAndReadyAssertedWithMoreThan16ClkDelayInbetween2Transfer(bvalid, bready))
   $info("IFBACKTOBACK_BVALIDANDBREADYASSERTED_WITHMORETHAN16CLKDELAY_INBETWEEN2TRANSFER : COVERED");
+
+  `endif
 
   property readyAssertAtleastOnce(logic ready); 
    @(posedge aclk) disable iff (!aresetn)
