@@ -386,7 +386,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
 
    property WhenAraddressIsGeneratedThenNextClkRdataWillBeGenerated;
     @(posedge aclk) disable iff (!aresetn)
-   (arvalid && arready && !($isunknown(araddr))) |=> (rvalid && !($isunknown(rdata)))
+   (arvalid && arready && !($isunknown(araddr))) |=> (rvalid && !($isunknown(rdata)));
    endproperty
 
    IFARADDRESISASSERTED_THEN_NEXTCLK_RDATAWILLBEASSERTED: cover property
@@ -395,7 +395,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
 
    property WhenAraddressIsGeneratedThenInbetween1To10ClkRdataWillBeGenerated; 
     @(posedge aclk) disable iff (!aresetn)
-   (arvalid && arready && !($isunknown(araddr))) |-> ##[1:MAX_DELAY_RVALID] (rvalid && !($isunknown(rdata)))
+   (arvalid && arready && !($isunknown(araddr))) |-> ##[1:MAX_DELAY_RVALID] (rvalid && !($isunknown(rdata)));
    endproperty  
    
    IFARADDRESISASSERTED_THEN_INBETWEEN1TO10CLKRDATAWILLBEASSERTED: cover property

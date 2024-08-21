@@ -501,7 +501,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
    property WhenAwaddressIsGeneratedOnTheSameClkWdataWillBeGenerated;
     @(posedge aclk) disable iff (!aresetn)
-   (awvalid && !($isunknown(awaddr))) |-> (wvalid && !($isunknown(wdata)))
+   (awvalid && !($isunknown(awaddr))) |-> (wvalid && !($isunknown(wdata)));
    endproperty
 
    IFAWADDRESISASSERTED_THEN_SAMECLK_WDATAWILLBEASSERTED: cover property
@@ -510,7 +510,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
    property WhenAwaddressIsGeneratedThenNextClkWdataWillBeGenerated;
     @(posedge aclk) disable iff (!aresetn)
-   (awvalid && !($isunknown(awaddr))) |=> (wvalid && !($isunknown(wdata)))
+   (awvalid && !($isunknown(awaddr))) |=> (wvalid && !($isunknown(wdata)));
    endproperty
 
    IFAWADDRESISASSERTED_THEN_NEXTCLK_WDATAWILLBEASSERTED: cover property
@@ -519,7 +519,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
    property WhenAwaddressIsGeneratedThenInbetween1To10ClkWdataWillBeGenerated; 
     @(posedge aclk) disable iff (!aresetn)
-   (awvalid && !($isunknown(awaddr))) |-> ##[1:MAX_DELAY_WVALID] (wvalid && !($isunknown(wdata)))
+   (awvalid && !($isunknown(awaddr))) |-> ##[1:MAX_DELAY_WVALID] (wvalid && !($isunknown(wdata)));
    endproperty  
    
    IFAWADDRESISASSERTED_THEN_INBETWEEN1TO10CLKWDATAWILLBEASSERTED: cover property
@@ -528,7 +528,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
    property WhenWdataIsGeneratedThenNextClkAwaddressillBeGenerated; 
     @(posedge aclk) disable iff (!aresetn)
-    (wvalid && !($isunknown(wdata))) |=> (awvalid && !($isunknown(awaddr)))
+    (wvalid && !($isunknown(wdata))) |=> (awvalid && !($isunknown(awaddr)));
    endproperty  
 
    IFWDATAISASSERTED_THEN_NEXTCLK_AWADDRWILLBEASSERTED: cover property  
@@ -537,7 +537,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
    property WhenWdataIsGeneratedThenInbetween1To10ClkAwaddressillBeGenerated;
    @(posedge aclk) disable iff (!aresetn)
-   (wvalid && !($isunknown(wdata))) |-> ##[1:MAX_DELAY_AWVALID] (awvalid && !($isunknown(awaddr)))
+   (wvalid && !($isunknown(wdata))) |-> ##[1:MAX_DELAY_AWVALID] (awvalid && !($isunknown(awaddr)));
    endproperty
 
    IFWDATAISASSERTED_THEN_INBETWEEN1TO10CLK_AWADDRWILLBEASSERTED: cover property
@@ -835,7 +835,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
       ##1 (awvalid && awready) && ($fell(bvalid && bready))
       ##[1:15] ($stable(awvalid) && awready == 0) && (bvalid && bready)
       ##1 ($stable(awvalid) && awready == 1) && ($fell(bvalid && bready))
-      ##[1:15] ($stable(awvalid) && awready == 0) && (bvalid && bready)
+      ##[1:15] ($stable(awvalid) && awready == 0) && (bvalid && bready);
 endproperty
 
  IFMASTERISSUES_MULTIPLETX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX : cover property 
