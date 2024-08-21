@@ -147,7 +147,7 @@ IFTRANSFEROCCUR_THENRREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccur
 
     property arvalidIsHighThenInformationStableUntilTransferOccur(logic arvalid, logic arready, logic araddr, logic arprot);
      @(posedge aclk) disable iff (!aresetn)
-      (arvalid && !arready) |=> (($stable(arvalid) && $stable(araddr) && $stable(arprot)) s_until_with arready);
+      ($rose(arvalid) && !arready) |=> (($stable(arvalid) && $stable(araddr) && $stable(arprot)) until arready);
     endproperty
 
 IFARVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(arvalidIsHighThenInformationStableUntilTransferOccur(arvalid, arready, araddr, arprot))
@@ -158,7 +158,7 @@ IFARVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(arva
     property rvalidIsHighThenInformationStableUntilTransferOccur(logic rvalid, logic rready, 
                                                                   logic rdata, logic rresp);
      @(posedge aclk) disable iff (!aresetn)
-        (rvalid && !rready) |=> (($stable(rvalid) && $stable(rdata) && $stable(rresp)) s_until_with rready);
+        ($rose(rvalid) && !rready) |=> (($stable(rvalid) && $stable(rdata) && $stable(rresp)) until rready);
     endproperty
 
 IFRVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(rvalidIsHighThenInformationStableUntilTransferOccur(rvalid, rready, rdata, rresp))

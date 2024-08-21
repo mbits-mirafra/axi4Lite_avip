@@ -276,7 +276,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
     $info("IFRREADYASSERTED_DEASSERTED_THEN_NEXTCLK_RVALIDASSERTED: COVERED");
 
     property WhenReadyAssertedAndDeasserted3TimesThenNextClkValidAsserted(logic valid, logic ready);
-    @(posedge aclk) disable iff (!aresetn) (ready && !valid) |-> !valid s_until_with $fell(ready)[->3] ##1 $rose(valid);
+    @(posedge aclk) disable iff (!aresetn) (ready && !valid) |-> !valid until $fell(ready)[->3] ##1 $rose(valid);
     endproperty
 
     IFARREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_ARVALIDASSERTED: cover property

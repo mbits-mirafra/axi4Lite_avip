@@ -993,7 +993,7 @@ module Axi4LiteSlaveWriteAssertPropertyTB;
       @(posedge aclk);
       awvalid <= 1'b1;
       awaddr <= 32'h1122_3344;
-      awprot <= 1'b0;
+      awprot <= 3'b000;
       repeat(2) begin
         @(posedge aclk);
       end
@@ -1054,6 +1054,9 @@ module Axi4LiteSlaveWriteAssertPropertyTB;
       awprot <= 3'b001;
       @(posedge aclk);
       awready <= 1'b1;
+      @(posedge aclk);
+      awvalid <= 1'b0;
+      awready <= 1'b0;
 
     `uvm_info(name,$sformatf("When_awvalidIsHigh_Then_awaddrAndAwprotStable2ClkThenNextClkAwreadyAsserted_Expect_AssertionFail Task Ended"),UVM_NONE);
   endtask
@@ -1075,6 +1078,9 @@ module Axi4LiteSlaveWriteAssertPropertyTB;
       wstrb <= 4'he;
       @(posedge aclk);
       wready <= 1'b1;
+      @(posedge aclk);
+      wvalid <= 1'b0;
+      wready <= 1'b0;
 
     `uvm_info(name,$sformatf("When_wvalidIsHigh_Then_wdataAndWstrbStable2ClkThenNextClkWreadyAsserted_Expect_AssertionFail Task Ended"),UVM_NONE);
   endtask
@@ -1091,9 +1097,14 @@ module Axi4LiteSlaveWriteAssertPropertyTB;
       repeat(2) begin
         @(posedge aclk);
       end
-      bresp <= 2'b10;
+      bresp <= 2'b01;
+      repeat(2) begin
       @(posedge aclk);
-      bready <= 1'b1;
+        bready <= 1'b1;
+      end
+      @(posedge aclk);
+      bvalid <= 1'b0;
+      bready <= 1'b0;
 
     `uvm_info(name,$sformatf("When_bvalidIsHigh_Then_brespStable2ClkThenNextClkBreadyAsserted_Expect_AssertionFail Task Ended"),UVM_NONE);
   endtask
