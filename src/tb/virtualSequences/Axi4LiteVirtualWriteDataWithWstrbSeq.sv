@@ -42,9 +42,9 @@ task Axi4LiteVirtualWriteDataWithWstrbSeq::body();
                                                                    delayForAwvalidSeq == 1;
                                                                    delayForWvalidSeq  == 2;
                                                                    delayForBreadySeq  == 1;
-                                                                   if(Axi4LiteMasterWritePkg::DATA_WIDTH == 64) {
+                                                                   if(Axi4LiteWriteMasterGlobalPkg::DATA_WIDTH == 64) {
                                                                    wstrbSeq dist {[1:3]:/5, 14:/1, [0:14]:/2, [16:254]:/2};}
-                                                                   else if(Axi4LiteMasterWritePkg::DATA_WIDTH == 32) {
+                                                                   else if(Axi4LiteWriteMasterGlobalPkg::DATA_WIDTH == 32) {
                                                                    wstrbSeq dist {1:/2, 3:/2, 12:/2, 14:/2, [0:14]:/2};}
                                                                   }) begin
           `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualWriteDataWithWstrbSeq")

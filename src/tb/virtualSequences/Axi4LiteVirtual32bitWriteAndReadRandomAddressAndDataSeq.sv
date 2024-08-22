@@ -56,9 +56,9 @@ task Axi4LiteVirtual32bitWriteAndReadRandomAddressAndDataSeq::body();
           if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprotSeq == 1;
                                                               delayForAwvalidSeq == 1;
                                                               delayForWvalidSeq  == 3;
-                                                              if(Axi4LiteMasterWritePkg::DATA_WIDTH == 64) {
+                                                              if(Axi4LiteWriteMasterGlobalPkg::DATA_WIDTH == 64) {
                                                               wstrbSeq == 'hff;}
-                                                              else if(Axi4LiteMasterWritePkg::DATA_WIDTH == 32) {
+                                                              else if(Axi4LiteWriteMasterGlobalPkg::DATA_WIDTH == 32) {
                                                               wstrbSeq == 'hf;} 
                                                             }) begin
             `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtual32bitWriteDataSeq")
