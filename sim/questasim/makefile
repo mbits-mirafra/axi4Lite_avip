@@ -151,9 +151,9 @@ simulate:
 	-l $(test_folder)/$(test).log \
 	-sva \
   -coverage \
+	-c -do "run.do" \
 	-c -do "log -r /*; add wave -r /*; coverage save -onexit -assert -directive -cvg -codeAll $(test_folder)/$(test_folder)_coverage.ucdb; run -all; exit" \
 	-wlf $(test_folder)/waveform.wlf
-
 
 	# For checking and reporting simulation errors
 	make simulate_war_err
