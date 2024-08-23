@@ -25,7 +25,6 @@ ${AXI4LITE_SLAVE}/src/tb/Axi4LiteSlaveInterface.sv
 +incdir+$AXI4LITE_PROJECT/src/tb/test/
 +incdir+$AXI4LITE_PROJECT/src/tb/
 
-${AXI4LITE_PROJECT}/src/axi4LiteEnv/virtualSequencer/Axi4LiteVirtualSeqrPkg.sv
 ${AXI4LITE_PROJECT}/src/axi4LiteEnv/Axi4LiteEnvPkg.sv
 ${AXI4LITE_PROJECT}/src/tb/virtualSequences/Axi4LiteVirtualSeqPkg.sv
 ${AXI4LITE_PROJECT}/src/tb/test/Axi4LiteTestPkg.sv

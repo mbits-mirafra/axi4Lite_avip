@@ -1,7 +1,7 @@
 `ifndef AXI4LITEVIRTUALBASESEQ_INCLUDED_
 `define AXI4LITEVIRTUALBASESEQ_INCLUDED_
 
-class Axi4LiteVirtualBaseSeq extends uvm_sequence;
+class Axi4LiteVirtualBaseSeq extends uvm_sequence#(uvm_sequence_item);
   `uvm_object_utils(Axi4LiteVirtualBaseSeq)
 
   `uvm_declare_p_sequencer(Axi4LiteVirtualSequencer);

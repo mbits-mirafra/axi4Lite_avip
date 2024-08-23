@@ -12,7 +12,6 @@ package Axi4LiteEnvPkg;
   import Axi4LiteSlaveReadPkg::*;
   import Axi4LiteMasterEnvPkg::*;
   import Axi4LiteSlaveEnvPkg::*;
-  import Axi4LiteVirtualSeqrPkg::*;
   import Axi4LiteMasterVirtualSeqrPkg::*;
   import Axi4LiteSlaveVirtualSeqrPkg::*;
 

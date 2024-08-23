@@ -17,9 +17,6 @@ package Axi4LiteVirtualSeqPkg;
   import Axi4LiteSlaveWriteSeqPkg::*;
   import Axi4LiteSlaveReadSeqPkg::*;
 
-  import Axi4LiteMasterVirtualSeqrPkg::*;
-  import Axi4LiteSlaveVirtualSeqrPkg::*;
-
   import Axi4LiteEnvPkg::*;
 
   `include "Axi4LiteVirtualBaseSeq.sv"
