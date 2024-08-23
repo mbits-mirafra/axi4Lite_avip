@@ -60,7 +60,7 @@ module Axi4LiteSlaveWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
     uvm_config_db#(virtual Axi4LiteSlaveWriteMonitorBFM)::set(null,"*", "Axi4LiteSlaveWriteMonitorBFM", axi4LiteSlaveWriteMonitorBFM);
   end
 
-  bind axi4LiteSlaveWriteMonitorBFM Axi4LiteSlaveWriteAssertions WRITESLAVE_ASSERTPROPERTY (.aclk(aclk),
+  bind Axi4LiteSlaveWriteMonitorBFM Axi4LiteSlaveWriteAssertions WRITESLAVE_ASSERTPROPERTY (.aclk(aclk),
                                                                                             .aresetn(aresetn),
                                                                                             .awvalid(awvalid),
                                                                                             .awready(awready),
@@ -76,7 +76,7 @@ module Axi4LiteSlaveWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
                                                                                             );
 
 
-  bind axi4LiteSlaveWriteMonitorBFM Axi4LiteSlaveWriteCoverProperty WRITESLAVE_COVERPROPERTY  (.aclk(aclk),
+  bind Axi4LiteSlaveWriteMonitorBFM Axi4LiteSlaveWriteCoverProperty WRITESLAVE_COVERPROPERTY  (.aclk(aclk),
                                                                                                .aresetn(aresetn),
                                                                                                .awvalid(awvalid),
                                                                                                .awready(awready),

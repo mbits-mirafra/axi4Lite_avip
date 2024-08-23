@@ -54,7 +54,7 @@ module Axi4LiteSlaveReadAgentBFM #(parameter int ADDR_WIDTH = 32,
     uvm_config_db#(virtual Axi4LiteSlaveReadMonitorBFM)::set(null,"*", "Axi4LiteSlaveReadMonitorBFM",axi4LiteSlaveReadMonitorBFM);
   end
 
-  bind axi4LiteSlaveReadMonitorBFM Axi4LiteSlaveReadAssertions READSLAVE_ASSERTPROPERTY (.aclk(aclk),
+  bind Axi4LiteSlaveReadMonitorBFM Axi4LiteSlaveReadAssertions READSLAVE_ASSERTPROPERTY (.aclk(aclk),
                                                                                          .aresetn(aresetn),
                                                                                          .arvalid(arvalid),
                                                                                          .arready(arready),
@@ -66,7 +66,7 @@ module Axi4LiteSlaveReadAgentBFM #(parameter int ADDR_WIDTH = 32,
                                                                                          .rresp(rresp)
                                                                                         );
 
-  bind axi4LiteSlaveReadMonitorBFM Axi4LiteSlaveReadCoverProperty READSLAVE_COVERPROPERTY (.aclk(aclk),
+  bind Axi4LiteSlaveReadMonitorBFM Axi4LiteSlaveReadCoverProperty READSLAVE_COVERPROPERTY (.aclk(aclk),
                                                                                              .aresetn(aresetn),
                                                                                              .arvalid(arvalid),
                                                                                              .arready(arready),
