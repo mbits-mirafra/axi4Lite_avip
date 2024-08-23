@@ -4,7 +4,9 @@
 +incdir+$AXI4LITE_SLAVEREAD/src/slaveReadEnv/
 
 +incdir+$AXI4LITE_MASTER/src/axi4LiteMasterEnv/
++incdir+$AXI4LITE_MASTER/src/axi4LiteMasterEnv/masterVirtualSequencer/
 +incdir+$AXI4LITE_SLAVE/src/axi4LiteSlaveEnv/
++incdir+$AXI4LITE_SLAVE/src/axi4LiteSlaveEnv/slaveVirtualSequencer/
       
 ${AXI4LITE_MASTERWRITE}/src/masterWriteEnv/Axi4LiteWriteMasterEnvPkg.sv
 ${AXI4LITE_MASTERREAD}/src/masterReadEnv/Axi4LiteReadMasterEnvPkg.sv
@@ -18,8 +20,10 @@ ${AXI4LITE_MASTER}/src/tb/Axi4LiteMasterInterface.sv
 ${AXI4LITE_SLAVE}/src/tb/Axi4LiteSlaveInterface.sv
 
 +incdir+$AXI4LITE_PROJECT/src/axi4LiteEnv/virtualSequencer/
++incdir+$AXI4LITE_PROJECT/src/axi4LiteEnv/
 +incdir+$AXI4LITE_PROJECT/src/tb/virtualSequences/
 +incdir+$AXI4LITE_PROJECT/src/tb/test/
++incdir+$AXI4LITE_PROJECT/src/tb/
 
 ${AXI4LITE_PROJECT}/src/axi4LiteEnv/virtualSequencer/Axi4LiteVirtualSeqrPkg.sv
 ${AXI4LITE_PROJECT}/src/axi4LiteEnv/Axi4LiteEnvPkg.sv
