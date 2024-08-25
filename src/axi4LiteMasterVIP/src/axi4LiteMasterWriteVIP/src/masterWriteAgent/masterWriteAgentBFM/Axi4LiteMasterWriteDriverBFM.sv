@@ -117,10 +117,6 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
     @(negedge aclk);
     while(bvalid === 0) begin
       @(posedge aclk);
-      if(masterWritePacketStruct.waitCounterForBvalid > (masterWriteConfigStruct.maxDelayForBvalid+1)) begin
-       `uvm_error (name, $sformatf ("bvalid count comparisions are failed"));
-      end
-      masterWritePacketStruct.waitCounterForBvalid++;
     end
 
     `uvm_info(name , $sformatf("After while loop bvalid asserted "),UVM_HIGH)

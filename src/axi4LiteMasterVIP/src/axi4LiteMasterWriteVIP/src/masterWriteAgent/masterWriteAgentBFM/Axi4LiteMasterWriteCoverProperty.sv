@@ -818,29 +818,37 @@ interface Axi4LiteMasterWriteCoverProperty (input  aclk,
 
  `endif
 
-   property WhenMasterIssuesMultipleTxThenSlaveNeedToSupportsMultipleOutstandingTx;
+   property WhenMasterIssuesMultipleWriteTxThenSlaveNeedToSupportsMultipleOutstandingTx;
      @(posedge aclk) disable iff(!aresetn)
-     (awvalid && awready) |-> ##[1:15] (awvalid && awready) [->2]
-      ##[1:15] (bvalid && bready && bresp == 2'b00) [->3];
+       (awvalid && awready) |-> ##2 (awvalid && awready) ##2 (awvalid && awready)
+       ##3 (bvalid && bready && bresp == 2'b00) [->3];
   endproperty 
 
-   IFMASTERISSUES_MULTIPLETX_THEN_SLAVENEEDTOSUPPORTS_MULTIPLEOUTSTANDINGTX: cover property
-   (WhenMasterIssuesMultipleTxThenSlaveNeedToSupportsMultipleOutstandingTx)
-   $info("IFMASTERISSUES_MULTIPLETX_THEN_SLAVENEEDTOSUPPORTS_MULTIPLEOUTSTANDINGTX :COVERED");
+   IFMASTERISSUES_MULTIPLEWRITETX_THEN_SLAVENEEDTOSUPPORTS_MULTIPLEOUTSTANDINGTX: cover property
+   (WhenMasterIssuesMultipleWriteTxThenSlaveNeedToSupportsMultipleOutstandingTx)
+   $info("IFMASTERISSUES_MULTIPLEWRITETX_THEN_SLAVENEEDTOSUPPORTS_MULTIPLEOUTSTANDINGTX :COVERED");
 
- property WhenMasterIssuesMultipleTxThenSlaveIsNotSupportMultipleOutstandingTx;
+ property WhenMasterIssuesMultipleWriteTxThenSlaveIsNotSupportMultipleOutstandingTx;
     @(posedge aclk) disable iff(!aresetn)
-     (awvalid && awready) |-> 
-      ##[1:15] ($stable(awvalid) && awready == 0)  && (bvalid && bready)
-      ##1 (awvalid && awready) && ($fell(bvalid && bready))
-      ##[1:15] ($stable(awvalid) && awready == 0) && (bvalid && bready)
-      ##1 ($stable(awvalid) && awready == 1) && ($fell(bvalid && bready))
-      ##[1:15] ($stable(awvalid) && awready == 0) && (bvalid && bready);
+      (awvalid && awready) |=> ($stable(awvalid) && awready == 0)[*3] ##0 (bvalid && bready)
+      ##1 (awvalid && awready) ##1 ($stable(awvalid) && awready == 0) ##0 (bvalid && bready)
+      ##1 (awvalid && awready) ##2 (bvalid && bready)
 endproperty
 
- IFMASTERISSUES_MULTIPLETX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX : cover property 
- (WhenMasterIssuesMultipleTxThenSlaveIsNotSupportMultipleOutstandingTx) 
+ IFMASTERISSUES_MULTIPLEWRITETX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX : cover property 
+ (WhenMasterIssuesMultipleWriteTxThenSlaveIsNotSupportMultipleOutstandingTx) 
  $info("IFMASTERISSUES_MULTIPLETX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX : COVERED");
+
+ property WhenMasterAndSlaveIsNotSupportMultipleWriteOutstandingTx;
+   @(posedge aclk) disable iff(!aresetn)
+    (awvalid && awready) |=> (bvalid && bready)
+     ##2 (awvalid && awready) ##1 (bvalid && bready)
+     ##6 (awvalid && awready) ##1 (bvalid && bready)
+ endproperty
+
+ IFMASTERANDSLAVEISNOTSUPPORTS_MULTIPLEWRITEOUTSTANDINGTX_THEN_NORMALBLOCKINGTX : cover property
+ (WhenMasterAndSlaveIsNotSupportMultipleWriteOutstandingTx)
+ $info("IFMASTERANDSLAVEISNOTSUPPORTS_MULTIPLEWRITEOUTSTANDINGTX_THEN_NORMALBLOCKINGTX : COVERED");
 
  endinterface : Axi4LiteMasterWriteCoverProperty
 

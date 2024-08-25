@@ -175,6 +175,10 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
     writeAddressProcess.await();
     writeDataProcess.await();
 
+    if(axi4LiteMasterWriteAgentConfig.enableOutstandingTransaction == 0) begin
+      writeResponseProcess.await();
+    end
+
     axi4LiteMasterWriteSeqItemPort.item_done();
   end
 endtask : writeTransferTask

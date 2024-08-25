@@ -18,6 +18,7 @@ class Axi4LiteMasterWriteAgentConfig extends uvm_object;
   int maxDelayForBvalid;
 
   bit toggleReady;
+  bit enableOutstandingTransaction;
 
   extern function new(string name = "Axi4LiteMasterWriteAgentConfig");
   extern function void do_print(uvm_printer printer);
@@ -34,6 +35,7 @@ function void Axi4LiteMasterWriteAgentConfig::do_print(uvm_printer printer);
   printer.print_field ("hasCoverage",  hasCoverage, $bits(hasCoverage),  UVM_DEC);
   printer.print_field ("defaultStateReady",  defaultStateReady, $bits(defaultStateReady),  UVM_DEC);
   printer.print_field ("toggleReady",  toggleReady, $bits(toggleReady),  UVM_DEC);
+  printer.print_field ("enableOutstandingTransaction",  enableOutstandingTransaction, $bits(enableOutstandingTransaction),  UVM_DEC);
   printer.print_field ("maxAddressRange", maxAddressRange, 32, UVM_DEC);
   printer.print_field ("minAddressRange", minAddressRange, 32, UVM_DEC);
   printer.print_field ("maxDelayForAwready", maxDelayForAwready, 32, UVM_DEC);

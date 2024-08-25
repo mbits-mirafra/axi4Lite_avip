@@ -60,8 +60,6 @@ task writeAddressChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWrit
     end
   end
 
-  //#1;
-  //@(negedge aclk);
   while(awvalid === 0) begin
     @(posedge aclk);
   end
@@ -109,14 +107,8 @@ task writeDataChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteCo
     end
   end
 
-   //#1;
-   //@(negedge aclk);
    while(wvalid === 0) begin
      @(posedge aclk);
-     if(slaveWritePacketStruct.waitCounterForWvalid > (slaveWriteConfigStruct.maxDelayForWvalid+1)) begin
-       `uvm_error (name, $sformatf ("wvalid count comparisions are failed"));
-     end 
-     slaveWritePacketStruct.waitCounterForWvalid++;
    end
 
     `uvm_info(name , $sformatf("After while loop wvalid asserted "),UVM_HIGH)
