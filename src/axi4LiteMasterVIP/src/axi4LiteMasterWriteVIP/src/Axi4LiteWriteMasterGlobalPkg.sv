@@ -18,6 +18,8 @@ package Axi4LiteWriteMasterGlobalPkg;
   `define DEFAULT_READY 0
   parameter int DEFAULT_READY = `DEFAULT_READY;
 
+  parameter int MAXLIMITOF_OUTSTANDINGTX = 10;
+
   parameter int MIN_ADDRESS = 01;
   parameter int MAX_ADDRESS = 8'hff;
 

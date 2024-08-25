@@ -16,6 +16,9 @@ class Axi4LiteMasterReadDriverProxy extends uvm_driver #(Axi4LiteMasterReadTrans
   process readAddressProcess;
   process readResponseProcess;
 
+  int outstandingTxCounter;
+  int remainOutstandingTxCounter;
+
   Axi4LiteMasterReadAgentConfig axi4LiteMasterReadAgentConfig;
 
   virtual Axi4LiteMasterReadDriverBFM axi4LiteMasterReadDriverBFM;
@@ -67,6 +70,8 @@ endtask : waitForAresetnTask
 
 task Axi4LiteMasterReadDriverProxy::readTransferTask();
   readDataKey.get(1);
+  remainOutstandingTxCounter <= axi4LiteMasterReadAgentConfig.noOfOutstandingTx;
+
   forever begin
     Axi4LiteMasterReadTransaction  masterReadTx;
     axi4LiteReadMasterTransferCfgStruct  masterReadConfigStruct;
@@ -126,6 +131,12 @@ task Axi4LiteMasterReadDriverProxy::readTransferTask();
         `uvm_info(get_type_name(),$sformatf("MASTER_READ_DATA_THREAD::Received read data packet From driverBFM = %p",
                                                masterReadPacketStruct),UVM_MEDIUM); 
         readResponseKey.put(1);
+
+        if(axi4LiteMasterReadAgentConfig.enableOutstandingTransaction == 1) begin
+          outstandingTxCounter--;
+          remainOutstandingTxCounter--;
+          `uvm_info(get_type_name(),$sformatf("MASTER_READ_TASK:: Remaining number of Outstanding Transaction = %0d",remainOutstandingTxCounter),UVM_MEDIUM);
+        end
       end
 
     join_any
@@ -136,6 +147,14 @@ task Axi4LiteMasterReadDriverProxy::readTransferTask();
 
     if(axi4LiteMasterReadAgentConfig.enableOutstandingTransaction == 0) begin
       readResponseProcess.await();
+    end
+    else begin
+      `uvm_info(get_type_name(),$sformatf("MASTER_READ_TASK:: Total number of Outstanding Transaction = %0d",axi4LiteMasterReadAgentConfig.noOfOutstandingTx),UVM_MEDIUM);
+
+      outstandingTxCounter++;
+      if(outstandingTxCounter > axi4LiteMasterReadAgentConfig.maxLimitOfOutstandingTx) begin
+        `uvm_warning(get_type_name(),$sformatf("MASTER_READ:: outstanding transaction counter reached maxLimitOfOutstandingTx"));
+      end
     end
 
     axi4LiteMasterReadSeqItemPort.item_done();

@@ -20,6 +20,9 @@ class Axi4LiteMasterWriteDriverProxy extends uvm_driver #(Axi4LiteMasterWriteTra
   process writeDataProcess;
   process writeResponseProcess;
 
+  int outstandingTxCounter;
+  int remainOutstandingTxCounter;
+
   Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfig;
 
   virtual Axi4LiteMasterWriteDriverBFM axi4LiteMasterWriteDriverBFM;
@@ -78,6 +81,8 @@ endtask : waitForAresetnTask
 task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
    writeDataResponseKey.get(1);
    writeAddressKey.get(1);
+   remainOutstandingTxCounter <= axi4LiteMasterWriteAgentConfig.noOfOutstandingTx;
+
   forever begin
     Axi4LiteMasterWriteTransaction  masterWriteTx;
     axi4LiteWriteMasterTransferCfgStruct  masterWriteConfigStruct;
@@ -168,6 +173,12 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
         `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_RESPONSE_THREAD::Received write response packet From driverBFM = %p",
                                                masterWritePacketStruct),UVM_MEDIUM); 
         writeResponseKey.put(1);
+
+        if(axi4LiteMasterWriteAgentConfig.enableOutstandingTransaction == 1) begin
+          outstandingTxCounter--;
+          remainOutstandingTxCounter--;
+          `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_TASK:: Remaining number of Outstanding Transaction = %0d",remainOutstandingTxCounter),UVM_MEDIUM);
+        end
       end
 
     join_any
@@ -177,6 +188,14 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
 
     if(axi4LiteMasterWriteAgentConfig.enableOutstandingTransaction == 0) begin
       writeResponseProcess.await();
+    end
+    else begin
+      `uvm_info(get_type_name(),$sformatf("MASTER_WRITE_TASK:: Total number of Outstanding Transaction = %0d",axi4LiteMasterWriteAgentConfig.noOfOutstandingTx),UVM_MEDIUM);
+
+      outstandingTxCounter++;
+      if(outstandingTxCounter > axi4LiteMasterWriteAgentConfig.maxLimitOfOutstandingTx) begin
+        `uvm_warning(get_type_name(),$sformatf("MASTER_WRITE:: outstanding transaction counter reached maxLimitOfOutstandingTx"));
+      end
     end
 
     axi4LiteMasterWriteSeqItemPort.item_done();

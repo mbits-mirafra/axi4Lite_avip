@@ -19,6 +19,8 @@ class Axi4LiteMasterWriteAgentConfig extends uvm_object;
 
   bit toggleReady;
   bit enableOutstandingTransaction;
+  int maxLimitOfOutstandingTx;
+  int noOfOutstandingTx;
 
   extern function new(string name = "Axi4LiteMasterWriteAgentConfig");
   extern function void do_print(uvm_printer printer);

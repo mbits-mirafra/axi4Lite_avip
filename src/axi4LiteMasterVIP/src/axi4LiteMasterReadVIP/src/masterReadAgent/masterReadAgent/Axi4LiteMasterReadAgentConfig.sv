@@ -19,6 +19,8 @@ class Axi4LiteMasterReadAgentConfig extends uvm_object;
   int maxDelayForRvalid;
 
   bit enableOutstandingTransaction;
+  int maxLimitOfOutstandingTx;
+  int noOfOutstandingTx;
 
   extern function new(string name = "Axi4LiteMasterReadAgentConfig");
   extern function void do_print(uvm_printer printer);
