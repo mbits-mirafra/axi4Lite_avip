@@ -18,6 +18,8 @@ class Axi4LiteMasterReadAgentConfig extends uvm_object;
   int maxDelayForArready;
   int maxDelayForRvalid;
 
+  bit enableOutstandingTransaction;
+
   extern function new(string name = "Axi4LiteMasterReadAgentConfig");
   extern function void do_print(uvm_printer printer);
 endclass : Axi4LiteMasterReadAgentConfig
@@ -37,6 +39,7 @@ function void Axi4LiteMasterReadAgentConfig::do_print(uvm_printer printer);
   printer.print_field ("maxDelayForArready",  maxDelayForArready, $bits(maxDelayForArready),  UVM_DEC);
   printer.print_field ("maxDelayForRvalid",  maxDelayForRvalid, $bits(maxDelayForRvalid),  UVM_DEC);
   printer.print_field ("toggleReady", toggleReady, $bits(toggleReady),  UVM_DEC);
+  printer.print_field ("enableOutstandingTransaction", enableOutstandingTransaction, $bits(enableOutstandingTransaction),  UVM_DEC);
 endfunction : do_print
 
 `endif

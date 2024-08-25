@@ -134,6 +134,10 @@ task Axi4LiteMasterReadDriverProxy::readTransferTask();
     `uvm_info(get_type_name(), $sformatf("READ_TASK :: Out of fork_join_any : After await readAddress.status()=%s",
                                             readAddressProcess.status()), UVM_NONE);
 
+    if(axi4LiteMasterReadAgentConfig.enableOutstandingTransaction == 0) begin
+      readResponseProcess.await();
+    end
+
     axi4LiteMasterReadSeqItemPort.item_done();
   end
 endtask : readTransferTask

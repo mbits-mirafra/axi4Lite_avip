@@ -402,6 +402,39 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
    (WhenAraddressIsGeneratedThenInbetween1To10ClkRdataWillBeGenerated)
    $info("IFARADDRESISASSERTED_THEN_INBETWEEN1TO10CLKRDATAWILLBEASSERTED : COVERED");
  
+
+   property WhenMasterIssuesMultipleReadTxThenSlaveNeedToSupportsMultipleOutstandingTx;
+     @(posedge aclk) disable iff(!aresetn)
+       (arvalid && arready) |-> ##2 (arvalid && arready) ##2 (arvalid && arready)
+       ##3 (rvalid && rready && rresp == 2'b00) [->3];
+  endproperty 
+
+   IFMASTERISSUES_MULTIPLEREADTX_THEN_SLAVENEEDTOSUPPORTS_MULTIPLEOUTSTANDINGTX: cover property
+   (WhenMasterIssuesMultipleReadTxThenSlaveNeedToSupportsMultipleOutstandingTx)
+   $info("IFMASTERISSUES_MULTIPLEREADTX_THEN_SLAVENEEDTOSUPPORTS_MULTIPLEOUTSTANDINGTX :COVERED");
+
+ property WhenMasterIssuesMultipleReadTxThenSlaveIsNotSupportMultipleOutstandingTx;
+    @(posedge aclk) disable iff(!aresetn)
+      (arvalid && arready) |=> ($stable(arvalid) && arready == 0)[*3] ##0 (rvalid && rready)
+      ##1 (arvalid && arready) ##1 ($stable(arvalid) && arready == 0) ##0 (rvalid && rready)
+      ##1 (arvalid && arready) ##2 (rvalid && rready)
+endproperty
+
+ IFMASTERISSUES_MULTIPLEREADTX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX : cover property 
+ (WhenMasterIssuesMultipleReadTxThenSlaveIsNotSupportMultipleOutstandingTx) 
+ $info("IFMASTERISSUES_MULTIPLEREADTX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX : COVERED");
+
+ property WhenMasterAndSlaveIsNotSupportMultipleReadOutstandingTx;
+   @(posedge aclk) disable iff(!aresetn)
+    (arvalid && arready) |=> (rvalid && rready)
+     ##2 (arvalid && arready) ##1 (rvalid && rready)
+     ##6 (arvalid && arready) ##1 (rvalid && rready)
+ endproperty
+
+ IFMASTERANDSLAVEISNOTSUPPORTS_MULTIPLEREADOUTSTANDINGTX_THEN_NORMALBLOCKINGTX : cover property
+ (WhenMasterAndSlaveIsNotSupportMultipleReadOutstandingTx)
+ $info("IFMASTERANDSLAVEISNOTSUPPORTS_MULTIPLEREADOUTSTANDINGTX_THEN_NORMALBLOCKINGTX : COVERED");
+
 endinterface : Axi4LiteMasterReadCoverProperty
 
 `endif

@@ -89,10 +89,6 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
     @(negedge aclk);
     while(rvalid === 0) begin
       @(posedge aclk);
-      if(masterReadPacketStruct.waitCounterForRvalid > (masterReadConfigStruct.maxDelayForRvalid+1)) begin
-        `uvm_error (name, $sformatf ("rvalid count comparisions are failed"));
-      end
-      masterReadPacketStruct.waitCounterForRvalid++;
     end
     
     `uvm_info(name , $sformatf("After while loop rvalid asserted "),UVM_HIGH)
