@@ -62,6 +62,12 @@ package Axi4LiteVirtualSeqPkg;
   `include "Axi4LiteVirtualReadyAssertedAndDeAsserted3TimesAndNextClkValidAssertedSeq.sv"
   `include "Axi4LiteVirtualWriteDataWithWstrbSeq.sv"
   `include "Axi4LiteVirtual32bitDataWithAnyValueSeq.sv"
+  `include "Axi4LiteVirtualMasterAndSlaveNotSupportReadOutstandingTransaction.sv"
+  `include "Axi4LiteVirtualMasterAndSlaveNotSupportWriteOutstandingTransaction.sv"
+  `include "Axi4LiteVirtualMasterAndSlaveSupportReadOutstandingTransaction.sv"
+  `include "Axi4LiteVirtualMasterAndSlaveSupportWriteOutstandingTransaction.sv"
+  `include "Axi4LiteVirtualMasterSupportAndSlaveNotSupportReadOutstandingTransaction.sv"
+  `include "Axi4LiteVirtualMasterSupportAndSlaveNotSupportWriteOutstandingTransaction.sv"
 
 endpackage : Axi4LiteVirtualSeqPkg
 

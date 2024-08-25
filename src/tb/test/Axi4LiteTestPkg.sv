@@ -71,6 +71,12 @@ package Axi4LiteTestPkg;
   `include "Axi4LiteBackToBackTransfersWith1ClkDelayTest.sv"
   `include "Axi4LiteBackToBackTransfersWith2ClkDelayTest.sv"
   `include "Axi4LiteBackToBackTransfersWith3To16ClkDelayTest.sv"
+  `include "Axi4LiteMasterAndSlaveNotSupportReadOutstandingTransactionTest.sv"
+  `include "Axi4LiteMasterAndSlaveNotSupportWriteOutstandingTransactionTest.sv"
+  `include "Axi4LiteMasterAndSlaveSupportReadOutstandingTransactionTest.sv"
+  `include "Axi4LiteMasterAndSlaveSupportWriteOutstandingTransactionTest.sv"
+  `include "Axi4LiteMasterSupportAndSlaveNotSupportReadOutstandingTransactionTest.sv"
+  `include "Axi4LiteMasterSupportAndSlaveNotSupportWriteOutstandingTransactionTest.sv"
 
 endpackage : Axi4LiteTestPkg
 
