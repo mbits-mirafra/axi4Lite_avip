@@ -7,6 +7,7 @@ class Axi4LiteArvalidAssertedAndSameClkArreadyAssertedTest extends Axi4LiteBaseT
   Axi4LiteVirtualArvalidAssertedAndSameClkArreadyAssertedSeq axi4LiteVirtualArvalidAssertedAndSameClkArreadyAssertedSeq;
   
   extern function new(string name = "Axi4LiteArvalidAssertedAndSameClkArreadyAssertedTest", uvm_component parent = null);
+  extern function void setupAxi4LiteEnvConfig();
   extern virtual task run_phase(uvm_phase phase);
 endclass : Axi4LiteArvalidAssertedAndSameClkArreadyAssertedTest
 
@@ -14,6 +15,11 @@ function Axi4LiteArvalidAssertedAndSameClkArreadyAssertedTest::new(string name =
                                  uvm_component parent = null);
   super.new(name, parent);
 endfunction : new
+
+function void Axi4LiteArvalidAssertedAndSameClkArreadyAssertedTest::setupAxi4LiteEnvConfig();
+ super.setupAxi4LiteEnvConfig();
+ axi4LiteEnvConfig.transactionType = 0;
+endfunction : setupAxi4LiteEnvConfig
 
 task Axi4LiteArvalidAssertedAndSameClkArreadyAssertedTest::run_phase(uvm_phase phase);
 

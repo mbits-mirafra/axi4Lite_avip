@@ -49,6 +49,7 @@ task Axi4LiteVirtualBackToBackTransfersWith1ClkDelaySeq::body();
   fork 
    repeat(2) begin : MASTER_WRITE_SEQ
      if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {delayForAwvalidSeq == 1;
+                                                                awprotSeq == 2;
                                                                 delayForWvalidSeq  == 1;
                                                                 delayForBreadySeq  == 0;
                                                                }) begin
@@ -58,7 +59,7 @@ task Axi4LiteVirtualBackToBackTransfersWith1ClkDelaySeq::body();
    end  
 
    repeat(2) begin : MASTER_READ_SEQ
-      if(!axi4LiteMasterRead32bitsTransferSeq.randomize() with {arprotSeq == 1;
+      if(!axi4LiteMasterRead32bitsTransferSeq.randomize() with {arprotSeq == 2;
                                                                 delayForArvalidSeq == 1;
                                                                 delayForRreadySeq == 0;
                                                                }) begin

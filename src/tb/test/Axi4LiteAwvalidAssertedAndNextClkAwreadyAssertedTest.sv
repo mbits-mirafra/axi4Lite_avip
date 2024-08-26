@@ -7,6 +7,7 @@ class Axi4LiteAwvalidAssertedAndNextClkAwreadyAssertedTest extends Axi4LiteBaseT
   Axi4LiteVirtualAwvalidAssertedAndNextClkAwreadyAssertedSeq axi4LiteVirtualAwvalidAssertedAndNextClkAwreadyAssertedSeq;
   
   extern function new(string name = "Axi4LiteAwvalidAssertedAndNextClkAwreadyAssertedTest", uvm_component parent = null);
+  extern function void setupAxi4LiteEnvConfig();
   extern function void setupAxi4LiteSlaveWriteAgentConfig();
   extern virtual task run_phase(uvm_phase phase);
 
@@ -17,6 +18,11 @@ function Axi4LiteAwvalidAssertedAndNextClkAwreadyAssertedTest::new(string name =
                                  uvm_component parent = null);
   super.new(name, parent);
 endfunction : new
+
+function void Axi4LiteAwvalidAssertedAndNextClkAwreadyAssertedTest::setupAxi4LiteEnvConfig();
+ super.setupAxi4LiteEnvConfig();
+ axi4LiteEnvConfig.transactionType = 1;
+endfunction : setupAxi4LiteEnvConfig
 
 function void Axi4LiteAwvalidAssertedAndNextClkAwreadyAssertedTest::setupAxi4LiteSlaveWriteAgentConfig();
   super.setupAxi4LiteSlaveWriteAgentConfig();

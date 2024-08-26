@@ -7,6 +7,7 @@ class Axi4LiteBvalidAssertedInbetween2To5ClkBreadyAssertedTest extends Axi4LiteB
   Axi4LiteVirtualBvalidAssertedInbetween2To5ClkBreadyAssertedSeq axi4LiteVirtualBvalidAssertedInbetween2To5ClkBreadyAssertedSeq;
   
   extern function new(string name = "Axi4LiteBvalidAssertedInbetween2To5ClkBreadyAssertedTest", uvm_component parent = null);
+  extern function void setupAxi4LiteEnvConfig();
   extern function void setupAxi4LiteMasterWriteAgentConfig();
   extern virtual task run_phase(uvm_phase phase);
 
@@ -16,6 +17,11 @@ function Axi4LiteBvalidAssertedInbetween2To5ClkBreadyAssertedTest::new(string na
                                  uvm_component parent = null);
   super.new(name, parent);
 endfunction : new
+
+function void Axi4LiteBvalidAssertedInbetween2To5ClkBreadyAssertedTest::setupAxi4LiteEnvConfig();
+ super.setupAxi4LiteEnvConfig();
+ axi4LiteEnvConfig.transactionType = 1;
+endfunction : setupAxi4LiteEnvConfig
 
 function void Axi4LiteBvalidAssertedInbetween2To5ClkBreadyAssertedTest::setupAxi4LiteMasterWriteAgentConfig();
   super.setupAxi4LiteMasterWriteAgentConfig();
