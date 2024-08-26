@@ -180,6 +180,7 @@ module Axi4LiteMasterWriteCoverPropertyTB;
     When_wvalisIsAsserted_Then_wstrbValueIsAllOnes_Then_nextClkWvalidIsLow_Then_wstrbValuesZeros();
     When_masterIssuesMulipleTxThenSlaveNeedToSupportsMultipleOutstanding();
     When_masterIssuesMulipleTxThenSlaveIsNotSupportsMultipleOutstanding();
+    When_masterAndSlaveIsNotSupportsMultipleOutstanding();
 end
 
   task When_awvalidIsAsserted_Then_awaddrIsNotUnknownAndPrevious1ClkAwaddrIsUnknown();
@@ -2287,80 +2288,132 @@ task When_masterIssuesMulipleTxThenSlaveNeedToSupportsMultipleOutstanding();
       @(posedge aclk);
       awready <= 1'b0;
       @(posedge aclk);
-      repeat(10) begin
-      end
       awready <= 1'b1;
       @(posedge aclk);
       awready <= 1'b0;
       @(posedge aclk);
       awready <= 1'b1;
       @(posedge aclk);
+      awready <= 1'b0;
       awvalid <= 1'b0;
-      awready <= 1'b0;
+      repeat(2) begin
+        @(posedge aclk);
+      end
+      bvalid <= 1'b1;
+      bready <= 1'b1;
+      bresp  <= 2'b00;
       @(posedge aclk);
-      repeat(10) begin
+      bvalid <= 1'b0;
+      bready <= 1'b0;
+      @(posedge aclk);
+      bvalid <= 1'b1;
+      bready <= 1'b1;
+      @(posedge aclk);
+      bvalid <= 1'b0;
+      bready <= 1'b0;
+      repeat(2) begin
+        @(posedge aclk);
       end
       bvalid  <= 1'b1;
       bready  <= 1'b1;
-      bresp   <= 2'b00;
       @(posedge aclk);
       bvalid  <= 1'b0;
       bready  <= 1'b0;
-      bresp   <= 2'b00;
-      @(posedge aclk);
-      bvalid  <= 1'b1;
-      bready  <= 1'b1;
-      bresp   <= 2'b00; 
-      @(posedge aclk);
-      bvalid  <= 1'b0;
-      bready  <= 1'b0;
-      bresp   <= 2'b00;
-      @(posedge aclk);
-      bvalid  <= 1'b1;
-      bready  <= 1'b1;
-      bresp   <= 2'b00; 
-  `uvm_info(name,$sformatf("When_masterIssuesMulipleTxThenSlaveNeedToSupportsMultipleOutstanding Task  ended"),UVM_NONE);
-    endtask 
+    `uvm_info(name,$sformatf("When_masterIssuesMulipleTxThenSlaveNeedToSupportsMultipleOutstanding Task  ended"),UVM_NONE);
+  endtask 
 
     task When_masterIssuesMulipleTxThenSlaveIsNotSupportsMultipleOutstanding();
       `uvm_info(name,$sformatf("When_masterIssuesMulipleTxThenSlaveIsNotSupportsMultipleOutstanding Task started"),UVM_NONE);
-       @(posedge aclk); 
-       aresetn <= 1'b1;
-       awvalid <= 1'b0;
-       awready <= 1'b0;
-       bvalid  <= 1'b0;
-       bready  <= 1'b0;
-       @(posedge aclk);
-       awvalid <= 1'b1;
-       awready <= 1'b1; 
-       @(posedge aclk);
-       repeat(10) begin 
-       end
-       awready <= 1'b0; 
-       bvalid  <= 1'b1;
-       bready  <= 1'b1;
-       @(posedge aclk); 
-       awready <= 1'b1;
-       bvalid  <= 1'b0;
-       bready  <= 1'b0;
-       @(posedge aclk);
-       repeat(10) begin
-       end
-       awready <= 1'b0;
-       bvalid  <= 1'b1;
-       bready  <= 1'b1;
-       @(posedge aclk);
-       awready <= 1'b1;
-       bvalid  <= 1'b0;
-       bready  <= 1'b0;
-       @(posedge aclk);
-       repeat(10) begin
-       end
-       awready <= 1'b0;
-       bvalid  <= 1'b1;
-       bready  <= 1'b1;
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      awvalid <= 1'b0;
+      awready <= 1'b0;
+      bvalid  <= 1'b0;
+      bready  <= 1'b0;
+      bresp   <= 1'b0;
+      @(posedge aclk);
+      awvalid <= 1'b1;
+      @(posedge aclk);
+      awready <= 1'b1;
+      @(posedge aclk);
+      awready <= 1'b0;
+      @(posedge aclk);
+      bvalid <= 1'b1;
+      @(posedge aclk);
+      bready <= 1'b1;
+      @(posedge aclk);
+      awready <= 1'b1;
+      bvalid <= 1'b0;
+      bready <= 1'b0;
+      @(posedge aclk);
+      awready <= 1'b0;
+      bvalid <= 1'b1;
+      bready <= 1'b1;
+      @(posedge aclk);
+      awready <= 1'b1;
+      bvalid <= 1'b0;
+      bready <= 1'b0;
+      @(posedge aclk);
+      awvalid <= 1'b0;
+      awready <= 1'b0;
+      bvalid <= 1'b1;
+      @(posedge aclk);
+      bready <= 1'b1;
+      @(posedge aclk);
+      bvalid <= 1'b0;
+      bready <= 1'b0;
+
       `uvm_info(name,$sformatf("When_masterIssuesMulipleTxThenSlaveIsNotSupportsMultipleOutstanding Task  ended"),UVM_NONE);
     endtask
+
+    task When_masterAndSlaveIsNotSupportsMultipleOutstanding();
+      `uvm_info(name,$sformatf("When_masterAndSlaveIsNotSupportsMultipleOutstanding Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      awvalid <= 1'b0;
+      awready <= 1'b0;
+      bvalid  <= 1'b0;
+      bready  <= 1'b0;
+      bresp   <= 1'b0;
+      @(posedge aclk);
+      awvalid <= 1'b1;
+      awready <= 1'b1;
+      @(posedge aclk);
+      bvalid <= 1'b1;
+      bready <= 1'b1;
+      awvalid <= 1'b0;
+      awready <= 1'b0;
+      @(posedge aclk);
+      bvalid <= 1'b0;
+      bready <= 1'b0;
+      @(posedge aclk);
+      awvalid <= 1'b1;
+      awready <= 1'b1;
+      @(posedge aclk);
+      bvalid <= 1'b1;
+      bready <= 1'b1;
+      awvalid <= 1'b0;
+      awready <= 1'b0;
+      @(posedge aclk);
+      bvalid <= 1'b0;
+      bready <= 1'b0;
+      repeat(5) begin
+        @(posedge aclk);
+      end
+      awvalid <= 1'b1;
+      awready <= 1'b1;
+      @(posedge aclk);
+      bvalid <= 1'b1;
+      bready <= 1'b1;
+      awvalid <= 1'b0;
+      awready <= 1'b0;
+      @(posedge aclk);
+      bvalid <= 1'b0;
+      bready <= 1'b0;
+
+      `uvm_info(name,$sformatf("When_masterAndSlaveIsNotSupportsMultipleOutstanding Task  ended"),UVM_NONE);
+    endtask
+
 endmodule : Axi4LiteMasterWriteCoverPropertyTB
 
 `endif

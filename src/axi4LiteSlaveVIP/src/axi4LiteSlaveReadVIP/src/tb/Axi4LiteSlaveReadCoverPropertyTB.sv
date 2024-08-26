@@ -112,6 +112,9 @@ module Axi4LiteSlaveReadCoverPropertyTB;
     When_araddrIsAsserted_Then_inbetween1To10ClkRdataIsAsserted();
     When_rdataIsAsserted_Then_nextClkAraddrIsAsserted();
     When_rdataIsAsserted_Then_inbetween1To10ClkAraddrIsAsserted(); 
+    When_masterIssuesMulipleTxThenSlaveNeedToSupportsMultipleOutstanding();
+    When_masterIssuesMulipleTxThenSlaveIsNotSupportsMultipleOutstanding();
+    When_masterAndSlaveIsNotSupportsMultipleOutstanding();
 end
 
 
@@ -1161,6 +1164,146 @@ task When_arreadyDefaultValueIs1AndTransferOccur_Then_nextClkArreadyValueWillGoD
     `uvm_info(name,$sformatf("When_rdataIsAsserted_Then_inbetween1To10ClkAraddrIsAsserted Task  ended"),UVM_NONE);
   endtask
 
+task When_masterIssuesMulipleTxThenSlaveNeedToSupportsMultipleOutstanding(); 
+  `uvm_info(name,$sformatf("When_masterIssuesMulipleTxThenSlaveNeedToSupportsMultipleOutstanding Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      arvalid <= 1'b0;
+      arready <= 1'b0;
+      rvalid  <= 1'b0;
+      rready  <= 1'b0;
+      rresp   <= 1'b0;
+      @(posedge aclk);
+      arvalid <= 1'b1;
+      arready <= 1'b1;
+      @(posedge aclk);
+      arready <= 1'b0;
+      @(posedge aclk);
+      arready <= 1'b1;
+      @(posedge aclk);
+      arready <= 1'b0;
+      @(posedge aclk);
+      arready <= 1'b1;
+      @(posedge aclk);
+      arready <= 1'b0;
+      arvalid <= 1'b0;
+      repeat(2) begin
+        @(posedge aclk);
+      end
+      rvalid <= 1'b1;
+      rready <= 1'b1;
+      rresp  <= 2'b00;
+      @(posedge aclk);
+      rvalid <= 1'b0;
+      rready <= 1'b0;
+      @(posedge aclk);
+      rvalid <= 1'b1;
+      rready <= 1'b1;
+      @(posedge aclk);
+      rvalid <= 1'b0;
+      rready <= 1'b0;
+      repeat(2) begin
+        @(posedge aclk);
+      end
+      rvalid  <= 1'b1;
+      rready  <= 1'b1;
+      @(posedge aclk);
+      rvalid  <= 1'b0;
+      rready  <= 1'b0;
+    `uvm_info(name,$sformatf("When_masterIssuesMulipleTxThenSlaveNeedToSupportsMultipleOutstanding Task  ended"),UVM_NONE);
+  endtask 
+
+    task When_masterIssuesMulipleTxThenSlaveIsNotSupportsMultipleOutstanding();
+      `uvm_info(name,$sformatf("When_masterIssuesMulipleTxThenSlaveIsNotSupportsMultipleOutstanding Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      arvalid <= 1'b0;
+      arready <= 1'b0;
+      rvalid  <= 1'b0;
+      rready  <= 1'b0;
+      rresp   <= 1'b0;
+      @(posedge aclk);
+      arvalid <= 1'b1;
+      @(posedge aclk);
+      arready <= 1'b1;
+      @(posedge aclk);
+      arready <= 1'b0;
+      @(posedge aclk);
+      rvalid <= 1'b1;
+      @(posedge aclk);
+      rready <= 1'b1;
+      @(posedge aclk);
+      arready <= 1'b1;
+      rvalid <= 1'b0;
+      rready <= 1'b0;
+      @(posedge aclk);
+      arready <= 1'b0;
+      rvalid <= 1'b1;
+      rready <= 1'b1;
+      @(posedge aclk);
+      arready <= 1'b1;
+      rvalid <= 1'b0;
+      rready <= 1'b0;
+      @(posedge aclk);
+      arvalid <= 1'b0;
+      arready <= 1'b0;
+      rvalid <= 1'b1;
+      @(posedge aclk);
+      rready <= 1'b1;
+      @(posedge aclk);
+      rvalid <= 1'b0;
+      rready <= 1'b0;
+
+      `uvm_info(name,$sformatf("When_masterIssuesMulipleTxThenSlaveIsNotSupportsMultipleOutstanding Task  ended"),UVM_NONE);
+    endtask
+
+    task When_masterAndSlaveIsNotSupportsMultipleOutstanding();
+      `uvm_info(name,$sformatf("When_masterAndSlaveIsNotSupportsMultipleOutstanding Task started"),UVM_NONE);
+      @(posedge aclk); 
+      aresetn <= 1'b1;
+      arvalid <= 1'b0;
+      arready <= 1'b0;
+      rvalid  <= 1'b0;
+      rready  <= 1'b0;
+      rresp   <= 1'b0;
+      @(posedge aclk);
+      arvalid <= 1'b1;
+      arready <= 1'b1;
+      @(posedge aclk);
+      rvalid <= 1'b1;
+      rready <= 1'b1;
+      arvalid <= 1'b0;
+      arready <= 1'b0;
+      @(posedge aclk);
+      rvalid <= 1'b0;
+      rready <= 1'b0;
+      @(posedge aclk);
+      arvalid <= 1'b1;
+      arready <= 1'b1;
+      @(posedge aclk);
+      rvalid <= 1'b1;
+      rready <= 1'b1;
+      arvalid <= 1'b0;
+      arready <= 1'b0;
+      @(posedge aclk);
+      rvalid <= 1'b0;
+      rready <= 1'b0;
+      repeat(5) begin
+        @(posedge aclk);
+      end
+      arvalid <= 1'b1;
+      arready <= 1'b1;
+      @(posedge aclk);
+      rvalid <= 1'b1;
+      rready <= 1'b1;
+      arvalid <= 1'b0;
+      arready <= 1'b0;
+      @(posedge aclk);
+      rvalid <= 1'b0;
+      rready <= 1'b0;
+
+      `uvm_info(name,$sformatf("When_masterAndSlaveIsNotSupportsMultipleOutstanding Task  ended"),UVM_NONE);
+    endtask
 
 endmodule : Axi4LiteSlaveReadCoverPropertyTB
 
