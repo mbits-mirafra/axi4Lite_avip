@@ -22,7 +22,7 @@ class Axi4LiteSlaveWriteCoverage extends uvm_subscriber#(Axi4LiteSlaveWriteTrans
    option.comment                                  = "writeDATA value";
    bins WRITE_DATAMAX                              = {32'hFFFF_FFFF};
    bins WRITE_DATAZERO                             = {32'h0000_0000};
-   bins WRITE_DATATOGGLE1                          = {32'hAAAA_AAAA};
+   bins WRITE_DATATOGGLE                           = {32'hAAAA_AAAA};
    bins WRITE_ANYDATA                              = {[1:$]};
   }
 
@@ -54,21 +54,32 @@ class Axi4LiteSlaveWriteCoverage extends uvm_subscriber#(Axi4LiteSlaveWriteTrans
 	 illegal_bins INSTRUCTION_NONSECURE_UNPRIVILEGED  = {3'b110};  
 	 illegal_bins INSTRUCTION_NONSECURE_PRIVILEGED    = {3'b111};  
 	}
-
-   AWPROT_CP_X_BRESP_CP    : cross AWPROT_CP, BRESP_CP;
+   
+   AWPROT_CP_X_BRESP_CP    : cross AWPROT_CP, BRESP_CP{
+   ignore_bins b1 = (( binsof(AWPROT_CP.DATA_SECURE_UNPRIVILEGED) || binsof(AWPROT_CP.DATA_SECURE_PRIVILEGED) ||
+                       binsof(AWPROT_CP.DATA_NONSECURE_UNPRIVILEGED) || binsof(AWPROT_CP.DATA_NONSECURE_PRIVILEGED))
+                       && binsof (BRESP_CP.WRITE_SLVERR));
+  }
    WRITEDATA_CP_X_WSTRB_CP : cross WRITEDATA_CP, WSTRB_CP {
-     bins b1 = binsof(WRITEDATA_CP.WRITE_DATAMAX) && binsof(WSTRB_CP.ALL_ONES);
-     bins b2 = binsof(WRITEDATA_CP.WRITE_DATAZERO) && binsof(WSTRB_CP.ALL_ZEROS);
-     bins b3 = binsof(WRITEDATA_CP.WRITE_DATATOGGLE1) && binsof(WSTRB_CP.ALL_ONES);
-     bins b4 = binsof(WRITEDATA_CP.WRITE_ANYDATA) || binsof(WSTRB_CP.ALL_ONES) 
-               || binsof(WSTRB_CP.SINGLE_BIT) || binsof(WSTRB_CP.TWO_BITS) ||
-               binsof(WSTRB_CP.THREE_BITS);
-   }
-   WRITEADDR_CP_X_BRESP_CP : cross WRITEADDR_CP,BRESP_CP{
-     bins b5 = binsof(WRITEADDR_CP.WRITE_ADDROUTOFRANGE) && binsof(BRESP_CP.WRITE_SLVERR);
-     bins b6 = binsof(WRITEADDR_CP.WRITE_ADDRRANGE) && binsof(BRESP_CP.WRITE_OKAY);
-   }
- 
+   ignore_bins b1 = (( binsof(WSTRB_CP.THREE_BITS) || binsof(WSTRB_CP.TWO_BITS) || 
+                       binsof(WSTRB_CP.SINGLE_BIT) || binsof(WSTRB_CP.ALL_ZEROS)) 
+                    && binsof(WRITEDATA_CP.WRITE_DATAMAX)); 
+   ignore_bins b4 = (( binsof(WSTRB_CP.THREE_BITS) || binsof(WSTRB_CP.TWO_BITS) || 
+                       binsof(WSTRB_CP.SINGLE_BIT) || binsof(WSTRB_CP.ALL_ZEROS)) 
+                    && binsof(WRITEDATA_CP.WRITE_DATATOGGLE));
+   ignore_bins b2 = (( binsof(WSTRB_CP.THREE_BITS) || binsof(WSTRB_CP.TWO_BITS) ||
+                       binsof(WSTRB_CP.SINGLE_BIT) || binsof(WSTRB_CP.ALL_ONES)) &&
+                       binsof(WRITEDATA_CP.WRITE_DATAZERO));
+   ignore_bins b3 = (( binsof(WSTRB_CP.ALL_ZEROS)) && binsof(WRITEDATA_CP.WRITE_ANYDATA));
+  }
+
+   WRITEADDR_CP_X_BRESP_CP : cross WRITEADDR_CP,BRESP_CP{ 
+   ignore_bins b1 = binsof(WRITEADDR_CP.WRITE_ADDROUTOFRANGE) && binsof (BRESP_CP.WRITE_OKAY);
+   ignore_bins b2 = ((binsof(WRITEADDR_CP.WRITE_ADDRRANGE) || binsof(WRITEADDR_CP.WRITE_EVENADDR) || 
+                        binsof(WRITEADDR_CP.WRITE_ODDADDR) || binsof(WRITEADDR_CP.WRITE_MODEOF4ADDR)) 
+                        && binsof (BRESP_CP.WRITE_SLVERR));
+  }
+
   endgroup: axi4LiteSlaveWriteCovergroup
  
   extern function new(string name = "Axi4LiteSlaveWriteCoverage", uvm_component parent = null);

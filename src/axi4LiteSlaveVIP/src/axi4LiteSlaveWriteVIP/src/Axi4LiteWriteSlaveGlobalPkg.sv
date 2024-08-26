@@ -21,13 +21,7 @@ package Axi4LiteWriteSlaveGlobalPkg;
   parameter int MIN_ADDRESS = 8'h01;
   parameter int MAX_ADDRESS = 8'hff;
 
-  typedef enum bit {
-    BIG_ENDIAN    = 1'b0,
-    LITTLE_ENDIAN = 1'b1
-  } endianEnum;
-
- 
-  typedef enum bit [1:0] {
+  typedef enum logic [1:0] {
     WRITE_OKAY   = 2'b00,
     WRITE_EXOKAY = 2'b01,
     WRITE_SLVERR = 2'b10,

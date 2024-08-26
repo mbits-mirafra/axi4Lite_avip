@@ -20,8 +20,8 @@ class Axi4LiteSlaveReadCoverage extends uvm_subscriber#(Axi4LiteSlaveReadTransac
     READDATA_CP : coverpoint packet.rdata {
     option.comment                                  = "readDATA value";
     bins READ_DATAMAX                               = {32'hFFFF_FFFF};
-    bins WRITE_DATAZERO                             = {32'h0000_0000};
-    bins READ_DATATOGGLE1                           = {32'hAAAA_AAAA};
+    bins READ_DATAZERO                             = {32'h0000_0000};
+    bins READ_DATATOGGLE                           = {32'hAAAA_AAAA};
     bins READ_ANYDATA                               = {[1:$]};
    }
 
@@ -44,13 +44,25 @@ class Axi4LiteSlaveReadCoverage extends uvm_subscriber#(Axi4LiteSlaveReadTransac
 	  illegal_bins INSTRUCTION_NONSECURE_UNPRIVILEGED  = {3'b110};  
 	  illegal_bins INSTRUCTION_NONSECURE_PRIVILEGED    = {3'b111};  
   }
+   
+  ARPROT_CP_X_RRESP_CP      : cross ARPROT_CP, RRESP_CP{
+  ignore_bins b1 = (( binsof(ARPROT_CP.DATA_SECURE_UNPRIVILEGED) || binsof(ARPROT_CP.DATA_SECURE_PRIVILEGED) ||
+                       binsof(ARPROT_CP.DATA_NONSECURE_UNPRIVILEGED) || binsof(ARPROT_CP.DATA_NONSECURE_PRIVILEGED))
+                       && binsof (RRESP_CP.READ_SLVERR));
 
-    ARPROT_CP_X_RRESP_CP      : cross ARPROT_CP, RRESP_CP;
-    READDATA_CP_X_RRESP_CP    : cross READDATA_CP, RRESP_CP;
-    ARADDR_CP_X_BRESP_CP      : cross READADDR_CP,RRESP_CP{
-      bins b1 = binsof(READADDR_CP.READ_ADDROUTOFRANGE) && binsof(RRESP_CP.READ_SLVERR);
-      bins b2 = binsof(READADDR_CP.READ_ADDRRANGE) && binsof(RRESP_CP.READ_OKAY);
-    }
+  }
+  
+  READDATA_CP_X_RRESP_CP    : cross READDATA_CP, RRESP_CP{
+  ignore_bins b1 = (( binsof(READDATA_CP.READ_DATAMAX) || binsof(READDATA_CP.READ_DATAZERO) || 
+                       binsof(READDATA_CP.READ_DATATOGGLE)) && binsof(RRESP_CP.READ_SLVERR));
+  }
+  
+  ARADDR_CP_X_BRESP_CP      : cross READADDR_CP,RRESP_CP{
+  ignore_bins b1 = binsof(READADDR_CP.READ_ADDROUTOFRANGE) && binsof (RRESP_CP.READ_OKAY);
+  ignore_bins b2 = ((binsof(READADDR_CP.READ_ADDRRANGE) || binsof(READADDR_CP.READ_EVENADDR) || 
+                        binsof(READADDR_CP.READ_ODDADDR) || binsof(READADDR_CP.READ_MODEOF4ADDR)) 
+                        && binsof (RRESP_CP.READ_SLVERR));
+  }
 
   endgroup: axi4LiteSlaveReadCovergroup
 
