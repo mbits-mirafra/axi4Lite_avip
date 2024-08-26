@@ -47,7 +47,7 @@ function void Axi4LiteMasterReadBaseTest::setupAxi4LiteMasterReadAgentConfig();
 
   axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
   axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].hasCoverage = 1;
-  axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].defaultStateReady = 1;
+  axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].defaultStateReady = DEFAULT_READY;
   axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].minAddressRange = MIN_ADDRESS; 
   axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].maxAddressRange = MAX_ADDRESS;
   axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].maxDelayForArready = MAX_DELAY_READY;
@@ -55,7 +55,7 @@ function void Axi4LiteMasterReadBaseTest::setupAxi4LiteMasterReadAgentConfig();
   axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].toggleReady = 0;
   axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].enableOutstandingTransaction = 0;
   axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].maxLimitOfOutstandingTx = MAXLIMITOF_OUTSTANDINGTX;
-  axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].toggleReady = noOfOutstandingTx;
+  axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].noOfOutstandingTx = 3;
 
    uvm_config_db#(Axi4LiteMasterReadAgentConfig)::set( this, "*", $sformatf("Axi4LiteMasterReadAgentConfig[%0d]", i),
           axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i]);

@@ -8,6 +8,7 @@ class Axi4LiteMasterAndSlaveSupportWriteOutstandingTransactionTest extends Axi4L
   
   extern function new(string name = "Axi4LiteMasterAndSlaveSupportWriteOutstandingTransactionTest", uvm_component parent = null);
   extern virtual function void setupAxi4LiteMasterWriteAgentConfig();
+  extern virtual function void setupAxi4LiteSlaveWriteAgentConfig();
   extern virtual task run_phase(uvm_phase phase);
 
 endclass : Axi4LiteMasterAndSlaveSupportWriteOutstandingTransactionTest
@@ -25,6 +26,13 @@ function void Axi4LiteMasterAndSlaveSupportWriteOutstandingTransactionTest::setu
   end
 endfunction : setupAxi4LiteMasterWriteAgentConfig
 
+function void Axi4LiteMasterAndSlaveSupportWriteOutstandingTransactionTest::setupAxi4LiteSlaveWriteAgentConfig();
+  super.setupAxi4LiteSlaveWriteAgentConfig();
+
+  foreach(axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i]) begin
+    axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].enableOutstandingTransaction = 1;
+  end
+endfunction : setupAxi4LiteSlaveWriteAgentConfig
 
 task Axi4LiteMasterAndSlaveSupportWriteOutstandingTransactionTest::run_phase(uvm_phase phase);
 

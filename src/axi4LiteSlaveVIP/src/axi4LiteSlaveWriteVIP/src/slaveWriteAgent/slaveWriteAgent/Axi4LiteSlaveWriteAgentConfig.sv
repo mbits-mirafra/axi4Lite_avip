@@ -16,6 +16,7 @@ class Axi4LiteSlaveWriteAgentConfig extends uvm_object;
   int maxDelayForBready;
 
   bit toggleReady;
+  bit enableOutstandingTransaction;
 
   extern function new(string name = "Axi4LiteSlaveWriteAgentConfig");
   extern function void do_print(uvm_printer printer);
@@ -36,6 +37,7 @@ function void Axi4LiteSlaveWriteAgentConfig::do_print(uvm_printer printer);
   printer.print_field ("maxDelayForWvalid", maxDelayForWvalid, $bits(maxDelayForWvalid), UVM_DEC);
   printer.print_field ("maxDelayForBready", maxDelayForBready, $bits(maxDelayForBready), UVM_DEC);
   printer.print_field ("toggleReady", toggleReady, $bits(toggleReady), UVM_DEC);
+  printer.print_field ("enableOutstandingTransaction",  enableOutstandingTransaction, $bits(enableOutstandingTransaction),  UVM_DEC);
 endfunction : do_print
 
 `endif

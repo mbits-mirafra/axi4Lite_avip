@@ -182,6 +182,9 @@ task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
     `uvm_info(get_type_name(), $sformatf("WRITE_TASK :: Out of fork_join_any : After await writeAddress.status()=%s",
                                             writeAddressProcess.status()), UVM_NONE);
 
+    if(axi4LiteSlaveWriteAgentConfig.enableOutstandingTransaction == 0) begin
+      writeResponseProcess.await();
+    end
    axi4LiteSlaveWriteSeqItemPort.item_done();
  end
 endtask : writeTransferTask

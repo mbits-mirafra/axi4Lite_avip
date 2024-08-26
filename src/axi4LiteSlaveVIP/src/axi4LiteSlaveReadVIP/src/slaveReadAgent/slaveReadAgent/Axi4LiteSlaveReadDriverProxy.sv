@@ -14,6 +14,7 @@ class Axi4LiteSlaveReadDriverProxy extends uvm_driver#(Axi4LiteSlaveReadTransact
   semaphore readResponseKey;
 
   process readAddressProcess;
+  process readResponseProcess;
 
   Axi4LiteSlaveReadAgentConfig axi4LiteSlaveReadAgentConfig;
   Axi4LiteSlaveReadSeqItemConverter axi4LiteSlaveReadSeqItemConverter;
@@ -120,6 +121,8 @@ task Axi4LiteSlaveReadDriverProxy::readTransferTask();
       Axi4LiteSlaveReadTransaction slaveReadDataTx;
       axi4LiteReadSlaveTransferPacketStruct slaveReadPacketStruct;
 
+      readResponseProcess = process::self();
+
       readResponseKey.get(1);
       readDataKey.get(1);
 
@@ -160,6 +163,9 @@ task Axi4LiteSlaveReadDriverProxy::readTransferTask();
     `uvm_info(get_type_name(), $sformatf("READ_TASK :: Out of fork_join_any : After await readAddress.status()=%s",
                                             readAddressProcess.status()), UVM_NONE);
 
+    if(axi4LiteSlaveReadAgentConfig.enableOutstandingTransaction == 0) begin
+      readResponseProcess.await();
+    end
    axi4LiteSlaveReadSeqItemPort.item_done();
   end
 endtask : readTransferTask

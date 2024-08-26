@@ -32,7 +32,7 @@ task Axi4LiteVirtualMasterSupportAndSlaveNotSupportReadOutstandingTransaction::b
       axi4LiteSlaveRead32bitsTransferSeq.start(p_sequencer.axi4LiteSlaveVirtualSequencer.axi4LiteSlaveReadSequencer);
 
 
-      if(!axi4LiteSlaveRead32bitsTransferSeq.randomize() with {delayForArreadySeq == 2;
+      if(!axi4LiteSlaveRead32bitsTransferSeq.randomize() with {delayForArreadySeq == 0;
                                                                delayForRvalidSeq == 0;
                                                               }) begin
         `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualMasterSupportAndSlaveNotSupportReadOutstandingTransaction")

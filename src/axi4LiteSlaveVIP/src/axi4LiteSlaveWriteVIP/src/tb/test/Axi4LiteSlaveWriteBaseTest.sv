@@ -47,12 +47,13 @@ function void Axi4LiteSlaveWriteBaseTest::setupAxi4LiteSlaveWriteAgentConfig();
 
   axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
   axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].hasCoverage = 1;
-  axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].defaultStateReady = 1;
+  axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].defaultStateReady = DEFAULT_READY;
   axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].maxDelayForWvalid = MAX_DELAY_WVALID;
   axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].maxDelayForBready = MAX_DELAY_READY;
   axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].minAddressRange   = MIN_ADDRESS;
   axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].maxAddressRange   = MAX_ADDRESS;
   axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].toggleReady   = 0;
+  axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].enableOutstandingTransaction = 0;
 
    uvm_config_db#(Axi4LiteSlaveWriteAgentConfig)::set( this, "*", $sformatf("Axi4LiteSlaveWriteAgentConfig[%0d]", i),
           axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i]);

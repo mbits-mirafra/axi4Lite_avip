@@ -8,6 +8,7 @@ class Axi4LiteMasterAndSlaveSupportReadOutstandingTransactionTest extends Axi4Li
   
   extern function new(string name = "Axi4LiteMasterAndSlaveSupportReadOutstandingTransactionTest", uvm_component parent = null);
   extern virtual function void setupAxi4LiteMasterReadAgentConfig();
+  extern virtual function void setupAxi4LiteSlaveReadAgentConfig();
   extern virtual task run_phase(uvm_phase phase);
 
 endclass : Axi4LiteMasterAndSlaveSupportReadOutstandingTransactionTest
@@ -24,6 +25,15 @@ function void Axi4LiteMasterAndSlaveSupportReadOutstandingTransactionTest::setup
     axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].enableOutstandingTransaction = 1;
   end
 endfunction : setupAxi4LiteMasterReadAgentConfig
+
+function void Axi4LiteMasterAndSlaveSupportReadOutstandingTransactionTest::setupAxi4LiteSlaveReadAgentConfig();
+  super.setupAxi4LiteSlaveReadAgentConfig();
+
+  foreach(axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i]) begin
+    axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].enableOutstandingTransaction = 1;
+  end
+endfunction : setupAxi4LiteSlaveReadAgentConfig
+
 
 task Axi4LiteMasterAndSlaveSupportReadOutstandingTransactionTest::run_phase(uvm_phase phase);
 
