@@ -7,6 +7,8 @@ class Axi4LiteEnvConfig extends uvm_object;
   bit hasScoreboard;
   bit hasVirtualSequencer;
 
+  bit [1:0] transactionType;
+
   Axi4LiteMasterEnvConfig axi4LiteMasterEnvConfig;
   Axi4LiteSlaveEnvConfig axi4LiteSlaveEnvConfig;
 
@@ -24,6 +26,8 @@ function void Axi4LiteEnvConfig::do_print(uvm_printer printer);
   
   printer.print_field ("hasScoreboard",hasScoreboard,1, UVM_DEC);
   printer.print_field ("hasVirtualSequencer",hasVirtualSequencer,1, UVM_DEC);
+  printer.print_field ("transactionType",transactionType,2,UVM_DEC);
+
 
 endfunction : do_print
 

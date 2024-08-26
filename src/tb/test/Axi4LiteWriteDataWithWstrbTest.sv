@@ -1,7 +1,7 @@
 `ifndef AXI4LITEWRITEDATAWITHWSTRBTEST_INCLUDED_
 `define AXI4LITEWRITEDATAWITHWSTRBTEST_INCLUDED_
 
-class Axi4LiteWriteDataWithWstrbTest extends Axi4LiteBaseTest;
+class Axi4LiteWriteDataWithWstrbTest extends Axi4Lite32bitWriteDataTest;
   `uvm_component_utils(Axi4LiteWriteDataWithWstrbTest)
 
   Axi4LiteVirtualWriteDataWithWstrbSeq axi4LiteVirtualWriteDataWithWstrbSeq;

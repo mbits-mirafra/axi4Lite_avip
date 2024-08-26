@@ -7,6 +7,7 @@ class Axi4Lite32bitReadDataTest extends Axi4LiteBaseTest;
   Axi4LiteVirtual32bitReadDataSeq axi4LiteVirtual32bitReadDataSeq;
   
   extern function new(string name = "Axi4Lite32bitReadDataTest", uvm_component parent = null);
+  extern function void setupAxi4LiteEnvConfig();
   extern virtual task run_phase(uvm_phase phase);
 
 endclass : Axi4Lite32bitReadDataTest
@@ -15,6 +16,11 @@ function Axi4Lite32bitReadDataTest::new(string name = "Axi4Lite32bitReadDataTest
                                  uvm_component parent = null);
   super.new(name, parent);
 endfunction : new
+
+function void Axi4Lite32bitReadDataTest::setupAxi4LiteEnvConfig();
+ super.setupAxi4LiteEnvConfig();
+ axi4LiteEnvConfig.transactionType = 0;
+endfunction : setupAxi4LiteEnvConfig
 
 task Axi4Lite32bitReadDataTest::run_phase(uvm_phase phase);
 

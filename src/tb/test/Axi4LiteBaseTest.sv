@@ -42,6 +42,7 @@ function void Axi4LiteBaseTest::setupAxi4LiteEnvConfig();
 
  axi4LiteEnvConfig.hasVirtualSequencer = 1;
  axi4LiteEnvConfig.hasScoreboard = 1;
+ axi4LiteEnvConfig.transactionType = 2;
 
  setupAxi4LiteMasterEnvConfig();
  setupAxi4LiteSlaveEnvConfig();

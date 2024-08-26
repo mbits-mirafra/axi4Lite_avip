@@ -19,6 +19,8 @@ class Axi4LiteScoreboard extends uvm_scoreboard;
   Axi4LiteMasterReadTransaction axi4LiteMasterReadTransaction; 
   Axi4LiteSlaveReadTransaction axi4LiteSlaveReadTransaction;
 
+  Axi4LiteEnvConfig axi4LiteEnvConfig;
+
   uvm_tlm_analysis_fifo #(Axi4LiteMasterWriteTransaction) axi4LiteMasterWriteEnvAddressFIFO;
   uvm_tlm_analysis_fifo #(Axi4LiteMasterWriteTransaction) axi4LiteMasterWriteEnvDataFIFO;
   uvm_tlm_analysis_fifo #(Axi4LiteMasterWriteTransaction) axi4LiteMasterWriteEnvResponseFIFO;
@@ -69,6 +71,7 @@ class Axi4LiteScoreboard extends uvm_scoreboard;
   int readDataComparisonFailedCount;
   int readRespComparisonSuccessCount; 
   int readRespComparisonFailedCount; 
+ 
 
   extern function new(string name = "Axi4LiteScoreboard", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
@@ -109,6 +112,10 @@ function void Axi4LiteScoreboard::build_phase(uvm_phase phase);
   axi4LiteSlaveWriteEnvResponseFIFO  = new("axi4LiteSlaveWriteEnvResponseFIFO",this);
   axi4LiteSlaveReadEnvAddressFIFO    = new("axi4LiteSlaveReadEnvAddressFIFO",this);
   axi4LiteSlaveReadEnvDataFIFO       = new("axi4LiteSlaveReadEnvDataFIFO",this);
+  
+  if(!uvm_config_db #(Axi4LiteEnvConfig)::get(this,"","Axi4LiteEnvConfig",axi4LiteEnvConfig)) begin
+    `uvm_fatal("FATAL_ENV_CONFIG", $sformatf("Scoreboard :: Couldn't get the env_config from config_db"))
+  end
     
   writeAddressKey     = new(1);
   writeDataKey        = new(1);
@@ -269,7 +276,7 @@ task Axi4LiteScoreboard::axi4LiteWriteAddressComparision(input Axi4LiteMasterWri
   else begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteWriteAddress from masterWrite and slaveWrite is not equal"),UVM_HIGH);
     `uvm_info("SB_AWADDR_NOT_MATCHED",$sformatf("masterWrite AWADDR = 'h%0x and slaveWrite AWADDR = 'h%0x",axi4LiteMasterWriteTxAddress.awaddr, axi4LiteSlaveWriteTxAddress.awaddr), UVM_HIGH);
-    writeAddressComparisonFailedCount++;
+     writeAddressComparisonFailedCount++;
   end
   
   if(axi4LiteMasterWriteTxAddress.awprot == axi4LiteSlaveWriteTxAddress.awprot) begin
@@ -386,6 +393,8 @@ function void Axi4LiteScoreboard::check_phase(uvm_phase phase);
   
   `uvm_info (get_type_name(),$sformatf(" Scoreboard Check Phase is starting"),UVM_HIGH); 
 
+  if(axi4LiteEnvConfig.transactionType == 2) begin
+       
   if((writeAddressComparisonSuccessCount != 0) && (writeAddressComparisonFailedCount == 0)) begin
      `uvm_info (get_type_name(), $sformatf ("awaddr count comparisions are succesful"),UVM_HIGH);
   end
@@ -484,6 +493,110 @@ function void Axi4LiteScoreboard::check_phase(uvm_phase phase);
                                              readRespComparisonFailedCount),UVM_HIGH);
      `uvm_error (get_type_name(), $sformatf ("rresp count comparisions are failed"));
    end
+ end
+     
+ else if(axi4LiteEnvConfig.transactionType ==  Axi4LiteWriteMasterGlobalPkg::WRITE) begin 
+  if((writeAddressComparisonSuccessCount != 0) && (writeAddressComparisonFailedCount == 0)) begin
+     `uvm_info (get_type_name(), $sformatf ("awaddr count comparisions are succesful"),UVM_HIGH);
+  end
+   else begin
+     `uvm_info (get_type_name(), $sformatf ("writeAddressComparisonSuccessCount :%0d",
+                                             writeAddressComparisonSuccessCount),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("writeAddressComparisonFailedCount :%0d",
+                                             writeAddressComparisonFailedCount),UVM_HIGH);
+     `uvm_error (get_type_name(), $sformatf ("awaddr count comparisions are failed"));
+   end
+
+  if((writeProtComparisonSuccessCount != 0) && (writeProtComparisonFailedCount == 0)) begin
+     `uvm_info (get_type_name(), $sformatf ("awprot count comparisions are succesful"),UVM_HIGH);
+  end
+   else begin
+     `uvm_info (get_type_name(), $sformatf ("writeProtComparisonSuccessCount :%0d",
+                                             writeProtComparisonSuccessCount),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("writeProtComparisonFailedCount :%0d",
+                                             writeProtComparisonFailedCount),UVM_HIGH);
+     `uvm_error (get_type_name(), $sformatf ("awprot count comparisions are failed"));
+   end
+  
+  if((writeDataComparisonSuccessCount != 0) && (writeDataComparisonFailedCount == 0)) begin
+     `uvm_info (get_type_name(), $sformatf ("wdata count comparisions are succesful"),UVM_HIGH);
+  end
+   else begin
+     `uvm_info (get_type_name(), $sformatf ("writeDataComparisonSuccessCount :%0d",
+                                             writeDataComparisonSuccessCount),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("writeDataComparisonFailedCount :%0d",
+                                             writeDataComparisonFailedCount),UVM_HIGH);
+     `uvm_error (get_type_name(), $sformatf ("wdata count comparisions are failed"));
+   end
+
+   if((writeStrbComparisonSuccessCount != 0) && (writeStrbComparisonFailedCount == 0)) begin
+     `uvm_info (get_type_name(), $sformatf ("wstrb count comparisions are succesful"),UVM_HIGH);
+  end
+   else begin
+     `uvm_info (get_type_name(), $sformatf ("writeStrbComparisonSuccessCount :%0d",
+                                             writeStrbComparisonSuccessCount),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("writeStrbComparisonFailedCount :%0d",
+                                             writeStrbComparisonFailedCount),UVM_HIGH);
+     `uvm_error (get_type_name(), $sformatf ("wstrb count comparisions are failed"));
+   end
+
+   if((writeRespComparisonSuccessCount != 0) && (writeRespComparisonFailedCount == 0)) begin
+     `uvm_info (get_type_name(), $sformatf ("bresp count comparisions are succesful"),UVM_HIGH);
+  end
+   else begin
+     `uvm_info (get_type_name(), $sformatf ("writeRespComparisonSuccessCount :%0d",
+                                             writeRespComparisonSuccessCount),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("writeRespComparisonFailedCount :%0d",
+                                             writeRespComparisonFailedCount),UVM_HIGH);
+     `uvm_error (get_type_name(), $sformatf ("bresp count comparisions are failed"));
+   end
+  end
+
+  else if( axi4LiteEnvConfig.transactionType == Axi4LiteReadMasterGlobalPkg::READ) begin 
+  if((readAddressComparisonSuccessCount != 0) && (readAddressComparisonFailedCount == 0)) begin
+     `uvm_info (get_type_name(), $sformatf ("araddr count comparisions are succesful"),UVM_HIGH);
+  end
+   else begin
+     `uvm_info (get_type_name(), $sformatf ("readAddressComparisonSuccessCount:%0d",
+                                             readAddressComparisonSuccessCount),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("readAddressComparisonFailedCount :%0d",
+                                             readAddressComparisonFailedCount),UVM_HIGH);
+     `uvm_error (get_type_name(), $sformatf ("araddr count comparisions are failed"));
+   end
+  
+   if((readProtComparisonSuccessCount != 0) && (readProtComparisonFailedCount == 0)) begin
+     `uvm_info (get_type_name(), $sformatf ("arprot count comparisions are succesful"),UVM_HIGH);
+  end
+   else begin
+     `uvm_info (get_type_name(), $sformatf ("readProtComparisonSuccessCount :%0d",
+                                             readProtComparisonSuccessCount),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("readProtComparisonFailedCount :%0d",
+                                             readProtComparisonFailedCount),UVM_HIGH);
+     `uvm_error (get_type_name(), $sformatf ("arprot count comparisions are failed"));
+   end
+
+  if((readDataComparisonSuccessCount != 0) && (readDataComparisonFailedCount == 0)) begin
+     `uvm_info (get_type_name(), $sformatf ("rdata count comparisions are succesful"),UVM_HIGH);
+  end
+   else begin
+     `uvm_info (get_type_name(), $sformatf ("readDataComparisonSuccessCount :%0d",
+                                             readDataComparisonSuccessCount),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("readDataComparisonFailedCount :%0d",
+                                             readDataComparisonFailedCount),UVM_HIGH);
+     `uvm_error (get_type_name(), $sformatf ("rdata count comparisions are failed"));
+   end
+   
+   if((readRespComparisonSuccessCount != 0) && (readRespComparisonFailedCount == 0)) begin
+     `uvm_info (get_type_name(), $sformatf ("rresp count comparisions are succesful"),UVM_HIGH);
+  end
+   else begin
+     `uvm_info (get_type_name(), $sformatf ("readRespComparisonSuccessCount :%0d",
+                                             readRespComparisonSuccessCount),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("readRespComparisonFailedCount :%0d",
+                                             readRespComparisonFailedCount),UVM_HIGH);
+     `uvm_error (get_type_name(), $sformatf ("rresp count comparisions are failed"));
+   end
+ end
 
    if(axi4LiteMasterWriteEnvAddressFIFO.size() == 0) begin
     `uvm_info ("SC_CheckPhase", $sformatf ("axi4Lite masterWriteAddress analysisFIFO is empty"),UVM_HIGH);
