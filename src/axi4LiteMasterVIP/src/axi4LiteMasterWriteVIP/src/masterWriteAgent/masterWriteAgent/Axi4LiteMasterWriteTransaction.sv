@@ -22,6 +22,7 @@ class Axi4LiteMasterWriteTransaction extends uvm_sequence_item;
   rand int repeatToggleReady;
 
   constraint awaddr_c {soft awaddr <= MAX_ADDRESS;}
+  constraint awprot_c {soft awprot inside {[0:3]};}
   constraint delayForWvalid_c {soft delayForWvalid <= MAX_DELAY_WVALID;}
   constraint delayForBready_c {soft delayForBready <= MAX_DELAY_READY;}
 

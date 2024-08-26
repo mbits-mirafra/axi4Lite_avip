@@ -14,6 +14,7 @@ class Axi4LiteMasterWrite32bitsTransferWithToggleReadySeq extends Axi4LiteMaster
   rand int repeatToggleReadySeq;
 
   constraint awaddrSeq_c {soft awaddrSeq inside {[MIN_ADDRESS:MAX_ADDRESS]};}
+  constraint awprotSeq_c {soft awprotSeq inside {[0:3]};}
   constraint wstrbSeq_c {soft wstrbSeq == 4'b1111;}
   constraint delayForAwvalidSeq_c {soft delayForAwvalidSeq < MAX_DELAY_WVALID;}
   constraint delayForWvalidSeq_c {soft delayForWvalidSeq < MAX_DELAY_WVALID;}

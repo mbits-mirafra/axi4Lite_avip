@@ -10,6 +10,7 @@ class Axi4LiteMasterRead32bitsTransferSeq extends Axi4LiteMasterReadBaseSeq;
   rand bit [DELAY_WIDTH-1:0] delayForRreadySeq;
 
   constraint araddrSeq_c {soft araddrSeq inside {[MIN_ADDRESS:MAX_ADDRESS]};}
+  constraint arprotSeq_c {soft arprotSeq inside {[0:3]};}
   constraint delayForArvalidSeq_c {soft delayForArvalidSeq < MAX_DELAY_RVALID;}
   constraint delayForRreadySeq_c {soft delayForRreadySeq  < MAX_DELAY_READY;}
 

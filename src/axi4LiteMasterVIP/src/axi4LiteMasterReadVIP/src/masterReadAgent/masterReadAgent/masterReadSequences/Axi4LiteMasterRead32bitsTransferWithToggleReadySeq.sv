@@ -10,6 +10,7 @@ class Axi4LiteMasterRead32bitsTransferWithToggleReadySeq extends Axi4LiteMasterR
   rand bit [DELAY_WIDTH-1:0] delayForRreadySeq;
   rand int repeatToggleReadySeq;
 
+  constraint arprotSeq_c {soft arprotSeq inside {[0:3]};}
   constraint araddrSeq_c {soft araddrSeq inside {[MIN_ADDRESS:MAX_ADDRESS]};}
   constraint delayForArvalidSeq_c {soft delayForArvalidSeq < MAX_DELAY_RVALID;}
   constraint delayForRreadySeq_c {soft delayForRreadySeq  < MAX_DELAY_READY;}
