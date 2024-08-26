@@ -188,6 +188,18 @@ IFRVALIDANDRREADYASSERTED_THEN_INFORMATIONNOTUNKNOWN_THENTRANSFEROCCUR : assert 
   else
     $error("IFRVALIDANDRREADYASSERTED_THEN_INFORMATIONNOTUNKNOWN_THENTRANSFEROCCUR : NOT ASSERTED");
 
+    property rvalidAndRreadyAssertedThenResponseIsNotExokay;
+      @(posedge aclk) disable iff (!aresetn)
+       (rvalid && rready) |-> (rresp !== 2'b01);
+    endproperty
+
+IFRVALIDANDRREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY: assert property(rvalidAndRreadyAssertedThenResponseIsNotExokay)
+  $info("IFRVALIDANDRREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY : ASSERTED");
+  else
+    $error("IFRVALIDANDRREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY : NOT ASSERTED");
+
+
+  //TODO Below three assertions are not working for multiple outstanding transaction
     property rvalidWillAssertAfterMasterSenttheRequest; 
       @(posedge aclk) disable iff (!aresetn)
         (arvalid && arready && !($isunknown(araddr)) && !rvalid) |=> ##[0:MAX_DELAY_RVALID] (rvalid && !($isunknown(rdata)));
@@ -217,16 +229,6 @@ IFARVALIDANDARREADYAREASSERTED_THEN_WITHIN10CLK_RVALIDASSERTEDANDRDATANOTUNKNOWN
   $info("IFARVALIDANDARREADYAREASSERTED_THEN_WITHIN10CLK_RVALIDASSERTEDANDRDATANOTUNKNOWN : ASSERTED");
   else
     $error("IFARVALIDANDARREADYAREASSERTED_THEN_WITHIN10CLK_RVALIDASSERTEDANDRDATANOTUNKNOWN : NOT ASSERTED");
-
-    property rvalidAndRreadyAssertedThenResponseIsNotExokay;
-      @(posedge aclk) disable iff (!aresetn)
-       (rvalid && rready) |-> (rresp !== 2'b01);
-    endproperty
-
-IFRVALIDANDRREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY: assert property(rvalidAndRreadyAssertedThenResponseIsNotExokay)
-  $info("IFRVALIDANDRREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY : ASSERTED");
-  else
-    $error("IFRVALIDANDRREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY : NOT ASSERTED");
 
 endinterface : Axi4LiteSlaveReadAssertions
 

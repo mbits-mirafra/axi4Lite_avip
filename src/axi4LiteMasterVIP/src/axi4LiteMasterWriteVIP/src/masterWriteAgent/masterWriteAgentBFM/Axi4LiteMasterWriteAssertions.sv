@@ -251,26 +251,6 @@ IFBVALIDANDBREADYASSERTED_THEN_INFORMATIONNOTUNKNOWN_THENTRANSFEROCCUR : assert 
   else
     $error("IFBVALIDANDBREADYASSERTED_THEN_INFORMATIONNOTUNKNOWN_THENTRANSFEROCCUR : NOT ASSERTED");
 
-    property awvalidAwreadyAndWvalidWreadyAssertedThenBValidAsserted;
-     @(posedge aclk) disable iff (!aresetn)
-        (awvalid && awready && !bvalid) |-> ##[0:MAX_DELAY_WVALID] (wvalid && !bvalid) ##[0:MAX_DELAY_READY] (wready && !bvalid) ##[1:MAX_DELAY_BVALID] bvalid;
-    endproperty
-
-AWVALIDAWREADYHIGH_THENWITHIN10CLK_WVALIDANDWREADYASSERTED_THENWHITHIN12CLK_BVALIDASSERTED: assert property(awvalidAwreadyAndWvalidWreadyAssertedThenBValidAsserted)
-  $info("AWVALIDAWREADYHIGH_THENWITHIN10CLK_WVALIDANDWREADYASSERTED_THENWHITHIN12CLK_BVALIDASSERTED : ASSERTED");
-  else
-    $error("AWVALIDAWREADYHIGH_THENWITHIN10CLK_WVALIDANDWREADYASSERTED_THENWHITHIN12CLK_BVALIDASSERTED : NOT ASSERTED");
-
-   property wvalidWreadyAssertedThenWithin12ClkBValidAsserted;
-     @(posedge aclk) disable iff (!aresetn)
-       (wvalid && wready && !bvalid) |-> ##[1:MAX_DELAY_BVALID] bvalid;
-   endproperty
-
-WVALIDANDWREADYASSERTED_THENWITHIN12CLK_BVALIDASSERTED: assert property(wvalidWreadyAssertedThenWithin12ClkBValidAsserted)
-  $info("WVALIDANDWREADYASSERTED_THENWITHIN12CLK_BVALIDASSERTED : ASSERTED");
-  else
-    $error("WVALIDANDWREADYASSERTED_THENWITHIN12CLK_BVALIDASSERTED : NOT ASSERTED");
-
     property awvalidIsAssertedThenWithin10ClkWValidIsAsserted;
      @(posedge aclk) disable iff (!aresetn)
         $rose(awvalid) |-> ##[0:MAX_DELAY_WVALID] (wvalid);
@@ -290,6 +270,27 @@ IFBVALIDANDBREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY: assert property(bvalidAnd
   $info("IFBVALIDANDBREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY : ASSERTED");
   else
     $error("IFBVALIDANDBREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY : NOT ASSERTED");
+
+//TODO Below two assertions are not working for multiple outstanding transaction
+    property awvalidAwreadyAndWvalidWreadyAssertedThenBValidAsserted;
+     @(posedge aclk) disable iff (!aresetn)
+        (awvalid && awready && !bvalid) |-> ##[0:MAX_DELAY_WVALID] (wvalid && !bvalid) ##[0:MAX_DELAY_READY] (wready && !bvalid) ##[1:MAX_DELAY_BVALID] bvalid;
+    endproperty
+
+AWVALIDAWREADYHIGH_THENWITHIN10CLK_WVALIDANDWREADYASSERTED_THENWHITHIN12CLK_BVALIDASSERTED: assert property(awvalidAwreadyAndWvalidWreadyAssertedThenBValidAsserted)
+  $info("AWVALIDAWREADYHIGH_THENWITHIN10CLK_WVALIDANDWREADYASSERTED_THENWHITHIN12CLK_BVALIDASSERTED : ASSERTED");
+  else
+    $error("AWVALIDAWREADYHIGH_THENWITHIN10CLK_WVALIDANDWREADYASSERTED_THENWHITHIN12CLK_BVALIDASSERTED : NOT ASSERTED");
+
+   property wvalidWreadyAssertedThenWithin12ClkBValidAsserted;
+     @(posedge aclk) disable iff (!aresetn)
+       (wvalid && wready && !bvalid) |-> ##[1:MAX_DELAY_BVALID] bvalid;
+   endproperty
+
+WVALIDANDWREADYASSERTED_THENWITHIN12CLK_BVALIDASSERTED: assert property(wvalidWreadyAssertedThenWithin12ClkBValidAsserted)
+  $info("WVALIDANDWREADYASSERTED_THENWITHIN12CLK_BVALIDASSERTED : ASSERTED");
+  else
+    $error("WVALIDANDWREADYASSERTED_THENWITHIN12CLK_BVALIDASSERTED : NOT ASSERTED");
 
 endinterface : Axi4LiteMasterWriteAssertions
 
