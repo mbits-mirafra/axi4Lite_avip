@@ -42,7 +42,7 @@ task Axi4LiteVirtual32bitDataWithAnyValueSeq::body();
     forever begin
         if(!axi4LiteSlaveRead32bitsTransferSeq.randomize() with { delayForArreadySeq == 0;
                                                                   delayForRvalidSeq == 0;
-                                                                  rdataSeq dist {32'hffff_ffff:/3, 32'haaaa_aaaa:/3, [0:$]:/4};
+                                                                  rdataSeq dist {32'hffff_ffff:/3, 32'haaaa_aaaa:/3, 32'h0000_0000:/3, [0:$]:/1};
                                                                 }) begin
           `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtual32bitDataWithAnyValueSeq")
         end
@@ -54,7 +54,7 @@ task Axi4LiteVirtual32bitDataWithAnyValueSeq::body();
 
   fork
     begin: MASTER_WRITE_SEQ
-      repeat(10) begin
+      repeat(15) begin
           if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprotSeq inside {[0:3]};
                                                                      delayForAwvalidSeq == 1;
                                                                      delayForWvalidSeq  == 2;
@@ -67,7 +67,7 @@ task Axi4LiteVirtual32bitDataWithAnyValueSeq::body();
       end 
     end
   begin: MASTER_READ_SEQ
-      repeat(10) begin
+      repeat(15) begin
         if(!axi4LiteMasterRead32bitsTransferSeq.randomize() with {arprotSeq inside {[0:3]};
                                                                   delayForArvalidSeq == 2;
                                                                   delayForRreadySeq == 0;
