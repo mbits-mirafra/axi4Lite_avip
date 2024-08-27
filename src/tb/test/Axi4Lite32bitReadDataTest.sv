@@ -19,7 +19,7 @@ endfunction : new
 
 function void Axi4Lite32bitReadDataTest::setupAxi4LiteEnvConfig();
  super.setupAxi4LiteEnvConfig();
- axi4LiteEnvConfig.transactionType = 0;
+ axi4LiteEnvConfig.transactionType = Axi4LiteReadMasterGlobalPkg::READ;
 endfunction : setupAxi4LiteEnvConfig
 
 task Axi4Lite32bitReadDataTest::run_phase(uvm_phase phase);

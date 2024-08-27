@@ -7,6 +7,7 @@ class Axi4LiteMasterAndSlaveNotSupportReadOutstandingTransactionTest extends Axi
   Axi4LiteVirtualMasterAndSlaveNotSupportReadOutstandingTransaction axi4LiteVirtualMasterAndSlaveNotSupportReadOutstandingTransaction;
   
   extern function new(string name = "Axi4LiteMasterAndSlaveNotSupportReadOutstandingTransactionTest", uvm_component parent = null);
+  extern function void setupAxi4LiteEnvConfig();
   extern virtual task run_phase(uvm_phase phase);
 
 endclass : Axi4LiteMasterAndSlaveNotSupportReadOutstandingTransactionTest
@@ -15,6 +16,11 @@ function Axi4LiteMasterAndSlaveNotSupportReadOutstandingTransactionTest::new(str
                                  uvm_component parent = null);
   super.new(name, parent);
 endfunction : new
+
+function void Axi4LiteMasterAndSlaveNotSupportReadOutstandingTransactionTest::setupAxi4LiteEnvConfig();
+ super.setupAxi4LiteEnvConfig();
+ axi4LiteEnvConfig.transactionType = Axi4LiteReadMasterGlobalPkg::READ;
+endfunction : setupAxi4LiteEnvConfig
 
 task Axi4LiteMasterAndSlaveNotSupportReadOutstandingTransactionTest::run_phase(uvm_phase phase);
 
