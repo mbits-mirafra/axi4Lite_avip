@@ -56,7 +56,7 @@ package Axi4LiteReadSlaveGlobalPkg;
     bit	                     arready;
     //Read Data Channel Signals
     bit [DATA_WIDTH-1:0]     rdata;
-    bit [1:0]                rresp;
+    logic [1:0]              rresp;
 
     int waitCounterForRready;
     bit [DELAY_WIDTH-1:0] delayForArready;

@@ -58,7 +58,7 @@ package Axi4LiteWriteMasterGlobalPkg;
     bit [DATA_WIDTH-1:0]     wdata;
     bit [(DATA_WIDTH/8)-1:0] wstrb;
     //Write Response Channel Signals
-    bit [1:0] bresp;
+    logic [1:0] bresp;
 
     int waitCounterForAwready;
     int waitCounterForWready;

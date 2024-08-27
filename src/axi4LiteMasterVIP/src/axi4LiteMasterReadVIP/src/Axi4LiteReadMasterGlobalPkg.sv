@@ -58,7 +58,7 @@ package Axi4LiteReadMasterGlobalPkg;
     bit	                     arready;
     //Read Data Channel Signals
     bit [DATA_WIDTH-1:0]     rdata;
-    bit [1:0]                 rresp;
+    logic [1:0]              rresp;
 
     int waitCounterForArready;
     int waitCounterForRvalid;
