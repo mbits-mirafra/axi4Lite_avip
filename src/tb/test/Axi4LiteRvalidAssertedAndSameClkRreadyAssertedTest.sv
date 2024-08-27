@@ -18,7 +18,7 @@ endfunction : new
 
 function void Axi4LiteRvalidAssertedAndSameClkRreadyAssertedTest::setupAxi4LiteEnvConfig();
  super.setupAxi4LiteEnvConfig();
- axi4LiteEnvConfig.transactionType = 0;
+ axi4LiteEnvConfig.transactionType = Axi4LiteReadMasterGlobalPkg::READ;
 endfunction : setupAxi4LiteEnvConfig
 
 task Axi4LiteRvalidAssertedAndSameClkRreadyAssertedTest::run_phase(uvm_phase phase);

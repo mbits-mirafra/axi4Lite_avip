@@ -1,7 +1,7 @@
 `ifndef AXI4LITEDELAYFORRVALIDINSIDE0TO3TEST_INCLUDED_
 `define AXI4LITEDELAYFORRVALIDINSIDE0TO3TEST_INCLUDED_
 
-class Axi4LiteDelayForRvalidInside0To3Test extends Axi4LiteBaseTest;
+class Axi4LiteDelayForRvalidInside0To3Test extends Axi4Lite32bitReadDataTest;
   `uvm_component_utils(Axi4LiteDelayForRvalidInside0To3Test)
 
   Axi4LiteVirtualDelayForRvalidInside0To3Seq axi4LiteVirtualDelayForRvalidInside0To3Seq;

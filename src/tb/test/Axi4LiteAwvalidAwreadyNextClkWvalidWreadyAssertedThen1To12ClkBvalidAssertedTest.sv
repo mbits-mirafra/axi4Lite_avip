@@ -7,6 +7,7 @@ class Axi4LiteAwvalidAwreadyNextClkWvalidWreadyAssertedThen1To12ClkBvalidAsserte
   Axi4LiteVirtualAwvalidAwreadyNextClkWvalidWreadyAssertedThen1To12ClkBvalidAssertedSeq axi4LiteVirtualAwvalidAwreadyNextClkWvalidWreadyAssertedThen1To12ClkBvalidAssertedSeq;
   
   extern function new(string name = "Axi4LiteAwvalidAwreadyNextClkWvalidWreadyAssertedThen1To12ClkBvalidAssertedTest", uvm_component parent = null);
+  extern function void setupAxi4LiteEnvConfig();
   extern virtual task run_phase(uvm_phase phase);
 
 endclass : Axi4LiteAwvalidAwreadyNextClkWvalidWreadyAssertedThen1To12ClkBvalidAssertedTest
@@ -15,6 +16,11 @@ function Axi4LiteAwvalidAwreadyNextClkWvalidWreadyAssertedThen1To12ClkBvalidAsse
                                  uvm_component parent = null);
   super.new(name, parent);
 endfunction : new
+
+function void Axi4LiteAwvalidAwreadyNextClkWvalidWreadyAssertedThen1To12ClkBvalidAssertedTest::setupAxi4LiteEnvConfig();
+ super.setupAxi4LiteEnvConfig();
+ axi4LiteEnvConfig.transactionType = Axi4LiteWriteMasterGlobalPkg::WRITE;
+endfunction : setupAxi4LiteEnvConfig
 
 task Axi4LiteAwvalidAwreadyNextClkWvalidWreadyAssertedThen1To12ClkBvalidAssertedTest::run_phase(uvm_phase phase);
 

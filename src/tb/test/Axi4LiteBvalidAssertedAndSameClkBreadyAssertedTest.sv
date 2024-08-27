@@ -18,7 +18,7 @@ endfunction : new
 
 function void Axi4LiteBvalidAssertedAndSameClkBreadyAssertedTest::setupAxi4LiteEnvConfig();
  super.setupAxi4LiteEnvConfig();
- axi4LiteEnvConfig.transactionType = 1;
+ axi4LiteEnvConfig.transactionType = Axi4LiteWriteMasterGlobalPkg::WRITE;
 endfunction : setupAxi4LiteEnvConfig
 
 task Axi4LiteBvalidAssertedAndSameClkBreadyAssertedTest::run_phase(uvm_phase phase);

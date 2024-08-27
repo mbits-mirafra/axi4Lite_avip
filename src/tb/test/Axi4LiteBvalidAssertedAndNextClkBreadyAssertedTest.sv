@@ -20,7 +20,7 @@ endfunction : new
 
 function void Axi4LiteBvalidAssertedAndNextClkBreadyAssertedTest::setupAxi4LiteEnvConfig();
  super.setupAxi4LiteEnvConfig();
- axi4LiteEnvConfig.transactionType = 1;
+ axi4LiteEnvConfig.transactionType = Axi4LiteWriteMasterGlobalPkg::WRITE;
 endfunction : setupAxi4LiteEnvConfig
 
 function void Axi4LiteBvalidAssertedAndNextClkBreadyAssertedTest::setupAxi4LiteMasterWriteAgentConfig();

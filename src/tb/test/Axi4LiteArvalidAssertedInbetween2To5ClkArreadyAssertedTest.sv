@@ -21,7 +21,7 @@ endfunction : new
 
 function void Axi4LiteArvalidAssertedInbetween2To5ClkArreadyAssertedTest::setupAxi4LiteEnvConfig();
  super.setupAxi4LiteEnvConfig();
- axi4LiteEnvConfig.transactionType = 0;
+ axi4LiteEnvConfig.transactionType = Axi4LiteReadMasterGlobalPkg::READ;
 endfunction : setupAxi4LiteEnvConfig
 
 function void Axi4LiteArvalidAssertedInbetween2To5ClkArreadyAssertedTest::setupAxi4LiteSlaveReadAgentConfig();
