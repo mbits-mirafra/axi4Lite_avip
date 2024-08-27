@@ -13,7 +13,7 @@ The idea of using Accelerated VIP is to push the synthesizable part of the testb
 4. Independent Valid and Ready Signals On each channel.
 5. it will support the Read and Write Response
 6. AXI4-Lite supports back-to-back transactions 
-
+7. Support multiple outstanding transactions.
 
    
 ## Testbench Architecture Diagram
@@ -31,6 +31,14 @@ git version
 
 # Get the VIP collateral
 git clone git@github.com:mbits-mirafra/axi4Lite_avip.git
+```
+
+# setup environment variable path
+```
+For setenv path source Axi4LiteMasterSetEnvPath.csh file
+
+#Run command:
+source Axi4LiteMasterSetEnvPath.csh
 ```
 
 ## Running the test
@@ -69,17 +77,12 @@ ex: make regression testlist_name=axi4LiteRegression.list
  firefox merged_cov_html_report/index.html &
 
 ```
+
+## Latest regression coverage report and how to check report link
+https://github.com/mbits-mirafra/axi4Lite_avip/issues/1
+
 ## Contact Mirafra Team  
 You can reach out to us over mbits@mirafra.com
 
 For more information regarding Mirafra Technologies please do checkout our officail website:  
 https://mirafra.com/
-
-
-# setup environment variable path
-```
-For setenv path source Axi4LiteMasterSetEnvPath.csh file
-
-#Run command:
-source Axi4LiteMasterSetEnvPath.csh
-```
