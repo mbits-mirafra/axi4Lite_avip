@@ -369,7 +369,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
     property WhenReadyAssertedAndDeasserted3TimesThenNextClkValidAsserted(logic valid, logic ready);
        @(posedge aclk) disable iff (!aresetn)
-      (ready && !valid) |-> !valid throughout $fell(ready)[->3] ##1 $rose(valid);
+      (ready && !valid) |-> (!valid throughout $fell(ready)[->3]) ##1 $rose(valid);
     endproperty
 
     IFAWREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_AWVALIDASSERTED: cover property
