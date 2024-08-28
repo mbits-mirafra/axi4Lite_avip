@@ -48,6 +48,12 @@ usage:
 	echo "To compile use:"
 	echo "make compile";
 	echo "";
+	echo "To provide compilation argument:";
+	echo "make compile comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value>\"";
+	echo "";
+	echo "Example:":
+	echo "make compile comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_READY=1\"";
+	echo "";
 	echo "To simulate individual test:"
 	echo "make simulate test=<test_name> uvm_verbosity=<VERBOSITY_LEVEL>";
 	echo "";
@@ -69,6 +75,7 @@ VCS_CMD_RAND = vcs -full64 -sverilog +v2k -debug_access+all -debug_acc+pp+dmptf 
  
 compile:
 	${VCS_CMD_RAND} \
+	$(comp_args) \
 	-l Axi4LiteCompile.log \
 	+plusarg_ignore \
 	-f $(AXI4LITE_PROJECT)/src/axi4LiteMasterVIP/src/axi4LiteMasterWriteVIP/sim/Axi4LiteWriteMaster.f \
@@ -114,6 +121,7 @@ simulate:
 	+UVM_VERBOSITY=$(uvm_verbosity) \
 	-sv_seed $(seed) \
 	-l $(test_folder)/$(test).log
+	urg -dir simv.vdb
 
 	# For checking and reporting simulation errors
 	make simulate_war_err
