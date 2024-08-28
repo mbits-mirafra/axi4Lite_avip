@@ -79,7 +79,7 @@ ex: make regression testlist_name=axi4LiteRegression.list
 ```
 
 ## Latest regression coverage report and how to check report link
-https://github.com/mbits-mirafra/axi4Lite_avip/issues/1
+[Click here for the report link](https://github.com/mbits-mirafra/axi4Lite_avip/issues/1)
 
 ## Contact Mirafra Team  
 You can reach out to us over mbits@mirafra.com
