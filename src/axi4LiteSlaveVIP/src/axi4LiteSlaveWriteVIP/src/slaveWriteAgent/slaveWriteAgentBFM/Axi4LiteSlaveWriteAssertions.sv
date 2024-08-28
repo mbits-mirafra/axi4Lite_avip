@@ -190,7 +190,7 @@ IFTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccur
   
     property awvalidIsHighThenInformationStableUntilTransferOccur(logic awvalid, logic awready, logic awaddr, logic awprot);
      @(posedge aclk) disable iff (!aresetn)
-      ($rose(awvalid) && !awready) |=> (($stable(awvalid) && $stable(awaddr) && $stable(awprot)) until awready);
+      ($rose(awvalid) && !awready) |=> (($stable(awvalid) && $stable(awaddr) && $stable(awprot)) throughout awready[->1]);
     endproperty
 
 IFAWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(awvalidIsHighThenInformationStableUntilTransferOccur(awvalid, awready, awaddr, awprot))
@@ -201,7 +201,7 @@ IFAWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(awva
     property wvalidIsHighThenInformationStableUntilTransferOccur(logic wvalid, logic wready, 
                                                                   logic wdata, logic wstrb);
      @(posedge aclk) disable iff (!aresetn)
-        ($rose(wvalid) && !wready) |=> (($stable(wvalid) && $stable(wdata) && $stable(wstrb)) until wready);
+        ($rose(wvalid) && !wready) |=> (($stable(wvalid) && $stable(wdata) && $stable(wstrb)) throughout wready[->1]);
     endproperty
 
 IFWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(wvalidIsHighThenInformationStableUntilTransferOccur(wvalid, wready, wdata, wstrb))
@@ -211,7 +211,7 @@ IFWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(wvali
 
     property bvalidIsHighThenInformationStableUntilTransferOccur(logic bvalid, logic bready, logic bresp);
      @(posedge aclk) disable iff (!aresetn)
-        ($rose(bvalid) && !bready) |=> (($stable(bvalid) && $stable(bresp)) until bready);
+        ($rose(bvalid) && !bready) |=> (($stable(bvalid) && $stable(bresp)) throughout bready[->1]);
     endproperty
 
 IFBVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(bvalidIsHighThenInformationStableUntilTransferOccur(bvalid, bready, bresp))

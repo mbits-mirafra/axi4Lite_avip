@@ -146,7 +146,7 @@ interface Axi4LiteSlaveReadCoverProperty (input aclk,
   (WhenValidAssertedThenValidHighAndWithin1To16ClkReadyAsserted(rvalid, rready)) 
   $info("IFRVALIDASSERTED_ANDREMAINHIGH_THENWITHIN1TO16CLK_RREADYASSERTED : COVERED");
 
-  `ifdef DEFAULT_READY == 1 
+  `ifdef Axi4LiteReadSlaveGlobalPkg::DEFAULT_READY == 1 
 
   property WhenBackToBackValidAndReadyAssertedWithoutDelayInbetween2Transfer(logic valid, logic ready);
    @(posedge aclk) disable iff (!aresetn)
@@ -276,7 +276,7 @@ interface Axi4LiteSlaveReadCoverProperty (input aclk,
     $info("IFRREADYASSERTED_DEASSERTED_THEN_NEXTCLK_RVALIDASSERTED: COVERED");
 
     property WhenReadyAssertedAndDeasserted3TimesThenNextClkValidAsserted(logic valid, logic ready);
-    @(posedge aclk) disable iff (!aresetn) (ready && !valid) |-> !valid until $fell(ready)[->3] ##1 $rose(valid);
+    @(posedge aclk) disable iff (!aresetn) (ready && !valid) |-> !valid throughout $fell(ready)[->3] ##1 $rose(valid);
     endproperty
 
     IFARREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_ARVALIDASSERTED: cover property
@@ -417,7 +417,7 @@ interface Axi4LiteSlaveReadCoverProperty (input aclk,
     @(posedge aclk) disable iff(!aresetn)
       (arvalid && arready) |=> ($stable(arvalid) && arready == 0)[*3] ##0 (rvalid && rready)
       ##1 (arvalid && arready) ##1 ($stable(arvalid) && arready == 0) ##0 (rvalid && rready)
-      ##1 (arvalid && arready) ##2 (rvalid && rready)
+      ##1 (arvalid && arready) ##2 (rvalid && rready);
 endproperty
 
  IFMASTERISSUES_MULTIPLEREADTX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX : cover property 
@@ -428,7 +428,7 @@ endproperty
    @(posedge aclk) disable iff(!aresetn)
     (arvalid && arready) |=> (rvalid && rready)
      ##2 (arvalid && arready) ##1 (rvalid && rready)
-     ##6 (arvalid && arready) ##1 (rvalid && rready)
+     ##6 (arvalid && arready) ##1 (rvalid && rready);
  endproperty
 
  IFMASTERANDSLAVEISNOTSUPPORTS_MULTIPLEREADOUTSTANDINGTX_THEN_NORMALBLOCKINGTX : cover property

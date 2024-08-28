@@ -197,7 +197,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
     (valid && ready) |=> ($stable(valid) && $stable(ready));
   endproperty
 
-  `ifdef DEFAULT_READY == 1 
+  `ifdef Axi4LiteWriteSlaveGlobalPkg::DEFAULT_READY == 1 
 
   IFBACKTOBACK_AWVALIDANDAWREADYASSERTED_WITHOUTDELAY_INBETWEEN2TRANSFER: cover property
   (WhenBackToBackValidAndReadyAssertedWithoutDelayInbetween2Transfer(awvalid, awready))
@@ -369,7 +369,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
 
     property WhenReadyAssertedAndDeasserted3TimesThenNextClkValidAsserted(logic valid, logic ready);
        @(posedge aclk) disable iff (!aresetn)
-      (ready && !valid) |-> !valid until $fell(ready)[->3] ##1 $rose(valid);
+      (ready && !valid) |-> !valid throughout $fell(ready)[->3] ##1 $rose(valid);
     endproperty
 
     IFAWREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_AWVALIDASSERTED: cover property
@@ -832,7 +832,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
     @(posedge aclk) disable iff(!aresetn)
       (awvalid && awready) |=> ($stable(awvalid) && awready == 0)[*3] ##0 (bvalid && bready)
       ##1 (awvalid && awready) ##1 ($stable(awvalid) && awready == 0) ##0 (bvalid && bready)
-      ##1 (awvalid && awready) ##2 (bvalid && bready)
+      ##1 (awvalid && awready) ##2 (bvalid && bready);
 endproperty
 
  IFMASTERISSUES_MULTIPLEWRITETX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX : cover property 
@@ -843,7 +843,7 @@ endproperty
    @(posedge aclk) disable iff(!aresetn)
     (awvalid && awready) |=> (bvalid && bready)
      ##2 (awvalid && awready) ##1 (bvalid && bready)
-     ##6 (awvalid && awready) ##1 (bvalid && bready)
+     ##6 (awvalid && awready) ##1 (bvalid && bready);
  endproperty
 
  IFMASTERANDSLAVEISNOTSUPPORTS_MULTIPLEWRITEOUTSTANDINGTX_THEN_NORMALBLOCKINGTX : cover property
