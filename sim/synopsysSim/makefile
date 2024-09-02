@@ -70,7 +70,7 @@ all:
 # For Assertions use +acc options
 #  +cover=becstf
 
-VCS_CMD_RAND = vcs -full64 -sverilog +v2k -debug_access+all -debug_acc+pp+dmptf -ntb_opts uvm-1.2 +ntb_random_seed_automatic +memcbk +vcs+fsdbon+all -override_timescale=1ns/1ps 
+VCS_CMD_RAND = vcs -full64 -sverilog +v2k -cm assert -debug_access+all -debug_acc+pp+dmptf -ntb_opts uvm-1.2 +ntb_random_seed_automatic +memcbk +vcs+fsdbon+all -override_timescale=1ns/1ps 
 
  
 compile:
@@ -115,13 +115,13 @@ simulate:
 	mkdir $(test_folder)
 
 	# Use -novopt for no optimization - Makes the simulation slower
-	urg -report user_report -dir simv.vdb
 	./simv \
+	-cm assert \
 	+UVM_TESTNAME=$(test) \
 	+UVM_VERBOSITY=$(uvm_verbosity) \
 	-sv_seed $(seed) \
 	-l $(test_folder)/$(test).log
-	urg -dir simv.vdb
+	urg -report $(test_folder) -dir simv.vdb
 
 	# For checking and reporting simulation errors
 	make simulate_war_err
@@ -130,6 +130,33 @@ clean:
 	rm -rf csrc simv* work *.bak *.vpd transcript waves.shm *.wlf mylib lib *.vstf .restart* urgReport *.so vc_hdrs.h *.log *.fsdb *.key nWaveLog vfastLog *.conf  *.vcd
 
 ##
+## For Regression and coverage merge
+##
+regression:
+	# Run compilation
+	make compile comp_args="$(comp_args)"
+	# Run simualtion - regression 
+	python regression_handling.py $(testlist_name)
+	#	# Get the tests from regression list
+	#	grep "Test" ../../src/hvl_top/testlists/axi4LiteRegression.list | grep -v "\#" > reg_list
+	#	make simulate test=value #Get the name from regression list
+	#	Merge coverage
+	make merge_cov_report
+		
+# For merge to happen, the coverage names for each test must be different
+#
+merge_cov_report:
+	# Merging all the coverage
+	urg -dir simv.vdb -dir */*.vdb -format both
+	#vcover merge mem_cover mem_cov1 mem_cov2 mem_cov3 mem_cov4 mem_cov5 mem_cov6 mem_cov7 mem_cov8
+	urg -report regressionReport -dir simv.vdb
+
+	echo "";
+	echo "-----------------------------------------------------------------";
+	echo "Coverage report: firefox regressionReport/grp0.html &"
+	echo "-----------------------------------------------------------------";
+	echo "";
+
 		
 compile_war_err:
 	echo "";
@@ -168,8 +195,8 @@ simulate_war_err:
 	echo "Log file path: $(test_folder)/$(test).log"
 	echo "";
 	echo "Waveform: verdi -ssf novas.fsdb"
-	echo "-----------------------------------------------------------------";
-	echo "-----------------------------------------------------------------";
 	echo "";
-	echo "Coverage: firefox urgReport/grp0.html &"
+	echo "Coverage: firefox $(test_folder)/grp0.html &"
+	echo "-----------------------------------------------------------------";
+	echo "-----------------------------------------------------------------";
 	echo "";
