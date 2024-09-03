@@ -77,7 +77,37 @@ ex: make regression testlist_name=axi4LiteRegression.list
  firefox merged_cov_html_report/index.html &
 
 ```
+### Using Synopsys VCS simulator 
+```
+cd axi4Lite_avip/sim/synopsys
 
+# Compilation:  
+make compile
+
+# Simulation:
+make simulate test=<test_name> uvm_verbosity=<VERBOSITY_LEVEL>
+
+ex: make simulate test=Axi4Lite32bitWriteAndReadTest uvm_verbosity=UVM_HIGH
+
+# Note: You can find all the test case names in the path given below
+axi4Lite_avip/src/testlists/axi4LiteRegression.list
+
+# Wavefrom:
+verdi -ssf novas.fsdb
+
+# Regression:
+make regression testlist_name=<regression_testlist_name.list>
+ex: make regression testlist_name=axi4LiteRegression.list
+
+# Coverage: 
+ ## Individual test:
+ firefox <test_name>/grp0.html &
+ ex: firefox Axi4Lite32bitWriteAndReadTest/grp0.html &
+
+ ## Regression:
+ firefox regressionReport/grp0.html &
+
+```
 ## Latest regression coverage report and how to check report link
 [Click here for the report link](https://github.com/mbits-mirafra/axi4Lite_avip/issues/1)
 
