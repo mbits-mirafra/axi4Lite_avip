@@ -120,6 +120,7 @@ simulate:
 	+UVM_TESTNAME=$(test) \
 	+UVM_VERBOSITY=$(uvm_verbosity) \
 	-sv_seed $(seed) \
+	-cm_dir $(test_folder)/coverage \
 	-l $(test_folder)/$(test).log
 	urg -report $(test_folder) -dir simv.vdb
 
@@ -137,19 +138,12 @@ regression:
 	make compile comp_args="$(comp_args)"
 	# Run simualtion - regression 
 	python regression_handling.py $(testlist_name)
-	#	# Get the tests from regression list
-	#	grep "Test" ../../src/hvl_top/testlists/axi4LiteRegression.list | grep -v "\#" > reg_list
-	#	make simulate test=value #Get the name from regression list
 	#	Merge coverage
 	make merge_cov_report
 		
-# For merge to happen, the coverage names for each test must be different
-#
 merge_cov_report:
 	# Merging all the coverage
-	urg -dir simv.vdb -dir */*.vdb -format both
-	#vcover merge mem_cover mem_cov1 mem_cov2 mem_cov3 mem_cov4 mem_cov5 mem_cov6 mem_cov7 mem_cov8
-	urg -report regressionReport -dir simv.vdb
+	urg -report regressionReport -dir coverage.vdb -dir */*.vdb
 
 	echo "";
 	echo "-----------------------------------------------------------------";
