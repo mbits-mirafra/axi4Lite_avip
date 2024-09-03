@@ -67,7 +67,7 @@ task Axi4LiteVirtualToggleReadySeq::body();
     end
   begin: MASTER_READ_SEQ
       repeat(1) begin
-        if(!axi4LiteMasterRead32bitsTransferWithToggleReadySeq.randomize() with {arprotSeq == 1;
+        if(!axi4LiteMasterRead32bitsTransferWithToggleReadySeq.randomize() with {arprotSeq == 0;
                                                                                  delayForArvalidSeq == 7;
                                                                                  repeatToggleReadySeq == 4;
                                                                                }) begin
