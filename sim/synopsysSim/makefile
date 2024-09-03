@@ -60,6 +60,21 @@ usage:
 	echo "Example:":
 	echo "make simulate test=base_test uvm_verbosity=UVM_HIGH";
 	echo "";
+	echo "To provide seed number (default is random):"
+	echo "make simulate test=<test_name> uvm_verbosity=<VERBOSITY_LEVEL> seed=<value>";
+	echo "";
+	echo "To run regression:"
+	echo "make regression testlist_name=<regression_testlist_name.list>";
+	echo "";
+	echo "Example:":
+	echo "make regression testlist_name=axi4LiteRegression.list";
+	echo "";
+	echo "To provide compilation argument in the regression:";
+	echo "make regression comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value>\" testlist_name=axi4LiteRegression.list";
+	echo "";
+	echo "Example:":
+	echo "make regression comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_READY=1\" testlist_name=axi4LiteRegression.list";
+	echo "";
 	echo "-----------------------------------------------------------------";
 	echo "-----------------------------------------------------------------";
 	echo "";
