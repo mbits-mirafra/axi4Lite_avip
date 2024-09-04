@@ -46,7 +46,7 @@ source Axi4LiteMasterSetEnvPath.csh
 ### Using Mentor's Questasim simulator 
 
 ```
-cd axi4Lite_avip/sim/synopsysSim
+cd axi4Lite_avip/sim/questasim
 
 # Compilation:  
 make compile
@@ -79,7 +79,7 @@ ex: make regression testlist_name=axi4LiteRegression.list
 ```
 ### Using Synopsys VCS simulator 
 ```
-cd axi4Lite_avip/sim/synopsys
+cd axi4Lite_avip/sim/synopsysSim
 
 # Compilation:  
 make compile
