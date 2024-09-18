@@ -7,6 +7,8 @@ package MasterVIPSlaveIPTestPkg;
   import uvm_pkg::*;
   import Axi4LiteWriteMasterGlobalPkg::*;
   import Axi4LiteReadMasterGlobalPkg::*;
+  import Axi4LiteMasterWriteSeqPkg::*;
+  import Axi4LiteMasterReadSeqPkg::*;
   import Axi4LiteMasterWritePkg::*;
   import Axi4LiteMasterReadPkg::*;
   import Axi4LiteWriteMasterEnvPkg::*;
@@ -16,6 +18,7 @@ package MasterVIPSlaveIPTestPkg;
 
   //including base_test for testing
   `include "MasterVIPSlaveIPBaseTest.sv"
+  `include "MasterVIPSlaveIP32bitsWriteReadTest.sv"
 
 endpackage : MasterVIPSlaveIPTestPkg
 
