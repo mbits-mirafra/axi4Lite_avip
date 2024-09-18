@@ -1,8 +1,8 @@
 `ifndef MASTERVIPSLAVEIPHDLTOP_INCLUDED_
 `define MASTERVIPSLAVEIPHDLTOP_INCLUDED_
 
-`define AXI4LITE_MASTERWRITEINTERFACE axi4LiteInterface.axi4LiteMasterInterface.axi4LiteMasterWriteInterface  
-`define AXI4LITE_MASTERREADINTERFACE axi4LiteInterface.axi4LiteMasterInterface.axi4LiteMasterReadInterface  
+`define AXI4LITE_MASTERWRITEINTERFACE masterVIPSlaveIPInterface.axi4LiteMasterInterface.axi4LiteMasterWriteInterface  
+`define AXI4LITE_MASTERREADINTERFACE masterVIPSlaveIPInterface.axi4LiteMasterInterface.axi4LiteMasterReadInterface  
 
 module MasterVIPSlaveIPHdlTop;
 
@@ -40,33 +40,26 @@ module MasterVIPSlaveIPHdlTop;
   slave #(.ADDRESS_WIDTH(Axi4LiteWriteMasterGlobalPkg::ADDRESS_WIDTH), 
           .DATA_WIDTH(Axi4LiteWriteMasterGlobalPkg::DATA_WIDTH))
   slaveRTL(.clk(aclk),
-           .rst_n(aresetn)
+           .rst_n(aresetn),
+           .awvalid(`AXI4LITE_MASTERWRITEINTERFACE.awvalid),
+           .awaddr(`AXI4LITE_MASTERWRITEINTERFACE.awaddr),
+           .wvalid(`AXI4LITE_MASTERWRITEINTERFACE.wvalid),
+           .wdata(`AXI4LITE_MASTERWRITEINTERFACE.wdata),
+           .wstrb(`AXI4LITE_MASTERWRITEINTERFACE.wstrb),
+           .bready(`AXI4LITE_MASTERWRITEINTERFACE.bready),
+           .awready(`AXI4LITE_MASTERWRITEINTERFACE.awready),
+           .wready(`AXI4LITE_MASTERWRITEINTERFACE.wready),
+           .bvalid(`AXI4LITE_MASTERWRITEINTERFACE.bvalid),
+           .bresp(`AXI4LITE_MASTERWRITEINTERFACE.bresp), 
+
+           .arvalid(`AXI4LITE_MASTERREADINTERFACE.arvalid),
+           .araddr(`AXI4LITE_MASTERREADINTERFACE.araddr),
+           .rready(`AXI4LITE_MASTERREADINTERFACE.rready),
+           .arready(`AXI4LITE_MASTERREADINTERFACE.arready),
+           .rvalid(`AXI4LITE_MASTERREADINTERFACE.rvalid),
+           .rdata(`AXI4LITE_MASTERREADINTERFACE.rdata),
+           .rresp(`AXI4LITE_MASTERREADINTERFACE.rresp)
           );
-
-  initial begin
-    assign slaveRTL.awvalid = `AXI4LITE_MASTERWRITEINTERFACE.awvalid;
-    assign slaveRTL.awaddr  = `AXI4LITE_MASTERWRITEINTERFACE.awaddr;
-    assign slaveRTL.awprot  = `AXI4LITE_MASTERWRITEINTERFACE.awprot;
-    assign slaveRTL.wvalid  = `AXI4LITE_MASTERWRITEINTERFACE.wvalid;
-    assign slaveRTL.wdata   = `AXI4LITE_MASTERWRITEINTERFACE.wdata;
-    assign slaveRTL.wstrb   = `AXI4LITE_MASTERWRITEINTERFACE.wstrb;
-    assign slaveRTL.bready  = `AXI4LITE_MASTERWRITEINTERFACE.bready;
-
-    assign `AXI4LITE_MASTERWRITEINTERFACE.awready = slaveRTL.awready;
-    assign `AXI4LITE_MASTERWRITEINTERFACE.wready  = slaveRTL.wready;
-    assign `AXI4LITE_MASTERWRITEINTERFACE.bvalid  = slaveRTL.bvalid;
-    assign `AXI4LITE_MASTERWRITEINTERFACE.bresp   = slaveRTL.bresp;
-
-    assign slaveRTL.arvalid = `AXI4LITE_MASTERREADINTERFACE.arvalid;
-    assign slaveRTL.araddr  = `AXI4LITE_MASTERREADINTERFACE.araddr;
-    assign slaveRTL.arprot  = `AXI4LITE_MASTERREADINTERFACE.arprot;
-    assign slaveRTL.rready  = `AXI4LITE_MASTERREADINTERFACE.rready;
-
-    assign `AXI4LITE_MASTERREADINTERFACE.arready = slaveRTL.arready;
-    assign `AXI4LITE_MASTERREADINTERFACE.rvalid  = slaveRTL.rvalid;
-    assign `AXI4LITE_MASTERREADINTERFACE.rdata   = slaveRTL.rdata;
-    assign `AXI4LITE_MASTERREADINTERFACE.rresp   = slaveRTL.rresp;
-  end
 
   genvar i;
   generate
