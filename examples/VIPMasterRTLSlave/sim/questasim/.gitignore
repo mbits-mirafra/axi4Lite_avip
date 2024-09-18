@@ -1,0 +1,6 @@
+*_test*
+work
+cov
+*.log
+transcript
+*.vstf*
