@@ -79,7 +79,7 @@ ex: make regression testlist_name=axi4LiteRegression.list
 ```
 ### Using Synopsys VCS simulator 
 ```
-cd axi4Lite_avip/sim/synopsys
+cd axi4Lite_avip/sim/synopsysSim
 
 # Compilation:  
 make compile
@@ -108,11 +108,11 @@ ex: make regression testlist_name=axi4LiteRegression.list
  firefox regressionReport/grp0.html &
 
 ```
-## Latest regression coverage report and how to check report link
+## Latest regression coverage report and How to check report link
 [Click here for the report link](https://github.com/mbits-mirafra/axi4Lite_avip/issues/1)
 
 ## Contact Mirafra Team  
 You can reach out to us over mbits@mirafra.com
 
-For more information regarding Mirafra Technologies please do checkout our officail website:  
+For more information regarding Mirafra Technologies please do check out our official website:  
 https://mirafra.com/
