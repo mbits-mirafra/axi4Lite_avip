@@ -37,7 +37,7 @@ module MasterVIPSlaveIPHdlTop;
                                                       .aresetn(aresetn)
                                                      );
 
-  slave #(.ADDRESS_WIDTH(Axi4LiteWriteMasterGlobalPkg::ADDRESS_WIDTH), 
+/*  slave #(.ADDRESS_WIDTH(Axi4LiteWriteMasterGlobalPkg::ADDRESS_WIDTH), 
           .DATA_WIDTH(Axi4LiteWriteMasterGlobalPkg::DATA_WIDTH))
   slaveRTL(.clk(aclk),
            .rst_n(aresetn),
@@ -60,7 +60,32 @@ module MasterVIPSlaveIPHdlTop;
            .rdata(`AXI4LITE_MASTERREADINTERFACE.rdata),
            .rresp(`AXI4LITE_MASTERREADINTERFACE.rresp)
           );
+*/
 
+  axi4_lite_slave_adaptor slaveRTL(.aclk(aclk),
+                                   .aresetn(aresetn),
+                                   .awvalid_in(`AXI4LITE_MASTERWRITEINTERFACE.awvalid),
+                                   .awaddr_in(`AXI4LITE_MASTERWRITEINTERFACE.awaddr),
+                                   .awprot_in(`AXI4LITE_MASTERWRITEINTERFACE.awprot),
+                                   .wvalid_in(`AXI4LITE_MASTERWRITEINTERFACE.wvalid),
+                                   .wdata_in(`AXI4LITE_MASTERWRITEINTERFACE.wdata),
+                                   .wstrb_in(`AXI4LITE_MASTERWRITEINTERFACE.wstrb),
+                                   .bready_in(`AXI4LITE_MASTERWRITEINTERFACE.bready),
+                                   .awready_out(`AXI4LITE_MASTERWRITEINTERFACE.awready),
+                                   .wready_out(`AXI4LITE_MASTERWRITEINTERFACE.wready),
+                                   .bvalid_out(`AXI4LITE_MASTERWRITEINTERFACE.bvalid),
+                                   .bresp_out(`AXI4LITE_MASTERWRITEINTERFACE.bresp), 
+
+                                   .arvalid_in(`AXI4LITE_MASTERREADINTERFACE.arvalid),
+                                   .araddr_in(`AXI4LITE_MASTERREADINTERFACE.araddr),
+                                   .arprot_in(`AXI4LITE_MASTERREADINTERFACE.arprot),
+                                   .rready_in(`AXI4LITE_MASTERREADINTERFACE.rready),
+                                   .arready_out(`AXI4LITE_MASTERREADINTERFACE.arready),
+                                   .rvalid_out(`AXI4LITE_MASTERREADINTERFACE.rvalid),
+                                   .rdata_out(`AXI4LITE_MASTERREADINTERFACE.rdata),
+                                   .rresp_out(`AXI4LITE_MASTERREADINTERFACE.rresp),
+                                   .rdata_in(32'hffff_ffff)
+                                  );
   genvar i;
   generate
     for (i=0; i<NO_OF_WRITEMASTERS; i++) begin : Axi4LiteMasterWriteAgentBFM
