@@ -19,6 +19,10 @@ package MasterVIPSlaveIPTestPkg;
   //including base_test for testing
   `include "MasterVIPSlaveIPBaseTest.sv"
   `include "MasterVIPSlaveIP32bitsWriteReadTest.sv"
+  `include "MasterVIPSlaveIP32bitsWriteDataTest.sv"
+  `include "MasterVIPSlaveIPAddressIsOutOfRangeTest.sv"
+  `include "MasterVIPSlaveIPWriteDataWithWstrbTest.sv"
+
 
 endpackage : MasterVIPSlaveIPTestPkg
 

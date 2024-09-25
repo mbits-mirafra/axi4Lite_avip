@@ -37,7 +37,7 @@ module MasterVIPSlaveIPHdlTop;
                                                       .aresetn(aresetn)
                                                      );
 
-/*  slave #(.ADDRESS_WIDTH(Axi4LiteWriteMasterGlobalPkg::ADDRESS_WIDTH), 
+  slave #(.ADDRESS_WIDTH(Axi4LiteWriteMasterGlobalPkg::ADDRESS_WIDTH), 
           .DATA_WIDTH(Axi4LiteWriteMasterGlobalPkg::DATA_WIDTH))
   slaveRTL(.clk(aclk),
            .rst_n(aresetn),
@@ -60,8 +60,8 @@ module MasterVIPSlaveIPHdlTop;
            .rdata(`AXI4LITE_MASTERREADINTERFACE.rdata),
            .rresp(`AXI4LITE_MASTERREADINTERFACE.rresp)
           );
-*/
 
+/*
   axi4_lite_slave_adaptor slaveRTL(.aclk(aclk),
                                    .aresetn(aresetn),
                                    .awvalid_in(`AXI4LITE_MASTERWRITEINTERFACE.awvalid),
@@ -86,6 +86,7 @@ module MasterVIPSlaveIPHdlTop;
                                    .rresp_out(`AXI4LITE_MASTERREADINTERFACE.rresp),
                                    .rdata_in(32'hffff_ffff)
                                   );
+*/
   genvar i;
   generate
     for (i=0; i<NO_OF_WRITEMASTERS; i++) begin : Axi4LiteMasterWriteAgentBFM
