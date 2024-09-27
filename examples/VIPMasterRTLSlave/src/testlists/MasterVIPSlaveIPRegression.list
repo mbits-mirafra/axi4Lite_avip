@@ -2,4 +2,5 @@ MasterVIPSlaveIP32bitsWriteReadTest
 MasterVIPSlaveIP32bitsWriteDataTest
 MasterVIPSlaveIPWriteDataWithWstrbTest
 MasterVIPSlaveIPAddressIsOutOfRangeTest
+MasterVIPSlaveIP32bitsReadDataTest
 

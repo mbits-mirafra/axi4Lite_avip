@@ -22,6 +22,8 @@ package MasterVIPSlaveIPTestPkg;
   `include "MasterVIPSlaveIP32bitsWriteDataTest.sv"
   `include "MasterVIPSlaveIPAddressIsOutOfRangeTest.sv"
   `include "MasterVIPSlaveIPWriteDataWithWstrbTest.sv"
+  `include "MasterVIPSlaveIP32bitsReadDataTest.sv"
+
 
 
 endpackage : MasterVIPSlaveIPTestPkg
