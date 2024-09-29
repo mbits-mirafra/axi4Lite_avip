@@ -54,7 +54,8 @@ module MasterVIPSlaveIPHdlTop;
 
            .arvalid(`AXI4LITE_MASTERREADINTERFACE.arvalid),
            .araddr(`AXI4LITE_MASTERREADINTERFACE.araddr),
-           .rready(`AXI4LITE_MASTERREADINTERFACE.rready),
+           .rready('b1),
+           //.rready(`AXI4LITE_MASTERREADINTERFACE.rready),
            .arready(`AXI4LITE_MASTERREADINTERFACE.arready),
            .rvalid(`AXI4LITE_MASTERREADINTERFACE.rvalid),
            .rdata(`AXI4LITE_MASTERREADINTERFACE.rdata),

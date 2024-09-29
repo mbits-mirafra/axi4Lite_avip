@@ -26,19 +26,19 @@ endfunction : build_phase
 task MasterVIPSlaveIP32bitsWriteReadTest::run_phase(uvm_phase phase);
 
   `uvm_info(get_type_name(),$sformatf("Inside run_phase MasterVIPSlaveIP32bitsWriteReadTest"),UVM_LOW);
-    
-   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize()) begin
-       `uvm_error(get_type_name(), "Randomization failed")
-   end
-
-   if(!axi4LiteMasterRead32bitsTransferSeq.randomize()) begin
-       `uvm_error(get_type_name(), "Randomization failed")
-   end
-
   phase.raise_objection(this);
   super.run_phase(phase);
-  axi4LiteMasterWrite32bitsTransferSeq.start(masterVIPSlaveIPEnv.axi4LiteMasterEnv.axi4LiteMasterVirtualSequencer.axi4LiteMasterWriteSequencer); 
-  axi4LiteMasterRead32bitsTransferSeq.start(masterVIPSlaveIPEnv.axi4LiteMasterEnv.axi4LiteMasterVirtualSequencer.axi4LiteMasterReadSequencer); 
+   repeat(10) begin 
+    if(!axi4LiteMasterWrite32bitsTransferSeq.randomize()) begin
+       `uvm_error(get_type_name(), "Randomization failed")
+    end
+
+    if(!axi4LiteMasterRead32bitsTransferSeq.randomize()) begin
+       `uvm_error(get_type_name(), "Randomization failed")
+    end
+    axi4LiteMasterWrite32bitsTransferSeq.start(masterVIPSlaveIPEnv.axi4LiteMasterEnv.axi4LiteMasterVirtualSequencer.axi4LiteMasterWriteSequencer); 
+    axi4LiteMasterRead32bitsTransferSeq.start(masterVIPSlaveIPEnv.axi4LiteMasterEnv.axi4LiteMasterVirtualSequencer.axi4LiteMasterReadSequencer); 
+  end
   #10;
   phase.drop_objection(this);
   `uvm_info(get_type_name(),$sformatf("After drop_objection MasterVIPSlaveIP32bitsWriteReadTest"),UVM_LOW);

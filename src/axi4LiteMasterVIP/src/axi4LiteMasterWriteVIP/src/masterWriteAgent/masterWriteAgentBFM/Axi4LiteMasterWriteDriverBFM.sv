@@ -97,7 +97,7 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
                                 inout axi4LiteWriteMasterTransferPacketStruct masterWritePacketStruct
                                );
     `uvm_info(name,$sformatf("WRITE_RESPONSE_CHANNEL_TASK_STARTED"),UVM_HIGH)
-
+//TODO Fix me the below code 
   if(masterWriteConfigStruct.toggleReady) begin
     repeat(masterWritePacketStruct.repeatToggleReady) begin
       if(bvalid === 1) begin
@@ -129,6 +129,7 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
       bready <= 1'b1;
       masterWritePacketStruct.bresp <= bresp;
 
+      //Once the trasaction is Done it going to the default state value.
       @(posedge aclk);
       bready <= masterWriteConfigStruct.defaultStateReady;
     end

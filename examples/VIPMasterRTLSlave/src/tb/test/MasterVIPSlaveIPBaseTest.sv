@@ -147,7 +147,7 @@ task MasterVIPSlaveIPBaseTest::run_phase(uvm_phase phase);
   phase.raise_objection(this, "MasterVIPSlaveIPBaseTest");
 
   `uvm_info(get_type_name(), $sformatf("Inside MASTER_BASE_TEST"), UVM_NONE);
-   super.run_phase(phase);
+//  super.run_phase(phase);
   #10;
   `uvm_info(get_type_name(), $sformatf("Done MASTER_BASE_TEST"), UVM_NONE);
   phase.drop_objection(this);
