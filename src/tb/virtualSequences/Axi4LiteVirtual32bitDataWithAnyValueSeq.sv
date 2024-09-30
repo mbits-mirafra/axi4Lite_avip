@@ -54,7 +54,7 @@ task Axi4LiteVirtual32bitDataWithAnyValueSeq::body();
 
   fork
     begin: MASTER_WRITE_SEQ
-      repeat(15) begin
+      repeat(20) begin
           if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprotSeq inside {[0:3]};
                                                                      delayForAwvalidSeq == 1;
                                                                      delayForWvalidSeq  == 2;
@@ -67,7 +67,7 @@ task Axi4LiteVirtual32bitDataWithAnyValueSeq::body();
       end 
     end
   begin: MASTER_READ_SEQ
-      repeat(15) begin
+      repeat(20) begin
         if(!axi4LiteMasterRead32bitsTransferSeq.randomize() with {arprotSeq inside {[0:3]};
                                                                   delayForArvalidSeq == 2;
                                                                   delayForRreadySeq == 0;

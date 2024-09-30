@@ -53,7 +53,7 @@ function void Axi4LiteMasterWriteSeqItemConverter::fromWriteClass(input Axi4Lite
   outputConv.waitCounterForBvalid = inputConv.waitCounterForBvalid;
   `uvm_info("axi4Lite_masterWrite_seq_item_conv_class",$sformatf("After converting fromWriteClass waitCounterForBvalid =  %0d",outputConv.waitCounterForBvalid),UVM_HIGH);
 
-  outputConv.repeatToggleReady  = inputConv.repeatToggleReady;
+  outputConv.repeatToggleBready  = inputConv.repeatToggleBready;
 endfunction : fromWriteClass
 
 function void Axi4LiteMasterWriteSeqItemConverter::toWriteClass(input axi4LiteWriteMasterTransferPacketStruct inputConv, output Axi4LiteMasterWriteTransaction outputConv);

@@ -15,8 +15,8 @@ package Axi4LiteReadMasterGlobalPkg;
   `define DATA_WIDTH 32
   parameter int DATA_WIDTH = `DATA_WIDTH;
 
-  `define DEFAULT_READY 0
-  parameter int DEFAULT_READY = `DEFAULT_READY;
+  `define DEFAULT_RREADY 0
+  parameter int DEFAULT_RREADY = `DEFAULT_RREADY;
 
   parameter int MAXLIMITOF_OUTSTANDINGTX = 10;
 
@@ -64,7 +64,7 @@ package Axi4LiteReadMasterGlobalPkg;
     int waitCounterForRvalid;
     bit [DELAY_WIDTH-1:0] delayForArvalid;
     bit [DELAY_WIDTH-1:0] delayForRready;
-    int repeatToggleReady;
+    int repeatToggleRready;
   } axi4LiteReadMasterTransferPacketStruct;
 
   typedef struct {
@@ -74,8 +74,8 @@ package Axi4LiteReadMasterGlobalPkg;
     int maxDelayForArready;
     int maxDelayForRvalid;
 
-    bit defaultStateReady;
-    bit toggleReady;
+    bit defaultStateRready;
+    bit toggleRready;
   } axi4LiteReadMasterTransferCfgStruct;
 
 endpackage : Axi4LiteReadMasterGlobalPkg

@@ -14,22 +14,26 @@ function Axi4LiteSlaveWriteConfigConverter::new(string name = "Axi4LiteSlaveWrit
 endfunction : new                                                                                   
 
 function void Axi4LiteSlaveWriteConfigConverter::fromClass(input Axi4LiteSlaveWriteAgentConfig inputConv,output axi4LiteWriteSlaveTransferCfgStruct outputConv);
-  outputConv.defaultStateReady = inputConv.defaultStateReady;
+  outputConv.defaultStateAwready = inputConv.defaultStateAwready;
+  outputConv.defaultStateWready = inputConv.defaultStateWready;
   outputConv.maxDelayForWvalid = inputConv.maxDelayForWvalid;
   outputConv.maxDelayForBready = inputConv.maxDelayForBready;
   outputConv.minAddressRange   = inputConv.minAddressRange;
   outputConv.maxAddressRange   = inputConv.maxAddressRange;
-  outputConv.toggleReady       = inputConv.toggleReady;
+  outputConv.toggleAwready       = inputConv.toggleAwready;
+  outputConv.toggleWready       = inputConv.toggleWready;
 endfunction: fromClass   
 
 function void Axi4LiteSlaveWriteConfigConverter:: do_print(uvm_printer printer);                            
   axi4LiteWriteSlaveTransferCfgStruct configStruct;
-   printer.print_field("defaultStateReady",configStruct.defaultStateReady,$bits(configStruct.defaultStateReady),UVM_HEX);
+   printer.print_field("defaultStateAwready",configStruct.defaultStateAwready,$bits(configStruct.defaultStateAwready),UVM_HEX);
+   printer.print_field("defaultStateWready",configStruct.defaultStateWready,$bits(configStruct.defaultStateWready),UVM_HEX);
    printer.print_field("maxDelayForWvalid",configStruct.maxDelayForWvalid,$bits(configStruct.maxDelayForWvalid),UVM_HEX);
    printer.print_field("maxDelayForBready",configStruct.maxDelayForBready,$bits(configStruct.maxDelayForBready),UVM_HEX);
    printer.print_field("minAddressRange",configStruct.minAddressRange,$bits(configStruct.minAddressRange),UVM_HEX);
    printer.print_field("maxAddressRange",configStruct.maxAddressRange,$bits(configStruct.maxAddressRange),UVM_HEX);
-   printer.print_field("toggleReady",configStruct.toggleReady,$bits(configStruct.toggleReady),UVM_HEX);
+   printer.print_field("toggleAwready",configStruct.toggleAwready,$bits(configStruct.toggleAwready),UVM_HEX);
+   printer.print_field("toggleWready",configStruct.toggleWready,$bits(configStruct.toggleWready),UVM_HEX);
 endfunction : do_print                                                                              
 
 `endif

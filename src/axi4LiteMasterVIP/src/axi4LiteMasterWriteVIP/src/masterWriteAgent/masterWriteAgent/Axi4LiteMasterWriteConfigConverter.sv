@@ -17,17 +17,17 @@ endfunction : new
 function void Axi4LiteMasterWriteConfigConverter::fromClass(input Axi4LiteMasterWriteAgentConfig inputConv, output axi4LiteWriteMasterTransferCfgStruct outputConv);
   `uvm_info("axi4_masterWrite_Config_conv_class",$sformatf("----------------------------------------------------------------------"),UVM_HIGH);
 
-  outputConv.defaultStateReady  = inputConv.defaultStateReady;
+  outputConv.defaultStateBready  = inputConv.defaultStateBready;
   outputConv.maxDelayForAwready = inputConv.maxDelayForAwready;
   outputConv.maxDelayForWready  = inputConv.maxDelayForWready;
   outputConv.maxDelayForBvalid  = inputConv.maxDelayForBvalid;
-  outputConv.toggleReady       = inputConv.toggleReady;
+  outputConv.toggleBready       = inputConv.toggleBready;
 
 endfunction: fromClass
 
 function void Axi4LiteMasterWriteConfigConverter:: do_print(uvm_printer printer); 
   axi4LiteWriteMasterTransferCfgStruct ConfigStruct;
-  printer.print_field("defaultStateReady",ConfigStruct.defaultStateReady,$bits(ConfigStruct.defaultStateReady),UVM_DEC);
+  printer.print_field("defaultStateBready",ConfigStruct.defaultStateBready,$bits(ConfigStruct.defaultStateBready),UVM_DEC);
   printer.print_field("maxDelayForAwready",ConfigStruct.maxDelayForAwready,$bits(ConfigStruct.maxDelayForAwready),UVM_DEC);
   printer.print_field("maxDelayForWready",ConfigStruct.maxDelayForWready,$bits(ConfigStruct.maxDelayForWready),UVM_DEC);
   printer.print_field("maxDelayForBvalid",ConfigStruct.maxDelayForBvalid,$bits(ConfigStruct.maxDelayForBvalid),UVM_DEC);

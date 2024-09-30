@@ -7,11 +7,11 @@ class Axi4LiteSlaveRead32bitsTransferWithToggleReadySeq extends Axi4LiteSlaveRea
   rand bit [DATA_WIDTH-1:0] rdataSeq;
   rand bit [DELAY_WIDTH-1:0] delayForArreadySeq;
   rand bit [DELAY_WIDTH-1:0] delayForRvalidSeq;
-  rand int repeatToggleReadySeq;
+  rand int repeatToggleArreadySeq;
 
   constraint delayForArreadySeq_c {soft delayForArreadySeq  < MAX_DELAY_READY;}
   constraint delayForRvalidSeq_c {soft delayForRvalidSeq < MAX_DELAY_RVALID;}
-  constraint repeatToggleReadySeq_c {soft repeatToggleReadySeq inside {[1:15]};}
+  constraint repeatToggleArreadySeq_c {soft repeatToggleArreadySeq inside {[1:15]};}
 
   extern function new(string name = "Axi4LiteSlaveRead32bitsTransferWithToggleReadySeq");
   extern task body();
@@ -26,7 +26,7 @@ task Axi4LiteSlaveRead32bitsTransferWithToggleReadySeq::body();
   start_item(req);
   if(!req.randomize() with {delayForArready == delayForArreadySeq;
                             delayForRvalid == delayForRvalidSeq;
-                            repeatToggleReady == repeatToggleReadySeq;
+                            repeatToggleArready == repeatToggleArreadySeq;
                             rdata == rdataSeq;
                           }) begin 
       `uvm_error(get_type_name(), "Randomization failed")

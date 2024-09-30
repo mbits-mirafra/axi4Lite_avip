@@ -13,8 +13,8 @@ package Axi4LiteReadSlaveGlobalPkg;
   `define DATA_WIDTH 32
   parameter int DATA_WIDTH = `DATA_WIDTH;
 
-  `define DEFAULT_READY 0
-  parameter int DEFAULT_READY = `DEFAULT_READY;
+  `define DEFAULT_ARREADY 0
+  parameter int DEFAULT_ARREADY = `DEFAULT_ARREADY;
 
   parameter int DELAY_WIDTH = 5;
 
@@ -61,7 +61,7 @@ package Axi4LiteReadSlaveGlobalPkg;
     int waitCounterForRready;
     bit [DELAY_WIDTH-1:0] delayForArready;
     bit [DELAY_WIDTH-1:0] delayForRvalid;
-    int repeatToggleReady;
+    int repeatToggleArready;
 
   } axi4LiteReadSlaveTransferPacketStruct;
 
@@ -69,8 +69,8 @@ package Axi4LiteReadSlaveGlobalPkg;
     bit [ADDRESS_WIDTH-1:0] minAddressRange;
     bit [ADDRESS_WIDTH-1:0] maxAddressRange;
     int maxDelayForRready;
-    bit defaultStateReady;
-    bit toggleReady;
+    bit defaultStateArready;
+    bit toggleArready;
    } axi4LiteReadSlaveTransferCfgStruct;
 
 endpackage : Axi4LiteReadSlaveGlobalPkg

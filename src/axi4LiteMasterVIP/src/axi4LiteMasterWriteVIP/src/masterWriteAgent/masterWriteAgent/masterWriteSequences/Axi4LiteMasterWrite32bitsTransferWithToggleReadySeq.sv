@@ -11,7 +11,7 @@ class Axi4LiteMasterWrite32bitsTransferWithToggleReadySeq extends Axi4LiteMaster
   rand bit [DELAY_WIDTH-1:0] delayForAwvalidSeq;
   rand bit [DELAY_WIDTH-1:0] delayForWvalidSeq;
   rand bit [DELAY_WIDTH-1:0] delayForBreadySeq;
-  rand int repeatToggleReadySeq;
+  rand int repeatToggleBreadySeq;
 
   constraint awaddrSeq_c {soft awaddrSeq inside {[MIN_ADDRESS:MAX_ADDRESS]};}
   constraint awprotSeq_c {soft awprotSeq inside {[0:3]};}
@@ -19,7 +19,7 @@ class Axi4LiteMasterWrite32bitsTransferWithToggleReadySeq extends Axi4LiteMaster
   constraint delayForAwvalidSeq_c {soft delayForAwvalidSeq < MAX_DELAY_WVALID;}
   constraint delayForWvalidSeq_c {soft delayForWvalidSeq < MAX_DELAY_WVALID;}
   constraint delayForBreadySeq_c {soft delayForBreadySeq  < MAX_DELAY_READY;}
-  constraint repeatToggleReadySeq_c {soft repeatToggleReadySeq  inside {[1:10]};}
+  constraint repeatToggleBreadySeq_c {soft repeatToggleBreadySeq  inside {[1:10]};}
 
   extern function new(string name = "Axi4LiteMasterWrite32bitsTransferWithToggleReadySeq");
   extern task body();
@@ -39,7 +39,7 @@ task Axi4LiteMasterWrite32bitsTransferWithToggleReadySeq::body();
                             delayForAwvalid == delayForAwvalidSeq;
                             delayForWvalid == delayForWvalidSeq;
                             delayForBready == delayForBreadySeq;
-                            repeatToggleReady == repeatToggleReadySeq;
+                            repeatToggleBready == repeatToggleBreadySeq;
                           }) begin 
       `uvm_error(get_type_name(), "Randomization failed")
   end

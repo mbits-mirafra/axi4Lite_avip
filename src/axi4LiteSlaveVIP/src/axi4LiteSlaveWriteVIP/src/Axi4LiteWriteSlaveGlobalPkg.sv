@@ -13,8 +13,11 @@ package Axi4LiteWriteSlaveGlobalPkg;
   `define DATA_WIDTH 32
   parameter int DATA_WIDTH = `DATA_WIDTH;
 
-  `define DEFAULT_READY 0
-  parameter int DEFAULT_READY = `DEFAULT_READY;
+  `define DEFAULT_AWREADY 0
+  parameter int DEFAULT_AWREADY = `DEFAULT_AWREADY;
+
+  `define DEFAULT_WREADY 0
+  parameter int DEFAULT_WREADY = `DEFAULT_WREADY;
 
   parameter int DELAY_WIDTH = 5;
 
@@ -59,18 +62,21 @@ package Axi4LiteWriteSlaveGlobalPkg;
     bit [DELAY_WIDTH-1:0] delayForAwready;
     bit [DELAY_WIDTH-1:0] delayForWready;
     bit [DELAY_WIDTH-1:0] delayForBvalid;
-    int repeatToggleReady;
+    int repeatToggleAwready;
+    int repeatToggleWready;
   } axi4LiteWriteSlaveTransferPacketStruct;
 
   typedef struct {
     int maxDelayForWvalid;
     int maxDelayForBready;
-    bit defaultStateReady;
+    bit defaultStateAwready;
+    bit defaultStateWready;
 
     bit [ADDRESS_WIDTH-1:0] maxAddressRange;
     bit [ADDRESS_WIDTH-1:0] minAddressRange;
 
-    bit toggleReady;
+    bit toggleAwready;
+    bit toggleWready;
 
   } axi4LiteWriteSlaveTransferCfgStruct;
 

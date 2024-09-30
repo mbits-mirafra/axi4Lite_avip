@@ -14,20 +14,20 @@ function Axi4LiteSlaveReadConfigConverter::new(string name = "Axi4LiteSlaveReadC
 endfunction : new                                                                                   
 
 function void Axi4LiteSlaveReadConfigConverter::fromClass(input Axi4LiteSlaveReadAgentConfig inputConv, output axi4LiteReadSlaveTransferCfgStruct outputConv);
-  outputConv.defaultStateReady = inputConv.defaultStateReady;
+  outputConv.defaultStateArready = inputConv.defaultStateArready;
   outputConv.maxDelayForRready = inputConv.maxDelayForRready;
   outputConv.minAddressRange = inputConv.minAddressRange;
   outputConv.maxAddressRange = inputConv.maxAddressRange;
-  outputConv.toggleReady = inputConv.toggleReady;
+  outputConv.toggleArready = inputConv.toggleArready;
 endfunction: fromClass  
  
  function void Axi4LiteSlaveReadConfigConverter:: do_print(uvm_printer printer);                            
    axi4LiteReadSlaveTransferCfgStruct configStruct;
-   printer.print_field("defaultStateReady",configStruct.defaultStateReady,$bits(configStruct.defaultStateReady),UVM_HEX);
+   printer.print_field("defaultStateArready",configStruct.defaultStateArready,$bits(configStruct.defaultStateArready),UVM_HEX);
    printer.print_field("maxDelayForRready",configStruct.maxDelayForRready,$bits(configStruct.maxDelayForRready),UVM_HEX);
    printer.print_field("minAddressRange",configStruct.minAddressRange,$bits(configStruct.minAddressRange),UVM_HEX);
    printer.print_field("maxAddressRange",configStruct.maxAddressRange,$bits(configStruct.maxAddressRange),UVM_HEX);
-   printer.print_field("toggleReady",configStruct.toggleReady,$bits(configStruct.toggleReady),UVM_HEX);
+   printer.print_field("toggleArready",configStruct.toggleArready,$bits(configStruct.toggleArready),UVM_HEX);
  endfunction : do_print                                                                              
                                                                                                 
 `endif

@@ -16,7 +16,7 @@ class Axi4LiteMasterReadTransaction extends uvm_sequence_item;
 
   rand bit [DELAY_WIDTH-1:0] delayForArvalid;
   rand bit [DELAY_WIDTH-1:0] delayForRready;
-  rand int repeatToggleReady;
+  rand int repeatToggleRready;
 
   constraint arprot_c {soft arprot inside {[0:3]};}
   constraint delayForArvalid_c {soft delayForArvalid <= MAX_DELAY_READY;}
@@ -51,7 +51,7 @@ function void Axi4LiteMasterReadTransaction::do_copy(uvm_object rhs);
   rresp = axi4LiteMasterReadTxCopyObj.rresp;
   delayForArvalid = axi4LiteMasterReadTxCopyObj.delayForArvalid;
   delayForRready  = axi4LiteMasterReadTxCopyObj.delayForRready;
-  repeatToggleReady  = axi4LiteMasterReadTxCopyObj.repeatToggleReady;
+  repeatToggleRready  = axi4LiteMasterReadTxCopyObj.repeatToggleRready;
 
   endfunction : do_copy
 
@@ -70,7 +70,7 @@ function bit Axi4LiteMasterReadTransaction::do_compare (uvm_object rhs, uvm_comp
   rdata   == axi4LiteMasterReadTxCompareObj.rdata   &&
   delayForArvalid == axi4LiteMasterReadTxCompareObj.delayForArvalid &&
   delayForRready  == axi4LiteMasterReadTxCompareObj.delayForRready &&
-  repeatToggleReady  == axi4LiteMasterReadTxCompareObj.repeatToggleReady;
+  repeatToggleRready  == axi4LiteMasterReadTxCompareObj.repeatToggleRready;
 
 endfunction : do_compare
 
@@ -82,7 +82,7 @@ function void Axi4LiteMasterReadTransaction::do_print(uvm_printer printer);
    printer.print_string("rresp",rresp.name());
    printer.print_field("delayForArvalid",delayForArvalid,$bits(delayForArvalid),UVM_HEX);
    printer.print_field("delayForRready",delayForRready,$bits(delayForRready),UVM_HEX);
-   printer.print_field("repeatToggleReady",repeatToggleReady,$bits(repeatToggleReady),UVM_HEX);
+   printer.print_field("repeatToggleRready",repeatToggleRready,$bits(repeatToggleRready),UVM_HEX);
 endfunction : do_print
 
 `endif

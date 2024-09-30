@@ -24,7 +24,7 @@ function void Axi4LiteToggleReadyTest::setupAxi4LiteMasterWriteAgentConfig();
   super.setupAxi4LiteMasterWriteAgentConfig();
   
   foreach(axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i]) begin
-     axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].toggleReady = 1; 
+     axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].toggleBready = 1; 
   end
 endfunction
 
@@ -32,7 +32,8 @@ function void Axi4LiteToggleReadyTest::setupAxi4LiteSlaveWriteAgentConfig();
   super.setupAxi4LiteSlaveWriteAgentConfig();
   
   foreach(axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i]) begin
-     axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].toggleReady = 1; 
+     axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].toggleAwready = 1; 
+     axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].toggleWready = 1; 
   end
 endfunction
 
@@ -40,7 +41,7 @@ function void Axi4LiteToggleReadyTest::setupAxi4LiteMasterReadAgentConfig();
   super.setupAxi4LiteMasterReadAgentConfig();
   
   foreach(axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i]) begin
-     axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].toggleReady = 1; 
+     axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].toggleRready = 1; 
   end
 endfunction
 
@@ -48,7 +49,7 @@ function void Axi4LiteToggleReadyTest::setupAxi4LiteSlaveReadAgentConfig();
   super.setupAxi4LiteSlaveReadAgentConfig();
   
   foreach(axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i]) begin
-     axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].toggleReady = 1; 
+     axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].toggleArready = 1; 
   end
 endfunction
 

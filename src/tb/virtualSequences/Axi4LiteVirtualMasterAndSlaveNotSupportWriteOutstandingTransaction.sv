@@ -42,7 +42,9 @@ task Axi4LiteVirtualMasterAndSlaveNotSupportWriteOutstandingTransaction::body();
       repeat(2) begin
         if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awprotSeq == 1;
                                                                    delayForAwvalidSeq == 0;
+                                                                   //delayForAwvalidSeq == 2;
                                                                    delayForWvalidSeq  == 0;
+                                                                   //delayForWvalidSeq  == 2;
                                                                    delayForBreadySeq  == 0;
                                                                   }) begin
            `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualMasterAndSlaveNotSupportWriteOutstandingTransaction")

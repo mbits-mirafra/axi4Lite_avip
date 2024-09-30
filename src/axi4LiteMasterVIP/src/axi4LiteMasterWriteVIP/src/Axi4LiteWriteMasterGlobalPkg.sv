@@ -15,8 +15,8 @@ package Axi4LiteWriteMasterGlobalPkg;
   `define DATA_WIDTH 32
   parameter int DATA_WIDTH = `DATA_WIDTH;
 
-  `define DEFAULT_READY 0
-  parameter int DEFAULT_READY = `DEFAULT_READY;
+  `define DEFAULT_BREADY 0
+  parameter int DEFAULT_BREADY = `DEFAULT_BREADY;
 
   parameter int MAXLIMITOF_OUTSTANDINGTX = 10;
 
@@ -67,7 +67,7 @@ package Axi4LiteWriteMasterGlobalPkg;
     bit [DELAY_WIDTH-1:0] delayForWvalid;
     bit [DELAY_WIDTH-1:0] delayForBready;
     
-    int repeatToggleReady;
+    int repeatToggleBready;
   } axi4LiteWriteMasterTransferPacketStruct;
 
   typedef struct {
@@ -76,9 +76,9 @@ package Axi4LiteWriteMasterGlobalPkg;
     int maxDelayForAwready;
     int maxDelayForWready;
     int maxDelayForBvalid;
-    bit defaultStateReady;
+    bit defaultStateBready;
 
-    bit toggleReady;
+    bit toggleBready;
   } axi4LiteWriteMasterTransferCfgStruct;
 
 endpackage : Axi4LiteWriteMasterGlobalPkg

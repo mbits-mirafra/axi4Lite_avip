@@ -31,7 +31,8 @@ task Axi4LiteVirtualReadyAssertedAndDeAssertedAndNextClkValidAssertedSeq::body()
        if(!axi4LiteSlaveWrite32bitsTransferWithToggleReadySeq.randomize() with {delayForBvalidSeq == 3;
                                                                                 delayForAwreadySeq == 1;
                                                                                 delayForWreadySeq == 1;
-                                                                                repeatToggleReadySeq == 2;
+                                                                                repeatToggleAwreadySeq == 2;
+                                                                                repeatToggleWreadySeq == 2;
                                                                               }) begin
          `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualReadyAssertedAndDeAssertedAndNextClkValidAssertedSeq")
        end
@@ -41,7 +42,7 @@ task Axi4LiteVirtualReadyAssertedAndDeAssertedAndNextClkValidAssertedSeq::body()
   begin : SLAVE_READ_SEQ
     forever begin
       if(!axi4LiteSlaveRead32bitsTransferWithToggleReadySeq.randomize() with {delayForRvalidSeq == 3;
-                                                                              repeatToggleReadySeq == 2;
+                                                                              repeatToggleArreadySeq == 2;
                                                                              }) begin
         `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualReadyAssertedAndDeAssertedAndNextClkValidAssertedSeq")
       end
@@ -57,7 +58,7 @@ task Axi4LiteVirtualReadyAssertedAndDeAssertedAndNextClkValidAssertedSeq::body()
         if(!axi4LiteMasterWrite32bitsTransferWithToggleReadySeq.randomize() with {awprotSeq == 1;
                                                                                   delayForAwvalidSeq == 3;
                                                                                   delayForWvalidSeq  == 3;
-                                                                                  repeatToggleReadySeq == 2;
+                                                                                  repeatToggleBreadySeq == 2;
                                                                                 }) begin
           `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualReadyAssertedAndDeAssertedAndNextClkValidAssertedSeq")
        end
@@ -68,7 +69,7 @@ task Axi4LiteVirtualReadyAssertedAndDeAssertedAndNextClkValidAssertedSeq::body()
       repeat(1) begin
         if(!axi4LiteMasterRead32bitsTransferWithToggleReadySeq.randomize() with {arprotSeq == 1;
                                                                                  delayForArvalidSeq == 3;
-                                                                                 repeatToggleReadySeq == 2;
+                                                                                 repeatToggleRreadySeq == 2;
                                                                                }) begin
           `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualReadyAssertedAndDeAssertedAndNextClkValidAssertedSeq")
         end

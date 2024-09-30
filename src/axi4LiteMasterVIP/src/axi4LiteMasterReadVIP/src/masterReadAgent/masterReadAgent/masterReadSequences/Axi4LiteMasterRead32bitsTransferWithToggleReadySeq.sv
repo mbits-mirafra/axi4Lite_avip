@@ -8,13 +8,13 @@ class Axi4LiteMasterRead32bitsTransferWithToggleReadySeq extends Axi4LiteMasterR
   rand arprotEnum arprotSeq;
   rand bit [DELAY_WIDTH-1:0] delayForArvalidSeq;
   rand bit [DELAY_WIDTH-1:0] delayForRreadySeq;
-  rand int repeatToggleReadySeq;
+  rand int repeatToggleRreadySeq;
 
   constraint arprotSeq_c {soft arprotSeq inside {[0:3]};}
   constraint araddrSeq_c {soft araddrSeq inside {[MIN_ADDRESS:MAX_ADDRESS]};}
   constraint delayForArvalidSeq_c {soft delayForArvalidSeq < MAX_DELAY_RVALID;}
   constraint delayForRreadySeq_c {soft delayForRreadySeq  < MAX_DELAY_READY;}
-  constraint repeatToggleReadySeq_c {soft repeatToggleReadySeq inside {[1:15]};}
+  constraint repeatToggleRreadySeq_c {soft repeatToggleRreadySeq inside {[1:15]};}
 
   extern function new(string name = "Axi4LiteMasterRead32bitsTransferWithToggleReadySeq");
   extern task body();
@@ -31,7 +31,7 @@ task Axi4LiteMasterRead32bitsTransferWithToggleReadySeq::body();
                             arprot == arprotSeq;
                             delayForArvalid == delayForArvalidSeq;
                             delayForRready == delayForRreadySeq;
-                            repeatToggleReady == repeatToggleReadySeq;
+                            repeatToggleRready == repeatToggleRreadySeq;
                           }) begin 
       `uvm_error(get_type_name(), "Randomization failed")
   end
