@@ -197,7 +197,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
     (valid && ready) |=> ($stable(valid) && $stable(ready));
   endproperty
 
-  `ifdef Axi4LiteWriteSlaveGlobalPkg::DEFAULT_READY == 1 
+  if(Axi4LiteWriteSlaveGlobalPkg::DEFAULT_AWREADY == 1 && Axi4LiteWriteSlaveGlobalPkg::DEFAULT_WREADY == 1) begin
 
   IFBACKTOBACK_AWVALIDANDAWREADYASSERTED_WITHOUTDELAY_INBETWEEN2TRANSFER: cover property
   (WhenBackToBackValidAndReadyAssertedWithoutDelayInbetween2Transfer(awvalid, awready))
@@ -279,7 +279,7 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
   (WhenBackToBackValidAndReadyAssertedWithMoreThan16ClkDelayInbetween2Transfer(bvalid, bready))
   $info("IFBACKTOBACK_BVALIDANDBREADYASSERTED_WITHMORETHAN16CLKDELAY_INBETWEEN2TRANSFER : COVERED");
 
-  `endif
+  end
 
   property readyAssertAtleastOnce(logic ready); 
    @(posedge aclk) disable iff (!aresetn)
@@ -435,22 +435,23 @@ interface Axi4LiteSlaveWriteCoverProperty (input  aclk,
     (WhenReadyAssertedThenInbetween1To15ClkValidAsserted (bvalid,bready))
     $info("IFBREADYASSERTED_THEN_INBETWEEN1TO15CLK_BVALIDASSERTED: COVERED");
 
-    property WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(logic valid, logic ready); 
+    property WhenTransferOccurThenNextClkAwreadyValueWillGoDefaultState(logic valid, logic ready); 
      @(posedge aclk) disable iff (!aresetn)
-         (ready && valid) |=> (ready== DEFAULT_READY);
+         (ready && valid) |=> (ready== DEFAULT_AWREADY);
     endproperty  
 
-    IFAWREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_AWREADYWILLGODEFAULTSTATE: cover property  
-    (WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(awvalid, awready))
+    IFTRANSFEROCCUR_THEN_NEXTCLK_AWREADYWILLGODEFAULTSTATE: cover property  
+    (WhenTransferOccurThenNextClkAwreadyValueWillGoDefaultState(awvalid, awready))
     $info("IFAWREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_AWREADYWILLGODEFAULTSTATE : COVERED");
 
-    IFWREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_WREADY_WILLGODEFAULTSTATE: cover property  
-    (WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(wvalid, wready))
-    $info("IFWREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_WREADY_WILLGODEFAULTSTATE : COVERED");
+    property WhenTransferOccurThenNextClkWreadyValueWillGoDefaultState(logic valid, logic ready); 
+     @(posedge aclk) disable iff (!aresetn)
+         (ready && valid) |=> (ready== DEFAULT_AWREADY);
+    endproperty  
 
-    IFBREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_BREADY_WILLGODEFAULTSTATE: cover property  
-    (WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(bvalid, bready))
-    $info("IFBREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_BREADY_WILLGODEFAULTSTATE : COVERED");
+    IFTRANSFEROCCUR_THEN_NEXTCLK_WREADY_WILLGODEFAULTSTATE: cover property  
+    (WhenTransferOccurThenNextClkWreadyValueWillGoDefaultState(wvalid, wready))
+    $info("IFWREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_WREADY_WILLGODEFAULTSTATE : COVERED");
 
     property WhenAwreadyHighAndWritingValidAddressAndDataOnSlaveLocationThenSlaveWillGiveOkayResponse; 
      @(posedge aclk) disable iff (!aresetn)

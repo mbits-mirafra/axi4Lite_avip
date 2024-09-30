@@ -110,30 +110,20 @@ IFBVALIDASSERTED_THENWITHIN16CLK_BREADYASSERTED: assert property (validAssertedT
     $error("IFBVALIDASSERTED_THENWITHIN16CLK_BREADYASSERTED : NOT ASSERTED");
 
     //TODO we tried this immediate assrtion and while running assertTb it's working but running test and sequens it's not working
- /*   always @(negedge aresetn) assert (awready===DEFAULT_READY)
+ /*   always @(negedge aresetn) assert (awready===DEFAULT_BREADY)
       $info("IFRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE : ASSERTED");
     else
       $error("IFRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
 */
 /*    property WhenResetAssertedThenReadyWillGoDefaultState(logic ready);
      @(negedge aresetn) disable iff (aresetn === 1)
-        1 |-> (ready===DEFAULT_READY);
+        1 |-> (ready===DEFAULT_BREADY);
     endproperty
 */
 //TODO above property for asynchronous is not working so here we are going with synchronous reset we need to add asynchronous reset
     property WhenResetAssertedThenReadyWillGoDefaultState(logic ready);
-     @(posedge aclk) (aresetn===0) |-> (ready===DEFAULT_READY);
+     @(posedge aclk) (aresetn===0) |-> (ready===DEFAULT_BREADY);
     endproperty
-
-IFRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState(awready))
-  $info("IFRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE : ASSERTED");
-  else
-    $error("IFRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
-
-IFRESETASSERTED_THENWREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState(wready))
-  $info("IFRESETASSERTED_THENWREADY_WILLGODEFAULTSTATE : ASSERTED");
-  else
-    $error("IFRESETASSERTED_THENWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
 
 IFRESETASSERTED_THENBREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState(bready))
   $info("IFRESETASSERTED_THENBREADY_WILLGODEFAULTSTATE : ASSERTED");
@@ -169,18 +159,8 @@ IFRESETASSERTED_THENBVALID_WILLGODEFAULTSTATE: assert property(WhenResetAsserted
 
     property WhenTransferOccurThenNextCLKReadyWillGoDefaultState(logic valid, logic ready);
      @(posedge aclk) disable iff (!aresetn)
-         (ready && valid) |=> (ready == DEFAULT_READY);
+         (ready && valid) |=> (ready == DEFAULT_BREADY);
     endproperty
-
-IFTRANSFEROCCUR_THENAWREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultState(awvalid,awready))
-  $info("IFTRANSFEROCCUR_THENAWREADY_WILLGODEFAULTSTATE : ASSERTED");
-  else
-    $error("IFTRANSFEROCCUR_THENAWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
-
-IFTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultState(wvalid,wready))
-  $info("IFTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE : ASSERTED");
-  else
-    $error("IFTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
 
 IFTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultState(bvalid,bready))
   $info("IFTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE : ASSERTED");

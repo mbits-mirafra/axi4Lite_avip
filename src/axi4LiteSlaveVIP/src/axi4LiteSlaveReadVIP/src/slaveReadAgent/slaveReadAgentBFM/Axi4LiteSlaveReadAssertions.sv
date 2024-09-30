@@ -89,23 +89,18 @@ IFRVALIDASSERTED_THENWITHIN16CLK_RREADYASSERTED: assert property (validAssertedT
 /*
     property WhenResetAssertedThenReadyWillGoDefaultState(logic ready);
      @(negedge aresetn) disable iff (aresetn === 1)
-       1 |-> (ready===DEFAULT_READY);
+       1 |-> (ready===DEFAULT_ARREADY);
     endproperty
 */
 //TODO above property for asynchronous is not working so here we are going with synchronous reset we need to add asynchronous reset
     property WhenResetAssertedThenReadyWillGoDefaultState(logic ready);
-     @(posedge aclk) (aresetn===0) |-> (ready===DEFAULT_READY);
+     @(posedge aclk) (aresetn===0) |-> (ready===DEFAULT_ARREADY);
     endproperty
 
 IFRESETASSERTED_THENARREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState(arready))
   $info("IFRESETASSERTED_THENARREADY_WILLGODEFAULTSTATE : ASSERTED");
   else
     $error("IFRESETASSERTED_THENARREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
-
-IFRESETASSERTED_THENRREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState(rready))
-  $info("IFRESETASSERTED_THENRREADY_WILLGODEFAULTSTATE : ASSERTED");
-  else
-    $error("IFRESETASSERTED_THENRREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
 
 /*
     property WhenResetAssertedThenValidWillGoLow(logic valid);
@@ -131,7 +126,7 @@ IFRESETASSERTED_THENRVALID_WILLGODEFAULTSTATE: assert property(WhenResetAsserted
 
     property WhenTransferOccurThenNextCLKReadyWillGoDefaultState(logic valid, logic ready);
      @(posedge aclk) disable iff (!aresetn)
-         (ready && valid) |=> (ready == DEFAULT_READY);
+         (ready && valid) |=> (ready == DEFAULT_ARREADY);
     endproperty
 
 
@@ -140,10 +135,6 @@ IFTRANSFEROCCUR_THENARREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccu
   else
     $error("IFTRANSFEROCCUR_THENARREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
 
-IFTRANSFEROCCUR_THENRREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultState(rvalid,rready))
-  $info("IFTRANSFEROCCUR_THENRREADY_WILLGODEFAULTSTATE : ASSERTED");
-  else
-    $error("IFTRANSFEROCCUR_THENRREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
 
     property arvalidIsHighThenInformationStableUntilTransferOccur(logic arvalid, logic arready, logic araddr, logic arprot);
      @(posedge aclk) disable iff (!aresetn)

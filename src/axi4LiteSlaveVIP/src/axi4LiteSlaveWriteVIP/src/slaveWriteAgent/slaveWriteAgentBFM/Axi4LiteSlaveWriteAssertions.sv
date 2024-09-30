@@ -121,24 +121,23 @@ IFBVALIDASSERTED_THENWITHIN16CLK_BREADYASSERTED: assert property (validAssertedT
     endproperty
 */
 //TODO above property for asynchronous is not working so here we are going with synchronous reset we need to add asynchronous reset
-    property WhenResetAssertedThenReadyWillGoDefaultState(logic ready);
-     @(posedge aclk) (aresetn===0) |-> (ready===DEFAULT_READY);
+    property WhenResetAssertedThenAwreadyWillGoDefaultState(logic ready);
+     @(posedge aclk) (aresetn===0) |-> (ready===DEFAULT_AWREADY);
     endproperty
 
-IFRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState(awready))
+IFRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenAwreadyWillGoDefaultState(awready))
   $info("IFRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE : ASSERTED");
   else
     $error("IFRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
 
-IFRESETASSERTED_THENWREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState(wready))
+    property WhenResetAssertedThenWreadyWillGoDefaultState(logic ready);
+     @(posedge aclk) (aresetn===0) |-> (ready===DEFAULT_WREADY);
+    endproperty
+
+IFRESETASSERTED_THENWREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenWreadyWillGoDefaultState(wready))
   $info("IFRESETASSERTED_THENWREADY_WILLGODEFAULTSTATE : ASSERTED");
   else
     $error("IFRESETASSERTED_THENWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
-
-IFRESETASSERTED_THENBREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState(bready))
-  $info("IFRESETASSERTED_THENBREADY_WILLGODEFAULTSTATE : ASSERTED");
-  else
-    $error("IFRESETASSERTED_THENBREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
 
 /*
     property WhenResetAssertedThenValidWillGoLow(logic valid);
@@ -167,25 +166,25 @@ IFRESETASSERTED_THENBVALID_WILLGODEFAULTSTATE: assert property(WhenResetAsserted
     $error("IFRESETASSERTED_THENBVALID_WILLGODEFAULTSTATE : NOT ASSERTED");
 
 
-    property WhenTransferOccurThenNextCLKReadyWillGoDefaultState(logic valid, logic ready);
+    property WhenWriteAddressChannelTransferOccurThenNextCLKAwreadyWillGoDefaultState(logic valid, logic ready);
      @(posedge aclk) disable iff (!aresetn)
-         (ready && valid) |=> (ready == DEFAULT_READY);
+         (ready && valid) |=> (ready == DEFAULT_AWREADY);
     endproperty
 
-IFTRANSFEROCCUR_THENAWREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultState(awvalid,awready))
+IFTRANSFEROCCUR_THENAWREADY_WILLGODEFAULTSTATE: assert property(WhenWriteAddressChannelTransferOccurThenNextCLKAwreadyWillGoDefaultState(awvalid,awready))
   $info("IFTRANSFEROCCUR_THENAWREADY_WILLGODEFAULTSTATE : ASSERTED");
   else
     $error("IFTRANSFEROCCUR_THENAWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
 
-IFTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultState(wvalid,wready))
+    property WhenWriteDataChannelTransferOccurThenNextCLKWreadyWillGoDefaultState(logic valid, logic ready);
+     @(posedge aclk) disable iff (!aresetn)
+         (ready && valid) |=> (ready == DEFAULT_WREADY);
+    endproperty
+
+IFTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE: assert property(WhenWriteDataChannelTransferOccurThenNextCLKWreadyWillGoDefaultState(wvalid,wready))
   $info("IFTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE : ASSERTED");
   else
     $error("IFTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
-
-IFTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultState(bvalid,bready))
-  $info("IFTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE : ASSERTED");
-  else
-    $error("IFTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
 
   
     property awvalidIsHighThenInformationStableUntilTransferOccur(logic awvalid, logic awready, logic awaddr, logic awprot);

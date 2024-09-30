@@ -146,7 +146,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   (WhenValidAssertedThenValidHighAndWithin1To16ClkReadyAsserted(rvalid, rready)) 
   $info("IFRVALIDASSERTED_ANDREMAINHIGH_THENWITHIN1TO16CLK_RREADYASSERTED : COVERED");
 
-  `ifdef Axi4LiteReadMasterGlobalPkg::DEFAULT_READY == 1 
+  if(Axi4LiteReadMasterGlobalPkg::DEFAULT_RREADY == 1) begin
 
   property WhenBackToBackValidAndReadyAssertedWithoutDelayInbetween2Transfer(logic valid, logic ready);
    @(posedge aclk) disable iff (!aresetn)
@@ -213,7 +213,7 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   (WhenBackToBackValidAndReadyAssertedWithMoreThan16ClkDelayInbetween2Transfer(rvalid, rready))
   $info("IFBACKTOBACK_RVALIDANDRREADYASSERTED_WITHMORETHAN16CLKDELAY_INBETWEEN2TRANSFER : COVERED");
 
-  `endif
+  end
 
   property readyAssertAtleastOnce(logic ready); 
   @(posedge aclk) disable iff (!aresetn) ready; 
@@ -326,12 +326,8 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
 
     property WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(logic valid, logic ready); 
      @(posedge aclk) disable iff (!aresetn)
-         (ready && valid) |=> (ready== DEFAULT_READY);
+         (ready && valid) |=> (ready== DEFAULT_RREADY);
     endproperty  
-
-    IFARREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_ARREADY_WILLGODEFAULTSTATE: cover property  
-    (WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(arvalid, arready))
-    $info("IFARREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_ARREADY_WILLGODEFAULTSTATE : COVERED");
 
     IFRREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_RREADY_WILLGODEFAULTSTATE: cover property  
     (WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(rvalid, rready))
