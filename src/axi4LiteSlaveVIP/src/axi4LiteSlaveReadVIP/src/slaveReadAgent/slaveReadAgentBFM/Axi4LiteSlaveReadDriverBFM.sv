@@ -34,7 +34,7 @@ interface Axi4LiteSlaveReadDriverBFM(input bit                     aclk,
    task waitForAresetn(input axi4LiteReadSlaveTransferCfgStruct slaveReadConfigStruct);
     @(negedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET ACTIVATED"),UVM_HIGH)
-     arready  <= slaveReadConfigStruct.defaultStateReady;
+     arready  <= slaveReadConfigStruct.defaultStateArready;
      rvalid   <= 0;
     @(posedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DE-ACTIVATED"),UVM_HIGH)
@@ -49,8 +49,8 @@ interface Axi4LiteSlaveReadDriverBFM(input bit                     aclk,
                               );
     `uvm_info(name,$sformatf("SLAVE_READ_ADDRESS_CHANNEL_TASK_STARTED"),UVM_HIGH)
 
-  if(slaveReadConfigStruct.toggleReady) begin
-    repeat(slaveReadPacketStruct.repeatToggleReady) begin
+  if(slaveReadConfigStruct.toggleArready) begin
+    repeat(slaveReadPacketStruct.repeatToggleArready) begin
       if(arvalid === 1) begin
         break;
       end
@@ -78,13 +78,13 @@ interface Axi4LiteSlaveReadDriverBFM(input bit                     aclk,
       slaveReadPacketStruct.arprot <= arprot;
 
       @(posedge aclk);
-      arready  <= slaveReadConfigStruct.defaultStateReady;
+      arready  <= slaveReadConfigStruct.defaultStateArready;
     end
     else begin
-      slaveReadPacketStruct.araddr <= araddr;
-      slaveReadPacketStruct.arprot <= arprot;
+      slaveReadPacketStruct.araddr = araddr;
+      slaveReadPacketStruct.arprot = arprot;
 
-      arready  <= slaveReadConfigStruct.defaultStateReady;
+      arready = slaveReadConfigStruct.defaultStateArready;
     end
 
     `uvm_info(name,$sformatf("SLAVE_READ_ADDRESS_CHANNEL_TASK_ENDED"),UVM_HIGH)
@@ -106,7 +106,8 @@ task readDataChannelTask(input axi4LiteReadSlaveTransferCfgStruct slaveReadConfi
      do begin
        @(posedge aclk);
        if(slaveReadPacketStruct.waitCounterForRready > (slaveReadConfigStruct.maxDelayForRready+1)) begin
-         `uvm_error (name, $sformatf ("rready count comparisions are failed"));
+         `uvm_error (name, $sformatf ("SLAVE_READ_RESPONSE_CHANNEL: rvalidRready Handshaking comparitions count are failed"));
+         break;
        end
        slaveReadPacketStruct.waitCounterForRready++;
      end while(rready === 0);

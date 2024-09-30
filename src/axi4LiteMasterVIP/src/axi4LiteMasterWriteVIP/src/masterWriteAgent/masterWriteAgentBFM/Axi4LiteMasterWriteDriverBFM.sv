@@ -40,7 +40,7 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
     `uvm_info(name,$sformatf("SYSTEM RESET DETECTED"),UVM_HIGH)
     awvalid <= 1'b0;
     wvalid  <= 1'b0;
-    bready  <= masterWriteConfigStruct.defaultStateReady;
+    bready  <= masterWriteConfigStruct.defaultStateBready;
     @(posedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DEACTIVATED"),UVM_HIGH)
   endtask : waitForAresetn
@@ -59,7 +59,8 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
     do begin
       @(posedge aclk);
       if(masterWritePacketStruct.waitCounterForAwready > (masterWriteConfigStruct.maxDelayForAwready+1)) begin
-        `uvm_error (name, $sformatf ("awready count comparisions are failed"));
+        `uvm_error (name, $sformatf ("MASTER_WRITE_ADDRESS_CHANNEL: awvalidAwready Handshaking comparitions count are failed"));
+        break;
       end
       masterWritePacketStruct.waitCounterForAwready++;
     end while(awready !== 1'b1);
@@ -83,7 +84,8 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
     do begin 
      @(posedge aclk);
       if(masterWritePacketStruct.waitCounterForWready > (masterWriteConfigStruct.maxDelayForWready+1)) begin
-        `uvm_error (name, $sformatf ("wready count comparisions are failed"));
+        `uvm_error (name, $sformatf ("MASTER_WRITE_DATA_CHANNEL: wvalidWready Handshaking comparitions count are failed"));
+        break;
       end
       masterWritePacketStruct.waitCounterForWready++;
     end while(wready !== 1'b1);
@@ -98,8 +100,8 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
                                );
     `uvm_info(name,$sformatf("WRITE_RESPONSE_CHANNEL_TASK_STARTED"),UVM_HIGH)
 //TODO Fix me the below code 
-  if(masterWriteConfigStruct.toggleReady) begin
-    repeat(masterWritePacketStruct.repeatToggleReady) begin
+  if(masterWriteConfigStruct.toggleBready) begin
+    repeat(masterWritePacketStruct.repeatToggleBready) begin
       if(bvalid === 1) begin
         break;
       end
@@ -107,7 +109,8 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
         @(posedge aclk);
         bready <= ~bready;
         if(masterWritePacketStruct.waitCounterForBvalid > (masterWriteConfigStruct.maxDelayForBvalid+1)) begin
-          `uvm_error (name, $sformatf ("bvalid count comparisions are failed"));
+          `uvm_error (name, $sformatf ("MASTER_WRITE_RESPONSE_CHANNEL: bvalidBready Handshaking comparitions count are failed"));
+          break;
         end 
         masterWritePacketStruct.waitCounterForBvalid++;
       end
@@ -117,27 +120,33 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
     @(negedge aclk);
     while(bvalid === 0) begin
       @(posedge aclk);
+      if(masterWritePacketStruct.waitCounterForBvalid > (masterWriteConfigStruct.maxDelayForBvalid+1)) begin
+        `uvm_error (name, $sformatf ("MASTER_WRITE_RESPONSE_CHANNEL: bvalidBready Handshaking comparitions count are failed"));
+        break;
+      end 
+      masterWritePacketStruct.waitCounterForBvalid++;
     end
 
     `uvm_info(name , $sformatf("After while loop bvalid asserted "),UVM_HIGH)
 
-    if(bready === 0) begin
-      repeat(masterWritePacketStruct.delayForBready) begin 
+    if(bvalid === 1) begin
+      if(bready === 0) begin
+        repeat(masterWritePacketStruct.delayForBready) begin 
+          @(posedge aclk);
+          bready <= 1'b0;
+        end
+        bready <= 1'b1;
+        masterWritePacketStruct.bresp <= bresp;
+
+        //Once the trasaction is Done it going to the default state value.
         @(posedge aclk);
-        bready <= 1'b0;
+        bready <= masterWriteConfigStruct.defaultStateBready;
       end
-      bready <= 1'b1;
-      masterWritePacketStruct.bresp <= bresp;
-
-      //Once the trasaction is Done it going to the default state value.
-      @(posedge aclk);
-      bready <= masterWriteConfigStruct.defaultStateReady;
+      else begin
+        masterWritePacketStruct.bresp <= bresp;
+        bready <= masterWriteConfigStruct.defaultStateBready;
+      end
     end
-    else begin
-      masterWritePacketStruct.bresp <= bresp;
-      bready <= masterWriteConfigStruct.defaultStateReady;
-    end
-
     `uvm_info(name,$sformatf("WRITE_RESPONSE_CHANNEL_TASK_ENDED"),UVM_HIGH)
   endtask : writeResponseChannelTask
 

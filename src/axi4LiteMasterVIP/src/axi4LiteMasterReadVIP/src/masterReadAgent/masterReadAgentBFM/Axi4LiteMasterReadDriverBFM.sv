@@ -35,7 +35,7 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
     @(negedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DETECTED"),UVM_HIGH)
     arvalid <= 1'b0;
-    rready  <= masterReadConfigStruct.defaultStateReady;
+    rready  <= masterReadConfigStruct.defaultStateRready;
     @(posedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DEACTIVATED"),UVM_HIGH)
   endtask : waitForAresetn
@@ -55,7 +55,8 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
     do begin
       @(posedge aclk);
       if(masterReadPacketStruct.waitCounterForArready > (masterReadConfigStruct.maxDelayForArready+1)) begin
-         `uvm_error (name, $sformatf ("arready count comparisions are failed"));
+        `uvm_error (name, $sformatf ("MASTER_READ_RESPONSE_CHANNEL: arvalidArready Handshaking comparitions count are failed"));
+        break;
       end
       masterReadPacketStruct.waitCounterForArready++;
     end while(arready === 0);
@@ -70,8 +71,8 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
                            );
     `uvm_info(name,$sformatf("READ_DATA_CHANNEL_TASK_STARTED"),UVM_HIGH)
 
-  if(masterReadConfigStruct.toggleReady) begin
-    repeat(masterReadPacketStruct.repeatToggleReady) begin
+  if(masterReadConfigStruct.toggleRready) begin
+    repeat(masterReadPacketStruct.repeatToggleRready) begin
       if(rvalid === 1) begin
         break;
       end
@@ -79,7 +80,8 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
         @(posedge aclk);
         rready <= ~rready;
         if(masterReadPacketStruct.waitCounterForRvalid > (masterReadConfigStruct.maxDelayForRvalid+1)) begin
-          `uvm_error (name, $sformatf ("rvalid count comparisions are failed"));
+          `uvm_error (name, $sformatf ("MASTER_READ_RESPONSE_CHANNEL: rvalidRready Handshaking comparitions count are failed"));
+          break;
         end 
         masterReadPacketStruct.waitCounterForRvalid++;
       end
@@ -89,25 +91,32 @@ import Axi4LiteMasterReadPkg::Axi4LiteMasterReadDriverProxy;
     @(negedge aclk);
     while(rvalid === 0) begin
       @(posedge aclk);
+      if(masterReadPacketStruct.waitCounterForRvalid > (masterReadConfigStruct.maxDelayForRvalid+1)) begin
+        `uvm_error (name, $sformatf ("MASTER_READ_RESPONSE_CHANNEL: rvalidRready Handshaking comparitions count are failed"));
+        break;
+      end 
+      masterReadPacketStruct.waitCounterForRvalid++;
     end
     
     `uvm_info(name , $sformatf("After while loop rvalid asserted "),UVM_HIGH)
 
-    if(rready === 0) begin
-      repeat(masterReadPacketStruct.delayForRready) begin 
-        @(posedge aclk);
-      end
-      rready <= 1'b1;
-      masterReadPacketStruct.rdata <= rdata;
-      masterReadPacketStruct.rresp <= rresp;
+    if(rvalid === 1) begin
+      if(rready === 0) begin
+        repeat(masterReadPacketStruct.delayForRready) begin 
+          @(posedge aclk);
+        end
+        rready <= 1'b1;
+        masterReadPacketStruct.rdata <= rdata;
+        masterReadPacketStruct.rresp <= rresp;
 
-      @(posedge aclk);
-      rready <= masterReadConfigStruct.defaultStateReady;
-    end
-    else begin
-      masterReadPacketStruct.rdata <= rdata;
-      masterReadPacketStruct.rresp <= rresp;
-      rready <= masterReadConfigStruct.defaultStateReady;
+        @(posedge aclk);
+        rready <= masterReadConfigStruct.defaultStateRready;
+      end
+      else begin
+        masterReadPacketStruct.rdata <= rdata;
+        masterReadPacketStruct.rresp <= rresp;
+        rready <= masterReadConfigStruct.defaultStateRready;
+      end
     end
 
     `uvm_info(name,$sformatf("READ_DATA_CHANNEL_TASK_ENDED"),UVM_HIGH)

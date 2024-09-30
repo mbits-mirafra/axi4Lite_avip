@@ -37,8 +37,8 @@ interface Axi4LiteSlaveWriteDriverBFM(input      aclk,
     @(negedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DETECTED"),UVM_HIGH)
     bvalid   <= 1'b0;
-    awready  <= slaveWriteConfigStruct.defaultStateReady;
-    wready   <= slaveWriteConfigStruct.defaultStateReady;
+    awready  <= slaveWriteConfigStruct.defaultStateAwready;
+    wready   <= slaveWriteConfigStruct.defaultStateWready;
     @(posedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DEACTIVATED"),UVM_HIGH)
   endtask : waitForAresetn 
@@ -48,8 +48,8 @@ task writeAddressChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWrit
                              );
   `uvm_info(name,$sformatf("SLAVE_WRITE_ADDRESS_CHANNEL_TASK_STARTED"),UVM_HIGH)
 
-  if(slaveWriteConfigStruct.toggleReady) begin
-    repeat(slaveWritePacketStruct.repeatToggleReady) begin
+  if(slaveWriteConfigStruct.toggleAwready) begin
+    repeat(slaveWritePacketStruct.repeatToggleAwready) begin
       if(awvalid === 1) begin
         break;
       end
@@ -74,12 +74,12 @@ task writeAddressChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWrit
     slaveWritePacketStruct.awprot <= awprot;
     
     @(posedge aclk);
-    awready <= slaveWriteConfigStruct.defaultStateReady;
+    awready <= slaveWriteConfigStruct.defaultStateAwready;
   end
   else begin
-    slaveWritePacketStruct.awaddr <= awaddr;
-    slaveWritePacketStruct.awprot <= awprot;
-    awready <= slaveWriteConfigStruct.defaultStateReady;
+    slaveWritePacketStruct.awaddr = awaddr;
+    slaveWritePacketStruct.awprot = awprot;
+    awready = slaveWriteConfigStruct.defaultStateAwready;
   end
 
   `uvm_info(name,$sformatf("SLAVE_WRITE_ADDRESS_CHANNEL_TASK_ENDED"),UVM_HIGH)
@@ -91,8 +91,8 @@ task writeDataChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteCo
                          );
    `uvm_info(name,$sformatf("SLAVE_WRITE_DATA_CHANNEL_TASK_STARTED"),UVM_HIGH)
 
-  if(slaveWriteConfigStruct.toggleReady) begin
-    repeat(slaveWritePacketStruct.repeatToggleReady) begin
+  if(slaveWriteConfigStruct.toggleWready) begin
+    repeat(slaveWritePacketStruct.repeatToggleWready) begin
       if(wvalid === 1) begin
         break;
       end
@@ -100,7 +100,8 @@ task writeDataChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteCo
         @(posedge aclk);
         wready <= ~wready;
         if(slaveWritePacketStruct.waitCounterForWvalid > (slaveWriteConfigStruct.maxDelayForWvalid+1)) begin
-          `uvm_error (name, $sformatf ("wvalid count comparisions are failed"));
+          `uvm_error (name, $sformatf ("SLAVE_WRITE_DATA_CHANNEL: wvalidWready Handshaking comparitions count are failed"));
+          break;
         end 
         slaveWritePacketStruct.waitCounterForWvalid++;
       end
@@ -122,12 +123,12 @@ task writeDataChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWriteCo
       slaveWritePacketStruct.wstrb <= wstrb;
  
       @(posedge aclk);
-      wready <= slaveWriteConfigStruct.defaultStateReady;
+      wready <= slaveWriteConfigStruct.defaultStateWready;
     end
     else begin
       slaveWritePacketStruct.wdata <= wdata;
       slaveWritePacketStruct.wstrb <= wstrb;
-      wready <= slaveWriteConfigStruct.defaultStateReady;
+      wready <= slaveWriteConfigStruct.defaultStateWready;
     end
 
     `uvm_info(name,$sformatf("SLAVE_WRITE_DATA_CHANNEL_TASK_ENDED"),UVM_HIGH)
@@ -148,7 +149,8 @@ task writeResponseChannelTask(input axi4LiteWriteSlaveTransferCfgStruct slaveWri
   do begin
     @(posedge aclk);
     if(slaveWritePacketStruct.waitCounterForBready > (slaveWriteConfigStruct.maxDelayForBready+1)) begin
-      `uvm_error (name, $sformatf ("bready count comparisions are failed"));
+      `uvm_error (name, $sformatf ("SLAVE_WRITE_RESPONSE_CHANNEL: bvalidBready Handshaking comparitions count are failed"));
+      break;
     end
     slaveWritePacketStruct.waitCounterForBready++;
   end while(bready === 0); 
