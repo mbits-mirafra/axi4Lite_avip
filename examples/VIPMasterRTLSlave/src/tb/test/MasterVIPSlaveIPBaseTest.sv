@@ -6,6 +6,8 @@ class MasterVIPSlaveIPBaseTest extends uvm_test;
 
   MasterVIPSlaveIPEnv masterVIPSlaveIPEnv;
   MasterVIPSlaveIPEnvConfig masterVIPSlaveIPEnvConfig;
+  Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfigLocal[];
+  Axi4LiteMasterReadAgentConfig axi4LiteMasterReadAgentConfigLocal[];
 
   extern function new(string name = "MasterVIPSlaveIPBaseTest", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
@@ -78,23 +80,26 @@ endfunction : setupAxi4LiteWriteMasterEnvConfig
 function void MasterVIPSlaveIPBaseTest::setupAxi4LiteMasterWriteAgentConfig();
   masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig = new[masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.no_of_masters];
   foreach(masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i]) begin
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i] = Axi4LiteMasterWriteAgentConfig::type_id::create(
-                                                              $sformatf("axi4LiteMasterWriteAgentConfig[%0d]",i));
-
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].hasCoverage = 1;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].defaultStateReady = Axi4LiteWriteMasterGlobalPkg::DEFAULT_READY;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].minAddressRange = Axi4LiteWriteMasterGlobalPkg::MIN_ADDRESS;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].maxAddressRange = Axi4LiteWriteMasterGlobalPkg::MAX_ADDRESS;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].maxDelayForAwready = Axi4LiteMasterWriteAssertCoverParameter::MAX_DELAY_READY;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].maxDelayForWready = Axi4LiteMasterWriteAssertCoverParameter::MAX_DELAY_READY;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].maxDelayForBvalid = Axi4LiteMasterWriteAssertCoverParameter::MAX_DELAY_BVALID;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].toggleReady = 0;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].enableOutstandingTransaction = 0;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].maxLimitOfOutstandingTx = Axi4LiteWriteMasterGlobalPkg::MAXLIMITOF_OUTSTANDINGTX;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].noOfOutstandingTx = 3;
-
+  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i] = Axi4LiteMasterWriteAgentConfig::type_id::create($sformatf("axi4LiteMasterWriteAgentConfig[%0d]",i));
+                                end
+  axi4LiteMasterWriteAgentConfigLocal = new[masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.no_of_masters];
+  foreach(axi4LiteMasterWriteAgentConfigLocal[i]) begin
+  axi4LiteMasterWriteAgentConfigLocal[i] = Axi4LiteMasterWriteAgentConfig::type_id::create($sformatf("axi4LiteMasterWriteAgentConfigLocal[%0d]",i));
+  
+  axi4LiteMasterWriteAgentConfigLocal[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
+  axi4LiteMasterWriteAgentConfigLocal[i].hasCoverage = 1;
+  axi4LiteMasterWriteAgentConfigLocal[i].defaultStateReady = Axi4LiteWriteMasterGlobalPkg::DEFAULT_READY;
+  axi4LiteMasterWriteAgentConfigLocal[i].minAddressRange = Axi4LiteWriteMasterGlobalPkg::MIN_ADDRESS;
+  axi4LiteMasterWriteAgentConfigLocal[i].maxAddressRange = Axi4LiteWriteMasterGlobalPkg::MAX_ADDRESS;
+  axi4LiteMasterWriteAgentConfigLocal[i].maxDelayForAwready = Axi4LiteMasterWriteAssertCoverParameter::MAX_DELAY_READY;
+  axi4LiteMasterWriteAgentConfigLocal[i].maxDelayForWready = Axi4LiteMasterWriteAssertCoverParameter::MAX_DELAY_READY;
+  axi4LiteMasterWriteAgentConfigLocal[i].maxDelayForBvalid = Axi4LiteMasterWriteAssertCoverParameter::MAX_DELAY_BVALID;
+  axi4LiteMasterWriteAgentConfigLocal[i].toggleReady = 0;
+  axi4LiteMasterWriteAgentConfigLocal[i].enableOutstandingTransaction = 0;
+  axi4LiteMasterWriteAgentConfigLocal[i].maxLimitOfOutstandingTx = Axi4LiteWriteMasterGlobalPkg::MAXLIMITOF_OUTSTANDINGTX;
+  axi4LiteMasterWriteAgentConfigLocal[i].noOfOutstandingTx = 3;
   end
+  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig = axi4LiteMasterWriteAgentConfigLocal;
 endfunction : setupAxi4LiteMasterWriteAgentConfig
  
 function void MasterVIPSlaveIPBaseTest::setupAxi4LiteReadMasterEnvConfig();
@@ -120,20 +125,24 @@ function void MasterVIPSlaveIPBaseTest::setupAxi4LiteMasterReadAgentConfig();
   foreach(masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i]) begin
   masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i] = Axi4LiteMasterReadAgentConfig::type_id::create(
                                                               $sformatf("axi4LiteMasterReadAgentConfig[%0d]",i));
-
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].hasCoverage = 1;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].defaultStateReady = Axi4LiteReadMasterGlobalPkg::DEFAULT_READY;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].minAddressRange = Axi4LiteReadMasterGlobalPkg::MIN_ADDRESS;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].maxAddressRange = Axi4LiteReadMasterGlobalPkg::MAX_ADDRESS;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].maxDelayForArready = Axi4LiteMasterReadAssertCoverParameter::MAX_DELAY_READY;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].maxDelayForRvalid = Axi4LiteMasterReadAssertCoverParameter::MAX_DELAY_RVALID;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].toggleReady = 0;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].enableOutstandingTransaction = 0;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].maxLimitOfOutstandingTx = Axi4LiteReadMasterGlobalPkg::MAXLIMITOF_OUTSTANDINGTX;
-  masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].noOfOutstandingTx = 3;
-
+  end 
+  axi4LiteMasterReadAgentConfigLocal = new[masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.no_of_masters];
+  foreach(axi4LiteMasterReadAgentConfigLocal[i]) begin
+  axi4LiteMasterReadAgentConfigLocal[i] = Axi4LiteMasterReadAgentConfig::type_id::create($sformatf("axi4LiteMasterReadAgentConfigLocal[%0d]",i));
+  
+  axi4LiteMasterReadAgentConfigLocal[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
+  axi4LiteMasterReadAgentConfigLocal[i].hasCoverage = 1;
+  axi4LiteMasterReadAgentConfigLocal[i].defaultStateReady = Axi4LiteReadMasterGlobalPkg::DEFAULT_READY;
+  axi4LiteMasterReadAgentConfigLocal[i].minAddressRange = Axi4LiteReadMasterGlobalPkg::MIN_ADDRESS;
+  axi4LiteMasterReadAgentConfigLocal[i].maxAddressRange = Axi4LiteReadMasterGlobalPkg::MAX_ADDRESS;
+  axi4LiteMasterReadAgentConfigLocal[i].maxDelayForArready = Axi4LiteMasterReadAssertCoverParameter::MAX_DELAY_READY;
+  axi4LiteMasterReadAgentConfigLocal[i].maxDelayForRvalid = Axi4LiteMasterReadAssertCoverParameter::MAX_DELAY_RVALID;
+  axi4LiteMasterReadAgentConfigLocal[i].toggleReady = 0;
+  axi4LiteMasterReadAgentConfigLocal[i].enableOutstandingTransaction = 0;
+  axi4LiteMasterReadAgentConfigLocal[i].maxLimitOfOutstandingTx = Axi4LiteReadMasterGlobalPkg::MAXLIMITOF_OUTSTANDINGTX;
+  axi4LiteMasterReadAgentConfigLocal[i].noOfOutstandingTx = 3;
  end
+ masterVIPSlaveIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig = axi4LiteMasterReadAgentConfigLocal;
 endfunction : setupAxi4LiteMasterReadAgentConfig
 
 
