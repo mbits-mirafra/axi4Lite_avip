@@ -20,8 +20,8 @@ package Axi4LiteWriteMasterGlobalPkg;
 
   parameter int MAXLIMITOF_OUTSTANDINGTX = 10;
 
-  parameter int MIN_ADDRESS = 01;
-  parameter int MAX_ADDRESS = 8'hff;
+  parameter int MIN_ADDRESS = 32'h0000_0000;
+  parameter int MAX_ADDRESS = 32'hffff_ffff;
 
   typedef enum logic [1:0] {
     WRITE_OKAY   = 2'b00,
