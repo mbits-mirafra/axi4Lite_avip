@@ -8,7 +8,6 @@ class Axi4LiteRvalidAssertedInbetween2To5ClkRreadyAssertedTest extends Axi4LiteB
   
   extern function new(string name = "Axi4LiteRvalidAssertedInbetween2To5ClkRreadyAssertedTest", uvm_component parent = null);
   extern function void setupAxi4LiteEnvConfig();
-  extern function void setupAxi4LiteMasterReadAgentConfig();
   extern virtual task run_phase(uvm_phase phase);
 
 endclass : Axi4LiteRvalidAssertedInbetween2To5ClkRreadyAssertedTest
@@ -21,14 +20,6 @@ function void Axi4LiteRvalidAssertedInbetween2To5ClkRreadyAssertedTest::setupAxi
  super.setupAxi4LiteEnvConfig();
  axi4LiteEnvConfig.transactionType = Axi4LiteReadMasterGlobalPkg::READ;
 endfunction : setupAxi4LiteEnvConfig
-
-function void Axi4LiteRvalidAssertedInbetween2To5ClkRreadyAssertedTest::setupAxi4LiteMasterReadAgentConfig();
-  super.setupAxi4LiteMasterReadAgentConfig();
-  
-  foreach(axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i]) begin
-   axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].defaultStateReady = 0; 
-  end
-endfunction
 
 task Axi4LiteRvalidAssertedInbetween2To5ClkRreadyAssertedTest::run_phase(uvm_phase phase);
 

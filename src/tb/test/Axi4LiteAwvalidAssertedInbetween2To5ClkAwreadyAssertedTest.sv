@@ -8,9 +8,7 @@ class Axi4LiteAwvalidAssertedInbetween2To5ClkAwreadyAssertedTest extends Axi4Lit
   
   extern function new(string name = "Axi4LiteAwvalidAssertedInbetween2To5ClkAwreadyAssertedTest", uvm_component parent = null);
   extern function void setupAxi4LiteEnvConfig();
-  extern function void setupAxi4LiteSlaveWriteAgentConfig();
   extern virtual task run_phase(uvm_phase phase);
-
 
 endclass : Axi4LiteAwvalidAssertedInbetween2To5ClkAwreadyAssertedTest
 
@@ -22,14 +20,6 @@ function void Axi4LiteAwvalidAssertedInbetween2To5ClkAwreadyAssertedTest::setupA
  super.setupAxi4LiteEnvConfig();
  axi4LiteEnvConfig.transactionType = Axi4LiteWriteMasterGlobalPkg::WRITE;
 endfunction : setupAxi4LiteEnvConfig
-
-function void Axi4LiteAwvalidAssertedInbetween2To5ClkAwreadyAssertedTest::setupAxi4LiteSlaveWriteAgentConfig();
-  super.setupAxi4LiteSlaveWriteAgentConfig();
-  
-  foreach(axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i]) begin
-     axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].defaultStateReady = 0; 
-  end
-endfunction
 
 task Axi4LiteAwvalidAssertedInbetween2To5ClkAwreadyAssertedTest::run_phase(uvm_phase phase);
 

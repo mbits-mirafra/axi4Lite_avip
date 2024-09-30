@@ -8,7 +8,6 @@ class Axi4LiteRvalidAssertedAndNextClkRreadyAssertedTest extends Axi4LiteBaseTes
   
   extern function new(string name = "Axi4LiteRvalidAssertedAndNextClkRreadyAssertedTest", uvm_component parent = null);
   extern function void setupAxi4LiteEnvConfig();
-  extern function void setupAxi4LiteMasterReadAgentConfig();
   extern virtual task run_phase(uvm_phase phase);
 
 endclass : Axi4LiteRvalidAssertedAndNextClkRreadyAssertedTest
@@ -22,14 +21,6 @@ function void Axi4LiteRvalidAssertedAndNextClkRreadyAssertedTest::setupAxi4LiteE
  super.setupAxi4LiteEnvConfig();
  axi4LiteEnvConfig.transactionType = Axi4LiteReadMasterGlobalPkg::READ;
 endfunction : setupAxi4LiteEnvConfig
-
-function void Axi4LiteRvalidAssertedAndNextClkRreadyAssertedTest::setupAxi4LiteMasterReadAgentConfig();
-  super.setupAxi4LiteMasterReadAgentConfig();
-  
-  foreach(axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i]) begin
-   axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].defaultStateReady = 0; 
-  end
-endfunction
 
 task Axi4LiteRvalidAssertedAndNextClkRreadyAssertedTest::run_phase(uvm_phase phase);
 
