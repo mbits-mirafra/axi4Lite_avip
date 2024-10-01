@@ -81,6 +81,9 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   (WhenValidGoesHighThenInformationIsNotUnknownAndPrevious2ClkInformationIsUnknown (rvalid, rresp))
   $info("IFRVALIDGOESHIGH_THEN_RRESP_IS_NOTUNKNOWN_AND_PREVIOUS_2CLK_RRESP_IS_UNKNOWN : COVERED");
 
+
+  if(Axi4LiteReadMasterGlobalPkg::DEFAULT_RREADY != 1) begin
+
   property WhenReadyLowAndValidAssertedAfter3Clk(logic valid, logic ready);
    @(posedge aclk) disable iff (!aresetn)
     !ready |-> ##3 (valid && !ready);
@@ -107,18 +110,17 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   (WhenReadyLowAndValidAssertedAfterAnyClkThenReadyWillAssertedAnyClk(rvalid, rready))
   $info("IFRREADYLOW_THEN_ANYCLK_RVALIDIS_ASSERTED_THEN_RREADYWILL_ASSERTED_ANYCLK :COVERED");
 
-  property WhenValidAssertedThenSameClkReadyAsserted(logic valid, logic ready);
-   @(posedge aclk) disable iff (!aresetn)
-   (valid) |-> ready;
+  property WhenValidAssertedThenReadyAssertedNextClk(logic valid, logic ready);
+  @(posedge aclk) disable iff (!aresetn) valid |-> !ready ##1 (valid && ready);
   endproperty
 
-  IFARVALIDASSERTED_THEN_SAMECLK_ARREADYASSERTED: cover property
-  (WhenValidAssertedThenSameClkReadyAsserted(arvalid, arready))
-  $info("IFARVALIDISASSERTED_THENSAMECLK_ARREADYISASSERTED :COVERED");
+  IFARVALIDASSERTED_THEN_NEXTCLK_ARREADYASSERTED: cover property 
+  (WhenValidAssertedThenReadyAssertedNextClk(arvalid, arready))
+  $info("IFARVALIDASSERTED_THEN_NEXTCLK_ARREADYASSERTED : COVERED");
 
-  IFRVALIDASSERTED_THEN_SAMECLK_RREADYASSERTED: cover property
-  (WhenValidAssertedThenSameClkReadyAsserted(rvalid, rready))
-  $info("IFRVALIDISASSERTED_THENSAMECLK_RREADYISASSERTED :COVERED");
+  IFRVALIDASSERTED_THEN_NEXTCLK_RREADYASSERTED: cover property 
+  (WhenValidAssertedThenReadyAssertedNextClk(rvalid,rready))
+  $info("IFRVALIDASSERTED_THEN_NEXTCLK_RREADYASSERTED : COVERED");
 
   property WhenValidAssertedThenValidHighAndNextClkReadyAsserted(logic valid, logic ready); 
    @(posedge aclk) disable iff (!aresetn) 
@@ -145,6 +147,88 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   IFRVALIDASSERTED_ANDREMAINHIGH_THENWITHIN1TO16CLK_RREADYASSERTED: cover property 
   (WhenValidAssertedThenValidHighAndWithin1To16ClkReadyAsserted(rvalid, rready)) 
   $info("IFRVALIDASSERTED_ANDREMAINHIGH_THENWITHIN1TO16CLK_RREADYASSERTED : COVERED");
+
+  property WhenValidAssertedThenInbetween2To5ClkReadyAsserted(logic valid, logic ready);
+  @(posedge aclk) disable iff (!aresetn) valid |-> ##[2:5] ready; 
+  endproperty  
+
+   IFARVALIDASSERTED_THEN_INBETWEEN2TO5CLK_ARREADYASSERTED: cover property 
+   (WhenValidAssertedThenInbetween2To5ClkReadyAsserted(arvalid, arready)) 
+   $info("IFARVALIDASSERTED_THEN_INBETWEEN2TO5CLK_ARREADYASSERTED : COVERED");
+
+   IFRVALIDASSERTED_THEN_INBETWEEN2TO5CLK_RREADYASSERTED: cover property 
+   (WhenValidAssertedThenInbetween2To5ClkReadyAsserted(rvalid, rready))
+   $info("IFRVALIDASSERTED_THEN_INBETWEEN2TO5CLK_RREADYASSERTED : COVERED");
+
+    property WhenReadyAssertedAndDeassertedThenNextClkValidAsserted(logic valid, logic ready);
+     @(posedge aclk) disable iff (!aresetn) $fell(ready) |-> !valid ##1 valid;
+    endproperty
+
+    IFARREADYASSERTED_DEASSERTED_THEN_NEXTCLK_ARVALIDASSERTED: cover property
+    (WhenReadyAssertedAndDeassertedThenNextClkValidAsserted(arvalid , arready))
+    $info("IFARREADYASSERTED_DEASSERTED_THEN_NEXTCLK_ARVALIDASSERTED: COVERED");
+
+    IFRREADYASSERTED_DEASSERTED_THEN_NEXTCLK_RVALIDASSERTED: cover property
+    (WhenReadyAssertedAndDeassertedThenNextClkValidAsserted(rvalid , rready))
+    $info("IFRREADYASSERTED_DEASSERTED_THEN_NEXTCLK_RVALIDASSERTED: COVERED");
+
+    property WhenReadyAssertedAndDeasserted3TimesThenNextClkValidAsserted(logic valid, logic ready);
+    @(posedge aclk) disable iff (!aresetn) (ready && !valid) |-> (!valid throughout $fell(ready)[->3]) ##1 $rose(valid);
+    endproperty
+
+    IFARREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_ARVALIDASSERTED: cover property
+    (WhenReadyAssertedAndDeasserted3TimesThenNextClkValidAsserted(arvalid , arready))
+    $info("IFARREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_ARVALIDASSERTED : COVERED");
+
+    IFRREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_RVALIDASSERTED: cover property
+    (WhenReadyAssertedAndDeasserted3TimesThenNextClkValidAsserted(rvalid , rready))
+    $info("IFRREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_RVALIDASSERTED : COVERED");
+   property WhenMasterIssuesMultipleReadTxThenSlaveNeedToSupportsMultipleOutstandingTx;
+     @(posedge aclk) disable iff(!aresetn)
+       (arvalid && arready) |-> ##2 (arvalid && arready) ##2 (arvalid && arready)
+       ##3 (rvalid && rready && rresp == 2'b00) [->3];
+  endproperty 
+
+   IFMASTERISSUES_MULTIPLEREADTX_THEN_SLAVENEEDTOSUPPORTS_MULTIPLEOUTSTANDINGTX: cover property
+   (WhenMasterIssuesMultipleReadTxThenSlaveNeedToSupportsMultipleOutstandingTx)
+   $info("IFMASTERISSUES_MULTIPLEREADTX_THEN_SLAVENEEDTOSUPPORTS_MULTIPLEOUTSTANDINGTX :COVERED");
+
+ property WhenMasterIssuesMultipleReadTxThenSlaveIsNotSupportMultipleOutstandingTx;
+    @(posedge aclk) disable iff(!aresetn)
+      (arvalid && arready) |=> ($stable(arvalid) && arready == 0)[*3] ##0 (rvalid && rready)
+      ##1 (arvalid && arready) ##1 ($stable(arvalid) && arready == 0) ##0 (rvalid && rready)
+      ##1 (arvalid && arready) ##2 (rvalid && rready);
+endproperty
+
+ IFMASTERISSUES_MULTIPLEREADTX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX : cover property 
+ (WhenMasterIssuesMultipleReadTxThenSlaveIsNotSupportMultipleOutstandingTx) 
+ $info("IFMASTERISSUES_MULTIPLEREADTX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX : COVERED");
+
+ property WhenMasterAndSlaveIsNotSupportMultipleReadOutstandingTx;
+   @(posedge aclk) disable iff(!aresetn)
+    (arvalid && arready) |=> (rvalid && rready)
+     ##2 (arvalid && arready) ##1 (rvalid && rready)
+     ##6 (arvalid && arready) ##1 (rvalid && rready);
+ endproperty
+
+ IFMASTERANDSLAVEISNOTSUPPORTS_MULTIPLEREADOUTSTANDINGTX_THEN_NORMALBLOCKINGTX : cover property
+ (WhenMasterAndSlaveIsNotSupportMultipleReadOutstandingTx)
+ $info("IFMASTERANDSLAVEISNOTSUPPORTS_MULTIPLEREADOUTSTANDINGTX_THEN_NORMALBLOCKINGTX : COVERED");
+
+  end
+
+  property WhenValidAssertedThenSameClkReadyAsserted(logic valid, logic ready);
+   @(posedge aclk) disable iff (!aresetn)
+   (valid) |-> ready;
+  endproperty
+
+  IFARVALIDASSERTED_THEN_SAMECLK_ARREADYASSERTED: cover property
+  (WhenValidAssertedThenSameClkReadyAsserted(arvalid, arready))
+  $info("IFARVALIDISASSERTED_THENSAMECLK_ARREADYISASSERTED :COVERED");
+
+  IFRVALIDASSERTED_THEN_SAMECLK_RREADYASSERTED: cover property
+  (WhenValidAssertedThenSameClkReadyAsserted(rvalid, rready))
+  $info("IFRVALIDISASSERTED_THENSAMECLK_RREADYISASSERTED :COVERED");
 
   if(Axi4LiteReadMasterGlobalPkg::DEFAULT_RREADY == 1) begin
 
@@ -227,29 +311,6 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
   (readyAssertAtleastOnce(rready)) 
   $info("IFRREADY_NEEDTOASSERTED_ATLEASTONCE : COVERED");
  
-  property WhenValidAssertedThenReadyAssertedNextClk(logic valid, logic ready);
-  @(posedge aclk) disable iff (!aresetn) valid |-> !ready ##1 (valid && ready);
-  endproperty
-
-  IFARVALIDASSERTED_THEN_NEXTCLK_ARREADYASSERTED: cover property 
-  (WhenValidAssertedThenReadyAssertedNextClk(arvalid, arready))
-  $info("IFARVALIDASSERTED_THEN_NEXTCLK_ARREADYASSERTED : COVERED");
-
-  IFRVALIDASSERTED_THEN_NEXTCLK_RREADYASSERTED: cover property 
-  (WhenValidAssertedThenReadyAssertedNextClk(rvalid,rready))
-  $info("IFRVALIDASSERTED_THEN_NEXTCLK_RREADYASSERTED : COVERED");
-
-  property WhenValidAssertedThenInbetween2To5ClkReadyAsserted(logic valid, logic ready);
-  @(posedge aclk) disable iff (!aresetn) valid |-> ##[2:5] ready; 
-  endproperty  
-
-   IFARVALIDASSERTED_THEN_INBETWEEN2TO5CLK_ARREADYASSERTED: cover property 
-   (WhenValidAssertedThenInbetween2To5ClkReadyAsserted(arvalid, arready)) 
-   $info("IFARVALIDASSERTED_THEN_INBETWEEN2TO5CLK_ARREADYASSERTED : COVERED");
-
-   IFRVALIDASSERTED_THEN_INBETWEEN2TO5CLK_RREADYASSERTED: cover property 
-   (WhenValidAssertedThenInbetween2To5ClkReadyAsserted(rvalid, rready))
-   $info("IFRVALIDASSERTED_THEN_INBETWEEN2TO5CLK_RREADYASSERTED : COVERED");
 
    property WhenValidAssertedThenWithin16ClkReadyAsserted(logic valid, logic ready);
    @(posedge aclk) disable iff (!aresetn) valid |-> ##[0:MAX_DELAY_READY] ready;
@@ -263,29 +324,6 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
    (WhenValidAssertedThenWithin16ClkReadyAsserted(rvalid, rready)) 
    $info("IFRVALIDASSERTED_THEN_WITH16CLK_RREADYASSERTED : COVERED");
 
-    property WhenReadyAssertedAndDeassertedThenNextClkValidAsserted(logic valid, logic ready);
-     @(posedge aclk) disable iff (!aresetn) $fell(ready) |-> !valid ##1 valid;
-    endproperty
-
-    IFARREADYASSERTED_DEASSERTED_THEN_NEXTCLK_ARVALIDASSERTED: cover property
-    (WhenReadyAssertedAndDeassertedThenNextClkValidAsserted(arvalid , arready))
-    $info("IFARREADYASSERTED_DEASSERTED_THEN_NEXTCLK_ARVALIDASSERTED: COVERED");
-
-    IFRREADYASSERTED_DEASSERTED_THEN_NEXTCLK_RVALIDASSERTED: cover property
-    (WhenReadyAssertedAndDeassertedThenNextClkValidAsserted(rvalid , rready))
-    $info("IFRREADYASSERTED_DEASSERTED_THEN_NEXTCLK_RVALIDASSERTED: COVERED");
-
-    property WhenReadyAssertedAndDeasserted3TimesThenNextClkValidAsserted(logic valid, logic ready);
-    @(posedge aclk) disable iff (!aresetn) (ready && !valid) |-> (!valid throughout $fell(ready)[->3]) ##1 $rose(valid);
-    endproperty
-
-    IFARREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_ARVALIDASSERTED: cover property
-    (WhenReadyAssertedAndDeasserted3TimesThenNextClkValidAsserted(arvalid , arready))
-    $info("IFARREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_ARVALIDASSERTED : COVERED");
-
-    IFRREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_RVALIDASSERTED: cover property
-    (WhenReadyAssertedAndDeasserted3TimesThenNextClkValidAsserted(rvalid , rready))
-    $info("IFRREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_RVALIDASSERTED : COVERED");
 
     property WhenReadyAssertedThenNextClkValidAsserted(logic valid, logic ready);
      @(posedge aclk) disable iff (!aresetn) ready |-> !valid ##1 valid;
@@ -398,38 +436,6 @@ interface Axi4LiteMasterReadCoverProperty (input  aclk,
    (WhenAraddressIsGeneratedThenInbetween1To10ClkRdataWillBeGenerated)
    $info("IFARADDRESISASSERTED_THEN_INBETWEEN1TO10CLKRDATAWILLBEASSERTED : COVERED");
  
-
-   property WhenMasterIssuesMultipleReadTxThenSlaveNeedToSupportsMultipleOutstandingTx;
-     @(posedge aclk) disable iff(!aresetn)
-       (arvalid && arready) |-> ##2 (arvalid && arready) ##2 (arvalid && arready)
-       ##3 (rvalid && rready && rresp == 2'b00) [->3];
-  endproperty 
-
-   IFMASTERISSUES_MULTIPLEREADTX_THEN_SLAVENEEDTOSUPPORTS_MULTIPLEOUTSTANDINGTX: cover property
-   (WhenMasterIssuesMultipleReadTxThenSlaveNeedToSupportsMultipleOutstandingTx)
-   $info("IFMASTERISSUES_MULTIPLEREADTX_THEN_SLAVENEEDTOSUPPORTS_MULTIPLEOUTSTANDINGTX :COVERED");
-
- property WhenMasterIssuesMultipleReadTxThenSlaveIsNotSupportMultipleOutstandingTx;
-    @(posedge aclk) disable iff(!aresetn)
-      (arvalid && arready) |=> ($stable(arvalid) && arready == 0)[*3] ##0 (rvalid && rready)
-      ##1 (arvalid && arready) ##1 ($stable(arvalid) && arready == 0) ##0 (rvalid && rready)
-      ##1 (arvalid && arready) ##2 (rvalid && rready);
-endproperty
-
- IFMASTERISSUES_MULTIPLEREADTX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX : cover property 
- (WhenMasterIssuesMultipleReadTxThenSlaveIsNotSupportMultipleOutstandingTx) 
- $info("IFMASTERISSUES_MULTIPLEREADTX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX : COVERED");
-
- property WhenMasterAndSlaveIsNotSupportMultipleReadOutstandingTx;
-   @(posedge aclk) disable iff(!aresetn)
-    (arvalid && arready) |=> (rvalid && rready)
-     ##2 (arvalid && arready) ##1 (rvalid && rready)
-     ##6 (arvalid && arready) ##1 (rvalid && rready);
- endproperty
-
- IFMASTERANDSLAVEISNOTSUPPORTS_MULTIPLEREADOUTSTANDINGTX_THEN_NORMALBLOCKINGTX : cover property
- (WhenMasterAndSlaveIsNotSupportMultipleReadOutstandingTx)
- $info("IFMASTERANDSLAVEISNOTSUPPORTS_MULTIPLEREADOUTSTANDINGTX_THEN_NORMALBLOCKINGTX : COVERED");
 
 endinterface : Axi4LiteMasterReadCoverProperty
 

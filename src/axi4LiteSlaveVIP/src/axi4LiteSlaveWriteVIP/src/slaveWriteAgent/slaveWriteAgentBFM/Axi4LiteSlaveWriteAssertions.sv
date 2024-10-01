@@ -69,6 +69,8 @@ IFBVALIDASSERTED_THEN_BRESP_NOTUNKNOWN: assert property (ifBvalidHighThenBrespNo
   else
     $error("IFBVALIDASSERTED_THEN_BRESP_NOTUNKNOWN : NOT ASSERTED");
 
+    if(Axi4LiteWriteSlaveGlobalPkg::DEFAULT_AWREADY != 1 && Axi4LiteWriteSlaveGlobalPkg::DEFAULT_WREADY != 1) begin
+
     property validAssertedAndStableWithin16ClkReadyAsserted(logic valid, logic ready);
       @(posedge aclk) disable iff (!aresetn)
         ($rose(valid) && !ready) |=> ($stable(valid) throughout (##[0:MAX_DELAY_READY] $rose(ready)));
@@ -88,6 +90,39 @@ IFBVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_BREADYASSERTED: assert property (
   $info("IFBVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_BREADYASSERTED : ASSERTED");
   else
     $error("IFBVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_BREADYASSERTED : NOT ASSERTED");
+
+    property awvalidIsHighThenInformationStableUntilTransferOccur(logic awvalid, logic awready, logic awaddr, logic awprot);
+     @(posedge aclk) disable iff (!aresetn)
+      ($rose(awvalid) && !awready) |=> (($stable(awvalid) && $stable(awaddr) && $stable(awprot)) throughout awready[->1]);
+    endproperty
+
+IFAWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(awvalidIsHighThenInformationStableUntilTransferOccur(awvalid, awready, awaddr, awprot))
+  $info("IFAWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : ASSERTED");
+  else
+    $error("IFAWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : NOT ASSERTED");
+
+    property wvalidIsHighThenInformationStableUntilTransferOccur(logic wvalid, logic wready, 
+                                                                  logic wdata, logic wstrb);
+     @(posedge aclk) disable iff (!aresetn)
+        ($rose(wvalid) && !wready) |=> (($stable(wvalid) && $stable(wdata) && $stable(wstrb)) throughout wready[->1]);
+    endproperty
+
+IFWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(wvalidIsHighThenInformationStableUntilTransferOccur(wvalid, wready, wdata, wstrb))
+  $info("IFWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : ASSERTED");
+  else
+    $error("IFWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : NOT ASSERTED");
+
+    property bvalidIsHighThenInformationStableUntilTransferOccur(logic bvalid, logic bready, logic bresp);
+     @(posedge aclk) disable iff (!aresetn)
+        ($rose(bvalid) && !bready) |=> (($stable(bvalid) && $stable(bresp)) throughout bready[->1]);
+    endproperty
+
+IFBVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(bvalidIsHighThenInformationStableUntilTransferOccur(bvalid, bready, bresp))
+  $info("IFBVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : ASSERTED");
+  else
+    $error("IFBVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : NOT ASSERTED");
+
+  end
 
     property validAssertedThenWithin16ClkReadyAsserted(logic valid, logic ready);
       @(posedge aclk) disable iff (!aresetn)
@@ -187,37 +222,6 @@ IFTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE: assert property(WhenWriteDataChan
     $error("IFTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
 
   
-    property awvalidIsHighThenInformationStableUntilTransferOccur(logic awvalid, logic awready, logic awaddr, logic awprot);
-     @(posedge aclk) disable iff (!aresetn)
-      ($rose(awvalid) && !awready) |=> (($stable(awvalid) && $stable(awaddr) && $stable(awprot)) throughout awready[->1]);
-    endproperty
-
-IFAWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(awvalidIsHighThenInformationStableUntilTransferOccur(awvalid, awready, awaddr, awprot))
-  $info("IFAWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : ASSERTED");
-  else
-    $error("IFAWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : NOT ASSERTED");
-
-    property wvalidIsHighThenInformationStableUntilTransferOccur(logic wvalid, logic wready, 
-                                                                  logic wdata, logic wstrb);
-     @(posedge aclk) disable iff (!aresetn)
-        ($rose(wvalid) && !wready) |=> (($stable(wvalid) && $stable(wdata) && $stable(wstrb)) throughout wready[->1]);
-    endproperty
-
-IFWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(wvalidIsHighThenInformationStableUntilTransferOccur(wvalid, wready, wdata, wstrb))
-  $info("IFWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : ASSERTED");
-  else
-    $error("IFWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : NOT ASSERTED");
-
-    property bvalidIsHighThenInformationStableUntilTransferOccur(logic bvalid, logic bready, logic bresp);
-     @(posedge aclk) disable iff (!aresetn)
-        ($rose(bvalid) && !bready) |=> (($stable(bvalid) && $stable(bresp)) throughout bready[->1]);
-    endproperty
-
-IFBVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(bvalidIsHighThenInformationStableUntilTransferOccur(bvalid, bready, bresp))
-  $info("IFBVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : ASSERTED");
-  else
-    $error("IFBVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : NOT ASSERTED");
-
     property awvalidAndAwreadyAssertedThenTransferOccur(logic awvalid, logic awready, 
                                                         logic awaddr, logic awprot);
      @(posedge aclk) disable iff (!aresetn)

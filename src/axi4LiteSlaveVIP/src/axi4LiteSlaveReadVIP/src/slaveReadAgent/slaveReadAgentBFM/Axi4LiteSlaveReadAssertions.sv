@@ -56,6 +56,8 @@ IFARVALIDASSERTED_THEN_ARPROT_NOTUNKNOWN: assert property (ifValidHighThenContro
     $error("IFARVALIDASSERTED_THEN_ARPROT_NOTUNKNOWN : NOT ASSERTED");
 
 
+    if(Axi4LiteReadSlaveGlobalPkg::DEFAULT_ARREADY != 1) begin
+
     property validAssertedAndStableWithin16ClkReadyAsserted(logic valid, logic ready);
       @(posedge aclk) disable iff (!aresetn)
         ($rose(valid) && !ready) |=> ($stable(valid) throughout (##[0:MAX_DELAY_READY] $rose(ready)));
@@ -70,6 +72,29 @@ IFRVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_RREADYASSERTED: assert property (
   $info("IFRVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_RREADYASSERTED : ASSERTED");
   else
     $error("IFRVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_RREADYASSERTED : NOT ASSERTED");
+
+    property arvalidIsHighThenInformationStableUntilTransferOccur(logic arvalid, logic arready, logic araddr, logic arprot);
+     @(posedge aclk) disable iff (!aresetn)
+      ($rose(arvalid) && !arready) |=> (($stable(arvalid) && $stable(araddr) && $stable(arprot)) throughout arready[->1]);
+    endproperty
+
+IFARVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(arvalidIsHighThenInformationStableUntilTransferOccur(arvalid, arready, araddr, arprot))
+  $info("IFARVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : ASSERTED");
+  else
+    $error("IFARVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : NOT ASSERTED");
+
+    property rvalidIsHighThenInformationStableUntilTransferOccur(logic rvalid, logic rready, 
+                                                                  logic rdata, logic rresp);
+     @(posedge aclk) disable iff (!aresetn)
+        ($rose(rvalid) && !rready) |=> (($stable(rvalid) && $stable(rdata) && $stable(rresp)) throughout rready[->1]);
+    endproperty
+
+IFRVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(rvalidIsHighThenInformationStableUntilTransferOccur(rvalid, rready, rdata, rresp))
+  $info("IFRVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : ASSERTED");
+  else
+    $error("IFRVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : NOT ASSERTED");
+
+  end
 
     property validAssertedThenWithin16ClkReadyAsserted(logic valid, logic ready);
       @(posedge aclk) disable iff (!aresetn)
@@ -134,28 +159,6 @@ IFTRANSFEROCCUR_THENARREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccu
   $info("IFTRANSFEROCCUR_THENARREADY_WILLGODEFAULTSTATE : ASSERTED");
   else
     $error("IFTRANSFEROCCUR_THENARREADY_WILLGODEFAULTSTATE : NOT ASSERTED");
-
-
-    property arvalidIsHighThenInformationStableUntilTransferOccur(logic arvalid, logic arready, logic araddr, logic arprot);
-     @(posedge aclk) disable iff (!aresetn)
-      ($rose(arvalid) && !arready) |=> (($stable(arvalid) && $stable(araddr) && $stable(arprot)) throughout arready[->1]);
-    endproperty
-
-IFARVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(arvalidIsHighThenInformationStableUntilTransferOccur(arvalid, arready, araddr, arprot))
-  $info("IFARVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : ASSERTED");
-  else
-    $error("IFARVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : NOT ASSERTED");
-
-    property rvalidIsHighThenInformationStableUntilTransferOccur(logic rvalid, logic rready, 
-                                                                  logic rdata, logic rresp);
-     @(posedge aclk) disable iff (!aresetn)
-        ($rose(rvalid) && !rready) |=> (($stable(rvalid) && $stable(rdata) && $stable(rresp)) throughout rready[->1]);
-    endproperty
-
-IFRVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(rvalidIsHighThenInformationStableUntilTransferOccur(rvalid, rready, rdata, rresp))
-  $info("IFRVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : ASSERTED");
-  else
-    $error("IFRVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : NOT ASSERTED");
 
     property arvalidAndArreadyAssertedThenTransferOccur(logic arvalid, logic arready, 
                                                         logic araddr, logic arprot);
