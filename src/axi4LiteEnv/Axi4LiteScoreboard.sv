@@ -598,87 +598,46 @@ function void Axi4LiteScoreboard::check_phase(uvm_phase phase);
    end
  end
 
-   if(axi4LiteMasterWriteEnvAddressFIFO.size() == 0) begin
-    `uvm_info ("SC_CheckPhase", $sformatf ("axi4Lite masterWriteAddress analysisFIFO is empty"),UVM_HIGH);
-  end
-  else begin
-    `uvm_info (get_type_name(), $sformatf ("axi4Lite masterWriteAddress analysisFIFO is : %0d",axi4LiteMasterWriteEnvAddressFIFO.size() ),UVM_HIGH);
-    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite masterWriteAddress analysisFIFO is not empty"));
-  end
-   
-  if(axi4LiteMasterWriteEnvDataFIFO.size() == 0) begin
-    `uvm_info ("SC_CheckPhase", $sformatf ("axi4Lite masterWriteData analysisFIFO is empty"),UVM_HIGH);
-  end
-  else begin
-    `uvm_info (get_type_name(), $sformatf ("axi4Lite masterWriteData analysisFIFO is : %0d",axi4LiteMasterWriteEnvDataFIFO.size() ),UVM_HIGH);
-    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite masterWriteData analysisFIFO is not empty"));
+   if(axi4LiteMasterWriteEnvAddressFIFO.size() != 0) begin
+    `uvm_error("SC_CheckPhase", $sformatf("axi4Lite masterWriteAddress analysisFIFO is not empty: %0d", axi4LiteMasterWriteEnvAddressFIFO.size()));
   end
 
-  if(axi4LiteMasterWriteEnvResponseFIFO.size() == 0) begin
-    `uvm_info ("SC_CheckPhase", $sformatf ("axi4Lite masterWriteResponse analysisFIFO is empty"),UVM_HIGH);
+  if(axi4LiteMasterWriteEnvDataFIFO.size() != 0) begin
+    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite masterWriteData analysisFIFO is not empty : %0d", axi4LiteMasterWriteEnvDataFIFO.size()));
   end
-  else begin
-    `uvm_info (get_type_name(), $sformatf ("axi4Lite masterWriteResponse analysisFIFO is : %0d",axi4LiteMasterWriteEnvResponseFIFO.size() ),UVM_HIGH);
-    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite masterWriteResponse analysisFIFO is not empty"));
+
+  if(axi4LiteMasterWriteEnvResponseFIFO.size() != 0) begin
+    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite masterWriteResponse analysisFIFO is not empty: %0d",axi4LiteMasterWriteEnvResponseFIFO.size()));
   end
    
-  if(axi4LiteMasterReadEnvAddressFIFO.size() == 0) begin
-    `uvm_info ("SC_CheckPhase", $sformatf ("axi4Lite masterReadAddress analysisFIFO is empty"),UVM_HIGH);
-  end
-  else begin
-    `uvm_info (get_type_name(), $sformatf ("axi4Lite masterReadAddress analysisFIFO is : %0d",axi4LiteMasterReadEnvAddressFIFO.size() ),UVM_HIGH);
-    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite masterReadAddress analysisFIFO is not empty"));
+  if(axi4LiteMasterReadEnvAddressFIFO.size() != 0) begin
+    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite masterReadAddress analysisFIFO is not empty : %0d ", axi4LiteMasterReadEnvAddressFIFO.size()));
   end
   
-  if(axi4LiteMasterReadEnvDataFIFO.size() == 0) begin
-    `uvm_info ("SC_CheckPhase", $sformatf ("axi4Lite masterReadData analysisFIFO is empty"),UVM_HIGH);
-  end
-  else begin
-    `uvm_info (get_type_name(), $sformatf ("axi4Lite masterReadData analysisFIFO is : %0d",axi4LiteMasterReadEnvDataFIFO.size() ),UVM_HIGH);
-    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite masterReadData analysisFIFO is not empty"));
+  if(axi4LiteMasterReadEnvDataFIFO.size() != 0) begin
+    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite masterReadData analysisFIFO is not empty :%0d",axi4LiteMasterReadEnvDataFIFO.size()));
   end
 
-
-   if(axi4LiteSlaveWriteEnvAddressFIFO.size() == 0) begin
-    `uvm_info ("SC_CheckPhase", $sformatf ("axi4Lite slaveWriteAddress analysisFIFO is empty"),UVM_HIGH);
-  end
-  else begin
-    `uvm_info (get_type_name(), $sformatf ("axi4Lite slaveWriteAddress analysisFIFO is : %0d",axi4LiteSlaveWriteEnvAddressFIFO.size() ),UVM_HIGH);
-    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite slaveWriteAddress analysisFIFO is not empty"));
+   if(axi4LiteSlaveWriteEnvAddressFIFO.size() != 0) begin
+    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite slaveWriteAddress analysisFIFO is not empty : %0d", axi4LiteSlaveWriteEnvAddressFIFO.size()));
   end
    
-  if(axi4LiteSlaveWriteEnvDataFIFO.size() == 0) begin
-    `uvm_info ("SC_CheckPhase", $sformatf ("axi4Lite slaveWriteData analysisFIFO is empty"),UVM_HIGH);
+  if(axi4LiteSlaveWriteEnvDataFIFO.size() != 0) begin
+    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite slaveWriteData analysisFIFO is not empty : %0d", axi4LiteSlaveWriteEnvDataFIFO.size()));
   end
-  else begin
-    `uvm_info (get_type_name(), $sformatf ("axi4Lite slaveWriteData analysisFIFO is : %0d",axi4LiteSlaveWriteEnvDataFIFO.size() ),UVM_HIGH);
-    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite slaveWriteData analysisFIFO is not empty"));
-  end
-
-  if(axi4LiteSlaveWriteEnvResponseFIFO.size() == 0) begin
-    `uvm_info ("SC_CheckPhase", $sformatf ("axi4Lite slaveWriteResponse analysisFIFO is empty"),UVM_HIGH);
-  end
-  else begin
-    `uvm_info (get_type_name(), $sformatf ("axi4Lite slaveWriteResponse analysisFIFO is : %0d",axi4LiteSlaveWriteEnvResponseFIFO.size() ),UVM_HIGH);
-    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite slaveWriteResponse analysisFIFO is not empty"));
+ 
+  if(axi4LiteSlaveWriteEnvResponseFIFO.size() != 0) begin
+    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite slaveWriteResponse analysisFIFO is not empty: %0d",axi4LiteSlaveWriteEnvResponseFIFO.size()));
   end
    
-  if(axi4LiteSlaveReadEnvAddressFIFO.size() == 0) begin
-    `uvm_info ("SC_CheckPhase", $sformatf ("axi4Lite slaveReadAddress analysisFIFO is empty"),UVM_HIGH);
-  end
-  else begin
-    `uvm_info (get_type_name(), $sformatf ("axi4Lite slaveReadAddress analysisFIFO is : %0d",axi4LiteSlaveReadEnvAddressFIFO.size() ),UVM_HIGH);
-    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite slaveReadAddress analysisFIFO is not empty"));
+  if(axi4LiteSlaveReadEnvAddressFIFO.size() != 0) begin
+    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite slaveReadAddress analysisFIFO is not empty : %0d ", axi4LiteSlaveReadEnvAddressFIFO.size()));
+  end 
+
+  if(axi4LiteSlaveReadEnvDataFIFO.size() != 0) begin
+    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite slaveReadData analysisFIFO is not empty :%0d",axi4LiteSlaveReadEnvDataFIFO.size()));
   end
   
-  if(axi4LiteSlaveReadEnvDataFIFO.size() == 0) begin
-    `uvm_info ("SC_CheckPhase", $sformatf ("axi4Lite slaveReadData analysisFIFO is empty"),UVM_HIGH);
-  end
-  else begin
-    `uvm_info (get_type_name(), $sformatf ("axi4Lite slaveReadData analysisFIFO is : %0d",axi4LiteSlaveReadEnvDataFIFO.size() ),UVM_HIGH);
-    `uvm_error ("SC_CheckPhase", $sformatf ("axi4Lite slaveReadData analysisFIFO is not empty"));
-  end
-
   `uvm_info(get_type_name(),$sformatf("--\n----------------------------------------------END OF SCOREBOARD CHECK PHASE---------------------------------------"),UVM_HIGH)
 
 endfunction : check_phase
