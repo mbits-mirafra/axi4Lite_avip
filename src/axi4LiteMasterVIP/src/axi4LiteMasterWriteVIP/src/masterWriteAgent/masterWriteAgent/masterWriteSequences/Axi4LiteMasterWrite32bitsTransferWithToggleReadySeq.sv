@@ -16,9 +16,9 @@ class Axi4LiteMasterWrite32bitsTransferWithToggleReadySeq extends Axi4LiteMaster
   constraint awaddrSeq_c {soft awaddrSeq inside {[MIN_ADDRESS:MAX_ADDRESS]};}
   constraint awprotSeq_c {soft awprotSeq inside {[0:3]};}
   constraint wstrbSeq_c {soft wstrbSeq == 4'b1111;}
-  constraint delayForAwvalidSeq_c {soft delayForAwvalidSeq < MAX_DELAY_WVALID;}
+  constraint delayForAwvalidSeq_c {soft delayForAwvalidSeq < MAX_DELAY_AWVALID;}
   constraint delayForWvalidSeq_c {soft delayForWvalidSeq < MAX_DELAY_WVALID;}
-  constraint delayForBreadySeq_c {soft delayForBreadySeq  < MAX_DELAY_READY;}
+  constraint delayForBreadySeq_c {soft delayForBreadySeq  < MAX_DELAY_BREADY;}
   constraint repeatToggleBreadySeq_c {soft repeatToggleBreadySeq  inside {[1:10]};}
 
   extern function new(string name = "Axi4LiteMasterWrite32bitsTransferWithToggleReadySeq");

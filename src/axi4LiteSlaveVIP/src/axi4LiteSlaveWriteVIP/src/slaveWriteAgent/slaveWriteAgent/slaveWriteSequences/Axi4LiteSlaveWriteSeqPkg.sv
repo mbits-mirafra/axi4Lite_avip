@@ -10,7 +10,6 @@ package Axi4LiteSlaveWriteSeqPkg;
   import Axi4LiteSlaveWritePkg::*;
  
   `include "Axi4LiteSlaveWriteBaseSeq.sv"
-  `include "Axi4LiteSlaveWriteRandomTransferSeq.sv"
   `include "Axi4LiteSlaveWrite32bitsTransferSeq.sv"
   `include "Axi4LiteSlaveWrite32bitsTransferWithToggleReadySeq.sv"
 

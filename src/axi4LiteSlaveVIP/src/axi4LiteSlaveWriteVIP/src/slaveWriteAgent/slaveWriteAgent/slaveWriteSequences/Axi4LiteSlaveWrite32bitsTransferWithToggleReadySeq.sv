@@ -10,8 +10,8 @@ class Axi4LiteSlaveWrite32bitsTransferWithToggleReadySeq extends Axi4LiteSlaveWr
   rand int repeatToggleAwreadySeq;
   rand int repeatToggleWreadySeq;
 
-  constraint delayForAwreadySeq_c {soft delayForAwreadySeq < MAX_DELAY_READY;}
-  constraint delayForWreadySeq_c {soft delayForWreadySeq < MAX_DELAY_READY;}
+  constraint delayForAwreadySeq_c {soft delayForAwreadySeq < MAX_DELAY_AWREADY;}
+  constraint delayForWreadySeq_c {soft delayForWreadySeq < MAX_DELAY_WREADY;}
   constraint delayForBvalidSeq_c {soft delayForBvalidSeq  < MAX_DELAY_BVALID;}
   constraint repeatToggleAwreadySeq_c {soft repeatToggleAwreadySeq  inside {[1:10]};}
   constraint repeatToggleWreadySeq_c {soft repeatToggleWreadySeq  inside {[1:10]};}

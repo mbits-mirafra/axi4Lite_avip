@@ -12,8 +12,8 @@ class Axi4LiteMasterRead32bitsTransferWithToggleReadySeq extends Axi4LiteMasterR
 
   constraint arprotSeq_c {soft arprotSeq inside {[0:3]};}
   constraint araddrSeq_c {soft araddrSeq inside {[MIN_ADDRESS:MAX_ADDRESS]};}
-  constraint delayForArvalidSeq_c {soft delayForArvalidSeq < MAX_DELAY_RVALID;}
-  constraint delayForRreadySeq_c {soft delayForRreadySeq  < MAX_DELAY_READY;}
+  constraint delayForArvalidSeq_c {soft delayForArvalidSeq < MAX_DELAY_ARVALID;}
+  constraint delayForRreadySeq_c {soft delayForRreadySeq  < MAX_DELAY_RREADY;}
   constraint repeatToggleRreadySeq_c {soft repeatToggleRreadySeq inside {[1:15]};}
 
   extern function new(string name = "Axi4LiteMasterRead32bitsTransferWithToggleReadySeq");

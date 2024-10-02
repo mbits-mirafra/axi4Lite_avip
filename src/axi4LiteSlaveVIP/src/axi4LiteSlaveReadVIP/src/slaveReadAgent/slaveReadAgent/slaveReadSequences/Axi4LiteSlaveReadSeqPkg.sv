@@ -11,7 +11,6 @@ package Axi4LiteSlaveReadSeqPkg;
  
   `include "Axi4LiteSlaveReadBaseSeq.sv"
   `include "Axi4LiteSlaveRead32bitsTransferSeq.sv"
-  `include "Axi4LiteSlaveReadRandomTransferSeq.sv"
   `include "Axi4LiteSlaveRead32bitsTransferWithToggleReadySeq.sv"
 
 endpackage : Axi4LiteSlaveReadSeqPkg

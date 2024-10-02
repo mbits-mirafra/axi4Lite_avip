@@ -9,7 +9,7 @@ class Axi4LiteSlaveRead32bitsTransferWithToggleReadySeq extends Axi4LiteSlaveRea
   rand bit [DELAY_WIDTH-1:0] delayForRvalidSeq;
   rand int repeatToggleArreadySeq;
 
-  constraint delayForArreadySeq_c {soft delayForArreadySeq  < MAX_DELAY_READY;}
+  constraint delayForArreadySeq_c {soft delayForArreadySeq  < MAX_DELAY_ARREADY;}
   constraint delayForRvalidSeq_c {soft delayForRvalidSeq < MAX_DELAY_RVALID;}
   constraint repeatToggleArreadySeq_c {soft repeatToggleArreadySeq inside {[1:15]};}
 

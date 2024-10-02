@@ -8,6 +8,7 @@ package Axi4LiteSlaveReadAssertCoverParameter;
   parameter int MAX_DELAY_RVALID = 10;
   parameter int MAX_DELAY_ARADDR = 10;
 
+  parameter int MAX_DELAY_ARREADY = 16;
   parameter int DELAY_FOR_SECOND_TRANSFER = 16;
 
 endpackage : Axi4LiteSlaveReadAssertCoverParameter

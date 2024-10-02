@@ -10,7 +10,6 @@ package Axi4LiteMasterReadSeqPkg;
   import Axi4LiteMasterReadPkg::*;
  
   `include "Axi4LiteMasterReadBaseSeq.sv"
-  `include "Axi4LiteMasterReadRandomTransferSeq.sv"
   `include "Axi4LiteMasterRead32bitsTransferSeq.sv"
   `include "Axi4LiteMasterRead32bitsTransferWithToggleReadySeq.sv"
   

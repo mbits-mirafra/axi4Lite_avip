@@ -19,10 +19,6 @@ class Axi4LiteSlaveWriteTransaction extends uvm_sequence_item;
   int waitCounterForWvalid;
   int waitCounterForBready;
 
-  constraint delayForAwready_c {soft delayForAwready <= MAX_DELAY_READY;}
-  constraint delayForWready_c {soft delayForWready <= MAX_DELAY_READY;}
-  constraint delayForBvalid_c {soft delayForBvalid <= MAX_DELAY_BVALID;}
-
   extern function new(string name = "Axi4LiteSlaveWriteTransaction");
   extern function void do_copy(uvm_object rhs);
   extern function bit do_compare (uvm_object rhs, uvm_comparer comparer);

@@ -10,7 +10,6 @@ package Axi4LiteMasterWriteSeqPkg;
   import Axi4LiteMasterWritePkg::*;
  
   `include "Axi4LiteMasterWriteBaseSeq.sv"
-  `include "Axi4LiteMasterWriteRandomTransferSeq.sv"
   `include "Axi4LiteMasterWrite32bitsTransferSeq.sv"
   `include "Axi4LiteMasterWrite32bitsTransferWithToggleReadySeq.sv"
 

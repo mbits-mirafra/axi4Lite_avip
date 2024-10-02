@@ -21,11 +21,6 @@ class Axi4LiteMasterWriteTransaction extends uvm_sequence_item;
   rand bit [DELAY_WIDTH-1:0] delayForBready;
   rand int repeatToggleBready;
 
-  constraint awaddr_c {soft awaddr <= MAX_ADDRESS;}
-  constraint awprot_c {soft awprot inside {[0:3]};}
-  constraint delayForWvalid_c {soft delayForWvalid <= MAX_DELAY_WVALID;}
-  constraint delayForBready_c {soft delayForBready <= MAX_DELAY_READY;}
-
   extern function new (string name = "Axi4LiteMasterWriteTransaction");
   extern function void do_copy(uvm_object rhs);
   extern function void post_randomize();
