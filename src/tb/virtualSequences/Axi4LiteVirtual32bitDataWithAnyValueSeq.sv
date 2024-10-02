@@ -60,6 +60,7 @@ task Axi4LiteVirtual32bitDataWithAnyValueSeq::body();
                                                                      delayForWvalidSeq  == 2;
                                                                      delayForBreadySeq  == 1;
                                                                      wdataSeq dist {32'hffff_ffff:/4, 32'haaaa_aaaa:/4, [0:$]:/2};
+                                                                     wstrbSeq ==4'b1111;
                                                                     }) begin
             `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtual32bitDataWithAnyValueSeq")
         end

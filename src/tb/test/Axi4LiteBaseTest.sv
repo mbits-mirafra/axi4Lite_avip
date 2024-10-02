@@ -113,17 +113,17 @@ function void Axi4LiteBaseTest::setupAxi4LiteMasterWriteAgentConfig();
   axi4LiteMasterWriteAgentConfigLocal[i] = Axi4LiteMasterWriteAgentConfig::type_id::create($sformatf("axi4LiteMasterWriteAgentConfigLocal[%0d]",i));
   
   axi4LiteMasterWriteAgentConfigLocal[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
-  axi4LiteMasterWriteAgentConfigLocal[i].hasCoverage = 1;
+  axi4LiteMasterWriteAgentConfigLocal[i].hasCoverage = Axi4LiteWriteMasterGlobalPkg::HAS_COVERAGE;
   axi4LiteMasterWriteAgentConfigLocal[i].defaultStateBready = Axi4LiteWriteMasterGlobalPkg::DEFAULT_BREADY;
   axi4LiteMasterWriteAgentConfigLocal[i].minAddressRange = Axi4LiteWriteMasterGlobalPkg::MIN_ADDRESS;
   axi4LiteMasterWriteAgentConfigLocal[i].maxAddressRange = Axi4LiteWriteMasterGlobalPkg::MAX_ADDRESS;
   axi4LiteMasterWriteAgentConfigLocal[i].maxDelayForAwready = Axi4LiteMasterWriteAssertCoverParameter::MAX_DELAY_READY;
   axi4LiteMasterWriteAgentConfigLocal[i].maxDelayForWready = Axi4LiteMasterWriteAssertCoverParameter::MAX_DELAY_READY;
   axi4LiteMasterWriteAgentConfigLocal[i].maxDelayForBvalid = Axi4LiteMasterWriteAssertCoverParameter::MAX_DELAY_BVALID;
-  axi4LiteMasterWriteAgentConfigLocal[i].toggleBready = 0;
-  axi4LiteMasterWriteAgentConfigLocal[i].enableOutstandingTransaction = 0;
+  axi4LiteMasterWriteAgentConfigLocal[i].toggleBready = Axi4LiteWriteMasterGlobalPkg::TOGGLE_BREADY;
+  axi4LiteMasterWriteAgentConfigLocal[i].enableOutstandingTransaction = Axi4LiteWriteMasterGlobalPkg::ENABLE_OUTSTANDINGTX;
   axi4LiteMasterWriteAgentConfigLocal[i].maxLimitOfOutstandingTx = Axi4LiteWriteMasterGlobalPkg::MAXLIMITOF_OUTSTANDINGTX;
-  axi4LiteMasterWriteAgentConfigLocal[i].noOfOutstandingTx = 3;
+  axi4LiteMasterWriteAgentConfigLocal[i].noOfOutstandingTx = Axi4LiteWriteMasterGlobalPkg::NO_OF_OUTSTANDINGTX;
   end
   axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig = axi4LiteMasterWriteAgentConfigLocal;
 endfunction : setupAxi4LiteMasterWriteAgentConfig
@@ -157,16 +157,16 @@ function void Axi4LiteBaseTest::setupAxi4LiteMasterReadAgentConfig();
   axi4LiteMasterReadAgentConfigLocal[i] = Axi4LiteMasterReadAgentConfig::type_id::create($sformatf("axi4LiteMasterReadAgentConfigLocal[%0d]",i));
   
   axi4LiteMasterReadAgentConfigLocal[i].isActive           = uvm_active_passive_enum'(UVM_ACTIVE);
-  axi4LiteMasterReadAgentConfigLocal[i].hasCoverage        = 1;
+  axi4LiteMasterReadAgentConfigLocal[i].hasCoverage        = Axi4LiteReadMasterGlobalPkg::HAS_COVERAGE;
   axi4LiteMasterReadAgentConfigLocal[i].defaultStateRready = Axi4LiteReadMasterGlobalPkg::DEFAULT_RREADY;
   axi4LiteMasterReadAgentConfigLocal[i].minAddressRange    = Axi4LiteReadMasterGlobalPkg::MIN_ADDRESS;
   axi4LiteMasterReadAgentConfigLocal[i].maxAddressRange    = Axi4LiteReadMasterGlobalPkg::MAX_ADDRESS;
   axi4LiteMasterReadAgentConfigLocal[i].maxDelayForArready = Axi4LiteMasterReadAssertCoverParameter::MAX_DELAY_READY;
   axi4LiteMasterReadAgentConfigLocal[i].maxDelayForRvalid  = Axi4LiteMasterReadAssertCoverParameter::MAX_DELAY_RVALID;
-  axi4LiteMasterReadAgentConfigLocal[i].toggleRready       = 0;
-  axi4LiteMasterReadAgentConfigLocal[i].enableOutstandingTransaction = 0;
+  axi4LiteMasterReadAgentConfigLocal[i].toggleRready       = Axi4LiteReadMasterGlobalPkg::TOGGLE_RREADY;
+  axi4LiteMasterReadAgentConfigLocal[i].enableOutstandingTransaction = Axi4LiteReadMasterGlobalPkg::ENABLE_OUTSTANDINGTX;
   axi4LiteMasterReadAgentConfigLocal[i].maxLimitOfOutstandingTx = Axi4LiteReadMasterGlobalPkg::MAXLIMITOF_OUTSTANDINGTX;
-  axi4LiteMasterReadAgentConfigLocal[i].noOfOutstandingTx = 3;
+  axi4LiteMasterReadAgentConfigLocal[i].noOfOutstandingTx = Axi4LiteReadMasterGlobalPkg::NO_OF_OUTSTANDINGTX;
  end
  axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig = axi4LiteMasterReadAgentConfigLocal;
 endfunction : setupAxi4LiteMasterReadAgentConfig
@@ -199,16 +199,16 @@ function void Axi4LiteBaseTest::setupAxi4LiteSlaveWriteAgentConfig();
   foreach(axi4LiteSlaveWriteAgentConfigLocal[i]) begin
   axi4LiteSlaveWriteAgentConfigLocal[i] = Axi4LiteSlaveWriteAgentConfig::type_id::create($sformatf("axi4LiteSlaveWriteAgentConfigLocal[%0d]",i));
   axi4LiteSlaveWriteAgentConfigLocal[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
-  axi4LiteSlaveWriteAgentConfigLocal[i].hasCoverage = 1;
+  axi4LiteSlaveWriteAgentConfigLocal[i].hasCoverage = Axi4LiteWriteSlaveGlobalPkg::HAS_COVERAGE;
   axi4LiteSlaveWriteAgentConfigLocal[i].defaultStateAwready = Axi4LiteWriteSlaveGlobalPkg::DEFAULT_AWREADY;
   axi4LiteSlaveWriteAgentConfigLocal[i].defaultStateWready = Axi4LiteWriteSlaveGlobalPkg::DEFAULT_WREADY;
   axi4LiteSlaveWriteAgentConfigLocal[i].minAddressRange = Axi4LiteWriteSlaveGlobalPkg::MIN_ADDRESS;
   axi4LiteSlaveWriteAgentConfigLocal[i].maxAddressRange = Axi4LiteWriteSlaveGlobalPkg::MAX_ADDRESS;
   axi4LiteSlaveWriteAgentConfigLocal[i].maxDelayForWvalid = Axi4LiteSlaveWriteAssertCoverParameter::MAX_DELAY_WVALID;
   axi4LiteSlaveWriteAgentConfigLocal[i].maxDelayForBready = Axi4LiteSlaveWriteAssertCoverParameter::MAX_DELAY_READY;
-  axi4LiteSlaveWriteAgentConfigLocal[i].toggleAwready = 0;
-  axi4LiteSlaveWriteAgentConfigLocal[i].toggleWready = 0;
-  axi4LiteSlaveWriteAgentConfigLocal[i].enableOutstandingTransaction = 0;
+  axi4LiteSlaveWriteAgentConfigLocal[i].toggleAwready = Axi4LiteWriteSlaveGlobalPkg::TOGGLE_AWREADY;
+  axi4LiteSlaveWriteAgentConfigLocal[i].toggleWready = Axi4LiteWriteSlaveGlobalPkg::TOGGLE_WREADY;
+  axi4LiteSlaveWriteAgentConfigLocal[i].enableOutstandingTransaction = Axi4LiteWriteSlaveGlobalPkg::ENABLE_OUTSTANDINGTX;
   end
   axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig = axi4LiteSlaveWriteAgentConfigLocal;
 endfunction : setupAxi4LiteSlaveWriteAgentConfig
@@ -241,13 +241,13 @@ function void Axi4LiteBaseTest::setupAxi4LiteSlaveReadAgentConfig();
   foreach(axi4LiteSlaveReadAgentConfigLocal[i]) begin
   axi4LiteSlaveReadAgentConfigLocal[i] = Axi4LiteSlaveReadAgentConfig::type_id::create($sformatf("axi4LiteSlaveReadAgentConfigLocal[%0d]",i));
   axi4LiteSlaveReadAgentConfigLocal[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
-  axi4LiteSlaveReadAgentConfigLocal[i].hasCoverage = 1;
+  axi4LiteSlaveReadAgentConfigLocal[i].hasCoverage = Axi4LiteReadSlaveGlobalPkg::HAS_COVERAGE;
   axi4LiteSlaveReadAgentConfigLocal[i].defaultStateArready = Axi4LiteReadSlaveGlobalPkg::DEFAULT_ARREADY;
   axi4LiteSlaveReadAgentConfigLocal[i].minAddressRange = Axi4LiteReadSlaveGlobalPkg::MIN_ADDRESS;
   axi4LiteSlaveReadAgentConfigLocal[i].maxAddressRange = Axi4LiteReadSlaveGlobalPkg::MAX_ADDRESS;
   axi4LiteSlaveReadAgentConfigLocal[i].maxDelayForRready = Axi4LiteSlaveReadAssertCoverParameter::MAX_DELAY_READY;
-  axi4LiteSlaveReadAgentConfigLocal[i].toggleArready = 0;
-  axi4LiteSlaveReadAgentConfigLocal[i].enableOutstandingTransaction = 0;
+  axi4LiteSlaveReadAgentConfigLocal[i].toggleArready = Axi4LiteReadSlaveGlobalPkg::TOGGLE_ARREADY;
+  axi4LiteSlaveReadAgentConfigLocal[i].enableOutstandingTransaction = Axi4LiteReadSlaveGlobalPkg::ENABLE_OUTSTANDINGTX;
   end
   axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig = axi4LiteSlaveReadAgentConfigLocal;
 endfunction : setupAxi4LiteSlaveReadAgentConfig

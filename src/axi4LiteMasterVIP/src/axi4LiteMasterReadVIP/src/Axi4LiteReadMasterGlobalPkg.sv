@@ -23,6 +23,11 @@ package Axi4LiteReadMasterGlobalPkg;
   parameter int MIN_ADDRESS = 32'h0000_0000;
   parameter int MAX_ADDRESS = 32'hffff_ffff;
 
+  parameter bit HAS_COVERAGE = 1;
+  parameter bit TOGGLE_RREADY = 0;
+  parameter bit ENABLE_OUTSTANDINGTX = 0;
+  parameter bit NO_OF_OUTSTANDINGTX = 3;
+
   typedef enum logic [1:0] {
     READ_OKAY   = 2'b00,
     READ_EXOKAY = 2'b01,

@@ -21,6 +21,10 @@ package Axi4LiteReadSlaveGlobalPkg;
   parameter int MIN_ADDRESS = 32'h0000_0000;
   parameter int MAX_ADDRESS = 32'hffff_ffff;
 
+  parameter bit HAS_COVERAGE = 1;
+  parameter bit TOGGLE_ARREADY = 0;
+  parameter bit ENABLE_OUTSTANDINGTX = 0;
+
   typedef enum logic [1:0] {
     READ_OKAY   = 2'b00,
     READ_EXOKAY = 2'b01,
