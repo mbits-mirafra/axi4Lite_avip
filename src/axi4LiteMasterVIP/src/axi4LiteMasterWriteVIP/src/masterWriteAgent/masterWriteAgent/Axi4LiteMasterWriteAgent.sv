@@ -45,6 +45,9 @@ function void Axi4LiteMasterWriteAgent::build_phase(uvm_phase phase);
    axi4LiteMasterWriteCoverage = Axi4LiteMasterWriteCoverage ::type_id::create("axi4LiteMasterWriteCoverage",this);
   end
 
+   uvm_config_db#(Axi4LiteMasterWriteAgentConfig)::set(uvm_root::get(), "*", "Axi4LiteMasterWriteAgentConfig",axi4LiteMasterWriteAgentConfig);
+    `uvm_info(get_type_name(), $sformatf("\nAXI4LITE_MASTER_WRITE_AGENT_CONFIG\n%s",
+                 axi4LiteMasterWriteAgentConfig.sprint()),UVM_LOW);
 endfunction : build_phase
 
 function void Axi4LiteMasterWriteAgent::connect_phase(uvm_phase phase);
