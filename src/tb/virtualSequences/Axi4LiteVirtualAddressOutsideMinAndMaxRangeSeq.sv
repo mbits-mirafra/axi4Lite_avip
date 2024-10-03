@@ -53,7 +53,7 @@ task Axi4LiteVirtualAddressOutsideMinAndMaxRangeSeq::body();
   fork
     begin: MASTER_WRITE_SEQ
       repeat(1) begin
-          if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awaddrSeq == 16'hffff;
+          if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {awaddrSeq > 16'hffff;
                                                                      awprotSeq == 1;
                                                                      delayForAwvalidSeq == 1;
                                                                      delayForWvalidSeq  == 3;
@@ -65,7 +65,7 @@ task Axi4LiteVirtualAddressOutsideMinAndMaxRangeSeq::body();
     end
   begin: MASTER_READ_SEQ
       repeat(1) begin
-        if(!axi4LiteMasterRead32bitsTransferSeq.randomize() with {araddrSeq == 16'hffff;
+        if(!axi4LiteMasterRead32bitsTransferSeq.randomize() with {araddrSeq > 16'hffff;
                                                                   arprotSeq == 1;
                                                                   delayForArvalidSeq == 2;
                                                                   delayForRreadySeq == 0;
