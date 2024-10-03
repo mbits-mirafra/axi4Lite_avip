@@ -8,6 +8,10 @@ interface MasterVIPSlaveIPInterface(input aclk, input aresetn);
                                                   .aresetn(aresetn)
                                                  );
 
+  Axi4LiteSlaveInterface axi4LiteSlaveInterface(.aclk(aclk),
+                                                .aresetn(aresetn)
+                                               );
+
 endinterface: MasterVIPSlaveIPInterface 
 
 `endif

@@ -8,11 +8,15 @@ package MasterVIPSlaveIPEnvPkg;
 
   import Axi4LiteMasterWritePkg::*;
   import Axi4LiteMasterReadPkg::*;
+  import Axi4LiteSlaveWritePkg::*;
+  import Axi4LiteSlaveReadPkg::*;
   import Axi4LiteMasterEnvPkg::*;
+  import Axi4LiteSlaveEnvPkg::*;
   import Axi4LiteMasterVirtualSeqrPkg::*;
+  import Axi4LiteSlaveVirtualSeqrPkg::*;
 
   `include "MasterVIPSlaveIPEnvConfig.sv"
-//`include "Axi4LiteScoreboard.sv"
+  `include "MasterVIPSlaveIPScoreboard.sv"
   `include "MasterVIPSlaveIPEnv.sv"
 
 endpackage : MasterVIPSlaveIPEnvPkg
