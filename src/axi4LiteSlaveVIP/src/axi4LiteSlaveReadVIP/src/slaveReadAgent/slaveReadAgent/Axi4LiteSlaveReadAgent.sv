@@ -42,6 +42,10 @@ function void Axi4LiteSlaveReadAgent::build_phase(uvm_phase phase);
    if(axi4LiteSlaveReadAgentConfig.hasCoverage) begin
     axi4LiteSlaveReadCoverage = Axi4LiteSlaveReadCoverage::type_id::create("axi4LiteSlaveReadCoverage",this);
    end
+
+   uvm_config_db#(Axi4LiteSlaveReadAgentConfig)::set(uvm_root::get(), "*", "Axi4LiteSlaveReadAgentConfig",axi4LiteSlaveReadAgentConfig);
+    `uvm_info(get_type_name(), $sformatf("\nAXI4LITE_SLAVE_READ_AGENT_CONFIG\n%s",
+                 axi4LiteSlaveReadAgentConfig.sprint()),UVM_LOW);
 endfunction : build_phase
 
 function void Axi4LiteSlaveReadAgent::connect_phase(uvm_phase phase);

@@ -44,6 +44,9 @@ function void Axi4LiteSlaveWriteAgent::build_phase(uvm_phase phase);
    if(axi4LiteSlaveWriteAgentConfig.hasCoverage) begin
     axi4LiteSlaveWriteCoverage = Axi4LiteSlaveWriteCoverage::type_id::create("axi4LiteSlaveWriteCoverage",this);
    end
+   uvm_config_db#(Axi4LiteSlaveWriteAgentConfig)::set(uvm_root::get(), "*", "Axi4LiteSlaveWriteAgentConfig",axi4LiteSlaveWriteAgentConfig);
+    `uvm_info(get_type_name(), $sformatf("\nAXI4LITE_SLAVE_WRITE_AGENT_CONFIG\n%s",
+                 axi4LiteSlaveWriteAgentConfig.sprint()),UVM_LOW);
 endfunction : build_phase
 
 function void Axi4LiteSlaveWriteAgent::connect_phase(uvm_phase phase);

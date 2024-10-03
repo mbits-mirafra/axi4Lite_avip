@@ -4,9 +4,36 @@
 class Axi4LiteMasterReadCoverage extends uvm_subscriber#(Axi4LiteMasterReadTransaction);
   `uvm_component_utils(Axi4LiteMasterReadCoverage)
 
-   Axi4LiteMasterReadAgentConfig axi4LiteMasterReadAgentConfig;
+  Axi4LiteMasterReadAgentConfig axi4LiteMasterReadAgentConfig;
+
+  bit [ADDRESS_WIDTH-1:0] maxAddressRangeCov;
+  bit [ADDRESS_WIDTH-1:0] minAddressRangeCov;
+
   covergroup axi4LiteMasterReadCovergroup with function sample (Axi4LiteMasterReadAgentConfig cfg, Axi4LiteMasterReadTransaction packet);
     option.per_instance = 1;
+
+   DEFAULTRREADY_CP : coverpoint cfg.defaultStateRready {
+   option.comment                                   = "defaultStateRready value";
+   bins DEFAULT_RREADY_LOW                          = {0}; 
+   bins DEFAULT_RREADY_HIGH                         = {1}; 
+   }
+   
+   TOGGLE_RREADY_CP : coverpoint cfg.toggleRready  {
+   option.comment                                   = "toggleRready value";
+   bins TOGGLE_RREADY_LOW                           = {0};
+   bins TOGGLE_RREADY_HIGH                          = {1};
+   }
+
+   ENABLE_OUTSTANDINGTX_CP : coverpoint cfg.enableOutstandingTransaction {
+   option.comment                                   = "enableOutstandingTransaction value";
+   bins DISABLE_OUTSTANDING_TX                      = {0};
+   bins ENABLE_OUTSTANDING_TX                       = {1};
+   }
+
+   NUMBER_OF_OUTSTANDING_TX_CP : coverpoint cfg.noOfOutstandingTx {
+   option.comment                                  = "cfg.noOfOutstandingTx value";
+   bins NUMBER_OF_OUTSTANDING_TX                   = {[1:10]};
+   }
 
     READADDR_CP : coverpoint packet.araddr {
     option.comment                                  = "readAddress value";
@@ -14,7 +41,7 @@ class Axi4LiteMasterReadCoverage extends uvm_subscriber#(Axi4LiteMasterReadTrans
     bins READ_EVENADDR                              = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %2 == 0);
     bins READ_ODDADDR                               = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %2 == 1);
     bins READ_MODEOF4ADDR                           = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %4 == 0);
-    bins READ_ADDROUTOFRANGE                        = {[MAX_ADDRESS+1:$]};
+    bins READ_ADDROUTOFRANGE                        = {[minAddressRangeCov:maxAddressRangeCov]};
    }
 
     READDATA_CP : coverpoint packet.rdata {
@@ -27,23 +54,23 @@ class Axi4LiteMasterReadCoverage extends uvm_subscriber#(Axi4LiteMasterReadTrans
 
    RRESP_CP : coverpoint packet.rresp {
    option.comment                                  = "Read Response values";
-   bins READ_OKAY                                  = {0};
-   illegal_bins READ_EXOKAY                        = {1};
-   bins READ_SLVERR                                = {2};
-   illegal_bins READ_DECERR                        = {3};
+   bins READ_OKAY                                  = {READ_OKAY};
+   illegal_bins READ_EXOKAY                        = {READ_EXOKAY};
+   bins READ_SLVERR                                = {READ_SLVERR};
+   illegal_bins READ_DECERR                        = {READ_DECERR};
   }
 
    ARPROT_CP : coverpoint packet.arprot {
    option.comment                                   = "Read Address Protection Values" ;
-   bins DATA_SECURE_UNPRIVILEGED                    = {3'b000};  
-	 bins DATA_SECURE_PRIVILEGED                      = {3'b001};  
-	 bins DATA_NONSECURE_UNPRIVILEGED                 = {3'b010};  
-	 bins DATA_NONSECURE_PRIVILEGED                   = {3'b011};  
-	 illegal_bins INSTRUCTION_SECURE_UNPRIVILEGED     = {3'b100};  
-	 illegal_bins INSTRUCTION_SECURE_PRIVILEGED       = {3'b101};  
-	 illegal_bins INSTRUCTION_NONSECURE_UNPRIVILEGED  = {3'b110};  
-	 illegal_bins INSTRUCTION_NONSECURE_PRIVILEGED    = {3'b111};  
-	}
+   bins DATA_SECURE_UNPRIVILEGED                    = {READ_DATA_SECURE_UNPRIVILEGED};  
+	 bins DATA_SECURE_PRIVILEGED                      = {READ_DATA_SECURE_PRIVILEGED};  
+	 bins DATA_NONSECURE_UNPRIVILEGED                 = {READ_DATA_NONSECURE_UNPRIVILEGED};  
+	 bins DATA_NONSECURE_PRIVILEGED                   = {READ_DATA_NONSECURE_PRIVILEGED};  
+	 illegal_bins INSTRUCTION_SECURE_UNPRIVILEGED     = {READ_INSTRUCTION_SECURE_UNPRIVILEGED};  
+	 illegal_bins INSTRUCTION_SECURE_PRIVILEGED       = {READ_INSTRUCTION_SECURE_PRIVILEGED};  
+	 illegal_bins INSTRUCTION_NONSECURE_UNPRIVILEGED  = {READ_INSTRUCTION_NONSECURE_UNPRIVILEGED};  
+	 illegal_bins INSTRUCTION_NONSECURE_PRIVILEGED    = {READ_INSTRUCTION_NONSECURE_PRIVILEGED};  
+  }
 
    ARPROT_CP_X_RRESP_CP      : cross ARPROT_CP, RRESP_CP{
    ignore_bins b1 = (( binsof(ARPROT_CP.DATA_SECURE_UNPRIVILEGED) || binsof(ARPROT_CP.DATA_SECURE_PRIVILEGED) ||
@@ -67,6 +94,7 @@ class Axi4LiteMasterReadCoverage extends uvm_subscriber#(Axi4LiteMasterReadTrans
 
   extern function new(string name = "Axi4LiteMasterReadCoverage", uvm_component parent = null);
   extern virtual function void write(Axi4LiteMasterReadTransaction t);
+  extern virtual function void start_of_simulation_phase(uvm_phase phase);
   extern virtual function void report_phase(uvm_phase phase);
 
 endclass : Axi4LiteMasterReadCoverage
@@ -84,6 +112,14 @@ function void Axi4LiteMasterReadCoverage::write(Axi4LiteMasterReadTransaction t)
 
   `uvm_info(get_type_name(),"After calling SAMPLE METHOD",UVM_HIGH);
 endfunction: write
+
+ function void Axi4LiteMasterReadCoverage::start_of_simulation_phase(uvm_phase phase);
+   uvm_config_db#(Axi4LiteMasterReadAgentConfig)::get(null, "*", "Axi4LiteMasterReadAgentConfig",axi4LiteMasterReadAgentConfig);
+    `uvm_info(get_type_name(), $sformatf("\nAXI4LITE_MASTER_READ_AGENT_CONFIG\n%s",
+                 axi4LiteMasterReadAgentConfig.sprint()),UVM_LOW);
+   minAddressRangeCov = axi4LiteMasterReadAgentConfig.minAddressRange;
+   maxAddressRangeCov = axi4LiteMasterReadAgentConfig.maxAddressRange;
+ endfunction: start_of_simulation_phase
 
 function void Axi4LiteMasterReadCoverage::report_phase(uvm_phase phase);
  `uvm_info(get_type_name(),$sformatf("AXI4LITE Master Read Agent Coverage = %0.2f %%", axi4LiteMasterReadCovergroup.get_coverage()), UVM_NONE);

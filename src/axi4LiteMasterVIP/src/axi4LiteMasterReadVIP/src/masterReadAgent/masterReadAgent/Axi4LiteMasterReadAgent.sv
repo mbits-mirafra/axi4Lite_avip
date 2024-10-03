@@ -44,6 +44,9 @@ function void Axi4LiteMasterReadAgent::build_phase(uvm_phase phase);
    axi4LiteMasterReadCoverage = Axi4LiteMasterReadCoverage ::type_id::create("axi4LiteMasterReadCoverage",this);
   end
 
+   uvm_config_db#(Axi4LiteMasterReadAgentConfig)::set(uvm_root::get(), "*", "Axi4LiteMasterReadAgentConfig",axi4LiteMasterReadAgentConfig);
+    `uvm_info(get_type_name(), $sformatf("\nAXI4LITE_MASTER_READ_AGENT_CONFIG\n%s",
+                 axi4LiteMasterReadAgentConfig.sprint()),UVM_LOW);
 endfunction : build_phase
 
 function void Axi4LiteMasterReadAgent::connect_phase(uvm_phase phase);

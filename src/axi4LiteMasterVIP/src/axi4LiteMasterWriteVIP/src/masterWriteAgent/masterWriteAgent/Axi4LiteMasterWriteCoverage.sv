@@ -6,13 +6,33 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
 
   Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfig;
 
+  bit [ADDRESS_WIDTH-1:0] maxAddressRangeCov;
+  bit [ADDRESS_WIDTH-1:0] minAddressRangeCov;
+
   covergroup axi4LiteMasterWriteCovergroup with function sample (Axi4LiteMasterWriteAgentConfig cfg, Axi4LiteMasterWriteTransaction packet);
     option.per_instance = 1;
 
    DEFAULTBREADY_CP : coverpoint cfg.defaultStateBready {
    option.comment                                   = "defaultStateBready value";
-   bins DEFAULT_BREADY0                             = {0}; 
-   bins DEFAULT_BREADY1                             = {1}; 
+   bins DEFAULT_BREADY_LOW                          = {0}; 
+   bins DEFAULT_BREADY_HIGH                         = {1}; 
+   }
+   
+   TOGGLE_BREADY_CP : coverpoint cfg.toggleBready  {
+   option.comment                                   = "toggleBready value";
+   bins TOGGLE_BREADY_LOW                           = {0};
+   bins TOGGLE_BREADY_HIGH                          = {1};
+   }
+
+   ENABLE_OUTSTANDINGTX_CP : coverpoint cfg.enableOutstandingTransaction {
+   option.comment                                   = "enableOutstandingTransaction value";
+   bins DISABLE_OUTSTANDING_TX                      = {0};
+   bins ENABLE_OUTSTANDING_TX                       = {1};
+   }
+
+   NUMBER_OF_OUTSTANDING_TX_CP : coverpoint cfg.noOfOutstandingTx {
+   option.comment                                  = "cfg.noOfOutstandingTx value";
+   bins NUMBER_OF_OUTSTANDING_TX                   = {[1:10]};
    }
 
    WRITEADDR_CP : coverpoint packet.awaddr {
@@ -21,7 +41,7 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
    bins WRITE_EVENADDR                              = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %2 == 0);
    bins WRITE_ODDADDR                               = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %2 == 1);
    bins WRITE_MODEOF4ADDR                           = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %4 == 0);
-   bins WRITE_ADDROUTOFRANGE                        = {[MAX_ADDRESS+1:$]};
+   bins WRITE_ADDROUTOFRANGE                        = {[minAddressRangeCov:maxAddressRangeCov]};
    }
 
    WRITEDATA_CP : coverpoint packet.wdata {
@@ -43,22 +63,22 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
 
    BRESP_CP : coverpoint packet.bresp {
    option.comment                                   = "Write Response values";
-   bins WRITE_OKAY                                  = {0};
-   illegal_bins WRITE_EXOKAY                        = {1};
-   bins WRITE_SLVERR                                = {2};
-   illegal_bins WRITE_DECERR                        = {3};
+   bins WRITE_OKAY                                  = {WRITE_OKAY};
+   illegal_bins WRITE_EXOKAY                        = {WRITE_EXOKAY};
+   bins WRITE_SLVERR                                = {WRITE_SLVERR};
+   illegal_bins WRITE_DECERR                        = {WRITE_DECERR};
   }
 
    AWPROT_CP : coverpoint packet.awprot {
    option.comment                                   = "Write Address Protection Values" ;
-   bins DATA_SECURE_UNPRIVILEGED                    = {3'b000};  
-	 bins DATA_SECURE_PRIVILEGED                      = {3'b001};  
-	 bins DATA_NONSECURE_UNPRIVILEGED                 = {3'b010};  
-	 bins DATA_NONSECURE_PRIVILEGED                   = {3'b011};  
-	 illegal_bins INSTRUCTION_SECURE_UNPRIVILEGED     = {3'b100};  
-	 illegal_bins INSTRUCTION_SECURE_PRIVILEGED       = {3'b101};  
-	 illegal_bins INSTRUCTION_NONSECURE_UNPRIVILEGED  = {3'b110};  
-	 illegal_bins INSTRUCTION_NONSECURE_PRIVILEGED    = {3'b111};  
+   bins DATA_SECURE_UNPRIVILEGED                    = {WRITE_DATA_SECURE_UNPRIVILEGED};  
+	 bins DATA_SECURE_PRIVILEGED                      = {WRITE_DATA_SECURE_PRIVILEGED};  
+	 bins DATA_NONSECURE_UNPRIVILEGED                 = {WRITE_DATA_NONSECURE_UNPRIVILEGED};  
+	 bins DATA_NONSECURE_PRIVILEGED                   = {WRITE_DATA_NONSECURE_PRIVILEGED};  
+	 illegal_bins INSTRUCTION_SECURE_UNPRIVILEGED     = {WRITE_INSTRUCTION_SECURE_UNPRIVILEGED};  
+	 illegal_bins INSTRUCTION_SECURE_PRIVILEGED       = {WRITE_INSTRUCTION_SECURE_PRIVILEGED};  
+	 illegal_bins INSTRUCTION_NONSECURE_UNPRIVILEGED  = {WRITE_INSTRUCTION_NONSECURE_UNPRIVILEGED};  
+	 illegal_bins INSTRUCTION_NONSECURE_PRIVILEGED    = {WRITE_INSTRUCTION_NONSECURE_PRIVILEGED};  
 	}
 
    AWPROT_CP_X_BRESP_CP    : cross AWPROT_CP, BRESP_CP{
@@ -100,15 +120,11 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
    uvm_component parent = null);
    super.new(name, parent);
    axi4LiteMasterWriteCovergroup = new();
-  `uvm_info("",$sformatf("Inside MIN_ADDRESS :%0d MAX_ADDRESS :%0d", MIN_ADDRESS,MAX_ADDRESS),UVM_LOW);
  endfunction : new
-
 
  function void Axi4LiteMasterWriteCoverage::write(Axi4LiteMasterWriteTransaction t);
    `uvm_info(get_type_name(),$sformatf("Before calling SAMPLE METHOD"),UVM_HIGH);
-
    axi4LiteMasterWriteCovergroup.sample(axi4LiteMasterWriteAgentConfig,t);
-
    `uvm_info(get_type_name(),"After calling SAMPLE METHOD",UVM_HIGH);
  endfunction: write
 
@@ -116,7 +132,8 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
    uvm_config_db#(Axi4LiteMasterWriteAgentConfig)::get(null, "*", "Axi4LiteMasterWriteAgentConfig",axi4LiteMasterWriteAgentConfig);
     `uvm_info(get_type_name(), $sformatf("\nAXI4LITE_MASTER_WRITE_AGENT_CONFIG\n%s",
                  axi4LiteMasterWriteAgentConfig.sprint()),UVM_LOW);
-
+   minAddressRangeCov = axi4LiteMasterWriteAgentConfig.minAddressRange;
+   maxAddressRangeCov = axi4LiteMasterWriteAgentConfig.maxAddressRange;
  endfunction: start_of_simulation_phase
 
  function void Axi4LiteMasterWriteCoverage::report_phase(uvm_phase phase);
