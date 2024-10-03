@@ -6,46 +6,34 @@
 module Axi4LiteSlaveReadAgentBFM #(parameter int ADDR_WIDTH = 32,
                                    parameter int DATA_WIDTH = 32
                                    )
-                                   (input bit  aclk,
-                                    input bit  aresetn,
-                                    //Read Address Channel Signals
-                                    input                       arvalid,
-                                    output reg                  arready,
-                                    input   [ADDRESS_WIDTH-1:0] araddr,
-                                    input                 [2:0] arprot,
-                                    //Read Data Channel Signals
-                                    output reg                  rvalid,
-                                    input                       rready,
-                                    output reg [DATA_WIDTH-1:0] rdata,
-                                    output reg            [1:0] rresp
-                                   );  
+                                   (Axi4LiteSlaveReadInterface axi4LiteSlaveReadInterface);  
 
                                  
    import uvm_pkg::*;
   `include "uvm_macros.svh"
 
-  Axi4LiteSlaveReadDriverBFM axi4LiteSlaveReadDriverBFM (.aclk(aclk),
-                                                         .aresetn(aresetn),
-                                                         .arvalid(arvalid),
-                                                         .arready(arready),
-                                                         .araddr(araddr),
-                                                         .arprot(arprot),
-                                                         .rvalid(rvalid),
-                                                         .rready(rready),
-                                                         .rdata(rdata),
-                                                         .rresp(rresp)
+  Axi4LiteSlaveReadDriverBFM axi4LiteSlaveReadDriverBFM (.aclk(axi4LiteSlaveReadInterface.aclk),
+                                                         .aresetn(axi4LiteSlaveReadInterface.aresetn),
+                                                         .arvalid(axi4LiteSlaveReadInterface.arvalid),
+                                                         .arready(axi4LiteSlaveReadInterface.arready),
+                                                         .araddr(axi4LiteSlaveReadInterface.araddr),
+                                                         .arprot(axi4LiteSlaveReadInterface.arprot),
+                                                         .rvalid(axi4LiteSlaveReadInterface.rvalid),
+                                                         .rready(axi4LiteSlaveReadInterface.rready),
+                                                         .rdata(axi4LiteSlaveReadInterface.rdata),
+                                                         .rresp(axi4LiteSlaveReadInterface.rresp)
                                                          );
 
- Axi4LiteSlaveReadMonitorBFM axi4LiteSlaveReadMonitorBFM (.aclk(aclk),
-                                                          .aresetn(aresetn),
-                                                          .arvalid(arvalid),
-                                                          .arready(arready),
-                                                          .araddr(araddr),
-                                                          .arprot(arprot),
-                                                          .rvalid(rvalid),
-                                                          .rready(rready),
-                                                          .rdata(rdata),
-                                                          .rresp(rresp)
+ Axi4LiteSlaveReadMonitorBFM axi4LiteSlaveReadMonitorBFM (.aclk(axi4LiteSlaveReadInterface.aclk),
+                                                          .aresetn(axi4LiteSlaveReadInterface.aresetn),
+                                                          .arvalid(axi4LiteSlaveReadInterface.arvalid),
+                                                          .arready(axi4LiteSlaveReadInterface.arready),
+                                                          .araddr(axi4LiteSlaveReadInterface.araddr),
+                                                          .arprot(axi4LiteSlaveReadInterface.arprot),
+                                                          .rvalid(axi4LiteSlaveReadInterface.rvalid),
+                                                          .rready(axi4LiteSlaveReadInterface.rready),
+                                                          .rdata(axi4LiteSlaveReadInterface.rdata),
+                                                          .rresp(axi4LiteSlaveReadInterface.rresp)
                                                          );
 
 
