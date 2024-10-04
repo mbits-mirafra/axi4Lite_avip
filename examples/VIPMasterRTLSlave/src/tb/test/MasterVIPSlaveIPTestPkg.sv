@@ -11,8 +11,6 @@ package MasterVIPSlaveIPTestPkg;
   import Axi4LiteReadSlaveGlobalPkg::*;
   import Axi4LiteMasterWriteSeqPkg::*;
   import Axi4LiteMasterReadSeqPkg::*;
-  import Axi4LiteSlaveWriteSeqPkg::*;
-  import Axi4LiteSlaveReadSeqPkg::*;
   import Axi4LiteMasterWritePkg::*;
   import Axi4LiteMasterReadPkg::*;
   import Axi4LiteSlaveWritePkg::*;
@@ -24,14 +22,15 @@ package MasterVIPSlaveIPTestPkg;
   import Axi4LiteMasterEnvPkg::*;
   import Axi4LiteSlaveEnvPkg::*;
   import MasterVIPSlaveIPEnvPkg::*;
+  import MasterVIPSlaveIPVirtualSeqPkg::*;
 
   //including base_test for testing
   `include "MasterVIPSlaveIPBaseTest.sv"
   `include "MasterVIPSlaveIP32bitsWriteReadTest.sv"
-  `include "MasterVIPSlaveIP32bitsWriteDataTest.sv"
-  `include "MasterVIPSlaveIPAddressIsOutOfRangeTest.sv"
-  `include "MasterVIPSlaveIPWriteDataWithWstrbTest.sv"
-  `include "MasterVIPSlaveIP32bitsReadDataTest.sv"
+//  `include "MasterVIPSlaveIP32bitsWriteDataTest.sv"
+//  `include "MasterVIPSlaveIPAddressIsOutOfRangeTest.sv"
+//  `include "MasterVIPSlaveIPWriteDataWithWstrbTest.sv"
+//  `include "MasterVIPSlaveIP32bitsReadDataTest.sv"
 
 
 

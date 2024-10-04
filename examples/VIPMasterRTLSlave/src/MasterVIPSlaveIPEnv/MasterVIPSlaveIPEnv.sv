@@ -9,6 +9,8 @@ class MasterVIPSlaveIPEnv extends uvm_env;
   Axi4LiteMasterEnv axi4LiteMasterEnv;
   Axi4LiteSlaveEnv axi4LiteSlaveEnv;
 
+  MasterVIPSlaveIPVirtualSequencer masterVIPSlaveIPVirtualSequencer;
+
   Axi4LiteMasterEnvConfig axi4LiteMasterEnvConfig;
   Axi4LiteSlaveEnvConfig axi4LiteSlaveEnvConfig;
 
@@ -39,6 +41,10 @@ function void MasterVIPSlaveIPEnv::build_phase(uvm_phase phase);
     if(!uvm_config_db#(Axi4LiteSlaveEnvConfig)::get(this,"","Axi4LiteSlaveEnvConfig",axi4LiteSlaveEnvConfig)) 
    `uvm_fatal("FATAL_SLAVE_ENV_CONFIG","Couldn't get the Axi4LiteSlaveEnvConfig from config_db")
 
+    if(masterVIPSlaveIPEnvConfig.hasVirtualSequencer) begin
+    masterVIPSlaveIPVirtualSequencer = MasterVIPSlaveIPVirtualSequencer::type_id::create("masterVIPSlaveIPVirtualSequencer",this);
+  end
+
    axi4LiteMasterEnv = Axi4LiteMasterEnv::type_id::create("axi4LiteMasterEnv",this); 
    axi4LiteSlaveEnv = Axi4LiteSlaveEnv::type_id::create("axi4LiteSlaveEnv",this); 
 
@@ -54,6 +60,10 @@ endfunction : build_phase
 function void MasterVIPSlaveIPEnv::connect_phase(uvm_phase phase);
   super.connect_phase(phase);
   
+  if(masterVIPSlaveIPEnvConfig.hasVirtualSequencer) begin
+     masterVIPSlaveIPVirtualSequencer.axi4LiteMasterVirtualSequencer = axi4LiteMasterEnv.axi4LiteMasterVirtualSequencer;
+  end
+
     axi4LiteMasterEnv.axi4LiteMasterEnvWriteAddressAnalysisPort.connect(masterVIPSlaveIPScoreboard.axi4LiteMasterWriteEnvAddressFIFO.analysis_export);
     axi4LiteMasterEnv.axi4LiteMasterEnvWriteDataAnalysisPort.connect(masterVIPSlaveIPScoreboard.axi4LiteMasterWriteEnvDataFIFO.analysis_export);
     axi4LiteMasterEnv.axi4LiteMasterEnvWriteResponseAnalysisPort.connect(masterVIPSlaveIPScoreboard.axi4LiteMasterWriteEnvResponseFIFO.analysis_export);

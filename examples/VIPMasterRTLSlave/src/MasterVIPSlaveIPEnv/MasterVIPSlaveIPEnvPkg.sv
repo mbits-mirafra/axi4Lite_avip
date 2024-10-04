@@ -16,6 +16,7 @@ package MasterVIPSlaveIPEnvPkg;
   import Axi4LiteSlaveVirtualSeqrPkg::*;
 
   `include "MasterVIPSlaveIPEnvConfig.sv"
+  `include "MasterVIPSlaveIPVirtualSequencer.sv"
   `include "MasterVIPSlaveIPScoreboard.sv"
   `include "MasterVIPSlaveIPEnv.sv"
 

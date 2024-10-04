@@ -4,6 +4,7 @@
 class MasterVIPSlaveIPBaseTest extends uvm_test;
   `uvm_component_utils(MasterVIPSlaveIPBaseTest)
 
+  MasterVIPSlaveIPVirtualBaseSeq masterVIPSlaveIPVirtualBaseSeq;
   MasterVIPSlaveIPEnv masterVIPSlaveIPEnv;
   MasterVIPSlaveIPEnvConfig masterVIPSlaveIPEnvConfig;
   Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfigLocal[];
@@ -259,6 +260,7 @@ endfunction : end_of_elaboration_phase
 
 
 task MasterVIPSlaveIPBaseTest::run_phase(uvm_phase phase);
+  masterVIPSlaveIPVirtualBaseSeq = MasterVIPSlaveIPVirtualBaseSeq::type_id::create("masterVIPSlaveIPVirtualBaseSeq");
   phase.raise_objection(this, "MasterVIPSlaveIPBaseTest");
 
   `uvm_info(get_type_name(), $sformatf("Inside MASTER_BASE_TEST"), UVM_NONE);
