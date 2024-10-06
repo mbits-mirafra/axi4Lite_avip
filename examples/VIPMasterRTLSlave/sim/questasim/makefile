@@ -52,10 +52,10 @@ usage:
 	echo "make compile";
 	echo "";
 	echo "To provide compilation argument:";
-	echo "make compile comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value>\"";
+	echo "make compile comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value>\"";
 	echo "";
 	echo "Example:":
-	echo "make compile comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_READY=1\"";
+	echo "make compile comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_AWREADY=1 +define+DEFAULT_WREADY=1 +define+DEFAULT_BREADY=1 +define+DEFAULT_ARREADY=1 +define+DEFAULT_RREADY=1\"";
 	echo "";
 	echo "To simulate individual test:"
 	echo "make simulate test=<test_name> uvm_verbosity=<VERBOSITY_LEVEL>";
@@ -73,10 +73,10 @@ usage:
 	echo "make regression testlist_name=MasterVIPSlaveIPRegression.list";
 	echo "";
 	echo "To provide compilation argument in the regression:";
-	echo "make regression comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value>\" testlist_name=regression.list";
+	echo "make regression comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value>\" testlist_name=MasterVIPSlaveIPRegression.list";
 	echo "";
 	echo "Example:":
-	echo "make regression comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_READY=1\" testlist_name=MasterVIPSlaveIPRegression.list";
+	echo "make regression comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_AWREADY=1 +define+DEFAULT_WREADY=1 +define+DEFAULT_BREADY=1 +define+DEFAULT_ARREADY=1 +define+DEFAULT_RREADY=1\" testlist_name=MasterVIPSlaveIPRegression.list";
 	echo "";
 	echo "-----------------------------------------------------------------";
 	echo "-----------------------------------------------------------------";

@@ -27,10 +27,10 @@ package MasterVIPSlaveIPTestPkg;
   //including base_test for testing
   `include "MasterVIPSlaveIPBaseTest.sv"
   `include "MasterVIPSlaveIP32bitsWriteReadTest.sv"
-//  `include "MasterVIPSlaveIP32bitsWriteDataTest.sv"
+  `include "MasterVIPSlaveIP32bitsWriteDataTest.sv"
 //  `include "MasterVIPSlaveIPAddressIsOutOfRangeTest.sv"
 //  `include "MasterVIPSlaveIPWriteDataWithWstrbTest.sv"
-//  `include "MasterVIPSlaveIP32bitsReadDataTest.sv"
+  `include "MasterVIPSlaveIP32bitsReadDataTest.sv"
 
 
 
