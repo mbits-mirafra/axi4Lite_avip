@@ -5,7 +5,6 @@ class MasterVIPSlaveIP32bitsWriteDataTest extends MasterVIPSlaveIP32bitsWriteRea
   `uvm_component_utils(MasterVIPSlaveIP32bitsWriteDataTest)
 
   MasterVIPSlaveIPVirtual32bitsWriteSeq masterVIPSlaveIPVirtual32bitsWriteSeq;
-  Axi4LiteMasterWriteCoverage axi4LiteMasterWriteCoverage;
   extern function new(string name = "MasterVIPSlaveIP32bitsWriteDataTest", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
@@ -27,11 +26,7 @@ task MasterVIPSlaveIP32bitsWriteDataTest::run_phase(uvm_phase phase);
    super.run_phase(phase);
     masterVIPSlaveIPVirtual32bitsWriteSeq.start(masterVIPSlaveIPEnv.masterVIPSlaveIPVirtualSequencer); 
    #10;
-/*     if (axi4LiteMasterWriteCoverage.get_inst_coverage()>60)begin
-         axi4LiteMasterWriteCoverage.stop;
-     $display("if coverage%% is greater than 65%%,stop executing covergroup");
-     end
-  */  phase.drop_objection(this);
+   phase.drop_objection(this);
   `uvm_info(get_type_name(),$sformatf("After drop_objection MasterVIPSlaveIP32bitsWriteDataTest"),UVM_LOW);
 
 endtask : run_phase

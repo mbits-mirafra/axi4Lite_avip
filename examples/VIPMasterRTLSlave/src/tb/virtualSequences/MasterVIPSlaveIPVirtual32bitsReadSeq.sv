@@ -4,8 +4,7 @@
 class MasterVIPSlaveIPVirtual32bitsReadSeq extends MasterVIPSlaveIPVirtualBaseSeq;
   `uvm_object_utils(MasterVIPSlaveIPVirtual32bitsReadSeq)
 
-  Axi4LiteMasterRead32bitsTransferSeq axi4LiteMasterRead32bitsTransferSeq;
- 
+  Axi4LiteMasterRead32bitsTransferSeq axi4LiteMasterRead32bitsTransferSeq; 
   extern function new(string name = "MasterVIPSlaveIPVirtual32bitsReadSeq");
   extern task body();
 endclass : MasterVIPSlaveIPVirtual32bitsReadSeq
