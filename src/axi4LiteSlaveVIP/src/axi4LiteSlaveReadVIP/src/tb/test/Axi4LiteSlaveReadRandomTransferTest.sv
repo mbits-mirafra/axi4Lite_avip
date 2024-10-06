@@ -4,7 +4,7 @@
 class Axi4LiteSlaveReadRandomTransferTest extends Axi4LiteSlaveReadBaseTest;
   `uvm_component_utils(Axi4LiteSlaveReadRandomTransferTest)
 
-  Axi4LiteSlaveReadRandomTransferSeq axi4LiteSlaveReadRandomTransferSeq;
+  Axi4LiteSlaveRead32bitsTransferSeq axi4LiteSlaveRead32bitsTransferSeq;
   extern function new(string name = "Axi4LiteSlaveReadRandomTransferTest", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
@@ -22,7 +22,7 @@ endfunction : build_phase
 
 task Axi4LiteSlaveReadRandomTransferTest::run_phase(uvm_phase phase);
 
-  axi4LiteSlaveReadRandomTransferSeq = Axi4LiteSlaveReadRandomTransferSeq ::type_id::create("axi4LiteSlaveReadRandomTransferSeq");
+  axi4LiteSlaveRead32bitsTransferSeq = Axi4LiteSlaveRead32bitsTransferSeq ::type_id::create("axi4LiteSlaveRead32bitsTransferSeq");
 
   `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteSlaveReadRandomTransferTest"),UVM_LOW);
 
@@ -30,7 +30,7 @@ task Axi4LiteSlaveReadRandomTransferTest::run_phase(uvm_phase phase);
    super.run_phase(phase);
   `uvm_info(get_type_name(),$sformatf("After raise_objection Axi4LiteSlaveReadRandomTransferTest"),UVM_LOW);
 
-  axi4LiteSlaveReadRandomTransferSeq.start(axi4LiteReadSlaveEnv.axi4LiteSlaveReadAgent[0].axi4LiteSlaveReadSequencer); 
+  axi4LiteSlaveRead32bitsTransferSeq.start(axi4LiteReadSlaveEnv.axi4LiteSlaveReadAgent[0].axi4LiteSlaveReadSequencer); 
   #10;
 
   `uvm_info(get_type_name(),$sformatf("After start method Axi4LiteSlaveReadRandomTransferTest"),UVM_LOW);

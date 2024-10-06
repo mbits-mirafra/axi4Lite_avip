@@ -46,13 +46,13 @@ function void Axi4LiteSlaveReadBaseTest::setupAxi4LiteSlaveReadAgentConfig();
                                                               $sformatf("axi4LiteSlaveReadAgentConfig[%0d]",i));
 
   axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
-  axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].hasCoverage = 1;
-  axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].defaultStateReady = DEFAULT_READY;
+  axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].hasCoverage = HAS_COVERAGE;
+  axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].defaultStateArready = DEFAULT_ARREADY;
   axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].maxDelayForRready = MAX_DELAY_READY;
   axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].minAddressRange = MIN_ADDRESS;
   axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].maxAddressRange = MAX_ADDRESS;
-  axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].toggleReady = 0;
-  axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].enableOutstandingTransaction = 0;
+  axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].toggleArready = TOGGLE_ARREADY;
+  axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].enableOutstandingTransaction = ENABLE_OUTSTANDINGTX;
 
    uvm_config_db#(Axi4LiteSlaveReadAgentConfig)::set( this, "*", $sformatf("Axi4LiteSlaveReadAgentConfig[%0d]", i),
           axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i]);

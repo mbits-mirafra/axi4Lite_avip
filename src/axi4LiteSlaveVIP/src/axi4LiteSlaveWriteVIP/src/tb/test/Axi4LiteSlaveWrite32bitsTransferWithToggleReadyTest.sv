@@ -24,7 +24,8 @@ endfunction : build_phase
 function void Axi4LiteSlaveWrite32bitsTransferWithToggleReadyTest::setupAxi4LiteSlaveWriteAgentConfig();
   super.setupAxi4LiteSlaveWriteAgentConfig();
   foreach(axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i]) begin
-    axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].toggleReady   = 1;
+    axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].toggleAwready = 1;
+    axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].toggleWready  = 1 ;
 
    uvm_config_db#(Axi4LiteSlaveWriteAgentConfig)::set( this, "*", $sformatf("Axi4LiteSlaveWriteAgentConfig[%0d]", i),
           axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i]);

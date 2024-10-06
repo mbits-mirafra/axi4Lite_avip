@@ -49,20 +49,7 @@ module Axi4LiteSlaveWriteHdlTop;
   genvar i;
   generate
     for (i=0; i<NO_OF_WRITESLAVES; i++) begin : Axi4LiteSlaveWriteAgentBFM
-      Axi4LiteSlaveWriteAgentBFM #() axi4LiteSlaveWriteAgentBFM(.aclk(axi4LiteSlaveWriteInterface.aclk),
-                                                                .aresetn(axi4LiteSlaveWriteInterface.aresetn),
-                                                                .awvalid(axi4LiteSlaveWriteInterface.awvalid),
-                                                                .awready(axi4LiteSlaveWriteInterface.awready),
-                                                                .awaddr(axi4LiteSlaveWriteInterface.awaddr),
-                                                                .awprot(axi4LiteSlaveWriteInterface.awprot),
-                                                                .wvalid(axi4LiteSlaveWriteInterface.wvalid),
-                                                                .wready(axi4LiteSlaveWriteInterface.wready),
-                                                                .wdata(axi4LiteSlaveWriteInterface.wdata),
-                                                                .wstrb(axi4LiteSlaveWriteInterface.wstrb),
-                                                                .bvalid(axi4LiteSlaveWriteInterface.bvalid),
-                                                                .bready(axi4LiteSlaveWriteInterface.bready),
-                                                                .bresp(axi4LiteSlaveWriteInterface.bresp)
-                                                               );
+      Axi4LiteSlaveWriteAgentBFM #() axi4LiteSlaveWriteAgentBFM(axi4LiteSlaveWriteInterface);
     end
   endgenerate
 
