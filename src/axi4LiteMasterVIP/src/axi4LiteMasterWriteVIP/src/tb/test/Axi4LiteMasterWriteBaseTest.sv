@@ -46,17 +46,17 @@ function void Axi4LiteMasterWriteBaseTest::setupAxi4LiteMasterWriteAgentConfig()
                                                               $sformatf("axi4LiteMasterWriteAgentConfig[%0d]",i));
 
   axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
-  axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].hasCoverage = 1;
-  axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].defaultStateReady = DEFAULT_READY;
+  axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].hasCoverage = HAS_COVERAGE;
+  axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].defaultStateBready = DEFAULT_BREADY;
   axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].minAddressRange = MIN_ADDRESS;
   axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].maxAddressRange = MAX_ADDRESS;
   axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].maxDelayForAwready = MAX_DELAY_READY;
   axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].maxDelayForWready = MAX_DELAY_READY;
   axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].maxDelayForBvalid = MAX_DELAY_BVALID;
-  axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].toggleReady = 0;
-  axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].enableOutstandingTransaction = 0;
+  axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].toggleBready = TOGGLE_BREADY;
+  axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].enableOutstandingTransaction = ENABLE_OUTSTANDINGTX;
   axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].maxLimitOfOutstandingTx = MAXLIMITOF_OUTSTANDINGTX;
-  axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].noOfOutstandingTx = 3;
+  axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].noOfOutstandingTx = NO_OF_OUTSTANDINGTX;
 
    uvm_config_db#(Axi4LiteMasterWriteAgentConfig)::set( this, "*", $sformatf("Axi4LiteMasterWriteAgentConfig[%0d]", i),
           axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i]);

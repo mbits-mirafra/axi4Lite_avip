@@ -4,7 +4,7 @@
 class Axi4LiteMasterWriteRandomTransferTest extends Axi4LiteMasterWriteBaseTest;
   `uvm_component_utils(Axi4LiteMasterWriteRandomTransferTest)
 
-  Axi4LiteMasterWriteRandomTransferSeq axi4LiteMasterWriteRandomTransferSeq;
+  Axi4LiteMasterWrite32bitsTransferSeq axi4LiteMasterWrite32bitsTransferSeq;
   extern function new(string name = "Axi4LiteMasterWriteRandomTransferTest", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
@@ -18,7 +18,7 @@ endfunction : new
 
 function void Axi4LiteMasterWriteRandomTransferTest::build_phase(uvm_phase phase);
   super.build_phase(phase);
-  axi4LiteMasterWriteRandomTransferSeq = Axi4LiteMasterWriteRandomTransferSeq ::type_id::create("axi4LiteMasterWriteRandomTransferSeq");
+  axi4LiteMasterWrite32bitsTransferSeq = Axi4LiteMasterWrite32bitsTransferSeq ::type_id::create("axi4LiteMasterWrite32bitsTransferSeq");
 endfunction : build_phase
 
 task Axi4LiteMasterWriteRandomTransferTest::run_phase(uvm_phase phase);
@@ -29,7 +29,7 @@ task Axi4LiteMasterWriteRandomTransferTest::run_phase(uvm_phase phase);
    super.run_phase(phase);
   `uvm_info(get_type_name(),$sformatf("After raise_objection Axi4LiteMasterWriteRandomTransferTest"),UVM_LOW);
 
-  axi4LiteMasterWriteRandomTransferSeq.start(axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent[0].axi4LiteMasterWriteSequencer); 
+  axi4LiteMasterWrite32bitsTransferSeq.start(axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent[0].axi4LiteMasterWriteSequencer); 
   #10;
 
   `uvm_info(get_type_name(),$sformatf("After start method Axi4LiteMasterWriteRandomTransferTest"),UVM_LOW);

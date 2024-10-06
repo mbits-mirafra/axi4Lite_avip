@@ -55,7 +55,7 @@ usage:
 	echo "make compile comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value>\"";
 	echo "";
 	echo "Example:":
-	echo "make compile comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_READY=1\"";
+	echo "make compile comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_BREADY=1\"";
 	echo "";
 	echo "To simulate individual test:"
 	echo "make simulate test=<test_name> uvm_verbosity=<VERBOSITY_LEVEL>";
@@ -69,6 +69,11 @@ usage:
 	echo "Example:":
 	echo "make regression testlist_name=axi4LiteMasterWriteRegression.list";
 	echo "";
+	echo "To provide compilation argument in the regression:";
+	echo "make regression comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value>\" testlist_name=axi4LiteMasterWriteRegression.list";
+	echo "";
+	echo "Example:":
+	echo "make regression comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_BREADY=1\" testlist_name=axi4LiteMasterWriteRegression.list";
 	echo "-----------------------------------------------------------------";
 	echo "-----------------------------------------------------------------";
 	echo "";
