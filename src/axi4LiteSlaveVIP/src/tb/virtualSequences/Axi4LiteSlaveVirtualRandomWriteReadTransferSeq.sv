@@ -4,9 +4,9 @@
 class Axi4LiteSlaveVirtualRandomWriteReadTransferSeq extends Axi4LiteSlaveVirtualBaseSeq;
   `uvm_object_utils(Axi4LiteSlaveVirtualRandomWriteReadTransferSeq)
 
-  Axi4LiteSlaveWriteRandomTransferSeq axi4LiteSlaveWriteRandomTransferSeq;
+  Axi4LiteSlaveWrite32bitsTransferSeq axi4LiteSlaveWrite32bitsTransferSeq;
   
-  Axi4LiteSlaveReadRandomTransferSeq axi4LiteSlaveReadRandomTransferSeq;
+  Axi4LiteSlaveRead32bitsTransferSeq axi4LiteSlaveRead32bitsTransferSeq;
 
   extern function new(string name = "Axi4LiteSlaveVirtualRandomWriteReadTransferSeq");
   extern task body();
@@ -17,20 +17,20 @@ function Axi4LiteSlaveVirtualRandomWriteReadTransferSeq::new(string name = "Axi4
 endfunction : new
 
 task Axi4LiteSlaveVirtualRandomWriteReadTransferSeq::body();
-  axi4LiteSlaveWriteRandomTransferSeq = Axi4LiteSlaveWriteRandomTransferSeq::type_id::create("axi4LiteSlaveWriteRandomTransferSeq");
+  axi4LiteSlaveWrite32bitsTransferSeq = Axi4LiteSlaveWrite32bitsTransferSeq::type_id::create("axi4LiteSlaveWrite32bitsTransferSeq");
 
-  axi4LiteSlaveReadRandomTransferSeq = Axi4LiteSlaveReadRandomTransferSeq::type_id::create("axi4LiteSlaveReadRandomTransferSeq");
+  axi4LiteSlaveRead32bitsTransferSeq = Axi4LiteSlaveRead32bitsTransferSeq::type_id::create("axi4LiteSlaveRead32bitsTransferSeq");
 
   `uvm_info(get_type_name(), $sformatf("Insdie Body Seq start Axi4LiteSlaveVirtualRandomWriteReadTransferSeq"), UVM_NONE); 
   fork 
     begin: T1_SLAVE_WRITE
       repeat(1) begin
-        axi4LiteSlaveWriteRandomTransferSeq.start(p_sequencer.axi4LiteSlaveWriteSequencer);
+        axi4LiteSlaveWrite32bitsTransferSeq.start(p_sequencer.axi4LiteSlaveWriteSequencer);
       end
     end
     begin: T2_SLAVE_READ
       repeat(1) begin
-        axi4LiteSlaveReadRandomTransferSeq.start(p_sequencer.axi4LiteSlaveReadSequencer);
+        axi4LiteSlaveRead32bitsTransferSeq.start(p_sequencer.axi4LiteSlaveReadSequencer);
       end
     end
   join_none
