@@ -5,7 +5,6 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
   `uvm_component_utils(Axi4LiteMasterWriteCoverage)
 
   Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfig;
-
   bit [ADDRESS_WIDTH-1:0] maxAddressRangeCov;
   bit [ADDRESS_WIDTH-1:0] minAddressRangeCov;
 
@@ -37,11 +36,11 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
 
    WRITEADDR_CP : coverpoint packet.awaddr {
    option.comment                                   = "writeAddress value";
-   bins WRITE_ADDRRANGE                             = {[MIN_ADDRESS:MAX_ADDRESS]}; 
-   bins WRITE_EVENADDR                              = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %2 == 0);
-   bins WRITE_ODDADDR                               = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %2 == 1);
-   bins WRITE_MODEOF4ADDR                           = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %4 == 0);
-   bins WRITE_ADDROUTOFRANGE                        = {[minAddressRangeCov:maxAddressRangeCov]};
+   bins WRITE_ADDRRANGE                             = {[minAddressRangeCov : maxAddressRangeCov]}; 
+   bins WRITE_EVENADDR                              = {[minAddressRangeCov : maxAddressRangeCov]} with (item %2 == 0);
+   bins WRITE_ODDADDR                               = {[minAddressRangeCov : maxAddressRangeCov]} with (item %2 == 1);
+   bins WRITE_MODEOF4ADDR                           = {[minAddressRangeCov : maxAddressRangeCov]} with (item %4 == 0);
+   bins WRITE_ADDROUTOFRANGE                        = {[maxAddressRangeCov+1 : $]};
    }
 
    WRITEDATA_CP : coverpoint packet.wdata {
@@ -63,10 +62,10 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
 
    BRESP_CP : coverpoint packet.bresp {
    option.comment                                   = "Write Response values";
-   bins WRITE_OKAY                                  = {WRITE_OKAY};
-   illegal_bins WRITE_EXOKAY                        = {WRITE_EXOKAY};
-   bins WRITE_SLVERR                                = {WRITE_SLVERR};
-   illegal_bins WRITE_DECERR                        = {WRITE_DECERR};
+   bins WRITE_OKAY                                  = {2'b00};
+   illegal_bins WRITE_EXOKAY                        = {2'b01};
+   bins WRITE_SLVERR                                = {2'b10};
+   illegal_bins WRITE_DECERR                        = {2'b11};
   }
 
    AWPROT_CP : coverpoint packet.awprot {
@@ -102,10 +101,14 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
    WRITEADDR_CP_X_BRESP_CP : cross WRITEADDR_CP,BRESP_CP{ 
 // Questa sim tool will not support this cross_auto_bin_max So but Synopsys tool will support it.
 // option.cross_auto_bin_max=0;
-   ignore_bins b1 = binsof(WRITEADDR_CP.WRITE_ADDROUTOFRANGE) && binsof (BRESP_CP.WRITE_OKAY);
-   ignore_bins b2 = ((binsof(WRITEADDR_CP.WRITE_ADDRRANGE) || binsof(WRITEADDR_CP.WRITE_EVENADDR) || 
-                        binsof(WRITEADDR_CP.WRITE_ODDADDR) || binsof(WRITEADDR_CP.WRITE_MODEOF4ADDR)) 
-                        && binsof (BRESP_CP.WRITE_SLVERR));
+//   ignore_bins b1 = binsof(WRITEADDR_CP.WRITE_ADDROUTOFRANGE) && binsof (BRESP_CP.WRITE_OKAY);
+   bins b1 = binsof(WRITEADDR_CP.WRITE_EVENADDR)  && binsof (BRESP_CP.WRITE_OKAY);
+   bins b2 = binsof(WRITEADDR_CP.WRITE_ADDRRANGE) && binsof (BRESP_CP.WRITE_OKAY);
+   bins b3 = binsof(WRITEADDR_CP.WRITE_ODDADDR)   && binsof (BRESP_CP.WRITE_OKAY);
+   bins b4 = binsof(WRITEADDR_CP.WRITE_MODEOF4ADDR) && binsof (BRESP_CP.WRITE_OKAY);
+   ignore_bins b6 = binsof(WRITEADDR_CP.WRITE_ODDADDR) && binsof (BRESP_CP.WRITE_SLVERR); 
+   ignore_bins b7 = binsof(WRITEADDR_CP.WRITE_MODEOF4ADDR) && binsof (BRESP_CP.WRITE_SLVERR);
+   ignore_bins b8 = binsof(WRITEADDR_CP.WRITE_EVENADDR)  && binsof (BRESP_CP.WRITE_SLVERR); 
   }
    endgroup: axi4LiteMasterWriteCovergroup
 

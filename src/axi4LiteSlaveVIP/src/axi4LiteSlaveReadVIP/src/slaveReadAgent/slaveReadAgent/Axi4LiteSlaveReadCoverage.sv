@@ -32,11 +32,11 @@ class Axi4LiteSlaveReadCoverage extends uvm_subscriber#(Axi4LiteSlaveReadTransac
 
     READADDR_CP : coverpoint packet.araddr {
     option.comment                                  = "readAddress value";
-    bins READ_ADDRRANGE                             = {[MIN_ADDRESS:MAX_ADDRESS]};
-    bins READ_EVENADDR                              = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %2 == 0);
-    bins READ_ODDADDR                               = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %2 == 1);
-    bins READ_MODEOF4ADDR                           = {[MIN_ADDRESS:MAX_ADDRESS]} with (item %4 == 0);
-    bins READ_ADDROUTOFRANGE                        = {[minAddressRangeCov:maxAddressRangeCov]};
+    bins READ_ADDRRANGE                             = {[minAddressRangeCov:maxAddressRangeCov]};
+    bins READ_EVENADDR                              = {[minAddressRangeCov:maxAddressRangeCov]} with (item %2 == 0);
+    bins READ_ODDADDR                               = {[minAddressRangeCov:maxAddressRangeCov]} with (item %2 == 1);
+    bins READ_MODEOF4ADDR                           = {[minAddressRangeCov:maxAddressRangeCov]} with (item %4 == 0);
+    bins READ_ADDROUTOFRANGE                        = {[maxAddressRangeCov+1 : $]};
    }
 
     READDATA_CP : coverpoint packet.rdata {
@@ -49,10 +49,10 @@ class Axi4LiteSlaveReadCoverage extends uvm_subscriber#(Axi4LiteSlaveReadTransac
 
    RRESP_CP : coverpoint packet.rresp {
    option.comment                                  = "Read Response values";
-   bins READ_OKAY                                  = {READ_OKAY};
-   illegal_bins READ_EXOKAY                        = {READ_EXOKAY};
-   bins READ_SLVERR                                = {READ_SLVERR};
-   illegal_bins READ_DECERR                        = {READ_DECERR};
+   bins READ_OKAY                                  = {2'b00};
+   illegal_bins READ_EXOKAY                        = {2'b01};
+   bins READ_SLVERR                                = {2'b10};
+   illegal_bins READ_DECERR                        = {2'b11};
   }
 
    ARPROT_CP : coverpoint packet.arprot {
