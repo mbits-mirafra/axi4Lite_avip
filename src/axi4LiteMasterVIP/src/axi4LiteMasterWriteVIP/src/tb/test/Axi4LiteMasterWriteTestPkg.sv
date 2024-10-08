@@ -19,7 +19,7 @@ package Axi4LiteMasterWriteTestPkg;
   `include "Axi4LiteMasterWriteDelayForWvalidTest.sv"
   `include "Axi4LiteMasterWriteDelayForBreadyTest.sv"
   `include "Axi4LiteMasterWriteDelayForAwvalidTest.sv"
-  `include "Axi4LiteMasterWriteEvenAddressTest.sv"
+  `include "Axi4LiteMasterWriteOutOfRangeAddressTest.sv"
   `include "Axi4LiteMasterWriteOddAddressTest.sv"
   `include "Axi4LiteMasterWriteWdataMaxValueTest.sv"
   `include "Axi4LiteMasterWriteWdataToggleValueTest.sv"
