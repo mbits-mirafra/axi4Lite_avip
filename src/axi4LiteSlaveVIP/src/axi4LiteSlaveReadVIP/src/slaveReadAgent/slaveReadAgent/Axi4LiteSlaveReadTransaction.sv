@@ -4,9 +4,9 @@
 class Axi4LiteSlaveReadTransaction extends uvm_sequence_item;
   `uvm_object_utils(Axi4LiteSlaveReadTransaction)
   
-  bit [ADDRESS_WIDTH-1:0] araddr;
+  logic [ADDRESS_WIDTH-1:0] araddr;
   arprotEnum arprot;
-  rand bit [DATA_WIDTH-1:0] rdata;
+  rand logic [DATA_WIDTH-1:0] rdata;
   rand rrespEnum rresp;
 
   int waitCounterForRready;

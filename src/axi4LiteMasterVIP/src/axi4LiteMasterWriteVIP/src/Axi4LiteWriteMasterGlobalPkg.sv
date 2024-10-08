@@ -44,7 +44,7 @@ package Axi4LiteWriteMasterGlobalPkg;
     NON_BLOCKING_WRITE  = 2'b10 
   }transferTypeEnum;
 
-  typedef enum bit [2:0] {
+  typedef enum logic [2:0] {
     WRITE_DATA_SECURE_UNPRIVILEGED            = 3'b000,  
 	  WRITE_DATA_SECURE_PRIVILEGED              = 3'b001,  
 	  WRITE_DATA_NONSECURE_UNPRIVILEGED         = 3'b010,  
@@ -57,11 +57,11 @@ package Axi4LiteWriteMasterGlobalPkg;
 
   typedef struct {
     //Write Address Channel Signals
-    bit [ADDRESS_WIDTH-1:0]  awaddr;
-    bit [2:0]                awprot;
+    logic [ADDRESS_WIDTH-1:0]  awaddr;
+    logic [2:0]                awprot;
     //Write Data Channel Signals
-    bit [DATA_WIDTH-1:0]     wdata;
-    bit [(DATA_WIDTH/8)-1:0] wstrb;
+    logic [DATA_WIDTH-1:0]     wdata;
+    logic [(DATA_WIDTH/8)-1:0] wstrb;
     //Write Response Channel Signals
     logic [1:0] bresp;
 

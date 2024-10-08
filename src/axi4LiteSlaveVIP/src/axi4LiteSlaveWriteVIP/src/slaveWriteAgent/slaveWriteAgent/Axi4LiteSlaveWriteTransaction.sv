@@ -4,10 +4,10 @@
 class Axi4LiteSlaveWriteTransaction extends uvm_sequence_item;
   `uvm_object_utils(Axi4LiteSlaveWriteTransaction)
   
-  bit [ADDRESS_WIDTH-1:0] awaddr;
+  logic [ADDRESS_WIDTH-1:0] awaddr;
   awprotEnum awprot;
-  bit [DATA_WIDTH-1:0] wdata;
-  bit [(DATA_WIDTH/8)-1:0] wstrb;
+  logic [DATA_WIDTH-1:0] wdata;
+  logic [(DATA_WIDTH/8)-1:0] wstrb;
   rand brespEnum bresp;
 
   rand bit [DELAY_WIDTH-1:0] delayForAwready;

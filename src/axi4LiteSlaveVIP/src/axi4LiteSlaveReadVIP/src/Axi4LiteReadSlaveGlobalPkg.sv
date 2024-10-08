@@ -36,12 +36,7 @@ package Axi4LiteReadSlaveGlobalPkg;
     READ = 0
   } transactionTypeEnum;
 
-  typedef enum bit[1:0] {
-    BLOCKING_READ      = 2'b01, 
-    NON_BLOCKING_READ  = 2'b11 
-  }transferTypeEnum;
-
-  typedef enum bit [2:0] {
+  typedef enum logic [2:0] {
     READ_DATA_SECURE_UNPRIVILEGED            = 3'b000,  
 	  READ_DATA_SECURE_PRIVILEGED              = 3'b001,  
 	  READ_DATA_NONSECURE_UNPRIVILEGED         = 3'b010,  
@@ -54,13 +49,13 @@ package Axi4LiteReadSlaveGlobalPkg;
 
   typedef struct {
     //Read Address Channel Signals
-    bit [ADDRESS_WIDTH-1:0]  araddr;
-    bit [2:0]                arprot;
-    bit                      arvalid;
-    bit	                     arready;
+    logic [ADDRESS_WIDTH-1:0]  araddr;
+    logic [2:0]                arprot;
+    logic                      arvalid;
+    logic	                     arready;
     //Read Data Channel Signals
-    bit [DATA_WIDTH-1:0]     rdata;
-    logic [1:0]              rresp;
+    logic [DATA_WIDTH-1:0]     rdata;
+    logic [1:0]                rresp;
 
     int waitCounterForRready;
     bit [DELAY_WIDTH-1:0] delayForArready;

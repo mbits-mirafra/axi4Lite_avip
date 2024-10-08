@@ -101,14 +101,10 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
    WRITEADDR_CP_X_BRESP_CP : cross WRITEADDR_CP,BRESP_CP{ 
 // Questa sim tool will not support this cross_auto_bin_max So but Synopsys tool will support it.
 // option.cross_auto_bin_max=0;
-//   ignore_bins b1 = binsof(WRITEADDR_CP.WRITE_ADDROUTOFRANGE) && binsof (BRESP_CP.WRITE_OKAY);
-   bins b1 = binsof(WRITEADDR_CP.WRITE_EVENADDR)  && binsof (BRESP_CP.WRITE_OKAY);
-   bins b2 = binsof(WRITEADDR_CP.WRITE_ADDRRANGE) && binsof (BRESP_CP.WRITE_OKAY);
-   bins b3 = binsof(WRITEADDR_CP.WRITE_ODDADDR)   && binsof (BRESP_CP.WRITE_OKAY);
-   bins b4 = binsof(WRITEADDR_CP.WRITE_MODEOF4ADDR) && binsof (BRESP_CP.WRITE_OKAY);
-   ignore_bins b6 = binsof(WRITEADDR_CP.WRITE_ODDADDR) && binsof (BRESP_CP.WRITE_SLVERR); 
-   ignore_bins b7 = binsof(WRITEADDR_CP.WRITE_MODEOF4ADDR) && binsof (BRESP_CP.WRITE_SLVERR);
-   ignore_bins b8 = binsof(WRITEADDR_CP.WRITE_EVENADDR)  && binsof (BRESP_CP.WRITE_SLVERR); 
+   ignore_bins b1 = binsof(WRITEADDR_CP.WRITE_ADDROUTOFRANGE) && binsof (BRESP_CP.WRITE_OKAY);
+   ignore_bins b2 = ((binsof(WRITEADDR_CP.WRITE_ADDRRANGE) || binsof(WRITEADDR_CP.WRITE_EVENADDR) || 
+                        binsof(WRITEADDR_CP.WRITE_ODDADDR) || binsof(WRITEADDR_CP.WRITE_MODEOF4ADDR)) 
+                        && binsof (BRESP_CP.WRITE_SLVERR));
   }
    endgroup: axi4LiteMasterWriteCovergroup
 

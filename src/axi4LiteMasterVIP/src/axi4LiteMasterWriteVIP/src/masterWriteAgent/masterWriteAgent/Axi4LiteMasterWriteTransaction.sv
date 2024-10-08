@@ -6,10 +6,10 @@ class Axi4LiteMasterWriteTransaction extends uvm_sequence_item;
 
   Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfig; 
 
-  rand bit [ADDRESS_WIDTH-1:0] awaddr;
+  rand logic [ADDRESS_WIDTH-1:0] awaddr;
   rand awprotEnum awprot;
-  rand bit [DATA_WIDTH-1:0] wdata;
-  rand bit [(DATA_WIDTH/8)-1:0] wstrb;
+  rand logic [DATA_WIDTH-1:0] wdata;
+  rand logic [(DATA_WIDTH/8)-1:0] wstrb;
   brespEnum bresp;
 
   int waitCounterForAwready;

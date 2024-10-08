@@ -6,9 +6,9 @@ class Axi4LiteMasterReadTransaction extends uvm_sequence_item;
 
   Axi4LiteMasterReadAgentConfig axi4LiteMasterReadAgentConfig; 
 
-  rand bit [ADDRESS_WIDTH-1:0] araddr;
+  rand logic [ADDRESS_WIDTH-1:0] araddr;
   rand arprotEnum arprot;
-  bit [DATA_WIDTH-1:0] rdata;
+  logic [DATA_WIDTH-1:0] rdata;
   rrespEnum rresp;
 
   int waitCounterForArready;
