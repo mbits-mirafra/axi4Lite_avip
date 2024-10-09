@@ -34,12 +34,20 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
    bins NUMBER_OF_OUTSTANDING_TX                   = {[1:10]};
    }
 
-   WRITEADDR_CP : coverpoint packet.awaddr {
-   option.comment                                   = "writeAddress value";
-   bins WRITE_ADDRRANGE                             = {[minAddressRangeCov : maxAddressRangeCov]}; 
-   bins WRITE_EVENADDR                              = {[minAddressRangeCov : maxAddressRangeCov]} with (item %2 == 0);
-   bins WRITE_ODDADDR                               = {[minAddressRangeCov : maxAddressRangeCov]} with (item %2 == 1);
-   bins WRITE_MODEOF4ADDR                           = {[minAddressRangeCov : maxAddressRangeCov]} with (item %4 == 0);
+   WRITEADDR_EVENODD_CP : coverpoint packet.awaddr[0] {
+   option.comment                                   = "writeAddress For Odd and Even address";
+   bins WRITE_EVENADDR                              = {0}; 
+   bins WRITE_ODDADDR                               = {1};
+   }
+
+   WRITEADDR_MODEOF4_CP: coverpoint packet.awaddr[00] { 
+   option.comment                                   = "writeAddress For Mode of 4 address";
+   bins WRITE_MODEOF4ADDR                           = {00};
+   }
+ 
+   WRITEADDR_RANGE_CP: coverpoint packet.awaddr { 
+   option.comment                                   = "writeAddress Values";
+   bins WRITE_ADDRRANGE                             = {[minAddressRangeCov: maxAddressRangeCov]}; 
    bins WRITE_ADDROUTOFRANGE                        = {[maxAddressRangeCov+1 : $]};
    }
 
@@ -98,14 +106,20 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
    ignore_bins b3 = (( binsof(WSTRB_CP.ALL_ZEROS)) && binsof(WRITEDATA_CP.WRITE_ANYDATA));
   }
 
-   WRITEADDR_CP_X_BRESP_CP : cross WRITEADDR_CP,BRESP_CP{ 
+   WRITEADDR_EVENODD_CP_X_BRESP_CP : cross WRITEADDR_EVENODD_CP,BRESP_CP{ 
 // Questa sim tool will not support this cross_auto_bin_max So but Synopsys tool will support it.
 // option.cross_auto_bin_max=0;
-   ignore_bins b1 = binsof(WRITEADDR_CP.WRITE_ADDROUTOFRANGE) && binsof (BRESP_CP.WRITE_OKAY);
-   ignore_bins b2 = ((binsof(WRITEADDR_CP.WRITE_ADDRRANGE) || binsof(WRITEADDR_CP.WRITE_EVENADDR) || 
-                        binsof(WRITEADDR_CP.WRITE_ODDADDR) || binsof(WRITEADDR_CP.WRITE_MODEOF4ADDR)) 
-                        && binsof (BRESP_CP.WRITE_SLVERR));
-  }
+   ignore_bins b1 = (( binsof (WRITEADDR_EVENODD_CP.WRITE_EVENADDR) || 
+                       binsof (WRITEADDR_EVENODD_CP.WRITE_ODDADDR)) 
+                       && binsof (BRESP_CP.WRITE_SLVERR));
+ }
+   WRITEADDR_MODEOF4_CP_X_BRESP_CP : cross WRITEADDR_MODEOF4_CP,BRESP_CP{ 
+   ignore_bins b2 = (( binsof(WRITEADDR_MODEOF4_CP.WRITE_MODEOF4ADDR)) && binsof(BRESP_CP.WRITE_SLVERR));
+ }
+   WRITEADDR_RANGE_CP_X_BRESP_CP : cross WRITEADDR_RANGE_CP,BRESP_CP{ 
+   ignore_bins b3 = (( binsof(WRITEADDR_RANGE_CP.WRITE_ADDRRANGE)) && binsof(BRESP_CP.WRITE_SLVERR));
+   ignore_bins b4 = (( binsof(WRITEADDR_RANGE_CP.WRITE_ADDROUTOFRANGE)) && binsof(BRESP_CP.WRITE_OKAY));
+ }
    endgroup: axi4LiteMasterWriteCovergroup
 
    extern function new(string name = "Axi4LiteMasterWriteCoverage", uvm_component parent = null);
@@ -123,12 +137,13 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
 
  function void Axi4LiteMasterWriteCoverage::write(Axi4LiteMasterWriteTransaction t);
    `uvm_info(get_type_name(),$sformatf("Before calling SAMPLE METHOD"),UVM_HIGH);
+   `uvm_info("SWAMY OUPUT", $sformatf("minAddressRangeCov :%0h , maxAddressRangeCov :%0h",minAddressRangeCov,maxAddressRangeCov),UVM_LOW);
    axi4LiteMasterWriteCovergroup.sample(axi4LiteMasterWriteAgentConfig,t);
    `uvm_info(get_type_name(),"After calling SAMPLE METHOD",UVM_HIGH);
  endfunction: write
 
  function void Axi4LiteMasterWriteCoverage::start_of_simulation_phase(uvm_phase phase);
-   uvm_config_db#(Axi4LiteMasterWriteAgentConfig)::get(null, "*", "Axi4LiteMasterWriteAgentConfig",axi4LiteMasterWriteAgentConfig);
+   uvm_config_db#(Axi4LiteMasterWriteAgentConfig)::get(this, "*", "Axi4LiteMasterWriteAgentConfig",axi4LiteMasterWriteAgentConfig);
     `uvm_info(get_type_name(), $sformatf("\nAXI4LITE_MASTER_WRITE_AGENT_CONFIG\n%s",
                  axi4LiteMasterWriteAgentConfig.sprint()),UVM_LOW);
    minAddressRangeCov = axi4LiteMasterWriteAgentConfig.minAddressRange;
