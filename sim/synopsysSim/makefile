@@ -137,7 +137,7 @@ simulate:
 	-sv_seed $(seed) \
 	-cm_dir $(test_folder)/coverage \
 	-l $(test_folder)/$(test).log
-	urg -report $(test_folder) -dir simv.vdb
+	urg -report $(test_folder) -dir $(test_folder)/coverage.vdb 
 
 	# For checking and reporting simulation errors
 	make simulate_war_err
