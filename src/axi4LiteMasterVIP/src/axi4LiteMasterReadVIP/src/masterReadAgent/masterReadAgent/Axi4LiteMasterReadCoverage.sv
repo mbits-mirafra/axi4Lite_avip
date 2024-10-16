@@ -9,31 +9,8 @@ class Axi4LiteMasterReadCoverage extends uvm_subscriber#(Axi4LiteMasterReadTrans
   bit [ADDRESS_WIDTH-1:0] maxAddressRangeCov;
   bit [ADDRESS_WIDTH-1:0] minAddressRangeCov;
 
-  covergroup axi4LiteMasterReadCovergroup with function sample (Axi4LiteMasterReadAgentConfig cfg, Axi4LiteMasterReadTransaction packet);
+  covergroup axi4LiteMasterReadTransactionCovergroup with function sample (Axi4LiteMasterReadTransaction packet); 
     option.per_instance = 1;
-
-   DEFAULTRREADY_CP : coverpoint cfg.defaultStateRready {
-   option.comment                                   = "defaultStateRready value";
-   bins DEFAULT_RREADY_LOW                          = {0}; 
-   bins DEFAULT_RREADY_HIGH                         = {1}; 
-   }
-   
-   TOGGLE_RREADY_CP : coverpoint cfg.toggleRready  {
-   option.comment                                   = "toggleRready value";
-   bins TOGGLE_RREADY_LOW                           = {0};
-   bins TOGGLE_RREADY_HIGH                          = {1};
-   }
-
-   ENABLE_OUTSTANDINGTX_CP : coverpoint cfg.enableOutstandingTransaction {
-   option.comment                                   = "enableOutstandingTransaction value";
-   bins DISABLE_OUTSTANDING_TX                      = {0};
-   bins ENABLE_OUTSTANDING_TX                       = {1};
-   }
-
-   NUMBER_OF_OUTSTANDING_TX_CP : coverpoint cfg.noOfOutstandingTx {
-   option.comment                                  = "cfg.noOfOutstandingTx value";
-   bins NUMBER_OF_OUTSTANDING_TX                   = {[1:10]};
-   }
 
    READADDR_EVENODD_CP : coverpoint packet.araddr[0] {
    option.comment                                   = "ReadAddress For Odd and Even address";
@@ -48,8 +25,7 @@ class Axi4LiteMasterReadCoverage extends uvm_subscriber#(Axi4LiteMasterReadTrans
  
    READADDR_RANGE_CP: coverpoint packet.araddr { 
    option.comment                                   = "ReadAddress Values";
-   bins READ_ADDRRANGE                             = {[minAddressRangeCov: maxAddressRangeCov]}; 
-   bins READ_ADDROUTOFRANGE                        = {[maxAddressRangeCov+1 : $]};
+   bins READ_ADDRRANGE                             = {[MIN_ADDRESS: MAX_ADDRESS]}; 
    }
 
     READDATA_CP : coverpoint packet.rdata {
@@ -102,9 +78,36 @@ class Axi4LiteMasterReadCoverage extends uvm_subscriber#(Axi4LiteMasterReadTrans
  }
    READADDR_RANGE_CP_X_RRESP_CP : cross READADDR_RANGE_CP,RRESP_CP{ 
    ignore_bins b3 = (( binsof(READADDR_RANGE_CP.READ_ADDRRANGE)) && binsof(RRESP_CP.READ_SLVERR));
-   ignore_bins b4 = (( binsof(READADDR_RANGE_CP.READ_ADDROUTOFRANGE)) && binsof(RRESP_CP.READ_OKAY));
  }
-  endgroup: axi4LiteMasterReadCovergroup
+  endgroup: axi4LiteMasterReadTransactionCovergroup
+
+  covergroup axi4LiteMasterReadConfigCovergroup with function sample (Axi4LiteMasterReadAgentConfig cfg);
+    option.per_instance = 1;
+
+   DEFAULTRREADY_CP : coverpoint cfg.defaultStateRready {
+   option.comment                                   = "defaultStateRready value";
+   bins DEFAULT_RREADY_LOW                          = {0}; 
+   bins DEFAULT_RREADY_HIGH                         = {1}; 
+   }
+   
+   TOGGLE_RREADY_CP : coverpoint cfg.toggleRready  {
+   option.comment                                   = "toggleRready value";
+   bins TOGGLE_RREADY_LOW                           = {0};
+   bins TOGGLE_RREADY_HIGH                          = {1};
+   }
+
+   ENABLE_OUTSTANDINGTX_CP : coverpoint cfg.enableOutstandingTransaction {
+   option.comment                                   = "enableOutstandingTransaction value";
+   bins DISABLE_OUTSTANDING_TX                      = {0};
+   bins ENABLE_OUTSTANDING_TX                       = {1};
+   }
+
+   NUMBER_OF_OUTSTANDING_TX_CP : coverpoint cfg.noOfOutstandingTx {
+   option.comment                                  = "cfg.noOfOutstandingTx value";
+   bins NUMBER_OF_OUTSTANDING_TX                   = {[1:10]};
+   }
+
+  endgroup: axi4LiteMasterReadConfigCovergroup
 
   extern function new(string name = "Axi4LiteMasterReadCoverage", uvm_component parent = null);
   extern virtual function void write(Axi4LiteMasterReadTransaction t);
@@ -116,15 +119,16 @@ endclass : Axi4LiteMasterReadCoverage
 function Axi4LiteMasterReadCoverage::new(string name = "Axi4LiteMasterReadCoverage",
                                  uvm_component parent = null);
   super.new(name, parent);
-  axi4LiteMasterReadCovergroup =new();
+  axi4LiteMasterReadTransactionCovergroup = new();
+  axi4LiteMasterReadConfigCovergroup      = new();
 endfunction : new
 
 function void Axi4LiteMasterReadCoverage::write(Axi4LiteMasterReadTransaction t);
  `uvm_info(get_type_name(),$sformatf("Before calling SAMPLE METHOD"),UVM_HIGH);
   `uvm_info("SWAMY Tx print", $sformatf("\nAXI4LITE_MASTER_TX\n%s",
                  t.sprint()),UVM_LOW);
- axi4LiteMasterReadCovergroup.sample(axi4LiteMasterReadAgentConfig, t);
-
+ axi4LiteMasterReadTransactionCovergroup.sample(t);
+ axi4LiteMasterReadConfigCovergroup.sample(axi4LiteMasterReadAgentConfig);
   `uvm_info(get_type_name(),"After calling SAMPLE METHOD",UVM_HIGH);
 endfunction: write
 
@@ -137,7 +141,8 @@ endfunction: write
  endfunction: start_of_simulation_phase
 
 function void Axi4LiteMasterReadCoverage::report_phase(uvm_phase phase);
- `uvm_info(get_type_name(),$sformatf("AXI4LITE Master Read Agent Coverage = %0.2f %%", axi4LiteMasterReadCovergroup.get_coverage()), UVM_NONE);
+ `uvm_info(get_type_name(),$sformatf("AXI4LITE Master Read Agent Transaction Coverage = %0.2f %%", axi4LiteMasterReadTransactionCovergroup.get_coverage()), UVM_NONE);
+ `uvm_info(get_type_name(),$sformatf("AXI4LITE Master Read Agent Config Coverage = %0.2f %%", axi4LiteMasterReadConfigCovergroup.get_coverage()), UVM_NONE);
 endfunction: report_phase
 
 `endif

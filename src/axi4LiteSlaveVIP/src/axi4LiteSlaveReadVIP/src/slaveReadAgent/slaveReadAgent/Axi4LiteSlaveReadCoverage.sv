@@ -9,26 +9,8 @@ class Axi4LiteSlaveReadCoverage extends uvm_subscriber#(Axi4LiteSlaveReadTransac
    bit [ADDRESS_WIDTH-1:0] maxAddressRangeCov;
    bit [ADDRESS_WIDTH-1:0] minAddressRangeCov;
 
-  covergroup axi4LiteSlaveReadCovergroup with function sample (Axi4LiteSlaveReadAgentConfig cfg, Axi4LiteSlaveReadTransaction packet);
+  covergroup axi4LiteSlaveReadTransactionCovergroup with function sample (Axi4LiteSlaveReadTransaction packet);
    option.per_instance = 1; 
-
-   DEFAULTARREADY_CP : coverpoint cfg.defaultStateArready {
-   option.comment                                   = "defaultStateArready value";
-   bins DEFAULT_ARREADY_LOW                          = {0}; 
-   bins DEFAULT_ARREADY_HIGH                         = {1}; 
-   }
-   
-   TOGGLE_ARREADY_CP : coverpoint cfg.toggleArready  {
-   option.comment                                   = "toggleArready value";
-   bins TOGGLE_ARREADY_LOW                           = {0};
-   bins TOGGLE_ARREADY_HIGH                          = {1};
-   }
-
-   ENABLE_OUTSTANDINGTX_CP : coverpoint cfg.enableOutstandingTransaction {
-   option.comment                                   = "enableOutstandingTransaction value";
-   bins DISABLE_OUTSTANDING_TX                      = {0};
-   bins ENABLE_OUTSTANDING_TX                       = {1};
-   }
 
    READADDR_EVENODD_CP : coverpoint packet.araddr[0] {
    option.comment                                   = "ReadAddress For Odd and Even address";
@@ -43,8 +25,7 @@ class Axi4LiteSlaveReadCoverage extends uvm_subscriber#(Axi4LiteSlaveReadTransac
  
    READADDR_RANGE_CP: coverpoint packet.araddr { 
    option.comment                                   = "ReadAddress Values";
-   bins READ_ADDRRANGE                             = {[minAddressRangeCov: maxAddressRangeCov]}; 
-   bins READ_ADDROUTOFRANGE                        = {[maxAddressRangeCov+1 : $]};
+   bins READ_ADDRRANGE                             = {[MIN_ADDRESS:MAX_ADDRESS]}; 
    }
 
     READDATA_CP : coverpoint packet.rdata {
@@ -96,10 +77,32 @@ class Axi4LiteSlaveReadCoverage extends uvm_subscriber#(Axi4LiteSlaveReadTransac
  }
    READADDR_RANGE_CP_X_RRESP_CP : cross READADDR_RANGE_CP,RRESP_CP{ 
    ignore_bins b3 = (( binsof(READADDR_RANGE_CP.READ_ADDRRANGE)) && binsof(RRESP_CP.READ_SLVERR));
-   ignore_bins b4 = (( binsof(READADDR_RANGE_CP.READ_ADDROUTOFRANGE)) && binsof(RRESP_CP.READ_OKAY));
   }
 
-  endgroup: axi4LiteSlaveReadCovergroup
+endgroup : axi4LiteSlaveReadTransactionCovergroup
+
+  covergroup axi4LiteSlaveReadConfigCovergroup with function sample (Axi4LiteSlaveReadAgentConfig cfg);
+   option.per_instance = 1; 
+
+   DEFAULTARREADY_CP : coverpoint cfg.defaultStateArready {
+   option.comment                                   = "defaultStateArready value";
+   bins DEFAULT_ARREADY_LOW                          = {0}; 
+   bins DEFAULT_ARREADY_HIGH                         = {1}; 
+   }
+   
+   TOGGLE_ARREADY_CP : coverpoint cfg.toggleArready  {
+   option.comment                                   = "toggleArready value";
+   bins TOGGLE_ARREADY_LOW                           = {0};
+   bins TOGGLE_ARREADY_HIGH                          = {1};
+   }
+
+   ENABLE_OUTSTANDINGTX_CP : coverpoint cfg.enableOutstandingTransaction {
+   option.comment                                   = "enableOutstandingTransaction value";
+   bins DISABLE_OUTSTANDING_TX                      = {0};
+   bins ENABLE_OUTSTANDING_TX                       = {1};
+   }
+
+  endgroup: axi4LiteSlaveReadConfigCovergroup
 
   extern function new(string name = "Axi4LiteSlaveReadCoverage", uvm_component parent = null);
   extern virtual function void write(Axi4LiteSlaveReadTransaction t);
@@ -110,14 +113,16 @@ endclass : Axi4LiteSlaveReadCoverage
 
 function Axi4LiteSlaveReadCoverage::new(string name = "Axi4LiteSlaveReadCoverage",uvm_component parent = null);
   super.new(name, parent);
-  axi4LiteSlaveReadCovergroup =new();
+  axi4LiteSlaveReadTransactionCovergroup = new();
+  axi4LiteSlaveReadConfigCovergroup      = new();
 endfunction : new
 
 
 function void Axi4LiteSlaveReadCoverage::write(Axi4LiteSlaveReadTransaction t);
  `uvm_info(get_type_name(),$sformatf("Before calling SAMPLE METHOD"),UVM_HIGH);
 
-  axi4LiteSlaveReadCovergroup.sample(axi4LiteSlaveReadAgentConfig, t);
+  axi4LiteSlaveReadTransactionCovergroup.sample(t);
+  axi4LiteSlaveReadConfigCovergroup.sample(axi4LiteSlaveReadAgentConfig);
 
   `uvm_info(get_type_name(),"After calling SAMPLE METHOD",UVM_HIGH);
 
@@ -132,7 +137,8 @@ function void Axi4LiteSlaveReadCoverage::start_of_simulation_phase(uvm_phase pha
 endfunction: start_of_simulation_phase
 
 function void Axi4LiteSlaveReadCoverage::report_phase(uvm_phase phase);
-  `uvm_info(get_type_name(),$sformatf("AXI4 Slave Agent Coverage = %0.2f %%", axi4LiteSlaveReadCovergroup.get_coverage()), UVM_NONE);
+  `uvm_info(get_type_name(),$sformatf("AXI4 Slave Agent Transaction Coverage = %0.2f %%", axi4LiteSlaveReadTransactionCovergroup.get_coverage()), UVM_NONE);
+  `uvm_info(get_type_name(),$sformatf("AXI4 Slave Agent Config Coverage = %0.2f %%", axi4LiteSlaveReadConfigCovergroup.get_coverage()), UVM_NONE);
 endfunction: report_phase
 
 `endif

@@ -4,35 +4,13 @@
 class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTransaction);
   `uvm_component_utils(Axi4LiteMasterWriteCoverage)
 
+  Axi4LiteMasterWriteTransaction axi4LiteMasterWriteTransaction;
   Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfig;
-  bit [ADDRESS_WIDTH-1:0] maxAddressRangeCov;
+/*bit [ADDRESS_WIDTH-1:0] maxAddressRangeCov;
   bit [ADDRESS_WIDTH-1:0] minAddressRangeCov;
-
-  covergroup axi4LiteMasterWriteCovergroup with function sample (Axi4LiteMasterWriteAgentConfig cfg, Axi4LiteMasterWriteTransaction packet);
-    option.per_instance = 1;
-
-   DEFAULTBREADY_CP : coverpoint cfg.defaultStateBready {
-   option.comment                                   = "defaultStateBready value";
-   bins DEFAULT_BREADY_LOW                          = {0}; 
-   bins DEFAULT_BREADY_HIGH                         = {1}; 
-   }
-   
-   TOGGLE_BREADY_CP : coverpoint cfg.toggleBready  {
-   option.comment                                   = "toggleBready value";
-   bins TOGGLE_BREADY_LOW                           = {0};
-   bins TOGGLE_BREADY_HIGH                          = {1};
-   }
-
-   ENABLE_OUTSTANDINGTX_CP : coverpoint cfg.enableOutstandingTransaction {
-   option.comment                                   = "enableOutstandingTransaction value";
-   bins DISABLE_OUTSTANDING_TX                      = {0};
-   bins ENABLE_OUTSTANDING_TX                       = {1};
-   }
-
-   NUMBER_OF_OUTSTANDING_TX_CP : coverpoint cfg.noOfOutstandingTx {
-   option.comment                                  = "cfg.noOfOutstandingTx value";
-   bins NUMBER_OF_OUTSTANDING_TX                   = {[1:10]};
-   }
+*/
+  covergroup axi4LiteMasterWriteTransactionCovergroup with function sample (Axi4LiteMasterWriteTransaction packet);
+  option.per_instance = 1;
 
    WRITEADDR_EVENODD_CP : coverpoint packet.awaddr[0] {
    option.comment                                   = "writeAddress For Odd and Even address";
@@ -47,8 +25,7 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
  
    WRITEADDR_RANGE_CP: coverpoint packet.awaddr { 
    option.comment                                   = "writeAddress Values";
-   bins WRITE_ADDRRANGE                             = {[minAddressRangeCov: maxAddressRangeCov]}; 
-   bins WRITE_ADDROUTOFRANGE                        = {[maxAddressRangeCov+1 : $]};
+   bins WRITE_ADDRRANGE                             = {[MIN_ADDRESS:MAX_ADDRESS]}; 
    }
 
    WRITEDATA_CP : coverpoint packet.wdata {
@@ -88,6 +65,19 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
 	 illegal_bins INSTRUCTION_NONSECURE_PRIVILEGED    = {WRITE_INSTRUCTION_NONSECURE_PRIVILEGED};  
 	}
 
+   WRITEADDR_EVENODD_CP_X_BRESP_CP : cross WRITEADDR_EVENODD_CP,BRESP_CP{ 
+// Questa sim tool will not support this cross_auto_bin_max So but Synopsys tool will support it.
+// option.cross_auto_bin_max=0;
+   ignore_bins b1 = (( binsof (WRITEADDR_EVENODD_CP.WRITE_EVENADDR) || 
+                       binsof (WRITEADDR_EVENODD_CP.WRITE_ODDADDR)) 
+                       && binsof (BRESP_CP.WRITE_SLVERR));
+ }
+   WRITEADDR_MODEOF4_CP_X_BRESP_CP : cross WRITEADDR_MODEOF4_CP,BRESP_CP{ 
+   ignore_bins b2 = (( binsof(WRITEADDR_MODEOF4_CP.WRITE_MODEOF4ADDR)) && binsof(BRESP_CP.WRITE_SLVERR));
+ }
+   WRITEADDR_RANGE_CP_X_BRESP_CP : cross WRITEADDR_RANGE_CP,BRESP_CP{ 
+   ignore_bins b3 = (( binsof(WRITEADDR_RANGE_CP.WRITE_ADDRRANGE)) && binsof(BRESP_CP.WRITE_SLVERR));
+ }
    AWPROT_CP_X_BRESP_CP    : cross AWPROT_CP, BRESP_CP{
    ignore_bins b1 = (( binsof(AWPROT_CP.DATA_SECURE_UNPRIVILEGED) || binsof(AWPROT_CP.DATA_SECURE_PRIVILEGED) ||
                        binsof(AWPROT_CP.DATA_NONSECURE_UNPRIVILEGED) || binsof(AWPROT_CP.DATA_NONSECURE_PRIVILEGED))
@@ -106,21 +96,35 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
    ignore_bins b3 = (( binsof(WSTRB_CP.ALL_ZEROS)) && binsof(WRITEDATA_CP.WRITE_ANYDATA));
   }
 
-   WRITEADDR_EVENODD_CP_X_BRESP_CP : cross WRITEADDR_EVENODD_CP,BRESP_CP{ 
-// Questa sim tool will not support this cross_auto_bin_max So but Synopsys tool will support it.
-// option.cross_auto_bin_max=0;
-   ignore_bins b1 = (( binsof (WRITEADDR_EVENODD_CP.WRITE_EVENADDR) || 
-                       binsof (WRITEADDR_EVENODD_CP.WRITE_ODDADDR)) 
-                       && binsof (BRESP_CP.WRITE_SLVERR));
- }
-   WRITEADDR_MODEOF4_CP_X_BRESP_CP : cross WRITEADDR_MODEOF4_CP,BRESP_CP{ 
-   ignore_bins b2 = (( binsof(WRITEADDR_MODEOF4_CP.WRITE_MODEOF4ADDR)) && binsof(BRESP_CP.WRITE_SLVERR));
- }
-   WRITEADDR_RANGE_CP_X_BRESP_CP : cross WRITEADDR_RANGE_CP,BRESP_CP{ 
-   ignore_bins b3 = (( binsof(WRITEADDR_RANGE_CP.WRITE_ADDRRANGE)) && binsof(BRESP_CP.WRITE_SLVERR));
-   ignore_bins b4 = (( binsof(WRITEADDR_RANGE_CP.WRITE_ADDROUTOFRANGE)) && binsof(BRESP_CP.WRITE_OKAY));
- }
-   endgroup: axi4LiteMasterWriteCovergroup
+  endgroup : axi4LiteMasterWriteTransactionCovergroup
+
+  covergroup axi4LiteMasterWriteConfigCovergroup with function sample (Axi4LiteMasterWriteAgentConfig cfg);
+    option.per_instance = 1;
+
+   DEFAULTBREADY_CP : coverpoint cfg.defaultStateBready {
+   option.comment                                   = "defaultStateBready value";
+   bins DEFAULT_BREADY_LOW                          = {0}; 
+   bins DEFAULT_BREADY_HIGH                         = {1}; 
+   }
+   
+   TOGGLE_BREADY_CP : coverpoint cfg.toggleBready  {
+   option.comment                                   = "toggleBready value";
+   bins TOGGLE_BREADY_LOW                           = {0};
+   bins TOGGLE_BREADY_HIGH                          = {1};
+   }
+
+   ENABLE_OUTSTANDINGTX_CP : coverpoint cfg.enableOutstandingTransaction {
+   option.comment                                   = "enableOutstandingTransaction value";
+   bins DISABLE_OUTSTANDING_TX                      = {0};
+   bins ENABLE_OUTSTANDING_TX                       = {1};
+   }
+
+   NUMBER_OF_OUTSTANDING_TX_CP : coverpoint cfg.noOfOutstandingTx {
+   option.comment                                  = "cfg.noOfOutstandingTx value";
+   bins NUMBER_OF_OUTSTANDING_TX                   = {[1:10]};
+   }
+
+   endgroup: axi4LiteMasterWriteConfigCovergroup
 
    extern function new(string name = "Axi4LiteMasterWriteCoverage", uvm_component parent = null);
    extern virtual function void write(Axi4LiteMasterWriteTransaction t);
@@ -132,13 +136,15 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
   function Axi4LiteMasterWriteCoverage::new(string name = "Axi4LiteMasterWriteCoverage",
    uvm_component parent = null);
    super.new(name, parent);
-   axi4LiteMasterWriteCovergroup = new();
+   axi4LiteMasterWriteTransactionCovergroup = new();
+   axi4LiteMasterWriteConfigCovergroup      = new();
  endfunction : new
 
  function void Axi4LiteMasterWriteCoverage::write(Axi4LiteMasterWriteTransaction t);
    `uvm_info(get_type_name(),$sformatf("Before calling SAMPLE METHOD"),UVM_HIGH);
-   `uvm_info("SWAMY OUPUT", $sformatf("minAddressRangeCov :%0h , maxAddressRangeCov :%0h",minAddressRangeCov,maxAddressRangeCov),UVM_LOW);
-   axi4LiteMasterWriteCovergroup.sample(axi4LiteMasterWriteAgentConfig,t);
+   `uvm_info("SWAMY OUPUT", $sformatf("MIN_ADDRESS :%0h , MAX_ADDRESS :%0h Awaddr :%0b",MIN_ADDRESS,MAX_ADDRESS,t.awaddr),UVM_LOW);
+   axi4LiteMasterWriteTransactionCovergroup.sample(t);
+   axi4LiteMasterWriteConfigCovergroup.sample(axi4LiteMasterWriteAgentConfig);
    `uvm_info(get_type_name(),"After calling SAMPLE METHOD",UVM_HIGH);
  endfunction: write
 
@@ -146,12 +152,13 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
    uvm_config_db#(Axi4LiteMasterWriteAgentConfig)::get(this, "*", "Axi4LiteMasterWriteAgentConfig",axi4LiteMasterWriteAgentConfig);
     `uvm_info(get_type_name(), $sformatf("\nAXI4LITE_MASTER_WRITE_AGENT_CONFIG\n%s",
                  axi4LiteMasterWriteAgentConfig.sprint()),UVM_LOW);
-   minAddressRangeCov = axi4LiteMasterWriteAgentConfig.minAddressRange;
-   maxAddressRangeCov = axi4LiteMasterWriteAgentConfig.maxAddressRange;
+ //  minAddressRangeCov = axi4LiteMasterWriteAgentConfig.minAddressRange;
+ //  maxAddressRangeCov = axi4LiteMasterWriteAgentConfig.maxAddressRange;
  endfunction: start_of_simulation_phase
 
  function void Axi4LiteMasterWriteCoverage::report_phase(uvm_phase phase);
-   `uvm_info(get_type_name(),$sformatf("AXI4LITE Master Write Agent Coverage = %0.2f %%", axi4LiteMasterWriteCovergroup.get_coverage()), UVM_NONE);
+   `uvm_info(get_type_name(),$sformatf("AXI4LITE Master Write Agent Transaction Coverage = %0.2f %%", axi4LiteMasterWriteTransactionCovergroup.get_coverage()), UVM_NONE);
+   `uvm_info(get_type_name(),$sformatf("AXI4LITE Master Write Agent Config Coverage = %0.2f %%", axi4LiteMasterWriteConfigCovergroup.get_coverage()), UVM_NONE);
  endfunction: report_phase
 
 `endif

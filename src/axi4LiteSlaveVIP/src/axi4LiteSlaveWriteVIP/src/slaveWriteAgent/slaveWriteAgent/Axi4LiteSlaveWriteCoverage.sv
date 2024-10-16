@@ -9,39 +9,9 @@ class Axi4LiteSlaveWriteCoverage extends uvm_subscriber#(Axi4LiteSlaveWriteTrans
    bit [ADDRESS_WIDTH-1:0] maxAddressRangeCov;
    bit [ADDRESS_WIDTH-1:0] minAddressRangeCov;
 
-   covergroup axi4LiteSlaveWriteCovergroup with function sample (Axi4LiteSlaveWriteAgentConfig cfg, Axi4LiteSlaveWriteTransaction packet);
+   covergroup axi4LiteSlaveWriteTransactionCovergroup with function sample (Axi4LiteSlaveWriteTransaction packet);
    option.per_instance = 1;
-
-   DEFAULTAWREADY_CP : coverpoint cfg.defaultStateAwready {
-   option.comment                                    = "defaultStateAwready value";
-   bins DEFAULT_AWREADY_LOW                          = {0}; 
-   bins DEFAULT_AWREADY_HIGH                         = {1}; 
-   }
    
-   DEFAULTWREADY_CP : coverpoint cfg.defaultStateWready {
-   option.comment                                   = "defaultStateWready value";
-   bins DEFAULT_WREADY_LOW                          = {0}; 
-   bins DEFAULT_WREADY_HIGH                         = {1}; 
-   }
-   
-   TOGGLE_AWREADY_CP : coverpoint cfg.toggleAwready  {
-   option.comment                                    = "toggleAwready value";
-   bins TOGGLE_AWREADY_LOW                           = {0};
-   bins TOGGLE_AWREADY_HIGH                          = {1};
-   }
-
-   TOGGLE_WREADY_CP : coverpoint cfg.toggleWready  {
-   option.comment                                   = "toggleWready value";
-   bins TOGGLE_WREADY_LOW                           = {0};
-   bins TOGGLE_WREADY_HIGH                          = {1};
-   }
-
-   ENABLE_OUTSTANDINGTX_CP : coverpoint cfg.enableOutstandingTransaction {
-   option.comment                                   = "enableOutstandingTransaction value";
-   bins DISABLE_OUTSTANDING_TX                      = {0};
-   bins ENABLE_OUTSTANDING_TX                       = {1};
-   }
-
    WRITEADDR_EVENODD_CP : coverpoint packet.awaddr[0] {
    option.comment                                   = "writeAddress For Odd and Even address";
    bins WRITE_EVENADDR                              = {0}; 
@@ -55,8 +25,7 @@ class Axi4LiteSlaveWriteCoverage extends uvm_subscriber#(Axi4LiteSlaveWriteTrans
  
    WRITEADDR_RANGE_CP: coverpoint packet.awaddr { 
    option.comment                                   = "writeAddress Values";
-   bins WRITE_ADDRRANGE                             = {[minAddressRangeCov: maxAddressRangeCov]}; 
-   bins WRITE_ADDROUTOFRANGE                        = {[maxAddressRangeCov+1 : $]};
+   bins WRITE_ADDRRANGE                             = {[MIN_ADDRESS:MAX_ADDRESS]}; 
    }
 
    WRITEDATA_CP : coverpoint packet.wdata {
@@ -126,10 +95,43 @@ class Axi4LiteSlaveWriteCoverage extends uvm_subscriber#(Axi4LiteSlaveWriteTrans
  }
    WRITEADDR_RANGE_CP_X_BRESP_CP : cross WRITEADDR_RANGE_CP,BRESP_CP{ 
    ignore_bins b3 = (( binsof(WRITEADDR_RANGE_CP.WRITE_ADDRRANGE)) && binsof(BRESP_CP.WRITE_SLVERR));
-   ignore_bins b4 = (( binsof(WRITEADDR_RANGE_CP.WRITE_ADDROUTOFRANGE)) && binsof(BRESP_CP.WRITE_OKAY));
   }
 
-  endgroup: axi4LiteSlaveWriteCovergroup
+  endgroup: axi4LiteSlaveWriteTransactionCovergroup
+
+   covergroup axi4LiteSlaveWriteConfigCovergroup with function sample (Axi4LiteSlaveWriteAgentConfig cfg);
+   option.per_instance = 1;
+
+   DEFAULTAWREADY_CP : coverpoint cfg.defaultStateAwready {
+   option.comment                                    = "defaultStateAwready value";
+   bins DEFAULT_AWREADY_LOW                          = {0}; 
+   bins DEFAULT_AWREADY_HIGH                         = {1}; 
+   }
+
+   DEFAULTWREADY_CP : coverpoint cfg.defaultStateWready {
+   option.comment                                   = "defaultStateWready value";
+   bins DEFAULT_WREADY_LOW                          = {0}; 
+   bins DEFAULT_WREADY_HIGH                         = {1}; 
+   }
+   
+   TOGGLE_AWREADY_CP : coverpoint cfg.toggleAwready  {
+   option.comment                                    = "toggleAwready value";
+   bins TOGGLE_AWREADY_LOW                           = {0};
+   bins TOGGLE_AWREADY_HIGH                          = {1};
+   }
+
+   TOGGLE_WREADY_CP : coverpoint cfg.toggleWready  {
+   option.comment                                   = "toggleWready value";
+   bins TOGGLE_WREADY_LOW                           = {0};
+   bins TOGGLE_WREADY_HIGH                          = {1};
+   }
+
+   ENABLE_OUTSTANDINGTX_CP : coverpoint cfg.enableOutstandingTransaction {
+   option.comment                                   = "enableOutstandingTransaction value";
+   bins DISABLE_OUTSTANDING_TX                      = {0};
+   bins ENABLE_OUTSTANDING_TX                       = {1};
+   }
+  endgroup: axi4LiteSlaveWriteConfigCovergroup
  
   extern function new(string name = "Axi4LiteSlaveWriteCoverage", uvm_component parent = null);
   extern virtual function void write(Axi4LiteSlaveWriteTransaction t);
@@ -139,13 +141,15 @@ endclass : Axi4LiteSlaveWriteCoverage
 
 function Axi4LiteSlaveWriteCoverage::new(string name = "Axi4LiteSlaveWriteCoverage",uvm_component parent = null);
   super.new(name, parent);
-  axi4LiteSlaveWriteCovergroup =new();
+  axi4LiteSlaveWriteTransactionCovergroup = new();
+  axi4LiteSlaveWriteConfigCovergroup      = new();
 endfunction : new
 
 function void Axi4LiteSlaveWriteCoverage::write(Axi4LiteSlaveWriteTransaction t);
  `uvm_info(get_type_name(),$sformatf("Before calling SAMPLE METHOD"),UVM_HIGH);
 
-  axi4LiteSlaveWriteCovergroup.sample(axi4LiteSlaveWriteAgentConfig,t);
+  axi4LiteSlaveWriteTransactionCovergroup.sample(t);
+  axi4LiteSlaveWriteConfigCovergroup.sample(axi4LiteSlaveWriteAgentConfig);
 
   `uvm_info(get_type_name(),"After calling SAMPLE METHOD",UVM_HIGH);
 
@@ -160,7 +164,8 @@ function void Axi4LiteSlaveWriteCoverage::start_of_simulation_phase(uvm_phase ph
 endfunction: start_of_simulation_phase
 
 function void Axi4LiteSlaveWriteCoverage::report_phase(uvm_phase phase);
-  `uvm_info(get_type_name(),$sformatf("AXI4LITE Slave Agent Coverage = %0.2f %%", axi4LiteSlaveWriteCovergroup.get_coverage()), UVM_NONE);
+  `uvm_info(get_type_name(),$sformatf("AXI4LITE Slave Agent Transaction Coverage = %0.2f %%", axi4LiteSlaveWriteTransactionCovergroup.get_coverage()), UVM_NONE);
+  `uvm_info(get_type_name(),$sformatf("AXI4LITE Slave Agent Config Coverage = %0.2f %%", axi4LiteSlaveWriteConfigCovergroup.get_coverage()), UVM_NONE);
 endfunction: report_phase
 
 `endif
