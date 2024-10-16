@@ -25,8 +25,24 @@ interface Axi4LiteMasterWriteAssertions (input  aclk,
   import uvm_pkg::*;
   `include "uvm_macros.svh";
 
+  import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteAgentConfig;
+
+  Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfig;
+
   initial begin
     `uvm_info("Axi4LiteMasterWriteAssertions","Axi4LiteMasterWriteAssertions",UVM_LOW);
+  end
+
+  bit defaultStateBready;
+
+  initial begin
+    start_of_simulation_ph.wait_for_state(UVM_PHASE_STARTED);
+
+    if(!uvm_config_db#(Axi4LiteMasterWriteAgentConfig)::get(null, "*", "Axi4LiteMasterWriteAgentConfig",axi4LiteMasterWriteAgentConfig)) begin
+    `uvm_fatal("FATAL_WRITEMASTER_ASSERTION_CANNOT_GET","cannot get() axi4LiteMasterWriteAgentConfig");
+
+    end
+    defaultStateBready = axi4LiteMasterWriteAgentConfig.defaultStateBready;
   end
 
   property ifValidHighThenInformationNotUnknown(logic valid, logic information);
@@ -70,11 +86,9 @@ IFBVALIDASSERTED_THEN_BRESP_NOTUNKNOWN: assert property (ifBvalidHighThenBrespNo
     $error("IFBVALIDASSERTED_THEN_BRESP_NOTUNKNOWN : NOT ASSERTED");
 
 
-    if(Axi4LiteWriteMasterGlobalPkg::DEFAULT_BREADY != 1) begin
-
     property validAssertedAndStableWithin16ClkReadyAsserted(logic valid, logic ready);
       @(posedge aclk) disable iff (!aresetn)
-        ($rose(valid) && !ready) |=> ($stable(valid) throughout (##[0:MAX_DELAY_READY] $rose(ready)));
+        ($rose(valid) && (ready===0)) |=> ($stable(valid) throughout (##[0:MAX_DELAY_READY] $rose(ready)));
     endproperty
 
 IFAWVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_AWREADYASSERTED: assert property (validAssertedAndStableWithin16ClkReadyAsserted(awvalid, awready))
@@ -95,7 +109,7 @@ IFBVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_BREADYASSERTED: assert property (
 
     property awvalidIsHighThenInformationStableUntilTransferOccur(logic awvalid, logic awready, logic awaddr, logic awprot);
      @(posedge aclk) disable iff (!aresetn)
-      ($rose(awvalid) && !awready) |=> (($stable(awvalid) && $stable(awaddr) && $stable(awprot)) throughout awready[->1]);
+      ($rose(awvalid) && (awready===0)) |=> (($stable(awvalid) && $stable(awaddr) && $stable(awprot)) throughout awready[->1]);
     endproperty
 
 IFAWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(awvalidIsHighThenInformationStableUntilTransferOccur(awvalid, awready, awaddr, awprot))
@@ -106,7 +120,7 @@ IFAWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(awva
     property wvalidIsHighThenInformationStableUntilTransferOccur(logic wvalid, logic wready, 
                                                                   logic wdata, logic wstrb);
      @(posedge aclk) disable iff (!aresetn)
-        ($rose(wvalid) && !wready) |=> (($stable(wvalid) && $stable(wdata) && $stable(wstrb)) throughout wready[->1]);
+        ($rose(wvalid) && (wready===0)) |=> (($stable(wvalid) && $stable(wdata) && $stable(wstrb)) throughout wready[->1]);
     endproperty
 
 IFWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(wvalidIsHighThenInformationStableUntilTransferOccur(wvalid, wready, wdata, wstrb))
@@ -116,7 +130,7 @@ IFWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(wvali
 
     property bvalidIsHighThenInformationStableUntilTransferOccur(logic bvalid, logic bready, logic bresp);
      @(posedge aclk) disable iff (!aresetn)
-        ($rose(bvalid) && !bready) |=> (($stable(bvalid) && $stable(bresp)) throughout bready[->1]);
+        ($rose(bvalid) && (bready===0)) |=> (($stable(bvalid) && $stable(bresp)) throughout bready[->1]);
     endproperty
 
 IFBVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(bvalidIsHighThenInformationStableUntilTransferOccur(bvalid, bready, bresp))
@@ -124,7 +138,6 @@ IFBVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(bvali
   else
     $error("IFBVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : NOT ASSERTED");
 
-  end
 
     property validAssertedThenWithin16ClkReadyAsserted(logic valid, logic ready);
       @(posedge aclk) disable iff (!aresetn)
@@ -159,7 +172,7 @@ IFBVALIDASSERTED_THENWITHIN16CLK_BREADYASSERTED: assert property (validAssertedT
 */
 //TODO above property for asynchronous is not working so here we are going with synchronous reset we need to add asynchronous reset
     property WhenResetAssertedThenReadyWillGoDefaultState(logic ready);
-     @(posedge aclk) (aresetn===0) |-> (ready===DEFAULT_BREADY);
+     @(posedge aclk) (aresetn===0) |-> (ready===defaultStateBready);
     endproperty
 
 IFRESETASSERTED_THENBREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState(bready))
@@ -196,7 +209,7 @@ IFRESETASSERTED_THENBVALID_WILLGODEFAULTSTATE: assert property(WhenResetAsserted
 
     property WhenTransferOccurThenNextCLKReadyWillGoDefaultState(logic valid, logic ready);
      @(posedge aclk) disable iff (!aresetn)
-         (ready && valid) |=> (ready == DEFAULT_BREADY);
+         (ready && valid) |=> (ready == defaultStateBready);
     endproperty
 
 IFTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultState(bvalid,bready))

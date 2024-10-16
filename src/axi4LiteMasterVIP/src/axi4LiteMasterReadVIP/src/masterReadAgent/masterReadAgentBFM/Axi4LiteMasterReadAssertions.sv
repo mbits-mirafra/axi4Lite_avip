@@ -21,8 +21,24 @@ interface Axi4LiteMasterReadAssertions (input  aclk,
   import uvm_pkg::*;
   `include "uvm_macros.svh";
 
+  import Axi4LiteMasterReadPkg::Axi4LiteMasterReadAgentConfig;
+
+  Axi4LiteMasterReadAgentConfig axi4LiteMasterReadAgentConfig;
+
   initial begin
     `uvm_info("Axi4LiteMasterReadAssertions","Axi4LiteMasterReadAssertions",UVM_LOW);
+  end
+
+  bit defaultStateRready;
+
+  initial begin
+    start_of_simulation_ph.wait_for_state(UVM_PHASE_STARTED);
+
+    if(!uvm_config_db#(Axi4LiteMasterReadAgentConfig)::get(null, "*", "Axi4LiteMasterReadAgentConfig",axi4LiteMasterReadAgentConfig)) begin
+    `uvm_fatal("FATAL_READMASTER_ASSERTION_CANNOT_GET","cannot get() axi4LiteMasterReadAgentConfig");
+
+    end
+    defaultStateRready = axi4LiteMasterReadAgentConfig.defaultStateRready;
   end
 
 property ifValidHighThenInformationAreNotUnknown(logic valid, logic information);
@@ -56,11 +72,9 @@ IFARVALIDASSERTED_THEN_ARPROT_NOTUNKNOWN: assert property (ifValidHighThenContro
     $error("IFARVALIDASSERTED_THEN_ARPROT_NOTUNKNOWN : NOT ASSERTED");
 
 
-    if(Axi4LiteReadMasterGlobalPkg::DEFAULT_RREADY != 1) begin
-
     property validAssertedAndStableWithin16ClkReadyAsserted(logic valid, logic ready);
       @(posedge aclk) disable iff (!aresetn)
-        ($rose(valid) && !ready) |=> ($stable(valid) throughout (##[0:MAX_DELAY_READY] $rose(ready)));
+        ($rose(valid) && (ready===0)) |=> ($stable(valid) throughout (##[0:MAX_DELAY_READY] $rose(ready)));
     endproperty
 
 IFARVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_ARREADYASSERTED: assert property (validAssertedAndStableWithin16ClkReadyAsserted(arvalid, arready))
@@ -75,7 +89,7 @@ IFRVALIDASSERTED_ANDREMAINHIGH_THENWITHIN16CLK_RREADYASSERTED: assert property (
 
     property arvalidIsHighThenInformationStableUntilTransferOccur(logic arvalid, logic arready, logic araddr, logic arprot);
      @(posedge aclk) disable iff (!aresetn)
-      ($rose(arvalid) && !arready) |=> (($stable(arvalid) && $stable(araddr) && $stable(arprot)) throughout arready[->1]);
+      ($rose(arvalid) && (arready===0)) |=> (($stable(arvalid) && $stable(araddr) && $stable(arprot)) throughout arready[->1]);
     endproperty
 
 IFARVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(arvalidIsHighThenInformationStableUntilTransferOccur(arvalid, arready, araddr, arprot))
@@ -86,7 +100,7 @@ IFARVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(arva
     property rvalidIsHighThenInformationStableUntilTransferOccur(logic rvalid, logic rready, 
                                                                   logic rdata, logic rresp);
      @(posedge aclk) disable iff (!aresetn)
-        ($rose(rvalid) && !rready) |=> (($stable(rvalid) && $stable(rdata) && $stable(rresp)) throughout rready[->1]);
+        ($rose(rvalid) && (rready===0)) |=> (($stable(rvalid) && $stable(rdata) && $stable(rresp)) throughout rready[->1]);
     endproperty
 
 IFRVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(rvalidIsHighThenInformationStableUntilTransferOccur(rvalid, rready, rdata, rresp))
@@ -94,7 +108,6 @@ IFRVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : assert property(rvali
   else
     $error("IFRVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR : NOT ASSERTED");
 
-  end
 
     property validAssertedThenWithin16ClkReadyAsserted(logic valid, logic ready);
       @(posedge aclk) disable iff (!aresetn)
@@ -119,7 +132,7 @@ IFRVALIDASSERTED_THENWITHIN16CLK_RREADYASSERTED: assert property (validAssertedT
 */
 //TODO above property for asynchronous is not working so here we are going with synchronous reset we need to add asynchronous reset
     property WhenResetAssertedThenReadyWillGoDefaultState(logic ready);
-     @(posedge aclk) (aresetn===0) |-> (ready===DEFAULT_RREADY);
+     @(posedge aclk) (aresetn===0) |-> (ready===defaultStateRready);
     endproperty
 
 IFRESETASSERTED_THENRREADY_WILLGODEFAULTSTATE: assert property(WhenResetAssertedThenReadyWillGoDefaultState(rready))
@@ -151,7 +164,7 @@ IFRESETASSERTED_THENRVALID_WILLGODEFAULTSTATE: assert property(WhenResetAsserted
 
     property WhenTransferOccurThenNextCLKReadyWillGoDefaultState(logic valid, logic ready);
      @(posedge aclk) disable iff (!aresetn)
-         (ready && valid) |=> (ready == DEFAULT_RREADY);
+         (ready && valid) |=> (ready == defaultStateRready);
     endproperty
 
 IFTRANSFEROCCUR_THENRREADY_WILLGODEFAULTSTATE: assert property(WhenTransferOccurThenNextCLKReadyWillGoDefaultState(rvalid,rready))
