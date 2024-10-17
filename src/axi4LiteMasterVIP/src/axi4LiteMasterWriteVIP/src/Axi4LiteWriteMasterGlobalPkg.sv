@@ -19,10 +19,10 @@ package Axi4LiteWriteMasterGlobalPkg;
   parameter int DEFAULT_BREADY = `DEFAULT_BREADY;
 
   parameter int MAXLIMITOF_OUTSTANDINGTX = 10;
-
-  parameter int MIN_ADDRESS = 32'h0000_0000;
-  parameter int MAX_ADDRESS = 32'hffff_ffff;
-
+  
+  parameter bit[`ADDRESS_WIDTH:0] MIN_ADDRESS = {`ADDRESS_WIDTH{1'b0}};
+  parameter bit[`ADDRESS_WIDTH:0] MAX_ADDRESS = {`ADDRESS_WIDTH{1'b1}};
+ 
   parameter bit HAS_COVERAGE = 1;
   parameter bit TOGGLE_BREADY = 0;
   parameter bit ENABLE_OUTSTANDINGTX = 0;

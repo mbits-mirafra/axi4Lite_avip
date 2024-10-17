@@ -17,9 +17,9 @@ package Axi4LiteReadSlaveGlobalPkg;
   parameter int DEFAULT_ARREADY = `DEFAULT_ARREADY;
 
   parameter int DELAY_WIDTH = 5;
-
-  parameter int MIN_ADDRESS = 32'h0000_0000;
-  parameter int MAX_ADDRESS = 32'hffff_ffff;
+  
+  parameter bit[`ADDRESS_WIDTH:0] MIN_ADDRESS = {`ADDRESS_WIDTH{1'b0}};
+  parameter bit[`ADDRESS_WIDTH:0] MAX_ADDRESS = {`ADDRESS_WIDTH{1'b1}};
 
   parameter bit HAS_COVERAGE = 1;
   parameter bit TOGGLE_ARREADY = 0;

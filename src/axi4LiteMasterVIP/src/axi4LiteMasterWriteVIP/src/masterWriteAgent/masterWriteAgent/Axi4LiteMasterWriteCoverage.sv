@@ -6,9 +6,7 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
 
   Axi4LiteMasterWriteTransaction axi4LiteMasterWriteTransaction;
   Axi4LiteMasterWriteAgentConfig axi4LiteMasterWriteAgentConfig;
-/*bit [ADDRESS_WIDTH-1:0] maxAddressRangeCov;
-  bit [ADDRESS_WIDTH-1:0] minAddressRangeCov;
-*/
+  
   covergroup axi4LiteMasterWriteTransactionCovergroup with function sample (Axi4LiteMasterWriteTransaction packet);
   option.per_instance = 1;
 
@@ -142,7 +140,6 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
 
  function void Axi4LiteMasterWriteCoverage::write(Axi4LiteMasterWriteTransaction t);
    `uvm_info(get_type_name(),$sformatf("Before calling SAMPLE METHOD"),UVM_HIGH);
-   `uvm_info("SWAMY OUPUT", $sformatf("MIN_ADDRESS :%0h , MAX_ADDRESS :%0h Awaddr :%0b",MIN_ADDRESS,MAX_ADDRESS,t.awaddr),UVM_LOW);
    axi4LiteMasterWriteTransactionCovergroup.sample(t);
    axi4LiteMasterWriteConfigCovergroup.sample(axi4LiteMasterWriteAgentConfig);
    `uvm_info(get_type_name(),"After calling SAMPLE METHOD",UVM_HIGH);

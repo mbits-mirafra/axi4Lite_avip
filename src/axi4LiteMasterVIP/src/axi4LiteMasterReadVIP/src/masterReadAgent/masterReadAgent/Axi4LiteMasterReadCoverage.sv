@@ -6,9 +6,6 @@ class Axi4LiteMasterReadCoverage extends uvm_subscriber#(Axi4LiteMasterReadTrans
 
   Axi4LiteMasterReadAgentConfig axi4LiteMasterReadAgentConfig;
 
-  bit [ADDRESS_WIDTH-1:0] maxAddressRangeCov;
-  bit [ADDRESS_WIDTH-1:0] minAddressRangeCov;
-
   covergroup axi4LiteMasterReadTransactionCovergroup with function sample (Axi4LiteMasterReadTransaction packet); 
     option.per_instance = 1;
 
@@ -136,8 +133,6 @@ endfunction: write
    uvm_config_db#(Axi4LiteMasterReadAgentConfig)::get(null, "*", "Axi4LiteMasterReadAgentConfig",axi4LiteMasterReadAgentConfig);
     `uvm_info(get_type_name(), $sformatf("\nAXI4LITE_MASTER_READ_AGENT_CONFIG\n%s",
                  axi4LiteMasterReadAgentConfig.sprint()),UVM_LOW);
-   minAddressRangeCov = axi4LiteMasterReadAgentConfig.minAddressRange;
-   maxAddressRangeCov = axi4LiteMasterReadAgentConfig.maxAddressRange;
  endfunction: start_of_simulation_phase
 
 function void Axi4LiteMasterReadCoverage::report_phase(uvm_phase phase);

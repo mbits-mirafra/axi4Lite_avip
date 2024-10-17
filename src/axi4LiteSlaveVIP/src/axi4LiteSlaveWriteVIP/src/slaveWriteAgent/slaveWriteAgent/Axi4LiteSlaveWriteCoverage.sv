@@ -6,9 +6,6 @@ class Axi4LiteSlaveWriteCoverage extends uvm_subscriber#(Axi4LiteSlaveWriteTrans
 
    Axi4LiteSlaveWriteAgentConfig axi4LiteSlaveWriteAgentConfig;
 
-   bit [ADDRESS_WIDTH-1:0] maxAddressRangeCov;
-   bit [ADDRESS_WIDTH-1:0] minAddressRangeCov;
-
    covergroup axi4LiteSlaveWriteTransactionCovergroup with function sample (Axi4LiteSlaveWriteTransaction packet);
    option.per_instance = 1;
    
@@ -159,8 +156,6 @@ function void Axi4LiteSlaveWriteCoverage::start_of_simulation_phase(uvm_phase ph
    uvm_config_db#(Axi4LiteSlaveWriteAgentConfig)::get(null, "*", "Axi4LiteSlaveWriteAgentConfig",axi4LiteSlaveWriteAgentConfig);
     `uvm_info(get_type_name(), $sformatf("\nAXI4LITE_SLAVE_WRITE_AGENT_CONFIG\n%s",
                  axi4LiteSlaveWriteAgentConfig.sprint()),UVM_LOW);
-   minAddressRangeCov = axi4LiteSlaveWriteAgentConfig.minAddressRange;
-   maxAddressRangeCov = axi4LiteSlaveWriteAgentConfig.maxAddressRange;
 endfunction: start_of_simulation_phase
 
 function void Axi4LiteSlaveWriteCoverage::report_phase(uvm_phase phase);
