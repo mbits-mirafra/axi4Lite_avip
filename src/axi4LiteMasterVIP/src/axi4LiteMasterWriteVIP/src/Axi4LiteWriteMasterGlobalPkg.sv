@@ -7,7 +7,7 @@ package Axi4LiteWriteMasterGlobalPkg;
 
   parameter int NO_OF_WRITEMASTERS = 1;
 
-  parameter int DELAY_WIDTH = 5;
+  parameter int DELAY_WIDTH = 3;
 
   `define ADDRESS_WIDTH 32
   parameter int ADDRESS_WIDTH = `ADDRESS_WIDTH;

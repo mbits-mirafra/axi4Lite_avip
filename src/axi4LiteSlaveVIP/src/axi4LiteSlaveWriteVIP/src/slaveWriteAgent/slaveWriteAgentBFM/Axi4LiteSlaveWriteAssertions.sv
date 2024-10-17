@@ -272,7 +272,7 @@ IFBVALIDANDBREADYASSERTED_THEN_INFORMATIONNOTUNKNOWN_THENTRANSFEROCCUR : assert 
 
     property awvalidIsAssertedThenWithin10ClkWValidIsAsserted;
      @(posedge aclk) disable iff (!aresetn)
-        $rose(awvalid) |-> ##[0:MAX_DELAY_WVALID] (wvalid);
+        ($rose(awvalid) || $rose(wvalid))|-> ##[0:MAX_DELAY_WVALID] (wvalid or awvalid);
     endproperty
 
 IFAWVALIDISASSERTED_THEN_WITHIN10CLK_WVALIDWILLASSERT: assert property(awvalidIsAssertedThenWithin10ClkWValidIsAsserted) 
@@ -293,7 +293,7 @@ IFBVALIDANDBREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY: assert property(bvalidAnd
 //TODO Below two assertions are not working for multiple outstanding transaction
     property awvalidAwreadyAndWvalidWreadyAssertedThenBValidAsserted;
      @(posedge aclk) disable iff (!aresetn)
-        (awvalid && awready && !bvalid) |-> ##[0:MAX_DELAY_WVALID] (wvalid && !bvalid) ##[0:MAX_DELAY_READY] (wready && !bvalid) ##[1:MAX_DELAY_BVALID] bvalid;
+        (((awvalid && awready) || (wvalid && wready)) && !bvalid) |-> ##[0:MAX_DELAY_WVALID] ((wvalid || awvalid) && !bvalid) ##[0:MAX_DELAY_READY] ((wready || awready) && !bvalid) ##[1:MAX_DELAY_BVALID] bvalid;
     endproperty
 
 AWVALIDAWREADYHIGH_THENWITHIN10CLK_WVALIDANDWREADYASSERTED_THENWHITHIN12CLK_BVALIDASSERTED: assert property(awvalidAwreadyAndWvalidWreadyAssertedThenBValidAsserted)

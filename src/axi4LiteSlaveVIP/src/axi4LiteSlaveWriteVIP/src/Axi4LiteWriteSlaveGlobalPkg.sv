@@ -19,7 +19,7 @@ package Axi4LiteWriteSlaveGlobalPkg;
   `define DEFAULT_WREADY 0
   parameter int DEFAULT_WREADY = `DEFAULT_WREADY;
 
-  parameter int DELAY_WIDTH = 5;
+  parameter int DELAY_WIDTH = 3;
 
   parameter bit[`ADDRESS_WIDTH:0] MIN_ADDRESS = {`ADDRESS_WIDTH{1'b0}};
   parameter bit[`ADDRESS_WIDTH:0] MAX_ADDRESS = {`ADDRESS_WIDTH{1'b1}};

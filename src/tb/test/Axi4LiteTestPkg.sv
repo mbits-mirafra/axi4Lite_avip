@@ -77,6 +77,7 @@ package Axi4LiteTestPkg;
   `include "Axi4LiteMasterAndSlaveSupportWriteOutstandingTransactionTest.sv"
   `include "Axi4LiteMasterSupportAndSlaveNotSupportReadOutstandingTransactionTest.sv"
   `include "Axi4LiteMasterSupportAndSlaveNotSupportWriteOutstandingTransactionTest.sv"
+  `include "Axi4LiteWriteTest.sv"
 
 endpackage : Axi4LiteTestPkg
 

@@ -68,6 +68,7 @@ package Axi4LiteVirtualSeqPkg;
   `include "Axi4LiteVirtualMasterAndSlaveSupportWriteOutstandingTransaction.sv"
   `include "Axi4LiteVirtualMasterSupportAndSlaveNotSupportReadOutstandingTransaction.sv"
   `include "Axi4LiteVirtualMasterSupportAndSlaveNotSupportWriteOutstandingTransaction.sv"
+  `include "Axi4LiteVirtualWriteSeq.sv"
 
 endpackage : Axi4LiteVirtualSeqPkg
 
