@@ -78,6 +78,10 @@ package Axi4LiteTestPkg;
   `include "Axi4LiteMasterSupportAndSlaveNotSupportReadOutstandingTransactionTest.sv"
   `include "Axi4LiteMasterSupportAndSlaveNotSupportWriteOutstandingTransactionTest.sv"
   `include "Axi4LiteWriteTest.sv"
+  `include "Axi4LiteReadTest.sv"
+  `include "Axi4LiteWriteFollowedByReadTest.sv"
+  `include "Axi4LiteAddressOutofRangeTest.sv"
+  `include "Axi4LiteOutstandingTransactionTest.sv"
 
 endpackage : Axi4LiteTestPkg
 

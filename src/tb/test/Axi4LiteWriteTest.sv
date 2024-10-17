@@ -27,7 +27,7 @@ task Axi4LiteWriteTest::run_phase(uvm_phase phase);
   axi4LiteVirtualWriteSeq=Axi4LiteVirtualWriteSeq::type_id::create("axi4LiteVirtualWriteSeq");
   `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteWriteTest"),UVM_LOW);
     phase.raise_objection(this);
-    repeat(20) begin
+    while(axi4LiteEnv.axi4LiteMasterEnv.axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent[0].axi4LiteMasterWriteCoverage.axi4LiteMasterWriteTransactionCovergroup.get_inst_coverage() < 95) begin
      axi4LiteVirtualWriteSeq.start(axi4LiteEnv.axi4LiteVirtualSequencer);
      #10;
     end
