@@ -101,8 +101,7 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
 
    DEFAULTBREADY_CP : coverpoint cfg.defaultStateBready {
    option.comment                                   = "defaultStateBready value";
-   bins DEFAULT_BREADY_LOW                          = {0}; 
-   bins DEFAULT_BREADY_HIGH                         = {1}; 
+   bins DEFAULT_BREADY_LOW_HIGH                     = {0,1}; 
    }
    
    TOGGLE_BREADY_CP : coverpoint cfg.toggleBready  {

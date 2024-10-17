@@ -83,12 +83,11 @@ endgroup : axi4LiteSlaveReadTransactionCovergroup
 
    DEFAULTARREADY_CP : coverpoint cfg.defaultStateArready {
    option.comment                                   = "defaultStateArready value";
-   bins DEFAULT_ARREADY_LOW                          = {0}; 
-   bins DEFAULT_ARREADY_HIGH                         = {1}; 
+   bins DEFAULT_ARREADY_LOW_HIGH                    = {0,1}; 
    }
    
    TOGGLE_ARREADY_CP : coverpoint cfg.toggleArready  {
-   option.comment                                   = "toggleArready value";
+   option.comment                                    = "toggleArready value";
    bins TOGGLE_ARREADY_LOW                           = {0};
    bins TOGGLE_ARREADY_HIGH                          = {1};
    }

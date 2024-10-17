@@ -101,14 +101,12 @@ class Axi4LiteSlaveWriteCoverage extends uvm_subscriber#(Axi4LiteSlaveWriteTrans
 
    DEFAULTAWREADY_CP : coverpoint cfg.defaultStateAwready {
    option.comment                                    = "defaultStateAwready value";
-   bins DEFAULT_AWREADY_LOW                          = {0}; 
-   bins DEFAULT_AWREADY_HIGH                         = {1}; 
+   bins DEFAULT_AWREADY_LOW_HIGH                     = {0,1}; 
    }
 
    DEFAULTWREADY_CP : coverpoint cfg.defaultStateWready {
    option.comment                                   = "defaultStateWready value";
-   bins DEFAULT_WREADY_LOW                          = {0}; 
-   bins DEFAULT_WREADY_HIGH                         = {1}; 
+   bins DEFAULT_WREADY_LOW_HIGH                     = {0,1}; 
    }
    
    TOGGLE_AWREADY_CP : coverpoint cfg.toggleAwready  {

@@ -83,8 +83,7 @@ class Axi4LiteMasterReadCoverage extends uvm_subscriber#(Axi4LiteMasterReadTrans
 
    DEFAULTRREADY_CP : coverpoint cfg.defaultStateRready {
    option.comment                                   = "defaultStateRready value";
-   bins DEFAULT_RREADY_LOW                          = {0}; 
-   bins DEFAULT_RREADY_HIGH                         = {1}; 
+   bins DEFAULT_RREADY_LOW_HIGH                     = {0,1}; 
    }
    
    TOGGLE_RREADY_CP : coverpoint cfg.toggleRready  {
