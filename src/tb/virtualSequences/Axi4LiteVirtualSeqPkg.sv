@@ -72,7 +72,7 @@ package Axi4LiteVirtualSeqPkg;
   `include "Axi4LiteVirtualReadSeq.sv"
   `include "Axi4LiteVirtualWriteFollowedByReadSeq.sv"
   `include "Axi4LiteVirtualAddressOutofRangeSeq.sv"
-  `include "Axi4LiteVirtualOutstandingTransaction.sv"
+  `include "Axi4LiteVirtualOutstandingTransactionSeq.sv"
 
 endpackage : Axi4LiteVirtualSeqPkg
 

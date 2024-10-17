@@ -27,10 +27,12 @@ task Axi4LiteReadTest::run_phase(uvm_phase phase);
   axi4LiteVirtualReadSeq=Axi4LiteVirtualReadSeq::type_id::create("axi4LiteVirtualReadSeq");
   `uvm_info(get_type_name(),$sformatf("Inside run_phase Axi4LiteReadTest"),UVM_LOW);
     phase.raise_objection(this);
-    repeat(20) begin
+
+    while(axi4LiteEnv.axi4LiteMasterEnv.axi4LiteReadMasterEnv.axi4LiteMasterReadAgent[0].axi4LiteMasterReadCoverage.axi4LiteMasterReadTransactionCovergroup.get_inst_coverage() < 95) begin
      axi4LiteVirtualReadSeq.start(axi4LiteEnv.axi4LiteVirtualSequencer);
      #10;
     end
+
   phase.drop_objection(this);
 
 endtask : run_phase

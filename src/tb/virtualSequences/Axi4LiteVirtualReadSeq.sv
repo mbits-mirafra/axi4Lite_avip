@@ -25,7 +25,7 @@ task Axi4LiteVirtualReadSeq::body();
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualReadSeq")
   end
 
-   if(!axi4LiteSlaveRead32bitsTransferSeq.randomize() with {rdataSeq dist {32'hffff_ffff:/4, 32'haaaa_aaaa:/4, [0:$]:/2};
+   if(!axi4LiteSlaveRead32bitsTransferSeq.randomize() with {rdataSeq dist {32'hffff_ffff:/3, 32'haaaa_aaaa:/3, 32'h0000_0000:/1, [0:$]:/3};
                                                             }) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualReadSeq")
   end
