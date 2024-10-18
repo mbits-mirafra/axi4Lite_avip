@@ -20,10 +20,9 @@ package MasterVIPSlaveIPVirtualSeqPkg;
   import MasterVIPSlaveIPEnvPkg::*;
 
   `include "MasterVIPSlaveIPVirtualBaseSeq.sv"
-  `include "MasterVIPSlaveIPVirtual32bitsWriteReadSeq.sv"
-  `include "MasterVIPSlaveIPVirtual32bitsWriteSeq.sv"
-  `include "MasterVIPSlaveIPVirtual32bitsReadSeq.sv"
   `include "MasterVIPSlaveIPVirtualWriteSeq.sv"
+  `include "MasterVIPSlaveIPVirtualReadSeq.sv"
+  `include "MasterVIPSlaveIPVirtualWriteFollowedByReadSeq.sv"
 
 endpackage : MasterVIPSlaveIPVirtualSeqPkg
 
