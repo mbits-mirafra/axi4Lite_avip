@@ -22,13 +22,14 @@ task MasterVIPSlaveIPVirtualWriteFollowedByReadSeq::body();
   `uvm_info(get_type_name(), $sformatf("Insdie Body Seq start MasterVIPSlaveIPVirtualWriteFollowedByReadSeq"), UVM_NONE); 
    
   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {delayForAwvalidSeq < delayForWvalidSeq;
+                                                              awaddrSeq == 32'hffff_abcd;
                                                               wdataSeq dist {32'hffff_ffff:/4, 32'haaaa_aaaa:/4, [0:$]:/2};
                                                               wstrbSeq dist {4'b1111:/4, [0:$]:/6};}
                                                         ) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside MasterVIPSlaveIPVirtualWriteSeq")
   end
 
-  if(!axi4LiteMasterRead32bitsTransferSeq.randomize())begin
+ if(!axi4LiteMasterRead32bitsTransferSeq.randomize() with {araddrSeq == 32'hffff_abcd;})begin
       `uvm_error(get_type_name(), "Randomization failed")
   end
   fork 
