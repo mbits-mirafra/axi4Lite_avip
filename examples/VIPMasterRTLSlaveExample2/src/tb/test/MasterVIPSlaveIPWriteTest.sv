@@ -7,6 +7,7 @@ class MasterVIPSlaveIPWriteTest extends MasterVIPSlaveIPBaseTest;
   MasterVIPSlaveIPVirtualWriteSeq masterVIPSlaveIPVirtualWriteSeq;
   
   extern function new(string name = "MasterVIPSlaveIPWriteTest", uvm_component parent = null);
+  extern function void setupMasterVIPSlaveIPEnvConfig();
   extern virtual task run_phase(uvm_phase phase);
 
 endclass : MasterVIPSlaveIPWriteTest
@@ -15,6 +16,11 @@ function MasterVIPSlaveIPWriteTest::new(string name = "MasterVIPSlaveIPWriteTest
                                  uvm_component parent = null);
   super.new(name, parent);
 endfunction : new
+
+function void MasterVIPSlaveIPWriteTest::setupMasterVIPSlaveIPEnvConfig();
+ super.setupMasterVIPSlaveIPEnvConfig();
+ masterVIPSlaveIPEnvConfig.transactionType = Axi4LiteWriteMasterGlobalPkg::WRITE;
+endfunction : setupMasterVIPSlaveIPEnvConfig
 
 task MasterVIPSlaveIPWriteTest::run_phase(uvm_phase phase);
 

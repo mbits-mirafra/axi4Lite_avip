@@ -32,7 +32,6 @@ ${AXI4LITE_PROJECT}/examples/VIPMasterRTLSlave/src/tb/MasterVIPSlaveIPInterface.
 
 +incdir+$AXI4LITE_PROJECT/examples/VIPMasterRTLSlave/rtl/
 ${AXI4LITE_PROJECT}/examples/VIPMasterRTLSlave/rtl/slaveRTL.v
-${AXI4LITE_PROJECT}/examples/VIPMasterRTLSlave/rtl/Axi4LiteSlaveRTL.v
 
 ${AXI4LITE_PROJECT}/examples/VIPMasterRTLSlave/src/tb/MasterVIPSlaveIPHdlTop.sv
 ${AXI4LITE_PROJECT}/examples/VIPMasterRTLSlave/src/tb/MasterVIPSlaveIPHvlTop.sv

@@ -7,7 +7,7 @@ class MasterVIPSlaveIPReadTest extends MasterVIPSlaveIPBaseTest;
   MasterVIPSlaveIPVirtualReadSeq masterVIPSlaveIPVirtualReadSeq;
   
   extern function new(string name = "MasterVIPSlaveIPReadTest", uvm_component parent = null);
-  extern virtual function void build_phase(uvm_phase phase);
+  extern function void setupMasterVIPSlaveIPEnvConfig();
   extern virtual task run_phase(uvm_phase phase);
 
 endclass : MasterVIPSlaveIPReadTest
@@ -16,14 +16,15 @@ function MasterVIPSlaveIPReadTest::new(string name = "MasterVIPSlaveIPReadTest",
   super.new(name, parent);
 endfunction : new
 
-function void MasterVIPSlaveIPReadTest::build_phase(uvm_phase phase);
-  super.build_phase(phase);
-  masterVIPSlaveIPVirtualReadSeq = MasterVIPSlaveIPVirtualReadSeq ::type_id::create("masterVIPSlaveIPVirtualReadSeq");
-endfunction 
+function void MasterVIPSlaveIPReadTest::setupMasterVIPSlaveIPEnvConfig();
+ super.setupMasterVIPSlaveIPEnvConfig();
+ masterVIPSlaveIPEnvConfig.transactionType = Axi4LiteReadMasterGlobalPkg::READ;
+endfunction : setupMasterVIPSlaveIPEnvConfig
 
 task MasterVIPSlaveIPReadTest::run_phase(uvm_phase phase);
- 
   int maxRepeatCounter = 0;
+  masterVIPSlaveIPVirtualReadSeq = MasterVIPSlaveIPVirtualReadSeq ::type_id::create("masterVIPSlaveIPVirtualReadSeq");
+ 
   `uvm_info(get_type_name(),$sformatf("Inside run_phase MasterVIPSlaveIPReadTest"),UVM_LOW); 
    phase.raise_objection(this);
     while(masterVIPSlaveIPEnv.axi4LiteMasterEnv.axi4LiteReadMasterEnv.axi4LiteMasterReadAgent[0].axi4LiteMasterReadCoverage.axi4LiteMasterReadTransactionCovergroup.get_inst_coverage() < 50) begin

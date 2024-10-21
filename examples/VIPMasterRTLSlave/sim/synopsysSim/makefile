@@ -95,6 +95,8 @@ compile:
 	+plusarg_ignore \
 	-f $(AXI4LITE_PROJECT)/src/axi4LiteMasterVIP/src/axi4LiteMasterWriteVIP/sim/Axi4LiteWriteMaster.f \
 	-f $(AXI4LITE_PROJECT)/src/axi4LiteMasterVIP/src/axi4LiteMasterReadVIP/sim/Axi4LiteReadMaster.f \
+	-f $(AXI4LITE_PROJECT)/src/axi4LiteSlaveVIP/src/axi4LiteSlaveWriteVIP/sim/Axi4LiteWriteSlave.f \
+	-f $(AXI4LITE_PROJECT)/src/axi4LiteSlaveVIP/src/axi4LiteSlaveReadVIP/sim/Axi4LiteReadSlave.f \
 	-f $(AXI4LITE_PROJECT)/examples/VIPMasterRTLSlave/sim/project.f
 
 	# -s means silent mode
