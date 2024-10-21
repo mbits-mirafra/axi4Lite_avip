@@ -29,8 +29,7 @@ package MasterVIPSlaveIPTestPkg;
   `include "MasterVIPSlaveIPWriteTest.sv"
   `include "MasterVIPSlaveIPReadTest.sv"
   `include "MasterVIPSlaveIPWriteFollowedByReadTest.sv"
-//  `include "MasterVIPSlaveIPAddressIsOutOfRangeTest.sv"
-//  `include "MasterVIPSlaveIPWriteDataWithWstrbTest.sv"
+  `include "MasterVIPSlaveIPOutstandingTransactionTest.sv"
 
 
 

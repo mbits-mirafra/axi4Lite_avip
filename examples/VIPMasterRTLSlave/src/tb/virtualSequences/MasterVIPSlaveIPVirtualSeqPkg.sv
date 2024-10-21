@@ -23,6 +23,7 @@ package MasterVIPSlaveIPVirtualSeqPkg;
   `include "MasterVIPSlaveIPVirtualWriteSeq.sv"
   `include "MasterVIPSlaveIPVirtualReadSeq.sv"
   `include "MasterVIPSlaveIPVirtualWriteFollowedByReadSeq.sv"
+  `include "MasterVIPSlaveIPVirtualOutstandingTransactionSeq.sv"
 
 endpackage : MasterVIPSlaveIPVirtualSeqPkg
 
