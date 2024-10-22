@@ -5,6 +5,8 @@
 `define AXI4LITE_MASTERREADINTERFACE masterVIPSlaveIPInterface.axi4LiteMasterInterface.axi4LiteMasterReadInterface  
 `define AXI4LITE_SLAVEWRITEINTERFACE masterVIPSlaveIPInterface.axi4LiteSlaveInterface.axi4LiteSlaveWriteInterface  
 `define AXI4LITE_SLAVEREADINTERFACE masterVIPSlaveIPInterface.axi4LiteSlaveInterface.axi4LiteSlaveReadInterface  
+`define AXI4LITE_MASTERINTERFACE masterVIPSlaveIPInterface.axi4LiteMasterInterface
+`define AXI4LITE_SLAVEINTERFACE masterVIPSlaveIPInterface.axi4LiteSlaveInterface
 
 module MasterVIPSlaveIPHdlTop;
 
@@ -91,24 +93,16 @@ module MasterVIPSlaveIPHdlTop;
 
   genvar i;
   generate
-    for (i=0; i<NO_OF_WRITEMASTERS; i++) begin : Axi4LiteMasterWriteAgentBFM
-         Axi4LiteMasterWriteAgentBFM #(.ADDR_WIDTH(Axi4LiteWriteMasterGlobalPkg::ADDRESS_WIDTH), .DATA_WIDTH(Axi4LiteWriteMasterGlobalPkg::DATA_WIDTH)) 
-                                    axi4LiteMasterWriteAgentBFM(`AXI4LITE_MASTERWRITEINTERFACE);
+    for (i=0; i<NO_OF_WRITEMASTERS; i++) begin : Axi4LiteMasterAgentBFM
+         Axi4LiteMasterAgentBFM #(.ADDR_WIDTH(Axi4LiteWriteMasterGlobalPkg::ADDRESS_WIDTH), 
+                                  .DATA_WIDTH(Axi4LiteWriteMasterGlobalPkg::DATA_WIDTH)) 
+                                    axi4LiteMasterAgentBFM(`AXI4LITE_MASTERINTERFACE);
     end
 
-    for (i=0; i<NO_OF_READMASTERS; i++) begin : Axi4LiteMasterReadAgentBFM
-      Axi4LiteMasterReadAgentBFM #(.ADDR_WIDTH(Axi4LiteReadMasterGlobalPkg::ADDRESS_WIDTH), .DATA_WIDTH(Axi4LiteReadMasterGlobalPkg::DATA_WIDTH)) 
-                                   axi4LiteMasterReadAgentBFM(`AXI4LITE_MASTERREADINTERFACE);
-    end
-
-    for (i=0; i<NO_OF_WRITESLAVES; i++) begin : Axi4LiteSlaveWriteAgentBFM
-      Axi4LiteSlaveWriteAgentBFM #(.ADDR_WIDTH(Axi4LiteWriteSlaveGlobalPkg::ADDRESS_WIDTH), .DATA_WIDTH(Axi4LiteWriteSlaveGlobalPkg::DATA_WIDTH)) 
-                                   axi4LiteSlaveWriteAgentBFM(`AXI4LITE_SLAVEWRITEINTERFACE);
-    end
-
-    for (i=0; i<NO_OF_READSLAVES; i++) begin : Axi4LiteSlaveReadAgentBFM
-      Axi4LiteSlaveReadAgentBFM #(.ADDR_WIDTH(Axi4LiteReadSlaveGlobalPkg::ADDRESS_WIDTH), .DATA_WIDTH(Axi4LiteReadSlaveGlobalPkg::DATA_WIDTH)) 
-                                  axi4LiteSlaveReadAgentBFM(`AXI4LITE_SLAVEREADINTERFACE);
+    for (i=0; i<NO_OF_WRITESLAVES; i++) begin : Axi4LiteSlaveAgentBFM
+      Axi4LiteSlaveAgentBFM #(.ADDR_WIDTH(Axi4LiteWriteSlaveGlobalPkg::ADDRESS_WIDTH), 
+                              .DATA_WIDTH(Axi4LiteWriteSlaveGlobalPkg::DATA_WIDTH)) 
+                                axi4LiteSlaveAgentBFM(`AXI4LITE_SLAVEINTERFACE);
     end
 
   endgenerate
