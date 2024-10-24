@@ -30,6 +30,7 @@ interface Axi4LiteMasterReadAssertions (input  aclk,
   end
 
   bit defaultStateRready;
+  bit enableOutstandingTransaction;
 
   initial begin
     start_of_simulation_ph.wait_for_state(UVM_PHASE_STARTED);
@@ -39,6 +40,7 @@ interface Axi4LiteMasterReadAssertions (input  aclk,
 
     end
     defaultStateRready = axi4LiteMasterReadAgentConfig.defaultStateRready;
+    enableOutstandingTransaction = axi4LiteMasterReadAgentConfig.enableOutstandingTransaction;
   end
 
 property ifValidHighThenInformationAreNotUnknown(logic valid, logic information);
@@ -208,7 +210,7 @@ IFRVALIDANDRREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY: assert property(rvalidAnd
 
   //TODO Below three assertions are not working for multiple outstanding transaction
     property rvalidWillAssertAfterMasterSenttheRequest; 
-      @(posedge aclk) disable iff (!aresetn)
+      @(posedge aclk) disable iff (!aresetn || enableOutstandingTransaction)
         (arvalid && arready && !($isunknown(araddr)) && !rvalid) |=> ##[0:MAX_DELAY_RVALID] (rvalid && !($isunknown(rdata)));
     endproperty  
 
@@ -218,7 +220,7 @@ EVEN_SUBORDINATEONLYONESOURCERDATA_THEN_MASTERNEEDTOSENDTHEREQUEST_FORRDATA : as
     $error("EVEN_SUBORDINATEONLYONESOURCERDATA_THEN_MASTERNEEDTOSENDTHEREQUEST_FORRDATA : NOT ASSERTED");
 
     property arvalidAndArreadyAssertedThenWithin10ClkRvalidAsserted;
-      @(posedge aclk) disable iff (!aresetn)
+      @(posedge aclk) disable iff (!aresetn || enableOutstandingTransaction)
         (arvalid && arready && !rvalid) |=> ##[0:MAX_DELAY_RVALID] (rvalid);
     endproperty
 
@@ -228,7 +230,7 @@ IFARVALIDANDARREADYAREASSERTED_THEN_WITHIN10CLK_RVALIDASSERTED: assert property(
     $error("IFARVALIDANDARREADYAREASSERTED_THEN_WITHIN10CLK_RVALIDASSERTED : NOT ASSERTED");
 
     property arvalidAndArreadyAssertedThenWithin10ClkRvalidAssertedAndRdataNotUnknown;
-      @(posedge aclk) disable iff (!aresetn)
+      @(posedge aclk) disable iff (!aresetn || enableOutstandingTransaction)
         (arvalid && arready && !rvalid) |=> ##[0:MAX_DELAY_RVALID] (rvalid && !($isunknown(rdata)));
     endproperty
 

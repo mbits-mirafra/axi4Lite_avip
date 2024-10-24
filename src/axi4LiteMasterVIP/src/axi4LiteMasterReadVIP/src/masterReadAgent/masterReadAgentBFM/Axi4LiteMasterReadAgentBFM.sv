@@ -40,7 +40,7 @@ module Axi4LiteMasterReadAgentBFM #(parameter int ADDR_WIDTH = 32,
     uvm_config_db#(virtual Axi4LiteMasterReadMonitorBFM)::set(null,"*", "Axi4LiteMasterReadMonitorBFM", axi4LiteMasterReadMonitorBFM);
   end
 
-  bind Axi4LiteMasterReadMonitorBFM Axi4LiteMasterReadAssertions WRITEMASTERM_ASSERTPROPERTY (.aclk(aclk),
+  bind Axi4LiteMasterReadMonitorBFM Axi4LiteMasterReadAssertions READMASTER_ASSERTPROPERTY (.aclk(aclk),
                                                                                               .aresetn(aresetn),
                                                                                               .arvalid(arvalid),
                                                                                               .arready(arready),
@@ -52,7 +52,7 @@ module Axi4LiteMasterReadAgentBFM #(parameter int ADDR_WIDTH = 32,
                                                                                               .rresp(rresp)
                                                                                              );
 
-  bind Axi4LiteMasterReadMonitorBFM Axi4LiteMasterReadCoverProperty WRITEMASTER_COVERPROPERTY (.aclk(aclk),
+  bind Axi4LiteMasterReadMonitorBFM Axi4LiteMasterReadCoverProperty READMASTER_COVERPROPERTY (.aclk(aclk),
                                                                                                .aresetn(aresetn),
                                                                                                .arvalid(arvalid),
                                                                                                .arready(arready),

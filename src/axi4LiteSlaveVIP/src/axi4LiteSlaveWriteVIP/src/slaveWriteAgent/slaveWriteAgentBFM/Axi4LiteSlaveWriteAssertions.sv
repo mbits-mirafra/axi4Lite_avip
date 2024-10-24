@@ -35,6 +35,7 @@ interface Axi4LiteSlaveWriteAssertions (input  aclk,
 
   bit defaultStateAwready;
   bit defaultStateWready;
+  bit enableOutstandingTransaction;
 
   initial begin
     start_of_simulation_ph.wait_for_state(UVM_PHASE_STARTED);
@@ -45,6 +46,7 @@ interface Axi4LiteSlaveWriteAssertions (input  aclk,
     end
     defaultStateAwready = axi4LiteSlaveWriteAgentConfig.defaultStateAwready;
     defaultStateWready = axi4LiteSlaveWriteAgentConfig.defaultStateWready;
+    enableOutstandingTransaction = axi4LiteSlaveWriteAgentConfig.enableOutstandingTransaction;
   end
 
   property ifValidHighThenInformationNotUnknown(logic valid, logic information);
@@ -292,7 +294,7 @@ IFBVALIDANDBREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY: assert property(bvalidAnd
 
 //TODO Below two assertions are not working for multiple outstanding transaction
     property awvalidAwreadyAndWvalidWreadyAssertedThenBValidAsserted;
-     @(posedge aclk) disable iff (!aresetn)
+     @(posedge aclk) disable iff (!aresetn || enableOutstandingTransaction)
         (((awvalid && awready) || (wvalid && wready)) && !bvalid) |-> ##[0:MAX_DELAY_WVALID] ((wvalid || awvalid) && !bvalid) ##[0:MAX_DELAY_READY] ((wready || awready) && !bvalid) ##[1:MAX_DELAY_BVALID] bvalid;
     endproperty
 
@@ -302,7 +304,7 @@ AWVALIDAWREADYHIGH_THENWITHIN10CLK_WVALIDANDWREADYASSERTED_THENWHITHIN12CLK_BVAL
     $error("AWVALIDAWREADYHIGH_THENWITHIN10CLK_WVALIDANDWREADYASSERTED_THENWHITHIN12CLK_BVALIDASSERTED : NOT ASSERTED");
 
    property wvalidWreadyAssertedThenWithin12ClkBValidAsserted;
-     @(posedge aclk) disable iff (!aresetn)
+     @(posedge aclk) disable iff (!aresetn || enableOutstandingTransaction)
        (wvalid && wready && !bvalid) |-> ##[1:MAX_DELAY_BVALID] bvalid;
    endproperty
 
