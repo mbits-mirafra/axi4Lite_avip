@@ -350,11 +350,11 @@ endproperty
 
   IFBACKTOBACK_AWVALIDANDAWREADYASSERTED_WITHOUTDELAY_INBETWEEN2TRANSFER: cover property
   (WhenBackToBackValidAndReadyAssertedWithoutDelayInbetween2Transfer(awvalid, awready))
-  $info("IFBACKTOBACK_BVALIDANDBREADYASSERTED_WITHOUTDELAY_INBETWEEN2TRANSFER : COVERED");
+  $info("IFBACKTOBACK_AWVALIDANDAWREADYASSERTED_WITHOUTDELAY_INBETWEEN2TRANSFER : COVERED");
 
   IFBACKTOBACK_WVALIDANDWREADYASSERTED_WITHOUTDELAY_INBETWEEN2TRANSFER: cover property
   (WhenBackToBackValidAndReadyAssertedWithoutDelayInbetween2Transfer(wvalid, wready))
-  $info("IFBACKTOBACK_BVALIDANDBREADYASSERTED_WITHOUTDELAY_INBETWEEN2TRANSFER : COVERED");
+  $info("IFBACKTOBACK_WVALIDANDWREADYASSERTED_WITHOUTDELAY_INBETWEEN2TRANSFER : COVERED");
 
   IFBACKTOBACK_BVALIDANDBREADYASSERTED_WITHOUTDELAY_INBETWEEN2TRANSFER: cover property
   (WhenBackToBackValidAndReadyAssertedWithoutDelayInbetween2Transfer(bvalid, bready))
@@ -499,14 +499,14 @@ endproperty
     (WhenReadyAssertedThenInbetween1To15ClkValidAsserted (bvalid,bready))
     $info("IFBREADYASSERTED_THEN_INBETWEEN1TO15CLK_BVALIDASSERTED: COVERED");
 
-    property WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(logic valid, logic ready); 
+    property WhenTransferOccurThenNextCLKBreadyWillGoDefaultState(logic valid, logic ready); 
      @(posedge aclk) disable iff (!aresetn)
          (ready && valid) |=> (ready== DEFAULT_BREADY);
     endproperty  
 
-    IFBREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_BREADY_WILLGODEFAULTSTATE: cover property  
-    (WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(bvalid, bready))
-    $info("IFBREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_BREADY_WILLGODEFAULTSTATE : COVERED");
+    IFTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE: cover property  
+    (WhenTransferOccurThenNextCLKBreadyWillGoDefaultState(bvalid, bready))
+    $info("IFTRANSFEROCCUR_THENBREADY_WILLGODEFAULTSTATE : COVERED");
 
     property WhenAwreadyHighAndWritingValidAddressAndDataOnSlaveLocationThenSlaveWillGiveOkayResponse; 
      @(posedge aclk) disable iff (!aresetn)

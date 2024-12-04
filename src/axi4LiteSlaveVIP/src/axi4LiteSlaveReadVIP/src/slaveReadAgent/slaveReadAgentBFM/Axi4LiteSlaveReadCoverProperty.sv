@@ -362,14 +362,14 @@ endproperty
     (WhenReadyAssertedThenInbetween1To15ClkValidAsserted(rvalid,rready))
     $info("IFRREADYASSERTED_THEN_INBETWEEN1TO15CLK_RVALIDASSERTED : COVERED");
 
-    property WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(logic valid, logic ready); 
+    property WhenTransferOccurThenNextCLKArreadyWillGoDefaultState(logic valid, logic ready); 
      @(posedge aclk) disable iff (!aresetn)
          (ready && valid) |=> (ready== DEFAULT_ARREADY);
     endproperty  
 
-    IFARREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_ARREADY_WILLGODEFAULTSTATE: cover property  
-    (WhenREADYDefaultValueIs1AndTransferOccurThenNextClkREADYValueWillGoDefaultState(arvalid, arready))
-    $info("IFARREADYDEFAULTVALUEISHIGH_ANDTRANSFEROCCUR_THEN_NEXTCLK_ARREADY_WILLGODEFAULTSTATE : COVERED");
+    IFTRANSFEROCCUR_THENARREADY_WILLGODEFAULTSTATE: cover property  
+    (WhenTransferOccurThenNextCLKArreadyWillGoDefaultState(arvalid, arready))
+    $info("IFTRANSFEROCCUR_THENARREADY_WILLGODEFAULTSTATE : COVERED");
 
     property WhenArreadyHighAndSendingValidAddressAndReadingDataOnSlaveLocationThenSlaveWillGiveOkayResponse; 
       @(posedge aclk) disable iff (!aresetn) 
