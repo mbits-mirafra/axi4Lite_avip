@@ -1,3 +1,4 @@
+import os
 import yaml
 
 def compareFileAsStrings(axi4LiteFeatureList, featureViolatedByRTLReport, diffFile):
@@ -23,6 +24,12 @@ def compareFileAsStrings(axi4LiteFeatureList, featureViolatedByRTLReport, diffFi
                                         writeFile.write(word2 + "\n")
                                         #print("The word1",word1)
                                         #print("The word2",word2)
+    with open(diffFile, 'r') as file:
+        lines = file.readlines()
+        uniqueLines = list(dict.fromkeys(lines))
+    with open(diffFile, "w") as file:
+        file.writelines(uniqueLines)
+
 
 def generatedViolatedFeatures(axi4LiteFeatureList, diffFile, axi4LiteViolatedFeatues):
     with open(diffFile, 'r') as logFile:
@@ -89,3 +96,4 @@ open(axi4LiteViolatedFeatues, "w").close()
 compareFileAsStrings(axi4LiteFeatureList, featureViolatedByRTLReport, diffFile)
 generatedViolatedFeatures(axi4LiteFeatureList, diffFile, axi4LiteViolatedFeatues)
 
+os.remove(diffFile)
