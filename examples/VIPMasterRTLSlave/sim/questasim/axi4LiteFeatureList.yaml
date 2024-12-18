@@ -199,8 +199,8 @@ Handshake Mechanism:
             CoverProperty:
               - "IFAWREADYHIGH_THEN_WRITINGTHEVALID_AWADDRANDWDATA_ONSLAVELOCATION_THEN_SLAVEWILLGIVEOKAYRESPONSE"
               - "IFARREADYHIGH_THEN_READINGTHERDATAONSLAVEADDRESS_AND_IFSLAVEACCEPTTHEVALIDARADDR_THEN_SLAVEWILLGIVEOKAYRESPONSE" 
-                #      - ReqID_0017:
-                #      - ReqID_0022:
+                #      - ReqID_0017: This requirement is the same as the ReqID_0480 OF AWREADY AND ARREADY
+                #      - ReqID_0022: This requirement is the same as the ReqID_0480 OF WREADY
       - ReqID_0025:
           DOD1:
             CoverProperty:
@@ -223,16 +223,16 @@ Handshake Mechanism:
             AssertProperty:
               - "AWVALIDAWREADYHIGH_THENWITHIN10CLK_WVALIDANDWREADYASSERTED_THENWHITHIN12CLK_BVALIDASSERTED" 
               - "WVALIDANDWREADYASSERTED_THENWITHIN12CLK_BVALIDASSERTED"
-                #      - ReqID_0028:
+      # ReqID_0028: This requirement is the same as the ReqID_0480 OF BREADY
       - ReqID_0477:
           DOD1:
             AssertProperty:
               - "EVEN_SUBORDINATEONLYONESOURCERDATA_THEN_MASTERNEEDTOSENDTHEREQUEST_FORRDATA"
-                #      - ReqID_0032:
-                #      - ReqID__:
+      # ReqID_0032: This requirement is the same as the ReqID_0480 OF RREADY
+      # ReqID__: It in a progress 
   - Handshaking Mechanism for Dependency across channels:
-    #      - ReqID_0014:
-    #      - ReqID_0016:
+    #      - ReqID_0014:  This requirement is the same as the ReqID_0013 
+    #      - ReqID_0016:  This requirement is the same as the ReqID_0013 and ReqID_0026 and ReqID_0031
       - ReqID__:
           DOD1:
             CoverProperty:
@@ -290,8 +290,8 @@ Handshake Mechanism:
               - "IFWVALIDISASSERTED_THEN_NEXTCLK_AWREADYANDWREADYWILLBEASSERT"
               - "IFWVALIDISASSERTED_THEN_INBETWEEN1TO16CLK_AWREADYANDWREADYWILLBEASSERT"
               - "IFWVALIDISASSERTED_THEN_SAMECLK_AWREADYANDWREADYWILLBEASSERT"
-                #      - ReqID_0021:
-                #      - ReqID_0481:
+       # ReqID_0021: This requirement is the same as the ReqID_0011
+       # ReqID_0481: This requirement is the same as the ReqID_0012
       - ReqID_0031:
           DOD1:
             CoverProperty:
@@ -307,31 +307,78 @@ Handshake Mechanism:
 
 Transaction structure:
   - write and read Data structure:
-    #      - ReqID_0073:
+    #      - ReqID_0073: This requirement is the same as the "Data put based on the strobe calculation"
       - ReqID_0074:
           DOD1:
             CoverProperty:
               - "IFWVALIDISASSERTED_THEN_SAMECLK_WSTRBISALLONES_THEN_NEXTCLK_WVALIDISDISASSERTED_THEN_WSTRBVALUEISPREVIOUSVALUES IFWVALIDISASSERTED_THEN_SAMECLK_WSTRBISALLONES_THEN_NEXTCLK_WVALIDISDISASSERTED_THEN_WSTRBVALUEISZEROS"
               
 
-                #      - ReqID_0149:  #Functional Coverage
-                #      - ReqID_0150:
-                #      - ReqID_0151: #Functional Coverage AND Scoreboard 
+      - ReqID_0149: 
+          DOD1:
+            CoverPoint:
+              - "WRITEDATA_CP"
+              - "WSTRB_CP"
+            CrossCoverage:
+              - "WRITEDATA_CP_X_WSTRB_CP"
+      #     ReqID_0150: This requirement is the same as the ReqID_0149
+      # ReqID_0151: This requirement is the same Functional Coverage of the ReqID_0150
   - write and read Response structure:
-    #      - ReqID_0086: #Functional Coverage
-    #      - ReqID_00__:   #Functional Coverage
+      - ReqID_0086:
+          DOD1:
+            CoverPoint:
+              - "WRITEADDR_EVENODD_CP"
+              - "WRITEADDR_MODEOF4_CP"
+              - "WRITEADDR_RANGE_CP"
+              - "BRESP_CP"
+            CrossCoverage:
+              - "WRITEADDR_EVENODD_CP_X_BRESP_CP"
+              - "WRITEADDR_MODEOF4_CP_X_BRESP_CP"
+              - "WRITEADDR_RANGE_CP_X_BRESP_CP"
+
+      - ReqID_00__:
+          DOD1:
+            CoverPoint:
+              - "READADDR_RANGE_CP"
+              - "RRESP_CP"
+            CrossCoverage:
+              - "READADDR_RANGE_CP_X_RRESP_CP"
       - ReqID_0144:
           DOD1:
             AssertProperty:
               - "IFBVALIDANDBREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY"
               - "IFRVALIDANDRREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY"
-                #      - ReqID_0090: #Functional Coverage 
-                #      - ReqID_0095: #Functional Coverage 
+      - ReqID_0090:
+          DOD1:
+            CoverPoint:
+              - "WRITEADDR_RANGE_CP"
+              - "BRESP_CP"
+            CrossCoverage:
+              - "WRITEADDR_RANGE_CP_X_BRESP_CP"
+      - ReqID_0095:
+          DOD1:
+            CoverPoint:
+              - "WRITEADDR_RANGE_CP"
+              - "BRESP_CP "
+            CrossCoverage:
+              - "WRITEADDR_RANGE_CP_X_BRESP_CP"
 
-                #Access permission:
-  #  - ReqID_0104:
-  #  - ReqID_0105:  #Functional Coverage
-  #  - ReqID__: #Functional Coverage
+Access permission:
+  # ReqID_0104: This requirement is the same as the ReqID_0105
+  - ReqID_0105:
+      DOD1:
+        CoverPoint:
+          - "AWPROT_CP"
+          - "BRESP_CP"
+        CrossCoverage:
+          - "AWPROT_CP_X_BRESP_CP"
+  - ReqID__: 
+      DOD1:
+        CoverPoint:
+          - "ARPROT_CP"
+          - "RRESP_CP"
+        CrossCoverage:
+          - "READADDR_RANGE_CP_X_RRESP_CP"
 
 All data accesses use the full width of the data bus:
   - ReqID_0141:
@@ -341,9 +388,10 @@ All data accesses use the full width of the data bus:
       DOD2:
         CoverProperty:
           - "IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEIS_FF_THEN_64BITSOF_WDATAISNOTUNKNOWNVALUE"
-            #  - ReqID_0143:
-            #  - ReqID_0145:
-            #  - ReqID_0147:
+    
+   #- ReqID_0143: Just a Requriments No CoverProperty 
+   #- ReqID_0145: This requirement is the same as the ReqID_0141
+   #  ReqID_0147: This requirement is the same as the ReqID_0141
 
 Supports multiple outstanding transactions:
   - ReqID_0155:
