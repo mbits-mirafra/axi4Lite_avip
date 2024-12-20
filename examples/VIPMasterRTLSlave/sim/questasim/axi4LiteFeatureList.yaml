@@ -208,6 +208,14 @@ Handshake Mechanism:
               - "IFWVALIDANDWREADYAREASSERTED_THEN_WSTRBOFLOWERLANESAREASSERTED_THEN_L1ANDL0OFWDATAISVALIDDATA" 
               - "IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THENWDATAISNOTUNKNOWNVALUE" 
               - "IFWVALIDANDWREADYAREASSERTED_THEN_WDATA_IS_64BITS_THEN_WSTRBLANESOF_L2ANDL0ARE_VALIDWDATA"
+          DOD4:     
+            CoverPoint:
+              - "WRITEDATA_CP"
+            CrossCoverage:
+              - "WRITEDATA_CP_X_WSTRB_CP"
+            Scoreboard:
+              - "wdata_count_comparisions_are_succesful"
+              - "wdata_count_comparisions_are_failed"
       - ReqID__:
           DOD1:
             CoverProperty:
@@ -248,11 +256,27 @@ Handshake Mechanism:
           DOD1:
             CoverProperty:
               - "IFAWADDRESISASSERTED_THEN_SAMECLK_WDATAWILLBEASSERTED"
+          DOD2:
+            CoverProperty:
               - "IFAWADDRESISASSERTED_THEN_NEXTCLK_WDATAWILLBEASSERTED" 
               - "IFAWADDRESISASSERTED_THEN_INBETWEEN1TO10CLKWDATAWILLBEASSERTED" 
+          DOD3:
+            CoverProperty:
               - "IFWDATAISASSERTED_THEN_NEXTCLK_AWADDRWILLBEASSERTED"
               - "IFWDATAISASSERTED_THEN_INBETWEEN1TO10CLK_AWADDRWILLBEASSERTED"
-              - "IFARADDRESISASSERTED_THEN_NEXTCLK_RDATAWILLBEASSERTED IFARADDRESISASSERTED_THEN_INBETWEEN1TO10CLKRDATAWILLBEASSERTED"
+            CoverPoint:
+              - "WRITEADDR_EVENODD_CP"
+              - "WRITEADDR_MODEOF4_CP"
+              - "WRITEADDR_RANGE_CP"
+              - "WRITEDATA_CP"
+            Scoreboard:
+              - "awaddr_count_comparisions_are_succesful" 
+              - "awaddr_count_comparisions_are_failed" 
+          DOD4:
+            CoverProperty:
+              - "IFARADDRESISASSERTED_THEN_NEXTCLK_RDATAWILLBEASSERTED" 
+              - "IFARADDRESISASSERTED_THEN_INBETWEEN1TO10CLKRDATAWILLBEASSERTED"
+
       - ReqID_0019:
           DOD1:
             CoverProperty:
@@ -304,10 +328,22 @@ Handshake Mechanism:
           DOD1:
             AssertProperty:
               - "IFARVALIDANDARREADYAREASSERTED_THEN_WITHIN10CLK_RVALIDASSERTEDANDRDATANOTUNKNOWN"
-
+            CoverPoint:
+              - "READADDR_EVENODD_CP"
+              - "READADDR_MODEOF4_CP"
+              - "READADDR_RANGE_CP"
+              - "READDATA_CP"
+            Scoreboard:
+              - "araddr_count_comparisions_are_succesful"
+              - "araddr_count_comparisions_are_failed"
+              - "rdata_count_comparisions_are_succesful"
+              - "rdata_count_comparisions_are_failed"
 Transaction structure:
   - write and read Data structure:
-    #      - ReqID_0073: This requirement is the same as the "Data put based on the strobe calculation"
+      - ReqID_0073: 
+          DOD1:
+            CoverPoint:
+              - "WSTRB_CP"
       - ReqID_0074:
           DOD1:
             CoverProperty:
@@ -317,68 +353,68 @@ Transaction structure:
       - ReqID_0149: 
           DOD1:
             CoverPoint:
-              - "WRITEDATA_CP"
               - "WSTRB_CP"
-            CrossCoverage:
-              - "WRITEDATA_CP_X_WSTRB_CP"
+            Scoreboard:
+              - "wstrb_count_comparisions_are_succesful"
+              - "wstrb_count_comparisions_are_failed"
       #     ReqID_0150: This requirement is the same as the ReqID_0149
-      # ReqID_0151: This requirement is the same Functional Coverage of the ReqID_0150
+      #- ReqID_0151: #Inside Only DOD No CoverProperty and AssertProperty
   - write and read Response structure:
       - ReqID_0086:
           DOD1:
             CoverPoint:
-              - "WRITEADDR_EVENODD_CP"
-              - "WRITEADDR_MODEOF4_CP"
-              - "WRITEADDR_RANGE_CP"
               - "BRESP_CP"
-            CrossCoverage:
-              - "WRITEADDR_EVENODD_CP_X_BRESP_CP"
-              - "WRITEADDR_MODEOF4_CP_X_BRESP_CP"
-              - "WRITEADDR_RANGE_CP_X_BRESP_CP"
+            Scoreboard:
+              - "bresp_count_comparisions_are_succesful"
+              - "bresp_count_comparisions_are_failed"
 
-      - ReqID_00__:
+      - ReqID__:
           DOD1:
             CoverPoint:
-              - "READADDR_RANGE_CP"
               - "RRESP_CP"
-            CrossCoverage:
-              - "READADDR_RANGE_CP_X_RRESP_CP"
+            Scoreboard:
+              - "rresp_count_comparisions_are_succesful"
+              - "rresp_count_comparisions_are_failed"
       - ReqID_0144:
           DOD1:
             AssertProperty:
               - "IFBVALIDANDBREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY"
               - "IFRVALIDANDRREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY"
+          DOD2:
+            CrossCoverage:
+              - "WRITEADDR_EVENODD_CP_X_BRESP_CP"
+              - "WRITEADDR_MODEOF4_CP_X_BRESP_CP"
+              - "WRITEADDR_RANGE_CP_X_BRESP_CP"
+              - "READDATA_CP_X_RRESP_CP"
+              - "READADDR_EVENODD_CP_X_RRESP_CP"
+              - "READADDR_MODEOF4_CP_X_RRESP_CP"
+              - "READADDR_RANGE_CP_X_RRESP_CP"
       - ReqID_0090:
           DOD1:
-            CoverPoint:
-              - "WRITEADDR_RANGE_CP"
-              - "BRESP_CP"
             CrossCoverage:
               - "WRITEADDR_RANGE_CP_X_BRESP_CP"
-      - ReqID_0095:
-          DOD1:
-            CoverPoint:
-              - "WRITEADDR_RANGE_CP"
-              - "BRESP_CP "
-            CrossCoverage:
-              - "WRITEADDR_RANGE_CP_X_BRESP_CP"
+      # - ReqID_0095: #inside only DOD is there
 
 Access permission:
-  # ReqID_0104: This requirement is the same as the ReqID_0105
+  - ReqID_0104:
+      DOD1:
+        CrossCoverage:
+          - "AWPROT_CP_X_BRESP_CP"
+          - "ARPROT_CP_X_RRESP_CP"
   - ReqID_0105:
       DOD1:
         CoverPoint:
           - "AWPROT_CP"
-          - "BRESP_CP"
-        CrossCoverage:
-          - "AWPROT_CP_X_BRESP_CP"
+        Scoreboard:
+          - "awprot_count_comparisions_are_succesful"
+          - "awprot_count_comparisions_are_failed"
   - ReqID__: 
       DOD1:
         CoverPoint:
           - "ARPROT_CP"
-          - "RRESP_CP"
-        CrossCoverage:
-          - "READADDR_RANGE_CP_X_RRESP_CP"
+        Scoreboard:
+          - "arprot_count_comparisions_are_succesful"
+          - "arprot_count_comparisions_are_failed"
 
 All data accesses use the full width of the data bus:
   - ReqID_0141:

@@ -396,205 +396,205 @@ function void MasterVIPSlaveIPScoreboard::check_phase(uvm_phase phase);
   if(masterVIPSlaveIPEnvConfig.transactionType == 2) begin
        
   if((writeAddressComparisonSuccessCount != 0) && (writeAddressComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("awaddr count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("awaddr_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("writeAddressComparisonSuccessCount :%0d",
                                              writeAddressComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("writeAddressComparisonFailedCount :%0d",
                                              writeAddressComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("awaddr count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("awaddr_count_comparisions_are_failed"));
    end
 
   if((writeProtComparisonSuccessCount != 0) && (writeProtComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("awprot count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("awprot_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("writeProtComparisonSuccessCount :%0d",
                                              writeProtComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("writeProtComparisonFailedCount :%0d",
                                              writeProtComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("awprot count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("awprot_count_comparisions_are_failed"));
    end
   
   if((writeDataComparisonSuccessCount != 0) && (writeDataComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("wdata count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("wdata_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("writeDataComparisonSuccessCount :%0d",
                                              writeDataComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("writeDataComparisonFailedCount :%0d",
                                              writeDataComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("wdata count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("wdata_count_comparisions_are_failed"));
    end
 
    if((writeStrbComparisonSuccessCount != 0) && (writeStrbComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("wstrb count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("wstrb_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("writeStrbComparisonSuccessCount :%0d",
                                              writeStrbComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("writeStrbComparisonFailedCount :%0d",
                                              writeStrbComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("wstrb count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("wstrb_count_comparisions_are_failed"));
    end
 
    if((writeRespComparisonSuccessCount != 0) && (writeRespComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("bresp count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("bresp_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("writeRespComparisonSuccessCount :%0d",
                                              writeRespComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("writeRespComparisonFailedCount :%0d",
                                              writeRespComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("bresp count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("bresp_count_comparisions_are_failed"));
    end
 
   if((readAddressComparisonSuccessCount != 0) && (readAddressComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("araddr count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("araddr_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("readAddressComparisonSuccessCount:%0d",
                                              readAddressComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("readAddressComparisonFailedCount :%0d",
                                              readAddressComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("araddr count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("araddr_count_comparisions_are_failed"));
    end
   
    if((readProtComparisonSuccessCount != 0) && (readProtComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("arprot count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("arprot_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("readProtComparisonSuccessCount :%0d",
                                              readProtComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("readProtComparisonFailedCount :%0d",
                                              readProtComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("arprot count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("arprot_count_comparisions_are_failed"));
    end
 
   if((readDataComparisonSuccessCount != 0) && (readDataComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("rdata count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("rdata_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("readDataComparisonSuccessCount :%0d",
                                              readDataComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("readDataComparisonFailedCount :%0d",
                                              readDataComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("rdata count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("rdata_count_comparisions_are_failed"));
    end
    
    if((readRespComparisonSuccessCount != 0) && (readRespComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("rresp count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("rresp_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("readRespComparisonSuccessCount :%0d",
                                              readRespComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("readRespComparisonFailedCount :%0d",
                                              readRespComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("rresp count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("rresp_count_comparisions_are_failed"));
    end
  end
      
  else if(masterVIPSlaveIPEnvConfig.transactionType ==  Axi4LiteWriteMasterGlobalPkg::WRITE) begin 
   if((writeAddressComparisonSuccessCount != 0) && (writeAddressComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("awaddr count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("awaddr_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("writeAddressComparisonSuccessCount :%0d",
                                              writeAddressComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("writeAddressComparisonFailedCount :%0d",
                                              writeAddressComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("awaddr count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("awaddr_count_comparisions_are_failed"));
    end
 
   if((writeProtComparisonSuccessCount != 0) && (writeProtComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("awprot count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("awprot_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("writeProtComparisonSuccessCount :%0d",
                                              writeProtComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("writeProtComparisonFailedCount :%0d",
                                              writeProtComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("awprot count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("awprot_count_comparisions_are_failed"));
    end
   
   if((writeDataComparisonSuccessCount != 0) && (writeDataComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("wdata count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("wdata_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("writeDataComparisonSuccessCount :%0d",
                                              writeDataComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("writeDataComparisonFailedCount :%0d",
                                              writeDataComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("wdata count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("wdata_count_comparisions_are_failed"));
    end
 
    if((writeStrbComparisonSuccessCount != 0) && (writeStrbComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("wstrb count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("wstrb_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("writeStrbComparisonSuccessCount :%0d",
                                              writeStrbComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("writeStrbComparisonFailedCount :%0d",
                                              writeStrbComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("wstrb count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("wstrb_count_comparisions_are_failed"));
    end
 
    if((writeRespComparisonSuccessCount != 0) && (writeRespComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("bresp count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("bresp_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("writeRespComparisonSuccessCount :%0d",
                                              writeRespComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("writeRespComparisonFailedCount :%0d",
                                              writeRespComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("bresp count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("bresp_count_comparisions_are_failed"));
    end
   end
 
   else if( masterVIPSlaveIPEnvConfig.transactionType == Axi4LiteReadMasterGlobalPkg::READ) begin 
   if((readAddressComparisonSuccessCount != 0) && (readAddressComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("araddr count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("araddr_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("readAddressComparisonSuccessCount:%0d",
                                              readAddressComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("readAddressComparisonFailedCount :%0d",
                                              readAddressComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("araddr count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("araddr_count_comparisions_are_failed"));
    end
   
    if((readProtComparisonSuccessCount != 0) && (readProtComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("arprot count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("arprot_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("readProtComparisonSuccessCount :%0d",
                                              readProtComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("readProtComparisonFailedCount :%0d",
                                              readProtComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("arprot count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("arprot_count_comparisions_are_failed"));
    end
 
   if((readDataComparisonSuccessCount != 0) && (readDataComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("rdata count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("rdata_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("readDataComparisonSuccessCount :%0d",
                                              readDataComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("readDataComparisonFailedCount :%0d",
                                              readDataComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("rdata count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("rdata_count_comparisions_are_failed"));
    end
    
    if((readRespComparisonSuccessCount != 0) && (readRespComparisonFailedCount == 0)) begin
-     `uvm_info (get_type_name(), $sformatf ("rresp count comparisions are succesful"),UVM_HIGH);
+     `uvm_info (get_type_name(), $sformatf ("rresp_count_comparisions_are_succesful"),UVM_HIGH);
   end
    else begin
      `uvm_info (get_type_name(), $sformatf ("readRespComparisonSuccessCount :%0d",
                                              readRespComparisonSuccessCount),UVM_HIGH);
      `uvm_info (get_type_name(), $sformatf ("readRespComparisonFailedCount :%0d",
                                              readRespComparisonFailedCount),UVM_HIGH);
-     `uvm_error (get_type_name(), $sformatf ("rresp count comparisions are failed"));
+     `uvm_error (get_type_name(), $sformatf ("rresp_count_comparisions_are_failed"));
    end
  end
 

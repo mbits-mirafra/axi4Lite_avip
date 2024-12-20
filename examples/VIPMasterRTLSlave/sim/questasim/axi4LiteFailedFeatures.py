@@ -56,6 +56,10 @@ def finalProperty(axi4LiteViolatedFeatues, reqIDList, line, name, key):
                     if propertyName.strip() == line.strip():
                         with open(axi4LiteViolatedFeatues, "a") as writeFile:
                             writeFile.write(f"{name} - {key} - {dodKey} - {propertyKey} - {propertyName} \n")
+                elif propertyKey == "Scoreboard":
+                    if propertyName.strip() == line.strip():
+                        with open(axi4LiteViolatedFeatues, "a") as writeFile:
+                            writeFile.write(f"{name} - {key} - {dodKey} - {propertyKey} - {propertyName} \n")
               #  elif propertyKey == "CoverProperty":
               #      #print(propertyKey)
               #      #print(propertyList)
