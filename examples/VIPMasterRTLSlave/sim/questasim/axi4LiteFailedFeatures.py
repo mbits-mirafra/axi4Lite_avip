@@ -23,7 +23,7 @@ def compareFileAsStrings(axi4LiteFeatureList, featureViolatedByRTLReport, diffFi
         file.writelines(uniqueLines)
 
 
-def generatedViolatedFeatures(axi4LiteFeatureList, diffFile, axi4LiteViolatedFeatues):
+def generatedViolatedFeatures(axi4LiteFeatureList, diffFile, axi4LiteViolatedFeatues, violatedFeatures):
     with open(diffFile, 'r') as logFile:
         for line in logFile:
             with open(axi4LiteFeatureList,'r') as file2:
@@ -32,15 +32,15 @@ def generatedViolatedFeatures(axi4LiteFeatureList, diffFile, axi4LiteViolatedFea
                     for reqIDLoop in feature:
                         for key, reqID in reqIDLoop.items():
                             if "ReqID" in key:
-                                finalProperty(axi4LiteViolatedFeatues, reqID, line, name, key)
+                                finalProperty(axi4LiteViolatedFeatues, reqID, line, name, key, violatedFeatures)
                             else:
                                 for subFeature in reqID:
                                     for keySub, reqIDSub in subFeature.items():
                                         if "ReqID" in keySub:
-                                            finalProperty(axi4LiteViolatedFeatues, reqIDSub, line, name, key)
+                                            finalProperty(axi4LiteViolatedFeatues, reqIDSub, line, name, key, violatedFeatures)
 
                                 
-def finalProperty(axi4LiteViolatedFeatues, reqIDList, line, name, key):
+def finalProperty(axi4LiteViolatedFeatues, reqIDList, line, name, key, violatedFeatures):
     for dodKey, propertyDetails in reqIDList.items():
         for propertyKey, propertyList in propertyDetails.items():
             for propertyName in propertyList:
@@ -48,18 +48,26 @@ def finalProperty(axi4LiteViolatedFeatues, reqIDList, line, name, key):
                     if propertyName in line:
                         with open(axi4LiteViolatedFeatues, "a") as writeFile:
                             writeFile.write(f"{name} - {key} - {dodKey} - {propertyKey} - {propertyName} \n")
+                        with open(violatedFeatures, "a") as violatedFile:
+                            violatedFile.write(f"{name}\n")
                 elif propertyKey == "CoverPoint":
                     if propertyName.strip() == line.strip():
                         with open(axi4LiteViolatedFeatues, "a") as writeFile:
                             writeFile.write(f"{name} - {key} - {dodKey} - {propertyKey} - {propertyName} \n")
+                        with open(violatedFeatures, "a") as violatedFile:
+                            violatedFile.write(f"{name}\n")
                 elif propertyKey == "CrossCoverage":
                     if propertyName.strip() == line.strip():
                         with open(axi4LiteViolatedFeatues, "a") as writeFile:
                             writeFile.write(f"{name} - {key} - {dodKey} - {propertyKey} - {propertyName} \n")
+                        with open(violatedFeatures, "a") as violatedFile:
+                            violatedFile.write(f"{name}\n")
                 elif propertyKey == "Scoreboard":
                     if propertyName.strip() == line.strip():
                         with open(axi4LiteViolatedFeatues, "a") as writeFile:
                             writeFile.write(f"{name} - {key} - {dodKey} - {propertyKey} - {propertyName} \n")
+                        with open(violatedFeatures, "a") as violatedFile:
+                            violatedFile.write(f"{name}\n")
               #  elif propertyKey == "CoverProperty":
               #      #print(propertyKey)
               #      #print(propertyList)
@@ -68,6 +76,13 @@ def finalProperty(axi4LiteViolatedFeatues, reqIDList, line, name, key):
               #      if propertyName in line:
               #          with open(axi4LiteViolatedFeatues, "a") as writeFile:
               #              writeFile.write(f"{name} - {key} - {dodKey} - {propertyKey} - {propertyName} \n")
+
+    with open(violatedFeatures, 'r') as file:
+        lines = file.readlines()
+        uniqueLines = list(dict.fromkeys(lines))
+    with open(violatedFeatures, "w") as file:
+        file.writelines(uniqueLines)
+
 
 def writeCoverageIntoErrorFile(coverageLogFile, coverpointCrossReport):
     errorKeywords = ["Coverpoint","Cross"]
@@ -86,12 +101,20 @@ featureViolatedByRTLReport = "featureViolatedByRTLReport.log"
 diffFile = "differences.log"
 axi4LiteViolatedFeatues = "axi4LiteViolatedFeatues.log"
 coverageLogFile = "coverage_report.log"
+violatedFeatures = "axi4LiteFinalRTLViolatedFeatures.log"
 
 open(axi4LiteViolatedFeatues, "w").close()
+open(violatedFeatures, "w").close()
 
 writeCoverageIntoErrorFile(coverageLogFile, featureViolatedByRTLReport)
 compareFileAsStrings(axi4LiteFeatureList, featureViolatedByRTLReport, diffFile)
-generatedViolatedFeatures(axi4LiteFeatureList, diffFile, axi4LiteViolatedFeatues)
+generatedViolatedFeatures(axi4LiteFeatureList, diffFile, axi4LiteViolatedFeatues,violatedFeatures)
+
+print("--------------------------------------------------------------------------------------")
+print("axi4Lite final violated features report in details : axi4LiteViolatedFeatues.log")
+print("--------------------------------------------------------------------------------------")
+print("axi4Lite final violated features report : axi4LiteFinalRTLViolatedFeatures.log")
+print("--------------------------------------------------------------------------------------")
 
 os.remove(diffFile)
 os.remove(coverageLogFile)
