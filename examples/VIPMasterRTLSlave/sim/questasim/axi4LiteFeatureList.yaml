@@ -1,7 +1,8 @@
 Handshake Mechanism:
   - Handshake Mechanism for command across all the channels:
       - ReqID_0001:
-          DOD1:
+        #The source generates the VALID signal to indicate when the address, data, or control information is available
+          DoD1:
             CoverProperty: 
               - "IFAWVALIDGOESHIGH_THEN_AWADDR_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_AWADDR_IS_UNKNOWN"
               - "IFWVALIDGOESHIGH_THEN_WDATA_IS_NOTUNKNOWN_AND_PREVIOUS_CLK_WDATA_IS_UNKNOWN" 
@@ -32,7 +33,8 @@ Handshake Mechanism:
               - "IFRVALIDASSERTED_THEN_RDATA_NOTUNKNOWN"
               - "IFRVALIDASSERTED_THEN_RRESP_NOTUNKNOWN"
       - ReqID_0003:
-          DOD1:
+        # A source is not permitted to wait until READY is asserted before asserting VALID
+          DoD1:
             CoverProperty:
               - "IFAWREADYLOW_THEN_AFTER3CLK_AWVALIDASSERTED"
               - "IFWREADYLOW_THEN_AFTER3CLK_WVALIDASSERTED"
@@ -45,7 +47,8 @@ Handshake Mechanism:
               - "IFARREADYLOW_THEN_AFTERANYCLK_ARVALIDASSERTED_THENARREADYWILLASSERTEDANYCLK"
               - "IFRREADYLOW_THEN_AFTERANYCLK_RVALIDASSERTED_THENRREADYWILLASSERTEDANYCLK"
       - ReqID_0005:
-          DOD1:
+        # When VALID is asserted, it must remain asserted until the handshake occurs, at a rising clock edge when VALID and READY are both asserted
+          DoD1:
             CoverProperty:
               - "IFAWVALIDASSERTED_THEN_SAMECLK_AWREADYASSERTED"
               - "IFWVALIDASSERTED_THEN_SAMECLK_WREADYASSERTED" 
@@ -98,7 +101,8 @@ Handshake Mechanism:
               - "IFARVALIDASSERTED_THENWITHIN16CLK_ARREADYASSERTED" 
               - "IFRVALIDASSERTED_THENWITHIN16CLK_RREADYASSERTED"
       - ReqID_0002:
-          DOD1: 
+        # The destination generates the READY signal to indicate that it can accept the information
+          DoD1: 
             CoverProperty:
               - "IFAWREADY_NEEDTOASSERTED_ATLEASTONCE"
               - "IFWREADY_NEEDTOASSERTED_ATLEASTONCE"
@@ -106,7 +110,8 @@ Handshake Mechanism:
               - "IFARREADY_NEEDTOASSERTED_ATLEASTONCE"
               - "IFRREADY_NEEDTOASSERTED_ATLEASTONCE"
       - ReqID_0004:
-          DOD1:
+        #A destination is permitted to wait for VALID to be asserted before asserting the corresponding READY 
+          DoD1:
             CoverProperty:
               - "IFAWVALIDASSERTED_THEN_NEXTCLK_AWREADYASSERTED"
               - "IFWVALIDASSERTED_THEN_NEXTCLK_WREADYASSERTED"
@@ -124,7 +129,8 @@ Handshake Mechanism:
               - "IFARVALIDASSERTED_THEN_WITH16CLK_ARREADYASSERTED"
               - "IFRVALIDASSERTED_THEN_WITH16CLK_RREADYASSERTED"
       - ReqID_0006:
-          DOD1:
+        # If READY is asserted, it is permitted to deassert READY before VALID is asserted
+          DoD1:
             CoverProperty:
               - "IFAWREADYASSERTED_DEASSERTED_THEN_NEXTCLK_AWVALIDASSERTED"
               - "IFWREADYASSERTED_DEASSERTED_THEN_NEXTCLK_WVALIDASSERTED"
@@ -137,7 +143,8 @@ Handshake Mechanism:
               - "IFARREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_ARVALIDASSERTED"
               - "IFRREADYASSERTED_DEASSERTED3TIMES_THEN_NEXTCLK_RVALIDASSERTED"
       - ReqID_0479:
-          DOD1:
+        # It is also acceptable to assert READY before detecting the corresponding VALID
+          DoD1:
             Coverproperty:
               - "IFAWREADYASSERTED_THEN_NEXTCLK_AWVALIDASSERTED"
               - "IFWREADYASSERTED_THEN_NEXTCLK_WVALIDASSERTED" 
@@ -155,7 +162,8 @@ Handshake Mechanism:
               - "IFARREADYASSERTED_THEN_INBETWEEN1TO15CLK_ARVALIDASSERTED"
               - "IFRREADYASSERTED_THEN_INBETWEEN1TO15CLK_RVALIDASSERTED"
       - ReqID_0480:
-          DOD1:
+        # When valid and ready high and transfer completed then ready will go default state
+          DoD1:
             CoverProperty:
               - "IFTRANSFEROCCUR_THENAWREADY_WILLGODEFAULTSTATE"
               - "IFTRANSFEROCCUR_THENWREADY_WILLGODEFAULTSTATE"
@@ -174,7 +182,8 @@ Handshake Mechanism:
               - "IFTRANSFEROCCUR_THENARREADY_WILLGODEFAULTSTATE"
               - "IFTRANSFEROCCUR_THENRREADY_WILLGODEFAULTSTATE"
       - ReqID_0007:
-          DOD1:
+        # The source must keep its information stable until the transfer is completed
+          DoD1:
             AssertProperty:
               - "IFWVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR"
               - "IFBVALIDISHIGH_THEN_INFORMATIONSTABLE_UNTILTRANSFEROCCUR"
@@ -186,7 +195,8 @@ Handshake Mechanism:
               - "IFARVALIDANDARREADYASSERTED_THEN_INFORMATIONNOTUNKNOWN_THENTRANSFEROCCUR"
               - "IFRVALIDANDRREADYASSERTED_THEN_INFORMATIONNOTUNKNOWN_THENTRANSFEROCCUR"
       - ReqID_0008:
-          DOD1:
+        # Transfer occurs only when both the VALID and READY signals are HIGH
+          DoD1:
             AssertProperty:
               - "IFAWVALIDANDAWREADYASSERTED_THEN_INFORMATIONNOTUNKNOWN_THENTRANSFEROCCUR"
               - "IFWVALIDANDWREADYASSERTED_THEN_INFORMATIONNOTUNKNOWN_THENTRANSFEROCCUR" 
@@ -195,20 +205,33 @@ Handshake Mechanism:
               - "IFRVALIDANDRREADYASSERTED_THEN_INFORMATIONNOTUNKNOWN_THENTRANSFEROCCUR"
   - Handshaking Mechanism for Across each channel:
       - ReqID_0010:
-          DOD1:
+        # When AxREADY is HIGH, the Subordinate must be able to accept any valid address that is presented to it
+          DoD1:
             CoverProperty:
               - "IFAWREADYHIGH_THEN_WRITINGTHEVALID_AWADDRANDWDATA_ONSLAVELOCATION_THEN_SLAVEWILLGIVEOKAYRESPONSE"
               - "IFARREADYHIGH_THEN_READINGTHERDATAONSLAVEADDRESS_AND_IFSLAVEACCEPTTHEVALIDARADDR_THEN_SLAVEWILLGIVEOKAYRESPONSE" 
-                #      - ReqID_0017: This requirement is the same as the ReqID_0480 OF AWREADY AND ARREADY
-                #      - ReqID_0022: This requirement is the same as the ReqID_0480 OF WREADY
+
+      - ReqID_0017:
+      # The Default state of AxREADY can be either HIGH or LOW. This specification recommends a default state of HIGH
+          DoD1:
+            AssertProperty:
+              - "IFRESETASSERTED_THENAWREADY_WILLGODEFAULTSTATE"
+
+      - ReqID_0022:
+      # Default state of WREADY can be HIGH, but only if the Subordinate can always accept write data in a single cycle
+          DoD1:
+            AssertProperty:
+              - "IFRESETASSERTED_THENWREADY_WILLGODEFAULTSTATE"
+
       - ReqID_0025:
-          DOD1:
+        # This specification recommends that WDATA is driven to zero for inactive byte lanes
+          DoD1:
             CoverProperty:
               - "IFWVALIDANDWREADYAREASSERTED_THEN_WSTRBOFHIGHERLANESAREASSERTED_THEN_L3ANDL2OFWDATAISVALIDDATA" 
               - "IFWVALIDANDWREADYAREASSERTED_THEN_WSTRBOFLOWERLANESAREASSERTED_THEN_L1ANDL0OFWDATAISVALIDDATA" 
               - "IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THENWDATAISNOTUNKNOWNVALUE" 
               - "IFWVALIDANDWREADYAREASSERTED_THEN_WDATA_IS_64BITS_THEN_WSTRBLANESOF_L2ANDL0ARE_VALIDWDATA"
-          DOD4:     
+          DoD4:     
             CoverPoint:
               - "WRITEDATA_CP"
             CrossCoverage:
@@ -216,13 +239,16 @@ Handshake Mechanism:
             Scoreboard:
               - "wdata_count_comparisions_are_succesful"
               - "wdata_count_comparisions_are_failed"
-      - ReqID__:
-          DOD1:
+
+      - ReqID_0500:
+        # The data in the inactive byte lanes remain the same (previous value)
+          DoD1:
             CoverProperty:
               - "IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THEN_NEXTCLK_WSTRBISINACTIVEBYTE_THEN_WDATAISPREVIOUSVALUES"
               - "IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THEN_NEXTCLK_WSTRBISINACTIVEBYTE_THEN_64BITSOFWDATAISPREVIOUSV"
       - ReqID_0026:
-          DOD1:
+        # The Subordinate must wait for AWVALID, AWREADY, WVALID, and WREADY to be asserted before asserting BVALID
+          DoD1:
             CoverProperty:
               - "AWVALIDANDAWREADY_WVALIDANDWREADY_ASSERTEDATSAMECLK_THEN_BVALIDASSERTEDNEXTCLK"
               - "AWVALIDANDAWREADY_THEN_NEXTCLK_WVALIDANDWREADYASSERTED_THEN_NEXTCLK_BVALIDASSERTED" 
@@ -231,18 +257,31 @@ Handshake Mechanism:
             AssertProperty:
               - "AWVALIDAWREADYHIGH_THENWITHIN10CLK_WVALIDANDWREADYASSERTED_THENWHITHIN12CLK_BVALIDASSERTED" 
               - "WVALIDANDWREADYASSERTED_THENWITHIN12CLK_BVALIDASSERTED"
-      # ReqID_0028: This requirement is the same as the ReqID_0480 OF BREADY
+
+      - ReqID_0028:
+      # Default state of BREADY can be HIGH, but only if the Manager can always accept a write response in a single cycle
+          DoD1:
+            AssertProperty:
+              - "IFRESETASSERTED_THENBREADY_WILLGODEFAULTSTATE"
+
       - ReqID_0477:
-          DOD1:
+      # Even if a Subordinate has only one source of read data, it must assert the RVALID signal only in response to a request for data
+          DoD1:
             AssertProperty:
               - "EVEN_SUBORDINATEONLYONESOURCERDATA_THEN_MASTERNEEDTOSENDTHEREQUEST_FORRDATA"
-      # ReqID_0032: This requirement is the same as the ReqID_0480 OF RREADY
-      # ReqID__: It in a progress 
+      - ReqID_0032:
+      # Default state of RREADY can be HIGH, but only if the Manager is able to accept read data immediately when it starts a read transaction
+          DoD1:
+            AssertProperty:
+              - "IFRESETASSERTED_THENRREADY_WILLGODEFAULTSTATE"
   - Handshaking Mechanism for Dependency across channels:
     #      - ReqID_0014:  This requirement is the same as the ReqID_0013 
+                #The protocol does not define any other relationship between the channels      
     #      - ReqID_0016:  This requirement is the same as the ReqID_0013 and ReqID_0026 and ReqID_0031
-      - ReqID__:
-          DOD1:
+                #To prevent a deadlock situation, the dependency rules that exist between the handshake signals must be observed      
+      - ReqID_0502:
+    # Write and Read are independent of each other
+          DoD1:
             CoverProperty:
               - "IFMASTERWRITE_ADDRANDDATA_ISEQUALTO_MASTERREAD_ADDRANDDATA"
               - "IFSLAVEWRITE_ADDRANDDATA_ISEQUALTO_SLAVEREAD_ADDRANDDATA"
@@ -253,14 +292,15 @@ Handshake Mechanism:
               - "IFMASTERWRITE_64BITSOF_ADDRANDDATA_ISNOTEQUALTO_MASTERREAD_64BITSOF_ADDRANDDATA"
               - "IFSLAVEWRITE_64BITSOF_ADDRANDDATA_ISNOTEQUALTO_SLAVEREAD_64BITSOF_ADDRANDDATA"
       - ReqID_0018:
-          DOD1:
+        # Whenever the address phase is started corresponding data phase also needs to start
+          DoD1:
             CoverProperty:
               - "IFAWADDRESISASSERTED_THEN_SAMECLK_WDATAWILLBEASSERTED"
-          DOD2:
+          DoD2:
             CoverProperty:
               - "IFAWADDRESISASSERTED_THEN_NEXTCLK_WDATAWILLBEASSERTED" 
               - "IFAWADDRESISASSERTED_THEN_INBETWEEN1TO10CLKWDATAWILLBEASSERTED" 
-          DOD3:
+          DoD3:
             CoverProperty:
               - "IFWDATAISASSERTED_THEN_NEXTCLK_AWADDRWILLBEASSERTED"
               - "IFWDATAISASSERTED_THEN_INBETWEEN1TO10CLK_AWADDRWILLBEASSERTED"
@@ -272,19 +312,21 @@ Handshake Mechanism:
             Scoreboard:
               - "awaddr_count_comparisions_are_succesful" 
               - "awaddr_count_comparisions_are_failed" 
-          DOD4:
+          DoD4:
             CoverProperty:
               - "IFARADDRESISASSERTED_THEN_NEXTCLK_RDATAWILLBEASSERTED" 
               - "IFARADDRESISASSERTED_THEN_INBETWEEN1TO10CLKRDATAWILLBEASSERTED"
 
       - ReqID_0019:
-          DOD1:
+        # The Manager must not wait for the Subordinate to assert AWREADY or WREADY before asserting AWVALID or WVALID
+          DoD1:
             CoverProperty:
               - "IFAWVALIDISASSERTED_THEN_NEXTCLK_AWREADYANDWREADYWILLBEASSERT" 
               - "IFAWVALIDISASSERTED_THEN_INBETWEEN1TO15CLK_AWREADYANDWREADYWILLBEASSERT" 
               - "IFAWVALIDISASSERTED_THEN_SAMECLK_AWREADYANDWREADYWILLBEASSERT"
       - ReqID_0011:
-          DOD1:
+        # The Subordinate can assert AWREADY before AWVALID or WVALID, or both, are asserted
+          DoD1:
             CoverProperty:
               - "IFAWREADYISASSERTED_THEN_NEXTCLK_WVALIDISASSERTED"
               - "IFAWREADYISASSERTED_THEN_INBETWEEN1TO10CLK_WVALIDISASSERTED"
@@ -293,13 +335,15 @@ Handshake Mechanism:
               - "IFAWREADYISASSERTED_THEN_INBETWEEN1TO16CLK_AWVALIDANDWVALIDAREASSERTED" 
               - "IFAWREADYISASSERTED_THEN_SAMECLK_AWVALIDANDWVALIDAREASSERTED"
       - ReqID_0012:
-          DOD1:
+        # The Subordinate can wait for AWVALID or WVALID, or both, before asserting AWREADY 
+          DoD1:
             CoverProperty:
               - "IFWVALIDISASSERTED_THEN_NEXTCLK_AWREADYISASSERTED"
               - "IFWVALIDISASSERTED_THEN_INBETWEEN1TO16CLK_AWREADYISASSERTED" 
               - "IFAWVALIDISASSERTED_THEN_NEXTCLK_AWREADYISASSERTED_THEN_NEXTCLK_WVALIDIASERTED"
       - ReqID_0013:
-          DOD1:
+        # WVALID and AWVALID are independent of each other
+          DoD1:
             CoverProperty:
               - "IFWVALIDISASSERTED_THEN_SAMECLK_AWVALIDISASSERTED"
               - "IFWVALIDISASSERTED_THEN_NEXTCLK_AWVALIDISASSERTED"
@@ -309,15 +353,33 @@ Handshake Mechanism:
             AssertProperty:
               - "IFAWVALIDISASSERTED_THEN_WITHIN10CLK_WVALIDWILLASSERT"
       - ReqID_0020:
-          DOD1:
+        # The Manager must not wait for the Subordinate to assert AWREADY or WREADY before asserting WVALID
+          DoD1:
             CoverProperty:
               - "IFWVALIDISASSERTED_THEN_NEXTCLK_AWREADYANDWREADYWILLBEASSERT"
               - "IFWVALIDISASSERTED_THEN_INBETWEEN1TO16CLK_AWREADYANDWREADYWILLBEASSERT"
               - "IFWVALIDISASSERTED_THEN_SAMECLK_AWREADYANDWREADYWILLBEASSERT"
-       # ReqID_0021: This requirement is the same as the ReqID_0011
-       # ReqID_0481: This requirement is the same as the ReqID_0012
+      - ReqID_0021:
+          #The Subordinate can assert WREADY before AWVALID or WVALID, or both, are asserted 
+          DoD1:
+            CoverProperty:
+              - "IFWREADYISASSERTED_THEN_NEXTCLK_WVALIDISASSERTED"
+              - "IFWREADYISASSERTED_THEN_INBETWEEN1TO10CLK_WVALIDISASSERTED"
+              - "IFWREADYISASSERTED_THEN_SAMECLK_WVALIDISASSERTED"
+              - "IFWREADYISASSERTED_THEN_NEXTCLK_AWVALIDANDWVALIDAREASSERTED" 
+              - "IFWREADYISASSERTED_THEN_INBETWEEN1TO16CLK_AWVALIDANDWVALIDAREASSERTED" 
+              - "IFWREADYISASSERTED_THEN_SAMECLK_AWVALIDANDWVALIDAREASSERTED"
+
+      - ReqID_0481:
+          #The Subordinate can wait for AWVALID or WVALID, or both, before asserting WREADY 
+          DoD1:
+            CoverProperty:
+              - "IFWVALIDISASSERTED_THEN_NEXTCLK_WREADYISASSERTED"
+              - "IFWVALIDISASSERTED_THEN_INBETWEEN1TO16CLK_WREADYISASSERTED" 
+              - "IFAWVALIDISASSERTED_THEN_NEXTCLK_WVALIDISASSERTED_THEN_NEXTCLK_WREADYISASSERTED"
       - ReqID_0031:
-          DOD1:
+        # The Subordinate must wait for both ARVALID and ARREADY to be asserted before it asserts RVALID to indicate that valid data is available
+          DoD1:
             CoverProperty:
               - "IFARVALIDANDARREADYBOTHAREASSERTED_THEN_NEXTCLK_RVALIDWILLBEASSERT"
               - "IFARVALIDANDARREADYBOTHAREASSERTED_THEN_AT3CLK_RVALIDWILLBEASSERT"
@@ -325,7 +387,8 @@ Handshake Mechanism:
             AssertProperty:
               - "IFARVALIDANDARREADYAREASSERTED_THEN_WITHIN10CLK_RVALIDASSERTED"
       - ReqID_0033:
-          DOD1:
+        # Read data must always follow the read address of the data
+          DoD1:
             AssertProperty:
               - "IFARVALIDANDARREADYAREASSERTED_THEN_WITHIN10CLK_RVALIDASSERTEDANDRDATANOTUNKNOWN"
             CoverPoint:
@@ -341,46 +404,64 @@ Handshake Mechanism:
 Transaction structure:
   - write and read Data structure:
       - ReqID_0073: 
-          DOD1:
+        # The WSTRB[n:0] signals when HIGH, specify the byte lanes of the data bus that contain valid information
+          DoD1:
             CoverPoint:
               - "WSTRB_CP"
       - ReqID_0074:
-          DOD1:
+        # When WVALID is LOW, the write strobes can take any value, although this specification recommends that they are either driven LOW or held at their previous value 
+          DoD1:
             CoverProperty:
               - "IFWVALIDISASSERTED_THEN_SAMECLK_WSTRBISALLONES_THEN_NEXTCLK_WVALIDISDISASSERTED_THEN_WSTRBVALUEISPREVIOUSVALUES IFWVALIDISASSERTED_THEN_SAMECLK_WSTRBISALLONES_THEN_NEXTCLK_WVALIDISDISASSERTED_THEN_WSTRBVALUEISZEROS"
               
 
       - ReqID_0149: 
-          DOD1:
+        # AXI4-Lite supports write strobes 
+          DoD1:
             CoverPoint:
               - "WSTRB_CP"
             Scoreboard:
               - "wstrb_count_comparisions_are_succesful"
               - "wstrb_count_comparisions_are_failed"
-      #     ReqID_0150: This requirement is the same as the ReqID_0149
-      #- ReqID_0151: #Inside Only DOD No CoverProperty and AssertProperty
+      - ReqID_0150: 
+        # All Manager interfaces and interconnect components must provide correct write strobes     
+          DoD1:
+            CoverPoint:
+              - "WSTRB_CP"
+            Scoreboard:
+              - "wstrb_count_comparisions_are_succesful"
+              - "wstrb_count_comparisions_are_failed"
+      - ReqID_0151: 
+        # A Subordinate is permitted to make full use of the write strobes
+          DoD1:
+            CoverPoint:
+              - "WSTRB_CP"
+
   - write and read Response structure:
       - ReqID_0086:
-          DOD1:
+        # Specified by BRESP[1:0]
+          DoD1:
             CoverPoint:
               - "BRESP_CP"
             Scoreboard:
               - "bresp_count_comparisions_are_succesful"
               - "bresp_count_comparisions_are_failed"
 
-      - ReqID__:
-          DOD1:
+      - ReqID_0503:
+        # Specified by RRESP[1:0] 
+          DoD1:
             CoverPoint:
               - "RRESP_CP"
             Scoreboard:
               - "rresp_count_comparisions_are_succesful"
               - "rresp_count_comparisions_are_failed"
       - ReqID_0144:
-          DOD1:
+        # The EXOKAY response is not supported on the read data and write response channels
+          DoD1:
             AssertProperty:
               - "IFBVALIDANDBREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY"
               - "IFRVALIDANDRREADY_ISASSERTED_THEN_RESPONSEISNOTEXOKAY"
-          DOD2:
+          DoD2:
             CrossCoverage:
               - "WRITEADDR_EVENODD_CP_X_BRESP_CP"
               - "WRITEADDR_MODEOF4_CP_X_BRESP_CP"
@@ -390,26 +471,32 @@ Transaction structure:
               - "READADDR_MODEOF4_CP_X_RRESP_CP"
               - "READADDR_RANGE_CP_X_RRESP_CP"
       - ReqID_0090:
-          DOD1:
+        #Indicates that a normal access has been successful
+          DoD1:
             CrossCoverage:
               - "WRITEADDR_RANGE_CP_X_BRESP_CP"
-      # - ReqID_0095: #inside only DOD is there
+      # - ReqID_0095: #inside only DoD is there
+      # When the access has reached the Slave successfully, but the Slave wishes to return an error condition to the originating Master
 
 Access permission:
   - ReqID_0104:
-      DOD1:
+    # access permissions signals that can be used to protect against illegal transactions
+      DoD1:
         CrossCoverage:
           - "AWPROT_CP_X_BRESP_CP"
           - "ARPROT_CP_X_RRESP_CP"
   - ReqID_0105:
-      DOD1:
+    # Specified by AWPROT[2:0] for write accesses
+      DoD1:
         CoverPoint:
           - "AWPROT_CP"
         Scoreboard:
           - "awprot_count_comparisions_are_succesful"
           - "awprot_count_comparisions_are_failed"
-  - ReqID__: 
-      DOD1:
+
+  - ReqID_0504: 
+    # Specified by ARPROT[2:0] for read accesses
+      DoD1:
         CoverPoint:
           - "ARPROT_CP"
         Scoreboard:
@@ -418,42 +505,52 @@ Access permission:
 
 All data accesses use the full width of the data bus:
   - ReqID_0141:
-      DOD1:
+    # All data accesses use the full width of the data bus
+      DoD1:
         CoverProperty:
           - "IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THENWDATAISNOTUNKNOWNVALUE" 
-      DOD2:
+      DoD2:
         CoverProperty:
           - "IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEIS_FF_THEN_64BITSOF_WDATAISNOTUNKNOWNVALUE"
     
    #- ReqID_0143: Just a Requriments No CoverProperty 
+        # Permitted signals on an axi4-lite interface
    #- ReqID_0145: This requirement is the same as the ReqID_0141
+        # AXI4-Lite has a fixed data bus width and all transactions are the same width as the data bus
    #  ReqID_0147: This requirement is the same as the ReqID_0141
+        # Only components requiring 64-bit atomic accesses use a 64-bit interface  
 
 Supports multiple outstanding transactions:
   - ReqID_0155:
-      DOD1:
+    # AXI4-Lite supports multiple outstanding transactions
+      DoD1:
         CoverProperty:
           - "IFMASTERISSUES_MULTIPLEWRITETX_THEN_SLAVENEEDTOSUPPORTS_MULTIPLEOUTSTANDINGTX" 
           - "IFMASTERISSUES_MULTIPLEREADTX_THEN_SLAVENEEDTOSUPPORTS_MULTIPLEOUTSTANDINGTX"
   - ReqID_0156:
-      DOD1:
+    # Subordinate can restrict multiple outstanding transactions by the appropriate use of the handshake signals
+      DoD1:
         CoverProperty:
           - "IFMASTERISSUES_MULTIPLEWRITETX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX"
           - "IFMASTERISSUES_MULTIPLEREADTX_THEN_SLAVEISNOTSUPPORTS_MULTIPLEOUTSTANDINGTX"
   - ReqID_0157:
-      DOD1:
+    # all transactions must be in order 
+      DoD1:
         CoverProperty:
           - "IFMASTERANDSLAVEISNOTSUPPORTS_MULTIPLEWRITEOUTSTANDINGTX_THEN_NORMALBLOCKINGTX"
           - "IFMASTERANDSLAVEISNOTSUPPORTS_MULTIPLEREADOUTSTANDINGTX_THEN_NORMALBLOCKINGTX"
 Reset:
-  - ReqID__:
-      DOD1:
+  - ReqID_0505:
+    # A Manager interface must drive ARVALID, AWVALID, and WVALID LOW
+      DoD1:
         AssertProperty:
           - "IFRESETASSERTED_THENAWVALID_WILLGODEFAULTSTATE"
           - "IFRESETASSERTED_THENWVALID_WILLGODEFAULTSTATE"
-  - ReqID__:
-      DOD1:
-        AssertProperty:
           - "IFRESETASSERTED_THENARVALID_WILLGODEFAULTSTATE"
+
+  - ReqID_0506:
+    # A Subordinate interface must drive RVALID and BVALID LOW
+      DoD1:
+        AssertProperty:
           - "IFRESETASSERTED_THENBVALID_WILLGODEFAULTSTATE"
           - "IFRESETASSERTED_THENRVALID_WILLGODEFAULTSTATE"
