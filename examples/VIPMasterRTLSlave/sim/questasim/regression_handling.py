@@ -51,6 +51,7 @@ for testname in reg_list_array:
     print(line)
   os.system(line)
 
+  # Writing perticular testcase into logFile and passing in to write_into_error_file function
   logFile = ["{}/{}.log".format(test_folder, testname)] 
   write_into_error_file(logFile,"featureViolatedByRTLReport.log")
 

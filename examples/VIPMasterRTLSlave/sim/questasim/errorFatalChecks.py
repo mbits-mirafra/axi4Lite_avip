@@ -2,6 +2,7 @@ import re
 import sys
 import os
 
+# Writing error info from all log files to featureViolatedByRTLReport.log file and this function calling in regression_handling.py because every testcase need to write error info
 def write_into_error_file(logFile, simulationLogFile):
     errorKeywords = ["ERROR","Error","FATAL"]
     errorFound = []
