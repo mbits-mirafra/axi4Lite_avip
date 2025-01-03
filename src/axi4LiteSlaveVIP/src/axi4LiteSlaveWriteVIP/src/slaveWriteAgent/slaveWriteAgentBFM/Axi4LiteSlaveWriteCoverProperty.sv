@@ -672,6 +672,62 @@ endproperty
    (WhenAwreadyIsAssertedThenSameClkAwvalidAndWvalidAreAsserted)
   $info("IFAWREADYISASSERTED_THEN_SAMECLK_AWVALIDANDWVALIDAREASSERTED :  COVERED");
 
+
+  property WhenWreadyIsAssertedThenNextClkWvalidIsAsserted;
+    @(posedge aclk) disable iff (!aresetn)
+    (wready && !wvalid) |=> wvalid;
+  endproperty
+
+  IFWREADYISASSERTED_THEN_NEXTCLK_WVALIDISASSERTED: cover property
+  (WhenWreadyIsAssertedThenNextClkWvalidIsAsserted)
+  $info("IFWREADYISASSERTED_THEN_NEXTCLK_WVALIDISASSERTED :  COVERED");
+
+  property WhenWreadyIsAssertedThenInbetween1To10ClkWvalidIsAsserted;
+    @(posedge aclk) disable iff (!aresetn)
+    wready |-> ##[1:MAX_DELAY_WVALID] wvalid;
+  endproperty
+
+  IFWREADYISASSERTED_THEN_INBETWEEN1TO10CLK_WVALIDISASSERTED: cover property
+  (WhenWreadyIsAssertedThenInbetween1To10ClkWvalidIsAsserted)
+  $info("IFWREADYISASSERTED_THEN_INBETWEEN1TO10CLK_WVALIDISASSERTED:  COVERED");
+
+  property WhenWreadyIsAssertedThenSameClkWvalidIsAsserted;
+    @(posedge aclk) disable iff (!aresetn)
+    wready |-> wvalid;
+  endproperty
+
+  IFWREADYISASSERTED_THEN_SAMECLK_WVALIDISASSERTED: cover property
+  (WhenWreadyIsAssertedThenSameClkWvalidIsAsserted)
+  $info("IFWREADYISASSERTED_THEN_SAMECLK_WVALIDISASSERTED :  COVERED");
+
+  property WhenWreadyIsAssertedThenNextClkAwvalidAndWvalidAreAsserted;
+    @(posedge aclk) disable iff (!aresetn)
+    (wready && !awvalid && !wvalid) |-> ##1 (awvalid && wvalid);
+  endproperty
+
+  IFWREADYISASSERTED_THEN_NEXTCLK_AWVALIDANDWVALIDAREASSERTED: cover property
+  (WhenWreadyIsAssertedThenNextClkAwvalidAndWvalidAreAsserted)
+  $info("IFWREADYISASSERTED_THEN_NEXTCLK_AWVALIDANDWVALIDAREASSERTED :  COVERED");
+
+   property WhenWreadyIsAssertedThenInbetween1To16ClkAwvalidAndWvalidAreAsserted;
+   @(posedge aclk) disable iff (!aresetn)
+   wready |-> ##[1:MAX_DELAY_VALID] (awvalid && wvalid);
+   endproperty
+
+   IFWREADYISASSERTED_THEN_INBETWEEN1TO16CLK_AWVALIDANDWVALIDAREASSERTED: cover property
+   (WhenWreadyIsAssertedThenInbetween1To16ClkAwvalidAndWvalidAreAsserted)
+   $info("IFWREADYISASSERTED_THEN_INBETWEEN1TO16CLK_AWVALIDANDWVALIDAREASSERTED:  COVERED");
+
+   property WhenWreadyIsAssertedThenSameClkAwvalidAndWvalidAreAsserted;
+   @(posedge aclk) disable iff (!aresetn)
+   wready |-> (awvalid && wvalid);
+   endproperty
+ 
+   IFWREADYISASSERTED_THEN_SAMECLK_AWVALIDANDWVALIDAREASSERTED: cover property
+   (WhenWreadyIsAssertedThenSameClkAwvalidAndWvalidAreAsserted)
+  $info("IFWREADYISASSERTED_THEN_SAMECLK_AWVALIDANDWVALIDAREASSERTED :  COVERED");
+
+
   property WhenWvalidIsAssertedThenNextClkAwreadyAsserted;
     @(posedge aclk) disable iff (!aresetn)
     wvalid |=> awready;
@@ -703,6 +759,33 @@ endproperty
     @(posedge aclk) disable iff (!aresetn)
     wvalid |=> awvalid;
    endproperty 
+
+  property WhenWvalidIsAssertedThenNextClkWreadyAsserted;
+    @(posedge aclk) disable iff (!aresetn)
+    wvalid |=> wready;
+  endproperty
+
+  IFWVALIDISASSERTED_THEN_NEXTCLK_WREADYISASSERTED: cover property
+  (WhenWvalidIsAssertedThenNextClkWreadyAsserted)
+  $info("IFWVALIDISASSERTED_THEN_NEXTCLK_WREADYISASSERTED:  COVERED");
+
+   property WhenWvalidIsAssertedThenInbetween1To16ClkClkWreadyAsserted;
+    @(posedge aclk) disable iff (!aresetn)
+    wvalid |=> ##[0:MAX_DELAY_READY] wready;
+  endproperty
+
+  IFWVALIDISASSERTED_THEN_INBETWEEN1TO16CLK_WREADYISASSERTED: cover property
+  (WhenWvalidIsAssertedThenInbetween1To16ClkClkWreadyAsserted)
+  $info("IFWVALIDISASSERTED_THEN_INBETWEEN1TO16CLK_WREADYISASSERTED:  COVERED");
+
+   property WhenAwvalidIsAssertedThenNextClkWvalidIsAssertedThenNextClkWreadyIsAsserted();
+   @(posedge aclk) disable iff (!aresetn)
+    awvalid |=> wvalid ##1 wready;
+   endproperty
+
+   IFAWVALIDISASSERTED_THEN_NEXTCLK_WVALIDISASSERTED_THEN_NEXTCLK_WREADYISASSERTED: cover property
+   (WhenAwvalidIsAssertedThenNextClkWvalidIsAssertedThenNextClkWreadyIsAsserted)
+   $info("IFAWVALIDISASSERTED_THEN_NEXTCLK_WVALIDISASSERTED_THEN_NEXTCLK_WREADYISASSERTED  COVERED");
 
    IFWVALIDISASSERTED_THEN_NEXTCLK_AWVALIDISASSERTED: cover property
    (WhenWvalidIsAssertedThenNextClkAwvalidIsAsserted)
@@ -854,89 +937,6 @@ endproperty
     (WhenWvalidAndWreadyAreAssertedThenSameClkWstrbValueIsAllOnesThen64BitsOfWdataIsNotUnknown)
     $info("IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEIS_FF_THEN_64BITSOF_WDATAISNOTUNKNOWNVALUE :COVERED");
 
-/*   property WhenWreadyIsAssertedThenNextClkWvalidIsAsserted;
-    @(posedge aclk) disable iff (!aresetn)
-    (wready && !wvalid) |=> wvalid;
-  endproperty
-
-  IFWREADYISASSERTED_THEN_NEXTCLK_WVALIDISASSERTED: cover property
-  (WhenWreadyIsAssertedThenNextClkWvalidIsAsserted)
-  $info("IFWREADYISASSERTED_THEN_NEXTCLK_WVALIDISASSERTED :  COVERED");
-
-  property WhenWreadyIsAssertedThenInbetween1To10ClkWvalidIsAsserted;
-    @(posedge aclk) disable iff (!aresetn)
-    wready |-> ##[1:MAX_DELAY_WVALID] wvalid;
-  endproperty
-
-  IFWREADYISASSERTED_THEN_INBETWEEN1TO10CLK_WVALIDISASSERTED: cover property
-  (WhenWreadyIsAssertedThenInbetween1To10ClkWvalidIsAsserted)
-  $info("IFWREADYISASSERTED_THEN_INBETWEEN1TO10CLK_WVALIDISASSERTED:  COVERED");
-
-  property WhenWreadyIsAssertedThenSameClkWvalidIsAsserted;
-    @(posedge aclk) disable iff (!aresetn)
-    wready |-> wvalid;
-  endproperty
-
-  IFWREADYISASSERTED_THEN_SAMECLK_WVALIDISASSERTED: cover property
-  (WhenWreadyIsAssertedThenSameClkWvalidIsAsserted)
-  $info("IFWREADYISASSERTED_THEN_SAMECLK_WVALIDISASSERTED :  COVERED");
-
-  property WhenWreadyIsAssertedThenNextClkAwvalidAndWvalidAreAsserted;
-    @(posedge aclk) disable iff (!aresetn)
-    (wready && !awvalid && !wvalid) |-> ##1 (awvalid && wvalid);
-  endproperty
-
-  IFWREADYISASSERTED_THEN_NEXTCLK_AWVALIDANDWVALIDAREASSERTED: cover property
-  (WhenWreadyIsAssertedThenNextClkAwvalidAndWvalidAreAsserted)
-  $info("IFWREADYISASSERTED_THEN_NEXTCLK_AWVALIDANDWVALIDAREASSERTED :  COVERED");
-
-   property WhenWreadyIsAssertedThenInbetween1To16ClkAwvalidAndWvalidAreAsserted;
-   @(posedge aclk) disable iff (!aresetn)
-   wready |-> ##[1:MAX_DELAY_VALID] (awvalid && wvalid);
-   endproperty
-
-   IFWREADYISASSERTED_THEN_INBETWEEN1TO16CLK_AWVALIDANDWVALIDAREASSERTED: cover property
-   (WhenWreadyIsAssertedThenInbetween1To16ClkAwvalidAndWvalidAreAsserted)
-   $info("IFWREADYISASSERTED_THEN_INBETWEEN1TO16CLK_AWVALIDANDWVALIDAREASSERTED:  COVERED");
-
-   property WhenWreadyIsAssertedThenSameClkAwvalidAndWvalidAreAsserted;
-   @(posedge aclk) disable iff (!aresetn)
-   wready |-> (awvalid && wvalid);
-   endproperty
-   
-   IFWREADYISASSERTED_THEN_SAMECLK_AWVALIDANDWVALIDAREASSERTED: cover property
-   (WhenWreadyIsAssertedThenSameClkAwvalidAndWvalidAreAsserted)
-   $info("IFWREADYISASSERTED_THEN_SAMECLK_AWVALIDANDWVALIDAREASSERTED :  COVERED");
-  
-  property WhenWvalidIsAssertedThenNextClkWreadyAsserted;
-    @(posedge aclk) disable iff (!aresetn)
-    wvalid |=> wready;
-  endproperty
-
-  IFWVALIDISASSERTED_THEN_NEXTCLK_WREADYISASSERTED: cover property
-  (WhenWvalidIsAssertedThenNextClkWreadyAsserted)
-  $info("IFWVALIDISASSERTED_THEN_NEXTCLK_WREADYISASSERTED:  COVERED");
-
-   property WhenWvalidIsAssertedThenInbetween1To16ClkClkWreadyAsserted;
-    @(posedge aclk) disable iff (!aresetn)
-    wvalid |=> ##[0:MAX_DELAY_READY] wready;
-  endproperty
-
-  IFWVALIDISASSERTED_THEN_INBETWEEN1TO16CLK_WREADYISASSERTED: cover property
-  (WhenWvalidIsAssertedThenInbetween1To16ClkClkWreadyAsserted)
-  $info("IFWVALIDISASSERTED_THEN_INBETWEEN1TO16CLK_WREADYISASSERTED:  COVERED");
-
-   property WhenAwvalidIsAssertedThenNextClkWvalidIsAssertedThenNextClkWreadyIsAsserted();
-   @(posedge aclk) disable iff (!aresetn)
-    awvalid |=> wvalid ##1 wready;
-   endproperty
-
-   IFAWVALIDISASSERTED_THEN_NEXTCLK_WVALIDISASSERTED_THEN_NEXTCLK_WREADYISASSERTED: cover property
-   (WhenAwvalidIsAssertedThenNextClkWvalidIsAssertedThenNextClkWreadyIsAsserted)
-   $info("IFAWVALIDISASSERTED_THEN_NEXTCLK_WVALIDISASSERTED_THEN_NEXTCLK_WREADYISASSERTED  COVERED");
-
-
-  */ 
  `endif
 
 endinterface : Axi4LiteSlaveWriteCoverProperty
