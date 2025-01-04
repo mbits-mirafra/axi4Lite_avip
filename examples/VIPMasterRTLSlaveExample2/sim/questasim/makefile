@@ -195,12 +195,16 @@ regression:
 	make compile comp_args="$(comp_args)"
 	#make clean_simulate
 	# Run simualtion - regression 
-	python regression_handling.py $(testlist_name)
+	python3.6 regression_handling.py $(testlist_name)
 	#	# Get the tests from regression list
 	#	grep "_test" ../../src/hvl_top/testlists/axi4_simple_fd_regression.list | grep -v "\#" > reg_list
 	#	make simulate test=value #Get the name from regression list
 	#	Merge coverage
 	make merge_cov_report
+
+	vcover report -details merged_coverage.ucdb -output coverage_report.log
+
+	python3.6 axi4LiteFailedFeatures.py
 		
 		#TODO Regression format for folder 
 		# add regression_date&time_compileOption/all_simulate_directories then merge_coveragre 
