@@ -275,10 +275,26 @@ Handshake Mechanism:
             AssertProperty:
               - "IFRESETASSERTED_THENRREADY_WILLGODEFAULTSTATE"
   - Handshaking Mechanism for Dependency across channels:
-    #      - ReqID_0014:  This requirement is the same as the ReqID_0013 
-                #The protocol does not define any other relationship between the channels      
-    #      - ReqID_0016:  This requirement is the same as the ReqID_0013 and ReqID_0026 and ReqID_0031
-                #To prevent a deadlock situation, the dependency rules that exist between the handshake signals must be observed      
+      - ReqID_0014:  
+        #The protocol does not define any other relationship between the channels      
+          DoD1:
+            CoverProperty:
+              - "IFWVALIDISASSERTED_THEN_SAMECLK_AWVALIDISASSERTED"
+              - "IFWVALIDISASSERTED_THEN_NEXTCLK_AWVALIDISASSERTED"
+              - "IFWVALIDISASSERTED_THEN_INBETWEEN1TO16CLK_AWVALIDISASSERTED"
+              - "IFAWVALIDISASSERTED_THEN_NEXTCLK_WVALIDISASSERTED"
+              - "IFAWVALIDISASSERTED_THEN_INBETWEEN1TO10CLK_WVALIDISASSERTED"
+            AssertProperty:
+              - "IFAWVALIDISASSERTED_THEN_WITHIN10CLK_WVALIDWILLASSERT"
+
+      - ReqID_0016:  
+      #To prevent a deadlock situation, the dependency rules that exist between the handshake signals must be observed 
+          DoD1:
+            AssertProperty:
+              - "IFAWVALIDISASSERTED_THEN_WITHIN10CLK_WVALIDWILLASSERT"
+              - "WVALIDANDWREADYASSERTED_THENWITHIN12CLK_BVALIDASSERTED"
+              - "IFARVALIDANDARREADYAREASSERTED_THEN_WITHIN10CLK_RVALIDASSERTED"
+
       - ReqID_0502:
     # Write and Read are independent of each other
           DoD1:
@@ -475,8 +491,12 @@ Transaction structure:
           DoD1:
             CrossCoverage:
               - "WRITEADDR_RANGE_CP_X_BRESP_CP"
-      # - ReqID_0095: #inside only DoD is there
+      - ReqID_0095: 
       # When the access has reached the Slave successfully, but the Slave wishes to return an error condition to the originating Master
+          DoD1:
+            CoverPoint:
+              - "BRESP_CP"
+              - "RRESP_CP"
 
 Access permission:
   - ReqID_0104:
@@ -515,10 +535,20 @@ All data accesses use the full width of the data bus:
     
    #- ReqID_0143: Just a Requriments No CoverProperty 
         # Permitted signals on an axi4-lite interface
-   #- ReqID_0145: This requirement is the same as the ReqID_0141
-        # AXI4-Lite has a fixed data bus width and all transactions are the same width as the data bus
-   #  ReqID_0147: This requirement is the same as the ReqID_0141
-        # Only components requiring 64-bit atomic accesses use a 64-bit interface  
+  - ReqID_0145:
+    # AXI4-Lite has a fixed data bus width and all transactions are the same width as the data bus
+      DoD1:
+        CoverProperty:
+          - "IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEISF_THENWDATAISNOTUNKNOWNVALUE" 
+      DoD2:
+        CoverProperty:
+          - "IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEIS_FF_THEN_64BITSOF_WDATAISNOTUNKNOWNVALUE"
+
+  - ReqID_0147:
+    # Only components requiring 64-bit atomic accesses use a 64-bit interface  
+      DoD1:
+        CoverProperty:
+          - "IFWVALIDANDWREADYAREASSERTED_THEN_SAMECLK_WSTRBVALUEIS_FF_THEN_64BITSOF_WDATAISNOTUNKNOWNVALUE"
 
 Supports multiple outstanding transactions:
   - ReqID_0155:

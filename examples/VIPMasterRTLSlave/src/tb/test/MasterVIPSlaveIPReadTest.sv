@@ -27,7 +27,7 @@ task MasterVIPSlaveIPReadTest::run_phase(uvm_phase phase);
  
   `uvm_info(get_type_name(),$sformatf("Inside run_phase MasterVIPSlaveIPReadTest"),UVM_LOW); 
    phase.raise_objection(this);
-    while(masterVIPSlaveIPEnv.axi4LiteMasterEnv.axi4LiteReadMasterEnv.axi4LiteMasterReadAgent[0].axi4LiteMasterReadCoverage.axi4LiteMasterReadTransactionCovergroup.get_inst_coverage() < 50) begin
+    while(masterVIPSlaveIPEnv.axi4LiteMasterEnv.axi4LiteReadMasterEnv.axi4LiteMasterReadAgent[0].axi4LiteMasterReadCoverage.axi4LiteMasterReadTransactionCovergroup.get_inst_coverage() < 100) begin
     masterVIPSlaveIPVirtualReadSeq.start(masterVIPSlaveIPEnv.masterVIPSlaveIPVirtualSequencer); 
    #10;
    maxRepeatCounter++;

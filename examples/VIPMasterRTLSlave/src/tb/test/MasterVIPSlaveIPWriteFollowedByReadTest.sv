@@ -25,10 +25,11 @@ task MasterVIPSlaveIPWriteFollowedByReadTest::run_phase(uvm_phase phase);
   int maxRepeatCounter = 0;
   `uvm_info(get_type_name(),$sformatf("Inside run_phase MasterVIPSlaveIPWriteFollowedByReadTest"),UVM_LOW);
   phase.raise_objection(this);
-    while(masterVIPSlaveIPEnv.axi4LiteMasterEnv.axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent[0].axi4LiteMasterWriteCoverage.axi4LiteMasterWriteTransactionCovergroup.get_inst_coverage() < 50 && 
-  masterVIPSlaveIPEnv.axi4LiteMasterEnv.axi4LiteReadMasterEnv.axi4LiteMasterReadAgent[0].axi4LiteMasterReadCoverage.axi4LiteMasterReadTransactionCovergroup.get_inst_coverage() < 50 ) begin
+    while(masterVIPSlaveIPEnv.axi4LiteMasterEnv.axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent[0].axi4LiteMasterWriteCoverage.axi4LiteMasterWriteTransactionCovergroup.get_inst_coverage() < 100 && 
+  masterVIPSlaveIPEnv.axi4LiteMasterEnv.axi4LiteReadMasterEnv.axi4LiteMasterReadAgent[0].axi4LiteMasterReadCoverage.axi4LiteMasterReadTransactionCovergroup.get_inst_coverage() < 100 ) begin
     masterVIPSlaveIPVirtualWriteFollowedByReadSeq.start(masterVIPSlaveIPEnv.masterVIPSlaveIPVirtualSequencer); 
   #10;
+  maxRepeatCounter++;
   
    if(maxRepeatCounter == 100) begin
      `uvm_info(get_type_name(), "maxRepeatCounter reached 100,So exiting loop", UVM_LOW);

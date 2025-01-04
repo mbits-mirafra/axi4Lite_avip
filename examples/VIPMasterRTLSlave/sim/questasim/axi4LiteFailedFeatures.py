@@ -163,7 +163,7 @@ def countingFeaturesReqID(axi4LiteFeatureList, violatedFeatures, violatedReqIDs)
             reqIDLines = file.readlines()
 
         addFeature = [f"-------------------------------------------------------\n",f"Total Number of Implemented Features : {featureCount}\n",f"Passed features : {featureCount-len(featureLines)}\n", f"Failed Features : {len(featureLines)}\n",f"-------------------------------------------------------\n"]
-        addReqID = [f"-------------------------------------------------------\n",f"Total Number of Implemented Requirements : {ReqIDCount}\n",f"Passed Requirements : {ReqIDCount-len(reqIDLines)}\n", f"Failed Requirements : {len(reqIDLines)}\n",f"-------------------------------------------------------\n"]
+        addReqID = [f"-------------------------------------------------------\n",f"Total Number of Implemented Requirements : {ReqIDCount}\n",f"Failed Requirements : {len(reqIDLines)}\n",f"-------------------------------------------------------\n"]
         featureLines[0:0] = addFeature
         reqIDLines[0:0] = addReqID
         with open(violatedFeatures, 'w') as file:
