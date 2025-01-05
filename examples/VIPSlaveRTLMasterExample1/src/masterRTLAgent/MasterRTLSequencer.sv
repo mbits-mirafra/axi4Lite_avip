@@ -4,6 +4,8 @@
 class MasterRTLSequencer extends uvm_sequencer#(MasterRTLTransaction);
   `uvm_component_utils(MasterRTLSequencer)
 
+  MasterRTLAgentConfig masterRTLAgentConfig;
+
   extern function new(string name = "MasterRTLSequencer", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual function void connect_phase(uvm_phase phase);

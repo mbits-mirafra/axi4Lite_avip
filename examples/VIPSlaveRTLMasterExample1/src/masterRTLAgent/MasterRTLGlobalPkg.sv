@@ -17,7 +17,8 @@ package MasterRTLGlobalPkg;
   parameter bit HAS_COVERAGE = 1;
 
   typedef enum bit {
-    WRITE = 1
+    WRITE = 1,
+    READ  = 0
   } transactionTypeEnum;
 
   typedef enum logic [2:0] {
@@ -30,6 +31,17 @@ package MasterRTLGlobalPkg;
 	  WRITE_INSTRUCTION_NONSECURE_UNPRIVILEGED  = 3'b110,  
 	  WRITE_INSTRUCTION_NONSECURE_PRIVILEGED    = 3'b111  
   }awprotEnum;
+
+  typedef enum logic [2:0] {
+    READ_DATA_SECURE_UNPRIVILEGED            = 3'b000,  
+	  READ_DATA_SECURE_PRIVILEGED              = 3'b001,  
+	  READ_DATA_NONSECURE_UNPRIVILEGED         = 3'b010,  
+	  READ_DATA_NONSECURE_PRIVILEGED           = 3'b011,  
+	  READ_INSTRUCTION_SECURE_UNPRIVILEGED     = 3'b100,  
+	  READ_INSTRUCTION_SECURE_PRIVILEGED       = 3'b101,  
+	  READ_INSTRUCTION_NONSECURE_UNPRIVILEGED  = 3'b110,  
+	  READ_INSTRUCTION_NONSECURE_PRIVILEGED    = 3'b111  
+  }arprotEnum;
 
 endpackage : MasterRTLGlobalPkg
 `endif

@@ -9,6 +9,8 @@ class SlaveVIPMasterIPEnvConfig extends uvm_object;
 
   bit [1:0] transactionType;
 
+  MasterRTLAgentConfig masterRTLAgentConfig;
+
   Axi4LiteMasterEnvConfig axi4LiteMasterEnvConfig;
   Axi4LiteSlaveEnvConfig axi4LiteSlaveEnvConfig;
 

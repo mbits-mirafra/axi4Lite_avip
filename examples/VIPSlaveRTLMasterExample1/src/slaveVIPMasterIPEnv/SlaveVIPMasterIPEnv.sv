@@ -4,6 +4,9 @@
 class SlaveVIPMasterIPEnv extends uvm_env;
   `uvm_component_utils(SlaveVIPMasterIPEnv)
   
+  MasterRTLAgent masterRTLAgent;
+  MasterRTLAgentConfig masterRTLAgentConfig;
+
   SlaveVIPMasterIPEnvConfig slaveVIPMasterIPEnvConfig;
 
   Axi4LiteMasterEnv axi4LiteMasterEnv;
@@ -45,6 +48,15 @@ function void SlaveVIPMasterIPEnv::build_phase(uvm_phase phase);
     slaveVIPMasterIPVirtualSequencer = SlaveVIPMasterIPVirtualSequencer::type_id::create("slaveVIPMasterIPVirtualSequencer",this);
   end
 
+   masterRTLAgentConfig = MasterRTLAgentConfig::type_id::create("masterRTLAgentConfig",this); 
+
+    if(!uvm_config_db #(MasterRTLAgentConfig)::get(this,"*",$sformatf("MasterRTLAgentConfig"),masterRTLAgentConfig)) begin
+      `uvm_fatal("FATAL_MASTER_RTL_AGENT_CONFIG", $sformatf("Couldn't get the MasterRTLAgentConfig from config_db"))
+    end
+
+   masterRTLAgent = MasterRTLAgent::type_id::create("masterRTLAgent",this); 
+   masterRTLAgent.masterRTLAgentConfig = masterRTLAgentConfig;
+
    axi4LiteMasterEnv = Axi4LiteMasterEnv::type_id::create("axi4LiteMasterEnv",this); 
    axi4LiteSlaveEnv = Axi4LiteSlaveEnv::type_id::create("axi4LiteSlaveEnv",this); 
 
@@ -62,6 +74,7 @@ function void SlaveVIPMasterIPEnv::connect_phase(uvm_phase phase);
   
   if(slaveVIPMasterIPEnvConfig.hasVirtualSequencer) begin
      slaveVIPMasterIPVirtualSequencer.axi4LiteSlaveVirtualSequencer = axi4LiteSlaveEnv.axi4LiteSlaveVirtualSequencer;
+     slaveVIPMasterIPVirtualSequencer.masterRTLSequencer = masterRTLAgent.masterRTLSequencer;
   end
 
     axi4LiteMasterEnv.axi4LiteMasterEnvWriteAddressAnalysisPort.connect(slaveVIPMasterIPScoreboard.axi4LiteMasterWriteEnvAddressFIFO.analysis_export);

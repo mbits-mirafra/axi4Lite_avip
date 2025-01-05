@@ -21,19 +21,25 @@ ${AXI4LITE_MASTER}/src/axi4LiteMasterEnv/Axi4LiteMasterAgentBFM.sv
 ${AXI4LITE_SLAVE}/src/tb/Axi4LiteSlaveInterface.sv
 ${AXI4LITE_SLAVE}/src/axi4LiteSlaveEnv/Axi4LiteSlaveAgentBFM.sv
 
-+incdir+$AXI4LITE_PROJECT/examples/VIPSlaveRTLMasterExample1/src/SlaveVIPMasterIPEnv/virtualSequencer/
-+incdir+$AXI4LITE_PROJECT/examples/VIPSlaveRTLMasterExample1/src/SlaveVIPMasterIPEnv/
++incdir+$AXI4LITE_PROJECT/examples/VIPSlaveRTLMasterExample1/src/masterRTLAgent/masterRTLSequences/
++incdir+$AXI4LITE_PROJECT/examples/VIPSlaveRTLMasterExample1/src/masterRTLAgent/
++incdir+$AXI4LITE_PROJECT/examples/VIPSlaveRTLMasterExample1/src/slaveVIPMasterIPEnv/virtualSequencer/
++incdir+$AXI4LITE_PROJECT/examples/VIPSlaveRTLMasterExample1/src/slaveVIPMasterIPEnv/
 +incdir+$AXI4LITE_PROJECT/examples/VIPSlaveRTLMasterExample1/src/tb/virtualSequences/
 +incdir+$AXI4LITE_PROJECT/examples/VIPSlaveRTLMasterExample1/src/tb/test/
 +incdir+$AXI4LITE_PROJECT/examples/VIPSlaveRTLMasterExample1/src/tb/
 
-${AXI4LITE_PROJECT}/examples/VIPSlaveRTLMasterExample1/src/SlaveVIPMasterIPEnv/SlaveVIPMasterIPEnvPkg.sv
+${AXI4LITE_PROJECT}/examples/VIPSlaveRTLMasterExample1/src/masterRTLAgent/MasterRTLGlobalPkg.sv
+${AXI4LITE_PROJECT}/examples/VIPSlaveRTLMasterExample1/src/masterRTLAgent/MasterRTLInterface.sv
+${AXI4LITE_PROJECT}/examples/VIPSlaveRTLMasterExample1/src/masterRTLAgent/MasterRTLPkg.sv
+${AXI4LITE_PROJECT}/examples/VIPSlaveRTLMasterExample1/src/masterRTLAgent/masterRTLSequences/MasterRTLSeqPkg.sv
+${AXI4LITE_PROJECT}/examples/VIPSlaveRTLMasterExample1/src/slaveVIPMasterIPEnv/SlaveVIPMasterIPEnvPkg.sv
 ${AXI4LITE_PROJECT}/examples/VIPSlaveRTLMasterExample1/src/tb/virtualSequences/SlaveVIPMasterIPVirtualSeqPkg.sv
 ${AXI4LITE_PROJECT}/examples/VIPSlaveRTLMasterExample1/src/tb/test/SlaveVIPMasterIPTestPkg.sv
 ${AXI4LITE_PROJECT}/examples/VIPSlaveRTLMasterExample1/src/tb/SlaveVIPMasterIPInterface.sv
 
 +incdir+$AXI4LITE_PROJECT/examples/VIPSlaveRTLMasterExample1/rtl/
-${AXI4LITE_PROJECT}/examples/VIPSlaveRTLMasterExample1/rtl/masterRTL.v
+${AXI4LITE_PROJECT}/examples/VIPSlaveRTLMasterExample1/rtl/MasterRTL.v
 
 ${AXI4LITE_PROJECT}/examples/VIPSlaveRTLMasterExample1/src/tb/SlaveVIPMasterIPHdlTop.sv
 ${AXI4LITE_PROJECT}/examples/VIPSlaveRTLMasterExample1/src/tb/SlaveVIPMasterIPHvlTop.sv

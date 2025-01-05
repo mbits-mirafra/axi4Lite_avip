@@ -6,6 +6,7 @@ package SlaveVIPMasterIPEnvPkg;
   `include "uvm_macros.svh"
   import uvm_pkg::*;
 
+  import MasterRTLPkg::*;
   import Axi4LiteMasterWritePkg::*;
   import Axi4LiteMasterReadPkg::*;
   import Axi4LiteSlaveWritePkg::*;

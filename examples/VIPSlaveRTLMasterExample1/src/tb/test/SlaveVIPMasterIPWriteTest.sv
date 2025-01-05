@@ -27,7 +27,7 @@ task SlaveVIPMasterIPWriteTest::run_phase(uvm_phase phase);
   slaveVIPMasterIPVirtualWriteSeq=SlaveVIPMasterIPVirtualWriteSeq::type_id::create("slaveVIPMasterIPVirtualWriteSeq");
   `uvm_info(get_type_name(),$sformatf("Inside run_phase SlaveVIPMasterIPWriteTest"),UVM_LOW);
     phase.raise_objection(this);
-    while(slaveVIPMasterIPEnv.axi4LiteMasterEnv.axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent[0].axi4LiteMasterWriteCoverage.axi4LiteMasterWriteTransactionCovergroup.get_inst_coverage() < 100) begin
+    while(slaveVIPMasterIPEnv.axi4LiteSlaveEnv.axi4LiteWriteSlaveEnv.axi4LiteSlaveWriteAgent[0].axi4LiteSlaveWriteCoverage.axi4LiteSlaveWriteTransactionCovergroup.get_inst_coverage() < 100) begin
      slaveVIPMasterIPVirtualWriteSeq.start(slaveVIPMasterIPEnv.slaveVIPMasterIPVirtualSequencer);
      #10;
      maxRepeatCounter++;

@@ -5,12 +5,15 @@ package SlaveVIPMasterIPTestPkg;
   
   `include "uvm_macros.svh"
   import uvm_pkg::*;
+  import MasterRTLGlobalPkg::*;
   import Axi4LiteWriteMasterGlobalPkg::*;
   import Axi4LiteReadMasterGlobalPkg::*;
   import Axi4LiteWriteSlaveGlobalPkg::*;
   import Axi4LiteReadSlaveGlobalPkg::*;
-  import Axi4LiteMasterWriteSeqPkg::*;
-  import Axi4LiteMasterReadSeqPkg::*;
+  import MasterRTLSeqPkg::*;
+  import Axi4LiteSlaveWriteSeqPkg::*;
+  import Axi4LiteSlaveReadSeqPkg::*;
+  import MasterRTLPkg::*;
   import Axi4LiteMasterWritePkg::*;
   import Axi4LiteMasterReadPkg::*;
   import Axi4LiteSlaveWritePkg::*;

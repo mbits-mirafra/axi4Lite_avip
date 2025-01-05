@@ -22,7 +22,7 @@ endfunction : new
 task MasterRTLRead32bitsSeq::body();
   super.body();
   start_item(req);
-  if(!req.randomize() with {readEnable = readEnableSeq;
+  if(!req.randomize() with {readEnable == readEnableSeq;
                             araddr == araddrSeq;
                             arprot == arprotSeq;
                           }) begin 

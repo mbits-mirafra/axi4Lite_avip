@@ -38,6 +38,10 @@ module SlaveVIPMasterIPHdlTop;
     aresetn = 1'b1;
   end
 
+  MasterRTLInterface masterRTLInterface(.aclk(aclk),
+                                        .aresetn(aresetn)
+                                        );
+
   SlaveVIPMasterIPInterface slaveVIPMasterIPInterface(.aclk(aclk),
                                                       .aresetn(aresetn)
                                                      );
@@ -86,9 +90,19 @@ module SlaveVIPMasterIPHdlTop;
            .arready(`AXI4LITE_SLAVEREADINTERFACE.arready),
            .rvalid(`AXI4LITE_SLAVEREADINTERFACE.rvalid),
            .rdata(`AXI4LITE_SLAVEREADINTERFACE.rdata),
-           .rresp(`AXI4LITE_SLAVEREADINTERFACE.rresp)
+           .rresp(`AXI4LITE_SLAVEREADINTERFACE.rresp),
+
+           .wr_en(masterRTLInterface.writeEnable),
+           .rd_en(masterRTLInterface.readEnable),
+           .awaddr_in(masterRTLInterface.awaddr),
+           .wstrb_in(masterRTLInterface.wstrb),
+           .wdata_in(masterRTLInterface.wdata),
+           .araddr_in(masterRTLInterface.araddr)
           );
 
+  initial begin
+    uvm_config_db#(virtual MasterRTLInterface)::set(null,"*", "MasterRTLInterface", masterRTLInterface); 
+  end
 
   genvar i;
   generate

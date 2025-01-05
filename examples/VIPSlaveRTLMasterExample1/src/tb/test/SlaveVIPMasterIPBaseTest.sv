@@ -25,6 +25,7 @@ class SlaveVIPMasterIPBaseTest extends uvm_test;
   extern virtual function void setupAxi4LiteSlaveWriteAgentConfig();
   extern virtual function void setupAxi4LiteReadSlaveEnvConfig();
   extern virtual function void setupAxi4LiteSlaveReadAgentConfig();
+  extern virtual function void setupMasterRTLAgentConfig();
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
 
@@ -49,6 +50,12 @@ function void SlaveVIPMasterIPBaseTest::setupSlaveVIPMasterIPEnvConfig();
 
  setupAxi4LiteMasterEnvConfig();
  setupAxi4LiteSlaveEnvConfig();
+ setupMasterRTLAgentConfig();
+
+   uvm_config_db#(MasterRTLAgentConfig)::set( this, "*", $sformatf("MasterRTLAgentConfig"),
+          slaveVIPMasterIPEnvConfig.masterRTLAgentConfig);
+    `uvm_info(get_type_name(), $sformatf("\nMASTER_RTL_AGENT_CONFIG\n%s",
+                 slaveVIPMasterIPEnvConfig.masterRTLAgentConfig.sprint()),UVM_LOW);
 
  uvm_config_db#(SlaveVIPMasterIPEnvConfig)::set(this, "*", "SlaveVIPMasterIPEnvConfig",
                                                    slaveVIPMasterIPEnvConfig);
@@ -252,6 +259,14 @@ function void SlaveVIPMasterIPBaseTest::setupAxi4LiteSlaveReadAgentConfig();
   slaveVIPMasterIPEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig = axi4LiteSlaveReadAgentConfigLocal;
 endfunction : setupAxi4LiteSlaveReadAgentConfig
 
+function void SlaveVIPMasterIPBaseTest::setupMasterRTLAgentConfig();
+  slaveVIPMasterIPEnvConfig.masterRTLAgentConfig = MasterRTLAgentConfig::type_id::create("masterRTLAgentConfig",this);
+
+  slaveVIPMasterIPEnvConfig.masterRTLAgentConfig.isActive = uvm_active_passive_enum'(UVM_ACTIVE);
+  slaveVIPMasterIPEnvConfig.masterRTLAgentConfig.minAddressRange = MasterRTLGlobalPkg::MIN_ADDRESS;
+  slaveVIPMasterIPEnvConfig.masterRTLAgentConfig.maxAddressRange = MasterRTLGlobalPkg::MAX_ADDRESS;
+endfunction : setupMasterRTLAgentConfig
+ 
 
 function void SlaveVIPMasterIPBaseTest::end_of_elaboration_phase(uvm_phase phase);
   uvm_top.print_topology();

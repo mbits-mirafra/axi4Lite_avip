@@ -5,6 +5,7 @@ class SlaveVIPMasterIPVirtualSequencer extends uvm_sequencer#(uvm_sequence_item)
   `uvm_component_utils(SlaveVIPMasterIPVirtualSequencer)
 
   Axi4LiteSlaveVirtualSequencer axi4LiteSlaveVirtualSequencer;
+  MasterRTLSequencer masterRTLSequencer;
 
   extern function new(string name = "SlaveVIPMasterIPVirtualSequencer", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);

@@ -75,7 +75,7 @@ function void MasterRTLTransaction::do_print(uvm_printer printer);
    printer.print_field("wdata",wdata,$bits(wdata),UVM_HEX);
    printer.print_field("wstrb",wstrb,$bits(wstrb),UVM_HEX);
    printer.print_field("araddr",araddr,$bits(araddr),UVM_HEX);
-   printer.print_field("arprot",arprot.name());
+   printer.print_string("arprot",arprot.name());
    printer.print_field("writeEnable",writeEnable,$bits(writeEnable),UVM_BIN);
    printer.print_field("readEnable",readEnable,$bits(readEnable),UVM_BIN);
 

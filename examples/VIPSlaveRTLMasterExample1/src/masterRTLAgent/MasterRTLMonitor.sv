@@ -24,6 +24,9 @@ endfunction : new
 
 function void MasterRTLMonitor::build_phase(uvm_phase phase);
   super.build_phase(phase);
+  if(!uvm_config_db #(virtual MasterRTLInterface)::get(this,"*","MasterRTLInterface",masterRTLInterface)) begin
+    `uvm_fatal("FATAL_MDP_CANNOT_GET_MasterRTLInterface","cannot get() masterRTLInterface");
+  end 
 endfunction : build_phase
 
 function void MasterRTLMonitor::end_of_elaboration_phase(uvm_phase phase);
@@ -40,9 +43,9 @@ endtask : run_phase
 
 task MasterRTLMonitor::waitForAresetnTask();
     @(negedge masterRTLInterface.aresetn);
-    `uvm_info(name,$sformatf("SYSTEM RESET DETECTED"),UVM_HIGH)
+    `uvm_info("MASTER_RTL_MONITOR",$sformatf("SYSTEM RESET DETECTED"),UVM_HIGH)
     @(posedge masterRTLInterface.aresetn);
-    `uvm_info(name,$sformatf("SYSTEM RESET DEACTIVATED"),UVM_HIGH)
+    `uvm_info("MASTER_RTL_MONITOR",$sformatf("SYSTEM RESET DEACTIVATED"),UVM_HIGH)
 endtask : waitForAresetnTask
 
 task MasterRTLMonitor::dataSampleTask();
@@ -50,14 +53,14 @@ task MasterRTLMonitor::dataSampleTask();
     MasterRTLTransaction masterTx;
 
     if(masterRTLInterface.writeEnable) begin
-      masterReq.writeEnable <= masterRTLInterface.writeEnable;
-      masterReq.awaddr <= masterRTLInterface.awaddr;
-      masterReq.wdata <= masterRTLInterface.wdata;
-      masterReq.wstrb <= masterRTLInterface.wstrb;
+      masterTx.writeEnable = masterRTLInterface.writeEnable;
+      masterTx.awaddr = masterRTLInterface.awaddr;
+      masterTx.wdata = masterRTLInterface.wdata;
+      masterTx.wstrb = masterRTLInterface.wstrb;
     end 
     else if(masterRTLInterface.readEnable) begin
-      masterReq.readEnable <= masterRTLInterface.readEnable;
-      masterReq.araddr <= masterRTLInterface.araddr;
+      masterTx.readEnable = masterRTLInterface.readEnable;
+      masterTx.araddr = masterRTLInterface.araddr;
     end
 
   end

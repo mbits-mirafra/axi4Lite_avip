@@ -32,6 +32,9 @@ endfunction : new
 
 function void MasterRTLDriver::build_phase(uvm_phase phase);
   super.build_phase(phase);
+  if(!uvm_config_db #(virtual MasterRTLInterface)::get(this,"*","MasterRTLInterface",masterRTLInterface)) begin
+    `uvm_fatal("FATAL_MDP_CANNOT_GET_MasterRTLInterface","cannot get() masterRTLInterface");
+  end 
 endfunction : build_phase
 
 function void MasterRTLDriver::end_of_elaboration_phase(uvm_phase phase);
@@ -48,9 +51,9 @@ endtask : run_phase
 
 task MasterRTLDriver::waitForAresetnTask();
     @(negedge masterRTLInterface.aresetn);
-    `uvm_info(name,$sformatf("SYSTEM RESET DETECTED"),UVM_HIGH)
+    `uvm_info("MASTER_RTL_DRIVER",$sformatf("SYSTEM RESET DETECTED"),UVM_HIGH)
     @(posedge masterRTLInterface.aresetn);
-    `uvm_info(name,$sformatf("SYSTEM RESET DEACTIVATED"),UVM_HIGH)
+    `uvm_info("MASTER_RTL_DRIVER",$sformatf("SYSTEM RESET DEACTIVATED"),UVM_HIGH)
 endtask : waitForAresetnTask
 
 task MasterRTLDriver::dataTransferTask();

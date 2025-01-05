@@ -5,6 +5,8 @@ import MasterRTLGlobalPkg::*;
 
 interface MasterRTLInterface(input aclk, input aresetn);
 
+  logic writeEnable;
+  logic readEnable;
   logic  [ADDRESS_WIDTH-1:0] awaddr;
   logic                [2:0] awprot;
   logic     [DATA_WIDTH-1:0] wdata;
