@@ -7,6 +7,8 @@ class MasterRTLMonitor extends uvm_driver #(MasterRTLTransaction);
   MasterRTLAgentConfig masterRTLAgentConfig;
 
   virtual MasterRTLInterface masterRTLInterface;
+  
+  MasterRTLTransaction masterTx;
 
   extern function new(string name = "MasterRTLMonitor", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
@@ -20,6 +22,7 @@ endclass : MasterRTLMonitor
 function MasterRTLMonitor::new(string name = "MasterRTLMonitor",
                                              uvm_component parent = null);
   super.new(name, parent);
+  masterTx = new();
 endfunction : new
 
 function void MasterRTLMonitor::build_phase(uvm_phase phase);
@@ -50,17 +53,19 @@ endtask : waitForAresetnTask
 
 task MasterRTLMonitor::dataSampleTask();
   forever begin
-    MasterRTLTransaction masterTx;
 
+    wait(masterRTLInterface.writeEnable || masterRTLInterface.readEnable);
     if(masterRTLInterface.writeEnable) begin
       masterTx.writeEnable = masterRTLInterface.writeEnable;
       masterTx.awaddr = masterRTLInterface.awaddr;
       masterTx.wdata = masterRTLInterface.wdata;
       masterTx.wstrb = masterRTLInterface.wstrb;
+      @(posedge masterRTLInterface.aclk);
     end 
     else if(masterRTLInterface.readEnable) begin
       masterTx.readEnable = masterRTLInterface.readEnable;
       masterTx.araddr = masterRTLInterface.araddr;
+      @(posedge masterRTLInterface.aclk);
     end
 
   end

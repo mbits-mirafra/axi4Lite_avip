@@ -15,6 +15,9 @@ class MasterRTLTransaction extends uvm_sequence_item;
   rand logic [ADDRESS_WIDTH-1:0] araddr;
   rand arprotEnum arprot;
 
+  constraint WRITEENABLE_CP{soft writeEnable == 0;}
+  constraint READENABLE_CP{soft readEnable == 0;}
+
   extern function new (string name = "MasterRTLTransaction");
   extern function void do_copy(uvm_object rhs);
   extern function void post_randomize();

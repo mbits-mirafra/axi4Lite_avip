@@ -81,7 +81,8 @@ module master #(parameter DATA_WIDTH = 32,
 						else
 							WA_NEXT_STATE_M = WA_ADDR_M;
 
-			WA_WAIT_M :	if(awvalid && awready)
+			//WA_WAIT_M :	if(awvalid && awready)
+			WA_WAIT_M :	if(~awvalid && ~awready)
 							WA_NEXT_STATE_M = WA_IDLE_M;
 						else 
 							WA_NEXT_STATE_M = WA_WAIT_M;
@@ -276,7 +277,8 @@ module master #(parameter DATA_WIDTH = 32,
 	 					else
 	 						RA_NEXT_STATE_M = RA_VALID_M;
 	 		
-	 		RA_READY_M: if(!(arvalid && arready))
+	 		//RA_READY_M: if(!(arvalid && arready))
+	 		RA_READY_M: if(arvalid && arready)
 	 						RA_NEXT_STATE_M = RA_READY_M;
 	 					else
 	 						RA_NEXT_STATE_M = RA_IDLE_M;

@@ -21,7 +21,7 @@ task SlaveVIPMasterIPVirtualReadSeq::body();
 
   `uvm_info(get_type_name(), $sformatf("Insdie Body Seq start SlaveVIPMasterIPVirtualReadSeq"), UVM_NONE); 
 
-   if(!masterRTLRead32bitsSeq.randomize()) begin
+   if(!masterRTLRead32bitsSeq.randomize() with {readEnableSeq == 1;}) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside SlaveVIPMasterIPVirtualReadSeq")
   end
 

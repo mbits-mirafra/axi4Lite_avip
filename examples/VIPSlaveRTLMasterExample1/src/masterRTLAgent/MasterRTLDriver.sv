@@ -72,10 +72,12 @@ task MasterRTLDriver::dataTransferTask();
       masterRTLInterface.awaddr <= masterReq.awaddr;
       masterRTLInterface.wdata <= masterReq.wdata;
       masterRTLInterface.wstrb <= masterReq.wstrb;
+      @(posedge masterRTLInterface.aclk);
     end 
     else if(masterReq.readEnable) begin
       masterRTLInterface.readEnable <= masterReq.readEnable;
       masterRTLInterface.araddr <= masterReq.araddr;
+      @(posedge masterRTLInterface.aclk);
     end
 
     masterSeqItemPort.item_done();
