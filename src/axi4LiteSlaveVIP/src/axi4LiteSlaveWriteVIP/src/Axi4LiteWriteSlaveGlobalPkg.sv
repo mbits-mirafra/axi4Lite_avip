@@ -36,6 +36,10 @@ package Axi4LiteWriteSlaveGlobalPkg;
     WRITE_DECERR = 2'b11
   } brespEnum;
 
+  typedef enum bit {
+    WRITE = 1
+  } transactionTypeEnum;
+
   typedef enum logic [2:0] {
     WRITE_DATA_SECURE_UNPRIVILEGED            = 3'b000,  
 	  WRITE_DATA_SECURE_PRIVILEGED              = 3'b001,  

@@ -1,5 +1,5 @@
-`ifndef AXI4LITESCOREBOARD_INCLUDED_
-`define AXI4LITESCOREBOARD_INCLUDED_
+`ifndef MASTERVIPSLAVEIPSCOREBOARD_INCLUDED_
+`define MASTERVIPSLAVEIPSCOREBOARD_INCLUDED_
 
 class MasterVIPSlaveIPScoreboard extends uvm_scoreboard;
   `uvm_component_utils(MasterVIPSlaveIPScoreboard)
