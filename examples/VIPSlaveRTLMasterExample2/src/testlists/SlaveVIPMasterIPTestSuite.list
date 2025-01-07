@@ -1,0 +1,4 @@
+SlaveVIPMasterIPWriteTest
+SlaveVIPMasterIPReadTest
+SlaveVIPMasterIPWriteFollowedByReadTest
+SlaveVIPMasterIPOutstandingTransactionTest
