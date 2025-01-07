@@ -7,8 +7,8 @@ class SlaveVIPMasterIPOutstandingTransactionTest extends SlaveVIPMasterIPBaseTes
   SlaveVIPMasterIPVirtualOutstandingTransactionSeq slaveVIPMasterIPVirtualOutstandingTransactionSeq;
   
   extern function new(string name = "SlaveVIPMasterIPOutstandingTransactionTest", uvm_component parent = null);
-  extern virtual function void setupAxi4LiteMasterWriteAgentConfig();
-  extern virtual function void setupAxi4LiteMasterReadAgentConfig();
+  extern virtual function void setupAxi4LiteSlaveWriteAgentConfig();
+  extern virtual function void setupAxi4LiteSlaveReadAgentConfig();
   extern virtual task run_phase(uvm_phase phase);
 
 endclass : SlaveVIPMasterIPOutstandingTransactionTest
@@ -18,21 +18,21 @@ function SlaveVIPMasterIPOutstandingTransactionTest::new(string name = "SlaveVIP
   super.new(name, parent);
 endfunction : new
 
-function void SlaveVIPMasterIPOutstandingTransactionTest::setupAxi4LiteMasterWriteAgentConfig();
-  super.setupAxi4LiteMasterWriteAgentConfig();
+function void SlaveVIPMasterIPOutstandingTransactionTest::setupAxi4LiteSlaveWriteAgentConfig();
+  super.setupAxi4LiteSlaveWriteAgentConfig();
 
-  foreach(slaveVIPMasterIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i]) begin
-    slaveVIPMasterIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteWriteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].enableOutstandingTransaction = 1;
+  foreach(slaveVIPMasterIPEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i]) begin
+    slaveVIPMasterIPEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteWriteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i].enableOutstandingTransaction = 1;
   end
-endfunction : setupAxi4LiteMasterWriteAgentConfig
+endfunction : setupAxi4LiteSlaveWriteAgentConfig
 
-function void SlaveVIPMasterIPOutstandingTransactionTest::setupAxi4LiteMasterReadAgentConfig();
-  super.setupAxi4LiteMasterReadAgentConfig();
+function void SlaveVIPMasterIPOutstandingTransactionTest::setupAxi4LiteSlaveReadAgentConfig();
+  super.setupAxi4LiteSlaveReadAgentConfig();
 
-  foreach(slaveVIPMasterIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i]) begin
-    slaveVIPMasterIPEnvConfig.axi4LiteMasterEnvConfig.axi4LiteReadMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].enableOutstandingTransaction = 1;
+  foreach(slaveVIPMasterIPEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i]) begin
+    slaveVIPMasterIPEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteReadSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i].enableOutstandingTransaction = 1;
   end
-endfunction : setupAxi4LiteMasterReadAgentConfig
+endfunction : setupAxi4LiteSlaveReadAgentConfig
 
 task SlaveVIPMasterIPOutstandingTransactionTest::run_phase(uvm_phase phase);
 

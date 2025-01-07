@@ -1,5 +1,4 @@
 SlaveVIPMasterIPWriteTest
 SlaveVIPMasterIPReadTest
-#SlaveVIPMasterIPWriteFollowedByReadTest
-#SlaveVIPMasterIPAddressIsOutOfRangeTest
-#SlaveVIPMasterIPOutstandingTransactionTest
+SlaveVIPMasterIPWriteFollowedByReadTest
+SlaveVIPMasterIPOutstandingTransactionTest
