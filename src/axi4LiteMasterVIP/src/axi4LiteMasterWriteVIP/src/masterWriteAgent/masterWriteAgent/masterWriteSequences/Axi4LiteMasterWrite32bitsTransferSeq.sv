@@ -14,7 +14,6 @@ class Axi4LiteMasterWrite32bitsTransferSeq extends Axi4LiteMasterWriteBaseSeq;
 
   constraint awaddrSeq_c {soft awaddrSeq inside {[MIN_ADDRESS:MAX_ADDRESS]};}
   constraint awprotSeq_c {soft awprotSeq inside {[0:3]};}
-  constraint wstrbSeq_c {soft wstrbSeq inside {[0:15]};}
   constraint delayForAwvalidSeq_c {soft delayForAwvalidSeq < MAX_DELAY_AWVALID;}
   constraint delayForWvalidSeq_c {soft delayForWvalidSeq < MAX_DELAY_WVALID;}
   constraint delayForBreadySeq_c {soft delayForBreadySeq  < MAX_DELAY_BREADY;}
