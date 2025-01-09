@@ -18,7 +18,7 @@ task Axi4LiteVirtualDelayForBvalidAndBreadySeq::body();
 
   `uvm_info(get_type_name(), $sformatf("Insdie Body Seq start Axi4LiteVirtualDelayForBvalidAndBreadySeq"), UVM_NONE); 
 
-   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {delayForBreadySeq == 10;
+   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {delayForBreadySeq == 7;
                                                               delayForAwvalidSeq == 2;
                                                               delayForWvalidSeq == 4;
                                                             }) begin

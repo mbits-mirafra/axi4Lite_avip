@@ -30,7 +30,7 @@ task Axi4LiteVirtualToggleReadySeq::body();
      forever begin
        if(!axi4LiteSlaveWrite32bitsTransferWithToggleReadySeq.randomize() with {delayForAwreadySeq == 1;
                                                                                 delayForWreadySeq == 1;
-                                                                                delayForBvalidSeq == 6;
+                                                                                delayForBvalidSeq == 4;
                                                                                 repeatToggleAwreadySeq == 4;
                                                                                 repeatToggleWreadySeq == 4;
                                                                               }) begin
@@ -56,8 +56,8 @@ task Axi4LiteVirtualToggleReadySeq::body();
     begin: MASTER_WRITE_SEQ
       repeat(1) begin
         if(!axi4LiteMasterWrite32bitsTransferWithToggleReadySeq.randomize() with {awprotSeq == 1;
-                                                                                  delayForAwvalidSeq == 7;
-                                                                                  delayForWvalidSeq == 9;
+                                                                                  delayForAwvalidSeq == 5;
+                                                                                  delayForWvalidSeq == 7;
                                                                                   delayForBreadySeq == 1;
                                                                                   repeatToggleBreadySeq == 4;
                                                                                 }) begin

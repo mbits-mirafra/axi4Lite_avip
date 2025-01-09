@@ -18,8 +18,8 @@ task Axi4LiteVirtualAwvalidAssertedInbetween2To5ClkAwreadyAssertedSeq::body();
 
   `uvm_info(get_type_name(), $sformatf("Insdie Body Seq start Axi4LiteVirtualAwvalidAssertedInbetween2To5ClkAwreadyAssertedSeq"), UVM_NONE); 
 
-   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {delayForAwvalidSeq == 6;
-                                                              delayForWvalidSeq == 8;
+   if(!axi4LiteMasterWrite32bitsTransferSeq.randomize() with {delayForAwvalidSeq == 5;
+                                                              delayForWvalidSeq == 7;
                                                             }) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualAwvalidAssertedInbetween2To5ClkAwreadyAssertedSeq")
   end

@@ -23,7 +23,7 @@ task Axi4LiteVirtualDelayForArvalidAndArreadySeq::body();
   end
        `uvm_info(get_type_name(),$sformatf("Axi4LiteVirtualDelayForArvalidAndArreadySeq delayForArvalidSeq :%0d", axi4LiteMasterRead32bitsTransferSeq.delayForArvalidSeq),UVM_LOW);
 
-   if(!axi4LiteSlaveRead32bitsTransferSeq.randomize() with {delayForArreadySeq == 10;}) begin
+   if(!axi4LiteSlaveRead32bitsTransferSeq.randomize() with {delayForArreadySeq == 7;}) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualDelayForArvalidAndArreadySeq")
   end
        `uvm_info(get_type_name(),$sformatf("Axi4LiteVirtualDelayForArvalidAndArreadySeq delayForArreadySeq :%0d", axi4LiteSlaveRead32bitsTransferSeq.delayForArreadySeq),UVM_LOW);

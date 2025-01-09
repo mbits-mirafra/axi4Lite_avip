@@ -18,7 +18,7 @@ task Axi4LiteVirtualDelayForRvalidAndRreadySeq::body();
 
   `uvm_info(get_type_name(), $sformatf("Insdie Body Seq start Axi4LiteVirtualDelayForRvalidAndRreadySeq"), UVM_NONE); 
 
-   if(!axi4LiteMasterRead32bitsTransferSeq.randomize() with {delayForRreadySeq == 10;}) begin
+   if(!axi4LiteMasterRead32bitsTransferSeq.randomize() with {delayForRreadySeq == 7;}) begin
        `uvm_error(get_type_name(), "Randomization failed : Inside Axi4LiteVirtualDelayForRvalidAndRreadySeq")
   end
        `uvm_info(get_type_name(),$sformatf("Axi4LiteVirtualDelayForRvalidAndRreadySeq delayForRreadySeq :%0d", axi4LiteMasterRead32bitsTransferSeq.delayForRreadySeq),UVM_LOW);
