@@ -121,8 +121,6 @@ endfunction : new
 
 function void Axi4LiteMasterReadCoverage::write(Axi4LiteMasterReadTransaction t);
  `uvm_info(get_type_name(),$sformatf("Before calling SAMPLE METHOD"),UVM_HIGH);
-  `uvm_info("SWAMY Tx print", $sformatf("\nAXI4LITE_MASTER_TX\n%s",
-                 t.sprint()),UVM_LOW);
  axi4LiteMasterReadTransactionCovergroup.sample(t);
  axi4LiteMasterReadConfigCovergroup.sample(axi4LiteMasterReadAgentConfig);
   `uvm_info(get_type_name(),"After calling SAMPLE METHOD",UVM_HIGH);

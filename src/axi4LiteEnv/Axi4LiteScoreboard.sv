@@ -270,23 +270,23 @@ task Axi4LiteScoreboard::axi4LiteWriteAddressComparision(input Axi4LiteMasterWri
 
   if(axi4LiteMasterWriteTxAddress.awaddr == axi4LiteSlaveWriteTxAddress.awaddr) begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteWriteAddress from masterWrite and slaveWrite is equal"),UVM_HIGH);
-    `uvm_info("SB_AWADDR_MATCHED", $sformatf("masterWrite AWADDR = 'h%0x and slaveWrite AWADDR = 'h%0x",axi4LiteMasterWriteTxAddress.awaddr, axi4LiteSlaveWriteTxAddress.awaddr), UVM_HIGH);
+    `uvm_info("SCOREBOARD_AWADDR_MATCHED", $sformatf("masterWrite AWADDR = 'h%0x and slaveWrite AWADDR = 'h%0x",axi4LiteMasterWriteTxAddress.awaddr, axi4LiteSlaveWriteTxAddress.awaddr), UVM_HIGH);
      writeAddressComparisonSuccessCount++; 
   end
   else begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteWriteAddress from masterWrite and slaveWrite is not equal"),UVM_HIGH);
-    `uvm_info("SB_AWADDR_NOT_MATCHED",$sformatf("masterWrite AWADDR = 'h%0x and slaveWrite AWADDR = 'h%0x",axi4LiteMasterWriteTxAddress.awaddr, axi4LiteSlaveWriteTxAddress.awaddr), UVM_HIGH);
+    `uvm_info("SCOREBOARD_AWADDR_NOT_MATCHED",$sformatf("masterWrite AWADDR = 'h%0x and slaveWrite AWADDR = 'h%0x",axi4LiteMasterWriteTxAddress.awaddr, axi4LiteSlaveWriteTxAddress.awaddr), UVM_HIGH);
      writeAddressComparisonFailedCount++;
   end
   
   if(axi4LiteMasterWriteTxAddress.awprot == axi4LiteSlaveWriteTxAddress.awprot) begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteWriteProt from masterWrite and slaveWrite is equal"),UVM_HIGH);
-    `uvm_info("SB_AWPROT_MATCHED", $sformatf("masterWrite AWPROT = %0d and slaveWrite AWPROT = %0d",axi4LiteMasterWriteTxAddress.awprot, axi4LiteSlaveWriteTxAddress.awprot), UVM_HIGH);
+    `uvm_info("SCOREBOARD_AWPROT_MATCHED", $sformatf("masterWrite AWPROT = %0d and slaveWrite AWPROT = %0d",axi4LiteMasterWriteTxAddress.awprot, axi4LiteSlaveWriteTxAddress.awprot), UVM_HIGH);
      writeProtComparisonSuccessCount++;
   end
   else begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteWriteProt from masterWrite and slaveWrite is not equal"),UVM_HIGH);
-    `uvm_info("SB_AWPROT_NOT_MATCHED",$sformatf("masterWrite AWPROT = %0d and slaveWrite AWPROT = %0d",axi4LiteMasterWriteTxAddress.awprot, axi4LiteSlaveWriteTxAddress.awprot), UVM_HIGH);
+    `uvm_info("SCOREBOARD_AWPROT_NOT_MATCHED",$sformatf("masterWrite AWPROT = %0d and slaveWrite AWPROT = %0d",axi4LiteMasterWriteTxAddress.awprot, axi4LiteSlaveWriteTxAddress.awprot), UVM_HIGH);
      writeProtComparisonFailedCount++;
   end
 
@@ -297,23 +297,23 @@ task Axi4LiteScoreboard::axi4LiteWriteDataComparision(input Axi4LiteMasterWriteT
 
   if(axi4LiteMasterWriteTxData.wdata == axi4LiteSlaveWriteTxData.wdata) begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteWriteData from masterWrite and slaveWrite is equal"),UVM_HIGH);
-    `uvm_info("SB_WDATA_MATCHED", $sformatf("masterWrite WDATA = %0p and slaveWrite WDATA = %0p",axi4LiteMasterWriteTxData.wdata, axi4LiteSlaveWriteTxData.wdata), UVM_HIGH);
+    `uvm_info("SCOREBOARD_WDATA_MATCHED", $sformatf("masterWrite WDATA = %0p and slaveWrite WDATA = %0p",axi4LiteMasterWriteTxData.wdata, axi4LiteSlaveWriteTxData.wdata), UVM_HIGH);
      writeDataComparisonSuccessCount++; 
   end
   else begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteWriteData from masterWrite and slaveWrite is not equal"),UVM_HIGH);
-    `uvm_info("SB_WDATA_NOT_MATCHED",$sformatf("masterWrite WDATA = %0p and slaveWrite WDATA = %0p",axi4LiteMasterWriteTxData.wdata, axi4LiteSlaveWriteTxData.wdata), UVM_HIGH);
+    `uvm_info("SCOREBOARD_WDATA_NOT_MATCHED",$sformatf("masterWrite WDATA = %0p and slaveWrite WDATA = %0p",axi4LiteMasterWriteTxData.wdata, axi4LiteSlaveWriteTxData.wdata), UVM_HIGH);
     writeDataComparisonFailedCount++;
   end
   
   if(axi4LiteMasterWriteTxData.wstrb == axi4LiteSlaveWriteTxData.wstrb) begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteWriteStrb from masterWrite and slaveWrite is equal"),UVM_HIGH);
-    `uvm_info("SB_WSTRB_MATCHED", $sformatf("masterWrite WSTRB = %0b and slaveWrite WSTRB = %0b",axi4LiteMasterWriteTxData.wstrb, axi4LiteSlaveWriteTxData.wstrb), UVM_HIGH);
+    `uvm_info("SCOREBOARD_WSTRB_MATCHED", $sformatf("masterWrite WSTRB = %0b and slaveWrite WSTRB = %0b",axi4LiteMasterWriteTxData.wstrb, axi4LiteSlaveWriteTxData.wstrb), UVM_HIGH);
      writeStrbComparisonSuccessCount++;
   end
   else begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteWriteStrb from masterWrite and slaveWrite is not equal"),UVM_HIGH);
-    `uvm_info("SB_WSTRB_NOT_MATCHED",$sformatf("masterWrite WSTRB = %0b and slaveWrite WSTRB = %0b",axi4LiteMasterWriteTxData.wstrb, axi4LiteSlaveWriteTxData.wstrb), UVM_HIGH);
+    `uvm_info("SCOREBOARD_WSTRB_NOT_MATCHED",$sformatf("masterWrite WSTRB = %0b and slaveWrite WSTRB = %0b",axi4LiteMasterWriteTxData.wstrb, axi4LiteSlaveWriteTxData.wstrb), UVM_HIGH);
      writeStrbComparisonFailedCount++;
   end
 
@@ -323,12 +323,12 @@ task Axi4LiteScoreboard::axi4LiteWriteResponseComparision(input Axi4LiteMasterWr
 
   if(axi4LiteMasterWriteTxResponse.bresp == axi4LiteSlaveWriteTxResponse.bresp) begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteWriteBresp from masterWrite and slaveWrite is equal"),UVM_HIGH);
-    `uvm_info("SB_BRESP_MATCHED", $sformatf("masterWrite BRESP = %0b and slaveWrite WDATA = %0b",axi4LiteMasterWriteTxResponse.bresp, axi4LiteSlaveWriteTxResponse.bresp), UVM_HIGH);
+    `uvm_info("SCOREBOARD_BRESP_MATCHED", $sformatf("masterWrite BRESP = %0b and slaveWrite WDATA = %0b",axi4LiteMasterWriteTxResponse.bresp, axi4LiteSlaveWriteTxResponse.bresp), UVM_HIGH);
      writeRespComparisonSuccessCount++; 
   end
   else begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteWriteBresp from masterWrite and slaveWrite is not equal"),UVM_HIGH);
-    `uvm_info("SB_BRESP_NOT_MATCHED",$sformatf("masterWrite BRESP = %0b and slaveWrite BRESP = %0b",axi4LiteMasterWriteTxResponse.bresp, axi4LiteSlaveWriteTxResponse.bresp), UVM_HIGH);
+    `uvm_info("SCOREBOARD_BRESP_NOT_MATCHED",$sformatf("masterWrite BRESP = %0b and slaveWrite BRESP = %0b",axi4LiteMasterWriteTxResponse.bresp, axi4LiteSlaveWriteTxResponse.bresp), UVM_HIGH);
     writeRespComparisonFailedCount++;
   end
 
@@ -338,23 +338,23 @@ task Axi4LiteScoreboard::axi4LiteReadAddressComparision(input Axi4LiteMasterRead
 
   if(axi4LiteMasterReadTxAddress.araddr == axi4LiteSlaveReadTxAddress.araddr) begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteReadAddress from masterRead and slaveRead is equal"),UVM_HIGH);
-    `uvm_info("SB_ARADDR_MATCHED", $sformatf("masterRead ARADDR = 'h%0x and slaveRead ARADDR = 'h%0x",axi4LiteMasterReadTxAddress.araddr, axi4LiteSlaveReadTxAddress.araddr), UVM_HIGH);
+    `uvm_info("SCOREBOARD_ARADDR_MATCHED", $sformatf("masterRead ARADDR = 'h%0x and slaveRead ARADDR = 'h%0x",axi4LiteMasterReadTxAddress.araddr, axi4LiteSlaveReadTxAddress.araddr), UVM_HIGH);
      readAddressComparisonSuccessCount++; 
   end
   else begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteReadAddress from masterRead and slaveRead is not equal"),UVM_HIGH);
-    `uvm_info("SB_ARADDR_NOT_MATCHED",$sformatf("masterRead ARADDR = 'h%0x and slaveRead ARADDR = 'h%0x",axi4LiteMasterReadTxAddress.araddr, axi4LiteSlaveReadTxAddress.araddr), UVM_HIGH);
+    `uvm_info("SCOREBOARD_ARADDR_NOT_MATCHED",$sformatf("masterRead ARADDR = 'h%0x and slaveRead ARADDR = 'h%0x",axi4LiteMasterReadTxAddress.araddr, axi4LiteSlaveReadTxAddress.araddr), UVM_HIGH);
     readAddressComparisonFailedCount++;
   end
   
   if(axi4LiteMasterReadTxAddress.arprot == axi4LiteSlaveReadTxAddress.arprot) begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteReadProt from masterRead and slaveRead is equal"),UVM_HIGH);
-    `uvm_info("SB_ARPROT_MATCHED", $sformatf("masterRead ARPROT = %0d and slaveRead ARPROT = %0d",axi4LiteMasterReadTxAddress.arprot, axi4LiteSlaveReadTxAddress.arprot), UVM_HIGH);
+    `uvm_info("SCOREBOARD_ARPROT_MATCHED", $sformatf("masterRead ARPROT = %0d and slaveRead ARPROT = %0d",axi4LiteMasterReadTxAddress.arprot, axi4LiteSlaveReadTxAddress.arprot), UVM_HIGH);
      readProtComparisonSuccessCount++;
   end
   else begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteReadProt from masterRead and slaveRead is not equal"),UVM_HIGH);
-    `uvm_info("SB_ARPROT_NOT_MATCHED",$sformatf("masterRead ARPROT = %0d and slaveRead ARPROT = %0d",axi4LiteMasterReadTxAddress.arprot, axi4LiteSlaveReadTxAddress.arprot), UVM_HIGH);
+    `uvm_info("SCOREBOARD_ARPROT_NOT_MATCHED",$sformatf("masterRead ARPROT = %0d and slaveRead ARPROT = %0d",axi4LiteMasterReadTxAddress.arprot, axi4LiteSlaveReadTxAddress.arprot), UVM_HIGH);
      readProtComparisonFailedCount++;
   end
 
@@ -364,23 +364,23 @@ task Axi4LiteScoreboard::axi4LiteReadDataComparision(input Axi4LiteMasterReadTra
 
   if(axi4LiteMasterReadTxData.rdata == axi4LiteSlaveReadTxData.rdata) begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteReadData from masterRead and slaveRead is equal"),UVM_HIGH);
-    `uvm_info("SB_RDATA_MATCHED", $sformatf("masterRead RDATA = %0p and slaveRead RDATA = %0p",axi4LiteMasterReadTxData.rdata, axi4LiteSlaveReadTxData.rdata), UVM_HIGH);
+    `uvm_info("SCOREBOARD_RDATA_MATCHED", $sformatf("masterRead RDATA = %0p and slaveRead RDATA = %0p",axi4LiteMasterReadTxData.rdata, axi4LiteSlaveReadTxData.rdata), UVM_HIGH);
      readDataComparisonSuccessCount++; 
   end
   else begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteReadData from masterRead and slaveRead is not equal"),UVM_HIGH);
-    `uvm_info("SB_WDATA_NOT_MATCHED",$sformatf("masterRead RDATA = %0p and slaveRead RDATA = %0p",axi4LiteMasterReadTxData.rdata, axi4LiteSlaveReadTxData.rdata), UVM_HIGH);
+    `uvm_info("SCOREBOARD_WDATA_NOT_MATCHED",$sformatf("masterRead RDATA = %0p and slaveRead RDATA = %0p",axi4LiteMasterReadTxData.rdata, axi4LiteSlaveReadTxData.rdata), UVM_HIGH);
     readDataComparisonFailedCount++;
   end
   
   if(axi4LiteMasterReadTxData.rresp == axi4LiteSlaveReadTxData.rresp) begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteReadResp from masterRead and slaveRead is equal"),UVM_HIGH);
-    `uvm_info("SB_RRESP_MATCHED", $sformatf("masterRead RRESP = %0b and slaveRead RRESP = %0b",axi4LiteMasterReadTxData.rresp, axi4LiteSlaveReadTxData.rresp), UVM_HIGH);
+    `uvm_info("SCOREBOARD_RRESP_MATCHED", $sformatf("masterRead RRESP = %0b and slaveRead RRESP = %0b",axi4LiteMasterReadTxData.rresp, axi4LiteSlaveReadTxData.rresp), UVM_HIGH);
      readRespComparisonSuccessCount++;
   end
   else begin
     `uvm_info(get_type_name(),$sformatf("axi4LiteReadResp from masterRead and slaveRead is not equal"),UVM_HIGH);
-    `uvm_info("SB_RRESP_NOT_MATCHED",$sformatf("masterRead RRESP = %0b and slaveRead RRESP = %0b",axi4LiteMasterReadTxData.rresp, axi4LiteSlaveReadTxData.rresp), UVM_HIGH);
+    `uvm_info("SCOREBOARD_RRESP_NOT_MATCHED",$sformatf("masterRead RRESP = %0b and slaveRead RRESP = %0b",axi4LiteMasterReadTxData.rresp, axi4LiteSlaveReadTxData.rresp), UVM_HIGH);
      readRespComparisonFailedCount++;
   end
 
