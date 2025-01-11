@@ -66,6 +66,7 @@ module MasterVIPSlaveIPHdlTop;
     assign `AXI4LITE_SLAVEREADINTERFACE.rresp   = `AXI4LITE_MASTERREADINTERFACE.rresp;
   end
 
+  //modifie below code with your slave RTL.
   axi4_lite_slave_adaptor slaveRTL(.aclk(aclk),
            .aresetn(aresetn),
            .awvalid_in(`AXI4LITE_MASTERWRITEINTERFACE.awvalid),

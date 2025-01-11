@@ -69,6 +69,7 @@ module SlaveVIPMasterIPHdlTop;
     assign `AXI4LITE_MASTERREADINTERFACE.rresp   = `AXI4LITE_SLAVEREADINTERFACE.rresp;
   end
 
+  //modifie below code with your master RTL.
   master #(.DATA_WIDTH(Axi4LiteWriteSlaveGlobalPkg::DATA_WIDTH), 
           .ADDRESS_WIDTH(Axi4LiteWriteSlaveGlobalPkg::ADDRESS_WIDTH))
   masterRTL(.clk(aclk),
