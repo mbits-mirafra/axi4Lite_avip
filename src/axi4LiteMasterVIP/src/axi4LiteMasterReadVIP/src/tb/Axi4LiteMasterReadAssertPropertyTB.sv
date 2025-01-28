@@ -26,6 +26,17 @@ module Axi4LiteMasterReadAssertPropertyTB;
   end
   always #10 aclk = ~aclk;
 
+  Axi4LiteMasterReadInterface axi4LiteMasterReadInterface(.aclk(aclk),
+                                                          .aresetn(aresetn)
+                                                         );
+
+  genvar i;
+  generate
+    for (i=0; i<NO_OF_READMASTERS; i++) begin : Axi4LiteMasterReadAgentBFM
+      Axi4LiteMasterReadAgentBFM #() axi4LiteMasterReadAgentBFM(axi4LiteMasterReadInterface);
+    end
+  endgenerate
+
   Axi4LiteMasterReadAssertions axi4LiteMasterReadAssertions(.aclk(aclk),
                                                             .aresetn(aresetn),
                                                             .arvalid(arvalid),

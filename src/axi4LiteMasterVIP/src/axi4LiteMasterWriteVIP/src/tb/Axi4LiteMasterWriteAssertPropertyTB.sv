@@ -30,6 +30,16 @@ module Axi4LiteMasterWriteAssertPropertyTB;
   end
   always #10 aclk = ~aclk;
 
+  Axi4LiteMasterWriteInterface axi4LiteMasterWriteInterface(.aclk(aclk),
+                                                            .aresetn(aresetn)
+                                                          );
+  genvar i;
+  generate
+    for (i=0; i<1; i++) begin : Axi4LiteMasterWriteAgentBFM 
+      Axi4LiteMasterWriteAgentBFM #() axi4LiteMasterWriteAgentBFM(axi4LiteMasterWriteInterface);
+   end
+  endgenerate
+
   Axi4LiteMasterWriteAssertions axi4LiteMasterWriteAssertions(.aclk(aclk),
                                                               .aresetn(aresetn),
                                                               .awvalid(awvalid),

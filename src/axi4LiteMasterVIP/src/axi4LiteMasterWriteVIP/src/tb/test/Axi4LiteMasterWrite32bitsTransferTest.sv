@@ -26,7 +26,7 @@ task Axi4LiteMasterWrite32bitsTransferTest::run_phase(uvm_phase phase);
   super.run_phase(phase);
 
   phase.raise_objection(this);
-    while(axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent[0].axi4LiteMasterWriteCoverage.axi4LiteMasterWriteCovergroup.get_inst_coverage() < 50) begin
+    while(axi4LiteWriteMasterEnv.axi4LiteMasterWriteAgent[0].axi4LiteMasterWriteCoverage.axi4LiteMasterWriteTransactionCovergroup.get_inst_coverage() < 50) begin
      if(!axi4LiteMasterWrite32bitsTransferSeq.randomize()with { awprotSeq == 3'b010;
                                                                }) begin
      `uvm_error(get_type_name(), "Randomization failed")

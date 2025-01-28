@@ -30,6 +30,17 @@ module Axi4LiteSlaveWriteAssertPropertyTB;
   end
   always #10 aclk = ~aclk;
 
+  Axi4LiteSlaveWriteInterface axi4LiteSlaveWriteInterface(.aclk(aclk),
+                                                          .aresetn(aresetn)
+                                                          );
+
+  genvar i;
+  generate
+    for (i=0; i<NO_OF_WRITESLAVES; i++) begin : Axi4LiteSlaveWriteAgentBFM
+      Axi4LiteSlaveWriteAgentBFM #() axi4LiteSlaveWriteAgentBFM(axi4LiteSlaveWriteInterface);
+    end
+  endgenerate
+
   Axi4LiteSlaveWriteAssertions axi4LiteSlaveWriteAssertions(.aclk(aclk),
                                                             .aresetn(aresetn),
                                                             .awvalid(awvalid),

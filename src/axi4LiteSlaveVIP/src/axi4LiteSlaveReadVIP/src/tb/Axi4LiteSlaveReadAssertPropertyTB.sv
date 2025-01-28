@@ -26,6 +26,17 @@ module Axi4LiteSlaveReadAssertPropertyTB;
   end
   always #10 aclk = ~aclk;
 
+  Axi4LiteSlaveReadInterface axi4LiteSlaveReadInterface(.aclk(aclk),
+                                                        .aresetn(aresetn)
+                                                       );
+
+  genvar i;
+  generate
+    for (i=0; i<NO_OF_READSLAVES; i++) begin : Axi4LiteSlaveReadAgentBFM
+      Axi4LiteSlaveReadAgentBFM #() axi4LiteSlaveReadAgentBFM(axi4LiteSlaveReadInterface);
+    end
+  endgenerate
+
   Axi4LiteSlaveReadAssertions axi4LiteSlaveReadAssertions(.aclk(aclk),
                                                           .aresetn(aresetn),
                                                           .arvalid(arvalid),
