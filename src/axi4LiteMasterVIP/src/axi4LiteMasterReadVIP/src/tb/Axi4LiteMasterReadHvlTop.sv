@@ -9,7 +9,7 @@ module Axi4LiteMasterReadHvlTop;
 
   initial begin : START_TEST 
     
-    run_test("Axi4LiteReadMasterBaseTest");
+    run_test("Axi4LiteMasterReadBaseTest");
 
   end
 

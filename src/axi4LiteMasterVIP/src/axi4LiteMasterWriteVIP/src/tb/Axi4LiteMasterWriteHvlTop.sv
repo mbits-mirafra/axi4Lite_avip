@@ -9,7 +9,7 @@ module Axi4LiteMasterWriteHvlTop;
 
   initial begin : START_TEST 
     
-    run_test("Axi4LiteWriteMasterBaseTest");
+    run_test("Axi4LiteMasterWriteBaseTest");
 
   end
 
