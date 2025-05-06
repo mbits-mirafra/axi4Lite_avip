@@ -101,7 +101,7 @@ compile:
 	-f $(AXI4LITE_PROJECT)/src/axi4LiteMasterVIP/src/axi4LiteMasterReadVIP/sim/Axi4LiteReadMaster.f \
 	-f $(AXI4LITE_PROJECT)/src/axi4LiteSlaveVIP/src/axi4LiteSlaveWriteVIP/sim/Axi4LiteWriteSlave.f \
 	-f $(AXI4LITE_PROJECT)/src/axi4LiteSlaveVIP/src/axi4LiteSlaveReadVIP/sim/Axi4LiteReadSlave.f \
-	-f $(AXI4LITE_PROJECT)/examples/VIPSlaveRTLMasterExample1/sim/project.f
+	-f $(AXI4LITE_PROJECT)/examples/VIPSlaveRTLMaster/sim/project.f
 
 	# -s means silent mode
 	#  The command executed along with the output will be displayed on the terminal
