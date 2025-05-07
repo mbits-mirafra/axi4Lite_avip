@@ -70,13 +70,13 @@ usage:
 	echo "make regression testlist_name=<regression_testlist_name.list>";
 	echo "";
 	echo "Example:":
-	echo "make regression testlist_name=SlaveVIPMasterIPTestSuite.list";
+	echo "make regression testlist_name=MasterVIPSlaveIPTestSuite.list";
 	echo "";
 	echo "To provide compilation argument in the regression:";
-	echo "make regression comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value>\" testlist_name=SlaveVIPMasterIPTestSuite.list";
+	echo "make regression comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value>\" testlist_name=MasterVIPSlaveIPTestSuite.list";
 	echo "";
 	echo "Example:":
-	echo "make regression comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_AWREADY=1 +define+DEFAULT_WREADY=1 +define+DEFAULT_BREADY=1 +define+DEFAULT_ARREADY=1 +define+DEFAULT_RREADY=1\" testlist_name=SlaveVIPMasterIPTestSuite.list";
+	echo "make regression comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_AWREADY=1 +define+DEFAULT_WREADY=1 +define+DEFAULT_BREADY=1 +define+DEFAULT_ARREADY=1 +define+DEFAULT_RREADY=1\" testlist_name=MasterVIPSlaveIPTestSuite.list";
 	echo "";
 	echo "-----------------------------------------------------------------";
 	echo "-----------------------------------------------------------------";
@@ -96,12 +96,12 @@ compile:
 	+cover \
 	+fcover \
 	$(comp_args) \
-	-l SlaveVIPMasterIPCompile.log \
+	-l MasterVIPSlaveIPCompile.log \
 	-f $(AXI4LITE_PROJECT)/src/axi4LiteMasterVIP/src/axi4LiteMasterWriteVIP/sim/Axi4LiteWriteMaster.f \
 	-f $(AXI4LITE_PROJECT)/src/axi4LiteMasterVIP/src/axi4LiteMasterReadVIP/sim/Axi4LiteReadMaster.f \
 	-f $(AXI4LITE_PROJECT)/src/axi4LiteSlaveVIP/src/axi4LiteSlaveWriteVIP/sim/Axi4LiteWriteSlave.f \
 	-f $(AXI4LITE_PROJECT)/src/axi4LiteSlaveVIP/src/axi4LiteSlaveReadVIP/sim/Axi4LiteReadSlave.f \
-	-f $(AXI4LITE_PROJECT)/examples/VIPSlaveRTLMaster/sim/project.f
+	-f $(AXI4LITE_PROJECT)/examples/VIPMasterRTLSlaveExample1/sim/project.f
 
 	# -s means silent mode
 	#  The command executed along with the output will be displayed on the terminal
@@ -112,7 +112,7 @@ compile:
 
 # Setting a default test as base_test
 ifndef test
-override test = SlaveVIPMasterIPBaseTest
+override test = MasterVIPSlaveIPBaseTest
 endif
 
 # Setting the default uvm_verbosity to UVM_MEDIUM
@@ -141,8 +141,8 @@ simulate:
 	# Use -novopt for no optimization - Makes the simulation slower
 	# vsim -pli finesim.so -coverage top
 	vsim -vopt \
-	work.SlaveVIPMasterIPHvlTop \
-	work.SlaveVIPMasterIPHdlTop \
+	work.MasterVIPSlaveIPHvlTop \
+	work.MasterVIPSlaveIPHdlTop \
 	-voptargs=+acc=npr \
 	-sv_seed $(seed) \
 	-assertdebug \
@@ -230,11 +230,11 @@ compile_war_err:
 	echo "-----------------------------------------------------------------";
 	echo "------------------- Compilation Report --------------------------";
 	echo "";
-	grep "^** " SlaveVIPMasterIPCompile.log;
+	grep "^** " MasterVIPSlaveIPCompile.log;
 	echo "";
-	grep "^Error" SlaveVIPMasterIPCompile.log;
+	grep "^Error" MasterVIPSlaveIPCompile.log;
 	echo "";
-	echo "Log file path: SlaveVIPMasterIPCompile.log"
+	echo "Log file path: MasterVIPSlaveIPCompile.log"
 	echo "";
 	echo "-----------------------------------------------------------------";
 	echo "-----------------------------------------------------------------";

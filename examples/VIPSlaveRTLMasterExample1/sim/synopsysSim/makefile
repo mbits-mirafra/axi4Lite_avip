@@ -23,9 +23,6 @@
 #
 # make target -i 
 
-# // TODO(mshariff): 
-# Add .git rules to ignore log files, basically the sim folder except makefile and scripts
-
 
 .IGNORE:
 	compile
@@ -52,10 +49,10 @@ usage:
 	echo "make compile";
 	echo "";
 	echo "To provide compilation argument:";
-	echo "make compile comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value>\"";
+	echo "make compile comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value>\"";
 	echo "";
 	echo "Example:":
-	echo "make compile comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_AWREADY=1 +define+DEFAULT_WREADY=1 +define+DEFAULT_BREADY=1 +define+DEFAULT_ARREADY=1 +define+DEFAULT_RREADY=1\"";
+	echo "make compile comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_READY=1\"";
 	echo "";
 	echo "To simulate individual test:"
 	echo "make simulate test=<test_name> uvm_verbosity=<VERBOSITY_LEVEL>";
@@ -70,13 +67,13 @@ usage:
 	echo "make regression testlist_name=<regression_testlist_name.list>";
 	echo "";
 	echo "Example:":
-	echo "make regression testlist_name=MasterVIPSlaveIPTestSuite.list";
+	echo "make regression testlist_name=regression.list";
 	echo "";
 	echo "To provide compilation argument in the regression:";
-	echo "make regression comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value> +define+<macro_name>=<value>\" testlist_name=MasterVIPSlaveIPTestSuite.list";
+	echo "make regression comp_args=\"+define+<macro_name>=<width> +define+<macro_name>=<width> +define+<macro_name>=<value>\" testlist_name=regression.list";
 	echo "";
 	echo "Example:":
-	echo "make regression comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_AWREADY=1 +define+DEFAULT_WREADY=1 +define+DEFAULT_BREADY=1 +define+DEFAULT_ARREADY=1 +define+DEFAULT_RREADY=1\" testlist_name=MasterVIPSlaveIPTestSuite.list";
+	echo "make regression comp_args=\"+define+ADDRESS_WIDTH=64 +define+DATA_WIDTH=64 +define+DEFAULT_READY=1\" testlist_name=regression.list";
 	echo "";
 	echo "-----------------------------------------------------------------";
 	echo "-----------------------------------------------------------------";
@@ -87,21 +84,20 @@ all:
 
 # For Assertions use +acc options
 #  +cover=becstf
+
+VCS_CMD_RAND = vcs -full64 -sverilog +v2k -cm assert -debug_access+all -debug_acc+pp+dmptf -ntb_opts uvm-1.2 +ntb_random_seed_automatic +memcbk +vcs+fsdbon+all -override_timescale=1ns/1ps 
+
+ 
 compile:
-	make clean_compile;
-	make clean_simulate;
-	vlib work; 
-	vlog -sv \
-	+acc \
-	+cover \
-	+fcover \
+	${VCS_CMD_RAND} \
 	$(comp_args) \
-	-l MasterVIPSlaveIPCompile.log \
+	-l SlaveVIPMasterIPCompile.log \
+	+plusarg_ignore \
 	-f $(AXI4LITE_PROJECT)/src/axi4LiteMasterVIP/src/axi4LiteMasterWriteVIP/sim/Axi4LiteWriteMaster.f \
 	-f $(AXI4LITE_PROJECT)/src/axi4LiteMasterVIP/src/axi4LiteMasterReadVIP/sim/Axi4LiteReadMaster.f \
 	-f $(AXI4LITE_PROJECT)/src/axi4LiteSlaveVIP/src/axi4LiteSlaveWriteVIP/sim/Axi4LiteWriteSlave.f \
 	-f $(AXI4LITE_PROJECT)/src/axi4LiteSlaveVIP/src/axi4LiteSlaveReadVIP/sim/Axi4LiteReadSlave.f \
-	-f $(AXI4LITE_PROJECT)/examples/VIPMasterRTLSlave/sim/project.f
+	-f $(AXI4LITE_PROJECT)/examples/VIPSlaveRTLMasterExample1/sim/project.f
 
 	# -s means silent mode
 	#  The command executed along with the output will be displayed on the terminal
@@ -112,7 +108,7 @@ compile:
 
 # Setting a default test as base_test
 ifndef test
-override test = MasterVIPSlaveIPBaseTest
+override test = SlaveVIPMasterIPBaseTest
 endif
 
 # Setting the default uvm_verbosity to UVM_MEDIUM
@@ -125,11 +121,6 @@ ifndef seed
 override seed = random
 endif
 
-## For randomized seed
-# TODO(mshariff): 
-#Add this line after -sva 
-#-sv_seed random 
-
 # Setting the default test folder to test name 
 ifndef test_folder
 override test_folder = $(test)
@@ -139,53 +130,20 @@ simulate:
 	mkdir $(test_folder)
 
 	# Use -novopt for no optimization - Makes the simulation slower
-	# vsim -pli finesim.so -coverage top
-	vsim -vopt \
-	work.MasterVIPSlaveIPHvlTop \
-	work.MasterVIPSlaveIPHdlTop \
-	-voptargs=+acc=npr \
-	-sv_seed $(seed) \
-	-assertdebug \
+	./simv \
+	-cm assert \
 	+UVM_TESTNAME=$(test) \
 	+UVM_VERBOSITY=$(uvm_verbosity) \
-	-l $(test_folder)/$(test).log \
-	-sva \
-  -coverage \
-	-c -do "run.do" \
-	-c -do "log -r /*; add wave -r /*; coverage save -onexit -assert -directive -cvg -codeAll $(test_folder)/$(test_folder)_coverage.ucdb; run -all; exit" \
-	-wlf $(test_folder)/waveform.wlf
+	-sv_seed $(seed) \
+	-cm_dir $(test_folder)/coverage \
+	-l $(test_folder)/$(test).log
+	urg -report $(test_folder) -dir simv.vdb
 
 	# For checking and reporting simulation errors
 	make simulate_war_err
 
-	## TODO(mshariff): 
-	## # For coverage report in text format 
-	## #vcover report -text $(test)/$(test)_cov
-	# -c -do "log -r /*; add wave -r /*; coverage save -onexit -assert -directive -cvg -codeAll $(test)/coverage.ucdb; coverage report -file $(teset)/coverage.txt -byfile -detail -noannotate -option -directive -cvg -details -verbose; run -all; exit" \
-	# vcover report -file  -byfile -detail -noannotate -option -cvg
-
-	# For coverage report in HTML format 
-	vcover report -html $(test_folder)/$(test)_coverage.ucdb -htmldir $(test_folder)/html_cov_report -details
-
-	# To open the html coverage report
-	# firefox test_folder/html_cov_report/index.html &
-
-	# To open the waveform use the below command 
-	# vsim -view waveform.wlf &
-	#
-	# To open the wavefrom with saved signals
-	# vsim -view waveform.wlf -do axi4_waves.do &
-
-clean_simulate:
-	rm -rf *_test*
-
-clean_compile:
-	rm -rf work/ *_compile.log transcript waveform.wlf
-	rm -rf merged_coverage.ucdb merged_cov_html_report
-
 clean:
-	make clean_compile
-	make clean_simulate
+	rm -rf csrc simv* work *.bak *.vpd transcript waves.shm *.wlf mylib lib *.vstf .restart* urgReport *.so vc_hdrs.h *.log *.fsdb *.key nWaveLog vfastLog *.conf  *.vcd
 
 ##
 ## For Regression and coverage merge
@@ -193,48 +151,32 @@ clean:
 regression:
 	# Run compilation
 	make compile comp_args="$(comp_args)"
-	#make clean_simulate
 	# Run simualtion - regression 
-	python3.6 regression_handling.py $(testlist_name)
-	#	# Get the tests from regression list
-	#	grep "_test" ../../src/hvl_top/testlists/axi4_simple_fd_regression.list | grep -v "\#" > reg_list
-	#	make simulate test=value #Get the name from regression list
+	python regression_handling.py $(testlist_name)
 	#	Merge coverage
 	make merge_cov_report
-
-	vcover report -details merged_coverage.ucdb -output coverage_report.log
-
-	python3.6 axi4LiteFailedFeatures.py
 		
-		#TODO Regression format for folder 
-		# add regression_date&time_compileOption/all_simulate_directories then merge_coveragre 
-		# add seperate folder with above name instead of compileOption 32-bit or 64-bit so it will merge seperate regression report
-
-# For merge to happen, the coverage names for each test must be different
-#
 merge_cov_report:
-	rm -rf merged_coverage.ucdb merged_cov_html_report
 	# Merging all the coverage
-	vcover merge merged_coverage.ucdb -64 */*.ucdb  
-	#vcover merge mem_cover mem_cov1 mem_cov2 mem_cov3 mem_cov4 mem_cov5 mem_cov6 mem_cov7 mem_cov8
-	vcover report -html merged_coverage.ucdb -htmldir ./merged_cov_html_report -details
+	urg -report regressionReport -dir coverage.vdb -dir */*.vdb
 
 	echo "";
 	echo "-----------------------------------------------------------------";
-	echo "Coverage report: firefox merged_cov_html_report/index.html &"
+	echo "Coverage report: firefox regressionReport/grp0.html &"
 	echo "-----------------------------------------------------------------";
 	echo "";
 
+		
 compile_war_err:
 	echo "";
 	echo "-----------------------------------------------------------------";
 	echo "------------------- Compilation Report --------------------------";
 	echo "";
-	grep "^** " MasterVIPSlaveIPCompile.log;
+	grep "^** " SlaveVIPMasterIPCompile.log;
 	echo "";
-	grep "^Error" MasterVIPSlaveIPCompile.log;
+	grep "^Error" SlaveVIPMasterIPCompile.log;
 	echo "";
-	echo "Log file path: MasterVIPSlaveIPCompile.log"
+	echo "Log file path: SlaveVIPMasterIPCompile.log"
 	echo "";
 	echo "-----------------------------------------------------------------";
 	echo "-----------------------------------------------------------------";
@@ -261,10 +203,9 @@ simulate_war_err:
 	echo "";
 	echo "Log file path: $(test_folder)/$(test).log"
 	echo "";
-	echo "Waveform: vsim -view $(test_folder)/waveform.wlf &"
+	echo "Waveform: verdi -ssf novas.fsdb"
 	echo "";
-	echo "Coverage report: firefox $(test_folder)/html_cov_report/index.html &"
-	echo "";
+	echo "Coverage: firefox $(test_folder)/grp0.html &"
 	echo "-----------------------------------------------------------------";
 	echo "-----------------------------------------------------------------";
 	echo "";
