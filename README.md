@@ -15,6 +15,15 @@ The idea of using Accelerated VIP is to push the synthesizable part of the testb
 6. AXI4-Lite supports back-to-back transactions 
 7. Support multiple outstanding transactions.
 
+## Unique feature of VIP 
+1. Unit-level testing, like assertions, and cover property.
+2. Artificial intelligence test case
+3. Exhaustive intelligent Test suite
+4. Advanced concepts like UVM sequences layering.
+5. Script for automatically generating the violated features
+6. Automatic evaluation ability
+7. Set up the environment for each IP level.
+
    
 ## Testbench Architecture Diagram
 ![image](https://github.com/user-attachments/assets/208e83bf-25b2-4af0-9d2f-835d27d9d8c6)
