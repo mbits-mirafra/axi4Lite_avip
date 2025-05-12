@@ -1,0 +1,5 @@
+MasterVIPSlaveIPWriteTest
+MasterVIPSlaveIPReadTest
+MasterVIPSlaveIPWriteFollowedByReadTest
+MasterVIPSlaveIPAddressIsOutOfRangeTest
+#MasterVIPSlaveIPOutstandingTransactionTest
