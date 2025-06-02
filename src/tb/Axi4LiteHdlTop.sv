@@ -40,6 +40,12 @@ module Axi4LiteHdlTop;
     end
     aresetn = 1'b1;
   end
+
+  initial begin
+    $dumpfile("waveform.vcd");      // name of the VCD file
+    $dumpvars(0, Axi4LiteHdlTop);    // dump variables from the testbench top
+  end
+
   Axi4LiteInterface axi4LiteInterface(.aclk(aclk),
                                       .aresetn(aresetn)
                                      );

@@ -90,7 +90,8 @@ clean_sim:
 
 
 compile:
-	make clean_compile 
+	make clean_compile;
+
 	xrun -c \
 	-elaborate \
 	-access +rwc \
@@ -103,9 +104,11 @@ compile:
   -f $(AXI4LITE_PROJECT)/src/axi4LiteSlaveVIP/src/axi4LiteSlaveWriteVIP/sim/Axi4LiteWriteSlave.f \
   -f $(AXI4LITE_PROJECT)/src/axi4LiteSlaveVIP/src/axi4LiteSlaveReadVIP/sim/Axi4LiteReadSlave.f \
   -f $(AXI4LITE_PROJECT)/sim/Axi4LiteProject.f \
+  -access +r +vcd \
 	-l Axi4LiteCompile.log \
 	-top work.Axi4LiteHvlTop $(AXI4LITE_PROJECT)/src/tb/Axi4LiteHvlTop.sv \
 	-top work.Axi4LiteHdlTop $(AXI4LITE_PROJECT)/src/tb/Axi4LiteHdlTop.sv \
+	-coverage all \
 	-sva 
 
 	# -s means silent mode
@@ -144,8 +147,12 @@ simulate:
 	+UVM_TESTNAME=$(test) \
 	+UVM_VERBOSITY=$(uvm_verbosity) \
 	-l $(test_folder)/$(test).log \
-	+plusarg_ignore; \
+	-coverage all \
+	-covoverwrite \
+	-covtest $(test_folder)/ \
+  +plusarg_ignore \
 
+	mv *.vcd $(test_folder)/$(test).vcd
 	# For checking and reporting simulation errors
 	make simulate_war_err
 
@@ -165,7 +172,8 @@ regression:
  ## make clean
 
 clean_all:
-	rm -rf *compile.history *compile.log xcelium.d *Test
+	make clean_compile;
+	make clean_simulate;
 
 
 compile_war_err:
@@ -204,7 +212,7 @@ simulate_war_err:
 	echo "";
 	echo "Log file path: $(test_folder)/$(test).log"
 	echo "";
-	echo "Waveform: simvision $(test_folder)/axi4LiteAvip.vcd &"
+	echo "Waveform: simvision $(test_folder)/$(test).vcd &"
 	echo "";
 	echo "-----------------------------------------------------------------";
 	echo "-----------------------------------------------------------------";
